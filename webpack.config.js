@@ -28,9 +28,12 @@ module.exports = {
   experiments: {
     outputModule: true
   },
+  devServer: {
+    hot: false,
+    liveReload: false,
+  },
   module: {
     rules: [
-      // ... other rules ...
       {
         test: /\.(png|jpe?g|gif|svg)$/i,
         type: 'asset/resource',

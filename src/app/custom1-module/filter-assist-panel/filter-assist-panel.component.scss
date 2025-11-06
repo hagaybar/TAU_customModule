@@ -1,0 +1,20 @@
+.filter-assist-panel {
+  background: #f4f7ff;
+  border: 1px solid #d0dcff;
+  border-radius: 8px;
+  padding: 16px;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: #1a1a1a;
+
+  &__title {
+    margin: 0 0 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #143674;
+  }
+
+  &__body {
+    margin: 0;
+  }
+}

@@ -1,0 +1,208 @@
+// ** externalSearch facet begin **//
+  app.component('prmFacetExactAfter', {
+    bindings: { parentCtrl: '<' },
+    template: '<external-search></external-search>'
+  });
+
+  angular.module('externalSearch', []).value('searchTargets', []).directive('externalSearch', function () {
+    return {
+      require: '^^prmFacet',
+      restrict: 'E',
+      templateUrl: 'custom/' + LOCAL_VID + '/html/externalSearch.html',
+      controller: ['$scope', '$location', 'searchTargets', function ($scope, $location, searchTargets) {
+        $scope.name = $scope.$ctrl.parentCtrl.facetGroup.name;
+        $scope.targets = searchTargets;
+        var query = $location.search().query;
+        var filter = $location.search().pfilter;
+        $scope.queries = Array.isArray(query) ? query : query ? [query] : false;
+        $scope.filters = Array.isArray(filter) ? filter : filter ? [filter] : false;
+      }],
+		link: function link(scope, element, attrs, prmFacetCtrl) {
+		  var facetTitleEn = 'Search also in';
+		  var facetTitleHe = 'לחפש במנועי חיפוש נוספים';
+		  var primolang = location.search.match(/lang=he/) ? 'he' : 'en';
+		  var facetTitle = primolang === "he" ? facetTitleHe : facetTitleEn;
+		  
+		  // Set text direction
+		  var textDirection = primolang === "he" ? 'rtl' : 'ltr';
+		  element.css('direction', textDirection); // This sets the text direction for the element
+
+		  var found = false;
+		  for (var facet in prmFacetCtrl.facets) {
+			if (prmFacetCtrl.facets[facet].name === facetTitle) {
+			  found = true;
+			}
+		  }
+		  if (!found) {
+			prmFacetCtrl.facets.unshift({
+			  name: facetTitle,
+			  displayedType: 'exact',
+			  limitCount: 0,
+			  facetGroupCollapsed: false,
+			  values: []
+			});
+		  }
+}
+    };
+  });
+
+  app.value('searchTargets', [{
+	"name": "ULI",
+	"nameHe": "הקטלוג המאוחד (ULI)",
+    "url": "https://uli.nli.org.il/discovery/search?query=any,contains,",
+    "img": "custom/" + LOCAL_VID + "/img/uli_logo_16_16.png",
+    "img_2": "custom/" + LOCAL_VID + "/img/uli_logo_16_16.png",
+    "alt": "ULI",
+	mapping: function mapping(queries, filters) {
+      try {
+        var fullSearchQuery = ''; // declare the full query string var
+
+        // for each element (query) in queries: 1. slice it after the second comma; if it ends with ",AND" or ",OR": slice it up to the last comma; append the result into fullSearchQuery (with a space after the query) 
+        queries.forEach(function (e){
+          var firstCommaIndex = e.indexOf(",");
+          var secondCommaIndex = e.indexOf(",", firstCommaIndex + 1);
+          var elSearchStr = e.slice(secondCommaIndex + 1);
+          if (elSearchStr.endsWith(',AND') || elSearchStr.endsWith(',OR'))
+          {
+            var finalComma = elSearchStr.lastIndexOf(",");
+            var elSearchStr = elSearchStr.slice(0,finalComma);
+          }
+          fullSearchQuery = fullSearchQuery.concat(elSearchStr + " ");
+        })
+        fullSearchQuery = encodeURIComponent(fullSearchQuery);
+        return fullSearchQuery + "&tab=ULIC_slot&search_scope=ULIC&vid=972NNL_ULI_C:MAIN&offset=0";
+      } catch (e) {
+        return '';
+      }
+    }, 
+  },
+  {
+	"name": "Worldcat",
+	"nameHe": "Worldcat",
+    "url": "https://www.worldcat.org/search?qt=worldcat_org_all&q=",
+    "img": "custom/" + LOCAL_VID + "/img/worldcat-16.png",
+    "img_2": "custom/" + LOCAL_VID + "/img/worldcat-16.png",
+    "alt": "Worldcat",
+	mapping: function mapping(queries, filters) {
+      try {
+        var fullSearchQuery = ''; // declare the full query string var
+
+        // for each element (query) in queries: 1. slice it after the second comma; if it ends with ",AND" or ",OR": slice it up to the last comma; append the result into fullSearchQuery (with a space after the query) 
+        queries.forEach(function (e){
+          var firstCommaIndex = e.indexOf(",");
+          var secondCommaIndex = e.indexOf(",", firstCommaIndex + 1);
+          var elSearchStr = e.slice(secondCommaIndex + 1);
+          if (elSearchStr.endsWith(',AND') || elSearchStr.endsWith(',OR'))
+          {
+            var finalComma = elSearchStr.lastIndexOf(",");
+            var elSearchStr = elSearchStr.slice(0,finalComma);
+          }
+          fullSearchQuery = fullSearchQuery.concat(elSearchStr + " ");
+        })
+        fullSearchQuery = encodeURIComponent(fullSearchQuery);
+        return fullSearchQuery
+      } catch (e) {
+        return '';
+      }
+    }, 
+  },
+   {
+    "name": "Google Scholar",
+	"nameHe": "גוגל סקולר",
+    "url": "https://scholar.google.com/scholar?q=",
+    "img": "custom/" + LOCAL_VID + "/img/scholar_logo_16_16.png",
+    "img_2": "custom/" + LOCAL_VID + "/img/scholar_logo_16_16.png",
+    "alt": "Google Scholar",
+    mapping: function mapping(queries, filters) {
+      try {
+        var fullSearchQuery = ''; // declare the full query string var
+
+        // for each element (query) in queries: 1. slice it after the second comma; if it ends with ",AND" or ",OR": slice it up to the last comma; append the result into fullSearchQuery (with a space after the query) 
+        queries.forEach(function (e){
+          var firstCommaIndex = e.indexOf(",");
+          var secondCommaIndex = e.indexOf(",", firstCommaIndex + 1);
+          var elSearchStr = e.slice(secondCommaIndex + 1);
+          if (elSearchStr.endsWith(',AND') || elSearchStr.endsWith(',OR'))
+          {
+            var finalComma = elSearchStr.lastIndexOf(",");
+            var elSearchStr = elSearchStr.slice(0,finalComma);
+          }
+          fullSearchQuery = fullSearchQuery.concat(elSearchStr + " ");
+        })
+        fullSearchQuery = encodeURIComponent(fullSearchQuery);
+        return fullSearchQuery
+      } catch (e) {
+        return '';
+      }
+    }
+  }/*,
+  {
+    "name": "Crossref",
+      "url": "https://search.crossref.org/?from_ui=yes&q=",
+      "img": "custom/" + LOCAL_VID + "/img/crossred_logo_16_16.png",
+      "img_2": "custom/" + LOCAL_VID + "/img/crossred_logo_16_16.png",
+      "alt": "Crossref",
+    mapping: function mapping(queries, filters) {
+        try {
+          var fullSearchQuery = ''; // declare the full query string var
+
+          // for each element (query) in queries: 1. slice it after the second comma; if it ends with ",AND" or ",OR": slice it up to the last comma; append the result into fullSearchQuery (with a space after the query) 
+          queries.forEach(function (e){
+            var firstCommaIndex = e.indexOf(",");
+            var secondCommaIndex = e.indexOf(",", firstCommaIndex + 1);
+            var elSearchStr = e.slice(secondCommaIndex + 1);
+            if (elSearchStr.endsWith(',AND') || elSearchStr.endsWith(',OR'))
+            {
+              var finalComma = elSearchStr.lastIndexOf(",");
+              var elSearchStr = elSearchStr.slice(0,finalComma);
+            }
+            fullSearchQuery = fullSearchQuery.concat(elSearchStr + " ");
+          })
+          fullSearchQuery = encodeURIComponent(fullSearchQuery);
+          return fullSearchQuery
+        } catch (e) {
+          return '';
+        }
+      }, 
+    } */
+  ]);
+
+// ** externalSearch facet end **//
+
+/** Add external links to No Results tile **/
+	app.controller('prmNoSearchResultAfterController', ['angularLoad', '$location', function (angularLoad, $location) {
+		var vm = this;
+  		
+		this.$onInit = function () {
+			vm.getSearchTerm = getSearchTerm;
+			function getSearchTerm() {
+				return vm.parentCtrl.term;
+			}
+			
+			if ($location.search().lang == 'he') {
+				vm.link1 = "https://scholar.google.com/scholar?hl=he&q=" + encodeURIComponent(getSearchTerm());
+				vm.link2 = "https://uli.nli.org.il/discovery/search?vid=972NNL_ULI_C:MAIN&query=any,contains," + encodeURIComponent(getSearchTerm());
+				vm.link3 = "https://www.worldcat.org/search?qt=worldcat_org_all&q=" + encodeURIComponent(getSearchTerm());
+			}
+			else {
+				vm.link1 = "https://scholar.google.com/scholar?hl=en&q=" + encodeURIComponent(getSearchTerm());
+				vm.link2 = "https://uli.nli.org.il/discovery/search?vid=972NNL_ULI_C:MAIN&lang=en_US&query=any,contains,"  + encodeURIComponent(getSearchTerm());
+				vm.link3 = "https://www.worldcat.org/search?qt=worldcat_org_all&q=" + encodeURIComponent(getSearchTerm());
+			}
+		};
+  	}]);
+	
+	app.component('prmNoSearchResultAfter',{
+		bindings: {parentCtrl: '<'},
+		controller: 'prmNoSearchResultAfterController',
+		template: '<md-card class="default-card zero-margin _md md-primoExplore-theme">'
+				+ '	<md-card-content id="NoResultsExternalLinks">'
+				+ '<h3><span translate="nui.aria.noresults.externalsearch.title"></span>:</h3>'
+				+ '		<p><a href="{{$ctrl.link1}}" target="_blank"><img src="custom/972TAU_INST-TAU/img/scholar_logo_16_16.png" translate-attr="{ alt: \'nui.aria.noresults.externalsearch.captionLink1\' }" /> <span translate="nui.aria.noresults.externalsearch.captionLink1"></span></a></p>'
+				+ '		<p><a href="{{$ctrl.link2}}" target="_blank"><img src="custom/972TAU_INST-TAU/img/uli_logo_16_16.png" translate-attr="{ alt: \'nui.aria.noresults.externalsearch.captionLink2\' }" /> <span translate="nui.aria.noresults.externalsearch.captionLink2"></span></a></p>'
+				+ '		<p><a href="{{$ctrl.link3}}" target="_blank"><img src="custom/972TAU_INST-TAU/img/worldcat-16.png" translate-attr="{ alt: \'nui.aria.noresults.externalsearch.captionLink3\' }" /> <span translate="nui.aria.noresults.externalsearch.captionLink3"></span></a></p>'
+				+ '	</md-card-content>'
+				+ '</md-card>'
+	});
+
+/** Add external links to No Results tile end **/

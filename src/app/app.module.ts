@@ -7,6 +7,7 @@ import {selectorComponentMap} from "./custom1-module/customComponentMappings";
 import {TranslateModule} from "@ngx-translate/core";
 import { CommonModule } from '@angular/common';
 import { AutoAssetSrcDirective } from './services/auto-asset-src.directive';
+import { FilterAssistPanelMountService } from './custom1-module/filter-assist-panel/filter-assist-panel.mount.service';
 
 export const AppModule = ({providers}: {providers:any}) => {
    @NgModule({
@@ -26,7 +27,11 @@ export const AppModule = ({providers}: {providers:any}) => {
   class AppModule implements DoBootstrap{
     private webComponentSelectorMap = new Map<string,  NgElementConstructor<unknown>>();
 
-    constructor(private injector: Injector, private router: Router) {
+    constructor(
+      private injector: Injector,
+      private router: Router,
+      // TEMPORARILY DISABLED: private readonly filterAssistPanelMountService: FilterAssistPanelMountService,
+    ) {
       router.dispose(); //this prevents the router from being initialized and interfering with the shell app router
     }
 
@@ -34,6 +39,9 @@ export const AppModule = ({providers}: {providers:any}) => {
       for (const [key, value] of selectorComponentMap) {
         const customElement = createCustomElement(value, {injector: this.injector});
         this.webComponentSelectorMap.set(key, customElement);
+        if (!customElements.get(key)) {
+          customElements.define(key, customElement);
+        }
       }
     }
 
@@ -47,4 +55,3 @@ export const AppModule = ({providers}: {providers:any}) => {
   }
   return AppModule
 }
-
