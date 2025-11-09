@@ -17,10 +17,103 @@ This project packages Primo New Discovery Experience (NDE) customizations as a s
 - **State helpers** (`src/app/state`): constants for loading state semantics and generated `assetBaseUrl`.
 
 ## Extension Points
-- **Angular components**: add components via `ng generate component` and register them in `selectorComponentMap`. NDE drop zones expect selectors such as `nde-recommendations-*`, `nde-header`, etc. (documented in the README).
+
+### NDE Element Insertion Methods
+
+The Next Discovery Experience (NDE) provides a highly flexible framework for inserting custom elements into the UI. There are three primary methods:
+
+#### 1. Advanced Element Insertion via Component Mapping (Developer Method)
+
+The NDE UI provides predefined selectors (hooks) for each UI component. Developers build custom Angular components and map them to these selectors using **position suffixes** that specify exactly where the custom element should appear.
+
+**How It Works:**
+- Custom Angular components are registered in `selectorComponentMap` (`src/app/custom1-module/customComponentMappings.ts`)
+- Components are converted to web components via Angular Elements and registered with `customElements.define()`
+- The NDE framework automatically inserts these components based on the selector name and position suffix
+
+**Position Insertion Suffixes:**
+
+| Suffix | Insertion Position | Effect |
+|--------|-------------------|--------|
+| `-before` | Before the NDE component | Custom element appears outside and above the original component |
+| `-after` | After the NDE component | Custom element appears outside and below the original component |
+| `-top` | First element within component | Custom element is placed inside the wrapper, before existing content |
+| `-bottom` | Last element within component | Custom element is placed inside the wrapper, after all existing content |
+| (none) | Replaces component | Original NDE component completely overridden by custom component |
+
+**Example:**
+```typescript
+// customComponentMappings.ts
+export const selectorComponentMap = new Map<string, any>([
+  // Insert at the top of the search filters side nav
+  ['nde-search-filters-side-nav-top', FilterAssistPanelComponent],
+
+  // Replace the recommendations component entirely
+  ['nde-recommendations', CustomRecommendationsComponent],
+
+  // Add something after the header
+  ['nde-header-after', CustomBannerComponent],
+]);
+```
+
+**CRITICAL: Component selector must be unique, separate from the mapping key:**
+```typescript
+// Component uses its own unique selector
+@Component({
+  selector: 'tau-filter-assist-panel',  // Unique custom element name
+  templateUrl: './filter-assist-panel.component.html',
+  ...
+})
+export class FilterAssistPanelComponent {}
+
+// Mapping tells NDE WHERE to insert this component
+export const selectorComponentMap = new Map<string, any>([
+  ['nde-search-filters-side-nav-top', FilterAssistPanelComponent],
+  //  ↑ NDE location + position          ↑ Your component class
+]);
+```
+
+**How it works:**
+1. Your component is registered as `<tau-filter-assist-panel>` custom element
+2. NDE reads the mapping and inserts `<tau-filter-assist-panel>` at the `-top` position of `nde-search-filters-side-nav`
+3. No manual DOM manipulation required - NDE framework handles insertion automatically
+
+**Important:** The component selector should NOT match the mapping key to avoid custom element registration conflicts.
+
+#### 2. Basic Element Insertion via Customization Package Files
+
+For branding, styling, and static content, elements are inserted by placing files in specific subfolders within the customization package ZIP file:
+
+- **Headers and Footers**: Add `header.html` and `footer.html` to `assets/header-footer/` subfolder. Language-specific versions supported (e.g., `header_en.html`).
+- **Landing Page Content**: Edit `homepage_en.html.tmpl`, rename to `homepage_en.html`, and place in `assets/homepage/` folder.
+- **Static Files**: Add custom HTML files to `assets/` folder. Accessible via URL: `https://<DOMAIN>/nde/custom/<view_code>/assets/<filename>`
+- **Icons and Images**:
+  - Library logo: `assets/images/library-logo.png`
+  - Custom icons: Add `<symbol>` elements to `assets/icons/custom_icons.svg`
+
+#### 3. External Add-Ons (Third-Party Integration)
+
+External vendors can develop and host add-ons that are dynamically loaded into the NDE UI:
+- Configured in Alma back office (Add-on Configuration page)
+- Add-on URL points to vendor's hosted location
+- Optional JSON configuration file for parameters
+- Used by vendors like ThirdIron, SpringShare, and StackMap
+
+### Angular Components
+
+- **Component Development**: Add components via `ng generate component` and register them in `selectorComponentMap`
+- **NDE Selectors**: Use official NDE component selectors with position suffixes (see table above)
+- **Web Component Conversion**: Components are automatically converted to web components and registered via `customElements.define()` in `AppModule.ngDoBootstrap()`
+- **Important**: The component's `selector` property must exactly match the key used in `selectorComponentMap`
+
+### Static Assets
+
 - **Static assets** (`src/assets`):
   - `homepage/` and `header-footer/`: include `.tmpl` files and guidance for shipping static HTML fragments or remote components.
   - `css/`, `js/`, `images/`, `icons/`: compiled into the final package. Use together with `AutoAssetSrcDirective` to ensure correct URLs when hosted under Primo.
+
+### Theme Overrides
+
 - **Theme overrides**:
   - Default Angular Material v15 (M2) theme lives in `src/styles.scss`.
   - Material 3 palette scaffolding resides in `src/app/styles/`. Uncomment mixins in `_customized-theme.scss` to activate custom themes; `_generate-pallete-color-vars.scss` produces CSS variables for host-level usage.
