@@ -1,13 +1,103 @@
-# CustomModule
+# TAU CustomModule for Primo NDE
 
 ### Overview
-The NDE Customization package offers options to enhance and extend the functionality of Primo’s New Discovery Experience (NDE). You can add and develop your own components, customize theme templates, and tailor the discovery interface to your specific needs.
+This is Tel Aviv University's customization package for Primo's New Discovery Experience (NDE). It extends the base ExLibris customModule with TAU-specific features and enhancements.
 
 **Note:**
-<mark>This branch includes updates and other improvements that will be compatible with the April 2025 release of NDE. We will merge this branch to the main one when it is compatible with released version of NDE.</mark>
+<mark>This repository is based on the April 2025 release of NDE and includes TAU-specific customizations.</mark>
 
 **Note:**
 The NDE Customization package is currently available exclusively to Primo customers who have early access to the New Discovery Experience (NDE). Further availability will be announced in upcoming releases.
+
+---
+
+## 🎯 TAU-Specific Features
+
+### External Search Sources Panel
+A **FilterAssistPanel** component that displays external search links in the filter side navigation, allowing users to search their current query in external sources.
+
+**Implemented Features:**
+- ✅ **External Search Links**: ULI, WorldCat, Google Scholar
+- ✅ **Automatic Query Transfer**: Current search automatically transferred to external sites
+- ✅ **Bilingual Support**: English and Hebrew with RTL layout
+- ✅ **Smart Query Parsing**: Extracts search terms from Primo query format
+- ✅ **Conditional Display**: Only shows when an active search exists
+
+**Location in NDE:** Top of the filter side navigation (appears when clicking "All Filters")
+
+**Technical Details:**
+- Component: `FilterAssistPanelComponent`
+- Selector mapping: `nde-search-filters-side-nav-top`
+- Architecture: Service-based with TypeScript interfaces
+- Documentation: See `EXTERNAL_SEARCH_IMPLEMENTATION.md`
+
+**Configuration:**
+External sources are configured in:
+```
+src/app/custom1-module/filter-assist-panel/config/external-sources.config.ts
+```
+
+Each source includes:
+- Name (English and Hebrew)
+- URL template
+- Icon (16×16 PNG)
+- Query mapping function
+
+**Migration Note:** This feature was migrated from AngularJS to Angular 18. See `MIGRATION_SUMMARY.md` for technical details.
+
+---
+
+## 📚 Documentation
+
+This repository includes comprehensive documentation:
+
+- **[EXTERNAL_SEARCH_IMPLEMENTATION.md](EXTERNAL_SEARCH_IMPLEMENTATION.md)** - Complete technical documentation for the external search feature
+- **[MIGRATION_SUMMARY.md](MIGRATION_SUMMARY.md)** - AngularJS to Angular 18 migration guide
+- **[ASSET_PATH_FIX.md](ASSET_PATH_FIX.md)** - Asset path resolution in NDE context
+- **[ICON_SETUP_NOTES.md](ICON_SETUP_NOTES.md)** - Icon installation and management
+- **[BUGFIX_HISTORY.md](BUGFIX_HISTORY.md)** - Bug fixes and resolutions
+- **[NDE_INTEGRATION_RESEARCH.md](NDE_INTEGRATION_RESEARCH.md)** - NDE integration research
+- **[SPECS.md](SPECS.md)** - Technical specifications
+
+---
+
+## 🚀 Quick Start (TAU Setup)
+
+### 1. Install Dependencies
+```bash
+npm install
+```
+
+### 2. Configure Build Settings
+Edit `build-settings.env`:
+```bash
+INST_ID=972TAU_INST
+VIEW_ID=NDE_TEST  # or NDE for production
+ASSET_BASE_URL=/nde/custom/972TAU_INST-NDE_TEST
+```
+
+### 3. Development Server
+```bash
+npm run start
+```
+Access at: `http://localhost:4201`
+
+Or with proxy:
+```bash
+npm run start:proxy
+```
+
+### 4. Build for Production
+```bash
+npm run build
+```
+Output: `dist/972TAU_INST-NDE_TEST.zip`
+
+### 5. Deploy to Alma
+1. Upload ZIP to Alma Back Office
+2. Navigate to: **Discovery > View List > Edit**
+3. Go to: **Manage Customization Package** tab
+4. Upload and save
 
 ---
 
