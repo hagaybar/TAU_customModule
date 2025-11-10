@@ -7,9 +7,10 @@ import {
     Renderer2
   } from '@angular/core';
   import { AssetBaseService } from './asset-base.service';
-  
+
   @Directive({
-    selector: '[autoAssetSrc]' // <img autoAssetSrc src="assets/..." />
+    selector: '[autoAssetSrc]', // <img autoAssetSrc src="assets/..." />
+    standalone: true
   })
   export class AutoAssetSrcDirective implements OnInit {
     @Input() src: string = '';

@@ -11,15 +11,15 @@ import { AutoAssetSrcDirective } from './services/auto-asset-src.directive';
 export const AppModule = ({providers}: {providers:any}) => {
    @NgModule({
     declarations: [
-      AppComponent,
-      AutoAssetSrcDirective
+      AppComponent
     ],
-    exports: [AutoAssetSrcDirective],
     imports: [
       BrowserModule,
       CommonModule,
+      AutoAssetSrcDirective,
       TranslateModule.forRoot({})
     ],
+    exports: [AutoAssetSrcDirective],
     providers: providers,
     bootstrap: []
   })

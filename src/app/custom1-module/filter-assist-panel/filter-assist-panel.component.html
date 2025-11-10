@@ -1,7 +1,49 @@
-<section class="filter-assist-panel">
-  <h3 class="filter-assist-panel__title">🎉 Testing Live Updates!</h3>
-  <p class="filter-assist-panel__body">
-    If you see this message, your development workflow is working correctly!
-    Edit code → npm run watch rebuilds → refresh browser → see changes.
-  </p>
+<section
+  class="external-search-panel"
+  [attr.dir]="textDirection"
+  *ngIf="hasSearchQuery()"
+  role="complementary"
+  aria-label="External search options">
+
+  <h3 class="external-search-panel__title">
+    {{ panelTitle }}
+  </h3>
+
+  <ul class="external-search-panel__list" role="list">
+    <li
+      *ngFor="let source of externalSources"
+      class="external-search-panel__item">
+
+      <a
+        [href]="buildExternalUrl(source)"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="external-search-panel__link"
+        [attr.aria-label]="'Search in ' + getSourceName(source) + ' (opens in new window)'">
+
+        <img
+          autoAssetSrc
+          [src]="source.img"
+          [alt]="source.alt"
+          class="external-search-panel__icon"
+          width="16"
+          height="16">
+
+        <span class="external-search-panel__name">
+          {{ getSourceName(source) }}
+        </span>
+
+        <svg
+          class="external-search-panel__external-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          width="12"
+          height="12"
+          fill="currentColor"
+          aria-hidden="true">
+          <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/>
+        </svg>
+      </a>
+    </li>
+  </ul>
 </section>
