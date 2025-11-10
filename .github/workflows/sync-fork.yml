@@ -1,18 +1,19 @@
-name: Sync fork from upstream
+name: Sync upstream into customized fork
 
 on:
   schedule:
-    - cron: "7 3 * * 1,4"   # Runs Mon & Thu at 03:07 UTC
-  workflow_dispatch:          # Allows manual trigger from Actions tab
+    - cron: "13 3 * * 1,4"   # Mon & Thu at 03:13 UTC
+  workflow_dispatch:          # Allow manual trigger from the Actions tab
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
   sync:
     runs-on: ubuntu-latest
     env:
-      UPSTREAM: ${{ vars.UPSTREAM }}
+      UPSTREAM: ExLibrisGroup/customModule
       DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
 
     steps:
@@ -32,12 +33,32 @@ jobs:
           git remote add upstream "https://github.com/${UPSTREAM}.git" || true
           git fetch --prune upstream
 
-      - name: Fast-forward main branch
+      - name: Merge upstream into fork
+        id: merge
         run: |
+          set -e
           git checkout "$DEFAULT_BRANCH"
-          git merge --ff-only "upstream/$DEFAULT_BRANCH" || {
-            echo "Fast-forward failed (diverged). Please resolve manually."; exit 2;
-          }
+          # Try a regular merge (not fast-forward)
+          if git merge --no-edit "upstream/$DEFAULT_BRANCH"; then
+            echo "mode=merged" >> $GITHUB_OUTPUT
+          else
+            echo "mode=conflict" >> $GITHUB_OUTPUT
+          fi
 
-      - name: Push changes to fork
-        run: git push origin "$DEFAULT_BRANCH" --follow-tags
+      - name: Push merged changes
+        if: steps.merge.outputs.mode == 'merged'
+        run: |
+          echo "Pushing successful auto-merge to origin..."
+          git push origin "$DEFAULT_BRANCH" --follow-tags
+
+      - name: Create PR if merge conflicts
+        if: steps.merge.outputs.mode == 'conflict'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          title: "⚠️ Upstream merge requires manual conflict resolution"
+          body: |
+            This PR merges changes from upstream `${{ env.UPSTREAM }}` into your local custom branch `${{ env.DEFAULT_BRANCH }}`.
+            Conflicts occurred and need to be reviewed manually.
+          base: ${{ env.DEFAULT_BRANCH }}
+          branch: "sync/conflict-${{ github.run_id }}"
+          commit-message: "Merge upstream/${{ env.DEFAULT_BRANCH }} into local custom branch"
