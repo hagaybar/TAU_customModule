@@ -1,7 +1,7 @@
 <section
   class="external-search-panel"
   [attr.dir]="textDirection"
-  *ngIf="hasSearchQuery()"
+  *ngIf="shouldRender && hasSearchQuery()"
   role="complementary"
   aria-label="External search options">
 

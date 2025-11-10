@@ -19,6 +19,19 @@ import { AutoAssetSrcDirective } from '../../services/auto-asset-src.directive';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FilterAssistPanelComponent implements OnInit {
+  /**
+   * Static flag to track if this is the first instance
+   * Since NDE may insert this component multiple times (before each filter group),
+   * we only want to render the first instance
+   */
+  private static isFirstInstance = true;
+
+  /**
+   * Controls whether this specific instance should render
+   * Only the first instance will have this set to true
+   */
+  public shouldRender = false;
+
   /** List of external search sources to display */
   externalSources: SearchTarget[] = EXTERNAL_SEARCH_SOURCES;
 
@@ -47,16 +60,24 @@ export class FilterAssistPanelComponent implements OnInit {
   constructor(private searchQueryService: SearchQueryService) {}
 
   ngOnInit(): void {
-    // Detect current language from URL
-    this.currentLanguage = this.searchQueryService.getCurrentLanguage();
+    // Only the first instance should render content
+    if (FilterAssistPanelComponent.isFirstInstance) {
+      FilterAssistPanelComponent.isFirstInstance = false;
+      this.shouldRender = true;
 
-    // Extract search data from URL
-    this.searchData = this.searchQueryService.getSearchData();
+      // Detect current language from URL
+      this.currentLanguage = this.searchQueryService.getCurrentLanguage();
 
-    console.log('FilterAssistPanel initialized:', {
-      language: this.currentLanguage,
-      searchData: this.searchData
-    });
+      // Extract search data from URL
+      this.searchData = this.searchQueryService.getSearchData();
+
+      console.log('FilterAssistPanel initialized (first instance):', {
+        language: this.currentLanguage,
+        searchData: this.searchData
+      });
+    } else {
+      console.log('FilterAssistPanel skipped (duplicate instance)');
+    }
   }
 
   /**
