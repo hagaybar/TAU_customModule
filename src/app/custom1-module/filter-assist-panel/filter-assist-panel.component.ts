@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SearchQueryService } from './services/search-query.service';
+import { FilterAssistPanelRegistryService } from './services/filter-assist-panel-registry.service';
 import { SearchTarget, SearchQuery } from './models/search-target.model';
 import { EXTERNAL_SEARCH_SOURCES } from './config/external-sources.config';
 import { AutoAssetSrcDirective } from '../../services/auto-asset-src.directive';
@@ -9,6 +10,10 @@ import { AutoAssetSrcDirective } from '../../services/auto-asset-src.directive';
  * Filter Assist Panel Component
  * Displays external search links in the NDE filter side navigation
  * Allows users to search the current query in external sources (ULI, WorldCat, Google Scholar)
+ *
+ * Note: NDE may insert this component multiple times (once before each filter group).
+ * We use a registry service to ensure only one instance renders at a time,
+ * properly handling component destruction/recreation during Angular lifecycle events.
  */
 @Component({
   selector: 'tau-filter-assist-panel',
@@ -18,17 +23,10 @@ import { AutoAssetSrcDirective } from '../../services/auto-asset-src.directive';
   styleUrls: ['./filter-assist-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FilterAssistPanelComponent implements OnInit {
-  /**
-   * Static flag to track if this is the first instance
-   * Since NDE may insert this component multiple times (before each filter group),
-   * we only want to render the first instance
-   */
-  private static isFirstInstance = true;
-
+export class FilterAssistPanelComponent implements OnInit, OnDestroy {
   /**
    * Controls whether this specific instance should render
-   * Only the first instance will have this set to true
+   * Determined by registry service during initialization
    */
   public shouldRender = false;
 
@@ -57,27 +55,34 @@ export class FilterAssistPanelComponent implements OnInit {
       : 'Search also in';
   }
 
-  constructor(private searchQueryService: SearchQueryService) {}
+  constructor(
+    private searchQueryService: SearchQueryService,
+    private registry: FilterAssistPanelRegistryService
+  ) {}
 
   ngOnInit(): void {
-    // Only the first instance should render content
-    if (FilterAssistPanelComponent.isFirstInstance) {
-      FilterAssistPanelComponent.isFirstInstance = false;
-      this.shouldRender = true;
+    // Register with the singleton service
+    // Only one instance across all component creations will successfully register
+    this.shouldRender = this.registry.register(this);
 
+    if (this.shouldRender) {
       // Detect current language from URL
       this.currentLanguage = this.searchQueryService.getCurrentLanguage();
 
       // Extract search data from URL
       this.searchData = this.searchQueryService.getSearchData();
 
-      console.log('FilterAssistPanel initialized (first instance):', {
+      console.log('FilterAssistPanel initialized (active instance):', {
         language: this.currentLanguage,
         searchData: this.searchData
       });
-    } else {
-      console.log('FilterAssistPanel skipped (duplicate instance)');
     }
+  }
+
+  ngOnDestroy(): void {
+    // Unregister when component is destroyed
+    // This allows a new instance to register during the next creation cycle
+    this.registry.unregister(this);
   }
 
   /**
