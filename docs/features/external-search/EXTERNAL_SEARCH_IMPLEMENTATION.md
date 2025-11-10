@@ -344,10 +344,10 @@ dist/972TAU_INST-NDE_TEST.zip
 
 ## References
 
-- Original AngularJS Code: `helper_files/external_sources_feature.txt`
-- NDE Documentation: `SPECS.md`
-- Bug Fix History: `BUGFIX_HISTORY.md`
-- Icon Setup: `ICON_SETUP_NOTES.md`
+- Original AngularJS Code: [`docs/reference/external_sources_feature.txt`](../../reference/external_sources_feature.txt)
+- NDE Documentation: [`SPECS.md`](../../../SPECS.md)
+- Bug Fix History: [`BUGFIX_HISTORY.md`](../../troubleshooting/BUGFIX_HISTORY.md)
+- Icon Setup: [`ICON_SETUP_NOTES.md`](./ICON_SETUP_NOTES.md)
 
 ---
 

@@ -1,7 +1,7 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-Angular sources live under `src/app`, organized by feature (`custom1-module`) and shared layers (`services`, `state`, `styles`). Routing is centralized in `src/app/app-routing.module.ts`, while entry points sit in `src/main.ts` and `src/bootstrap.ts` for module federation. Global assets belong in `src/assets`; keep Angular Material themes in `src/styles.scss`. Supporting scripts live at the project root (`prebuild.js`, `postbuild.js`), and integration assets such as proxy settings and helper build archives stay under `proxy/` and `helper_files/`.
+Angular sources live under `src/app`, organized by feature (`custom1-module`) and shared layers (`services`, `state`, `styles`). Routing is centralized in `src/app/app-routing.module.ts`, while entry points sit in `src/main.ts` and `src/bootstrap.ts` for module federation. Global assets belong in `src/assets`; keep Angular Material themes in `src/styles.scss`. Supporting scripts live at the project root (`prebuild.js`, `postbuild.js`), and integration assets such as proxy settings stay under `proxy/`. Documentation and reference files are organized under `docs/`.
 
 ## Build, Test, and Development Commands
 Use `npm start` for a hot-reload dev server; it runs `prebuild.js` first to sync environment bundles. `npm run start:proxy` adds the local proxy defined in `proxy/proxy.conf.mjs`. Build production artifacts with `npm run build`, which emits the bundle to `dist/` and triggers `postbuild.js` for packaging. Continuous compilation is available via `npm run watch`, and federated host testing uses `npm run run:all`.

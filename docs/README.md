@@ -81,6 +81,34 @@ This directory contains all project documentation organized by topic.
 
 ---
 
+### `/reference/`
+**Reference Materials**
+
+- **[external_sources_feature.txt](reference/external_sources_feature.txt)** - Original AngularJS implementation
+  - Source code for migration reference
+  - Legacy Primo UI customization
+  - Query mapping logic
+
+- **[nde_dom_search_part.txt](reference/nde_dom_search_part.txt)** - NDE DOM structure reference
+  - Available NDE component selectors
+  - Element hierarchy and attributes
+  - Integration point reference
+
+**See**: [Reference README](reference/README.md) for detailed descriptions.
+
+---
+
+### `/assets/troubleshooting/`
+**Troubleshooting Screenshots**
+
+Visual documentation of bugs and their resolutions:
+- Filter panel rendering issues
+- Custom element integration problems
+- Development workflow verification
+- NDE UI states (before/after fixes)
+
+---
+
 ## 🔗 Quick Links
 
 ### Getting Started
@@ -139,11 +167,15 @@ When adding new documentation:
 
 ## 📊 Documentation Statistics
 
-**Total Documents**: 8 files
-- Features: 3 files
-- Troubleshooting: 2 files
+**Total Documents**: 14 files + 7 screenshots
+- Features: 3 documentation files
+- Troubleshooting: 2 documentation files + 7 screenshots
 - Research: 1 file
 - Development: 1 file
 - Planning: 1 file
+- Reference: 2 files + README
+- Assets: 7 troubleshooting screenshots
+
+**Organization**: 7 subdirectories with topical separation
 
 **Last Updated**: 2025-11-10

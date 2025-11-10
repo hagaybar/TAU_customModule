@@ -207,7 +207,7 @@ According to NDE documentation, components should be inserted using official sel
 ### References
 - NDE Customization Documentation (Vimeo: 1127341448/46bd5c62f2)
 - NDE Component Selector Mapping: `customComponentMappings.ts`
-- Available NDE Selectors: `helper_files/nde_dom_search_part.txt`
+- Available NDE Selectors: [`docs/reference/nde_dom_search_part.txt`](../reference/nde_dom_search_part.txt)
 
 ---
 
