@@ -43,21 +43,31 @@ Each source includes:
 - Icon (16×16 PNG)
 - Query mapping function
 
-**Migration Note:** This feature was migrated from AngularJS to Angular 18. See `MIGRATION_SUMMARY.md` for technical details.
+**Migration Note:** This feature was migrated from AngularJS to Angular 18. See [Migration Summary](docs/features/external-search/MIGRATION_SUMMARY.md) for technical details.
 
 ---
 
 ## 📚 Documentation
 
-This repository includes comprehensive documentation:
+Comprehensive documentation is organized in the [`docs/`](docs/) folder:
 
-- **[EXTERNAL_SEARCH_IMPLEMENTATION.md](EXTERNAL_SEARCH_IMPLEMENTATION.md)** - Complete technical documentation for the external search feature
-- **[MIGRATION_SUMMARY.md](MIGRATION_SUMMARY.md)** - AngularJS to Angular 18 migration guide
-- **[ASSET_PATH_FIX.md](ASSET_PATH_FIX.md)** - Asset path resolution in NDE context
-- **[ICON_SETUP_NOTES.md](ICON_SETUP_NOTES.md)** - Icon installation and management
-- **[BUGFIX_HISTORY.md](BUGFIX_HISTORY.md)** - Bug fixes and resolutions
-- **[NDE_INTEGRATION_RESEARCH.md](NDE_INTEGRATION_RESEARCH.md)** - NDE integration research
-- **[SPECS.md](SPECS.md)** - Technical specifications
+### Feature Documentation
+- **[External Search Implementation](docs/features/external-search/EXTERNAL_SEARCH_IMPLEMENTATION.md)** - Complete technical guide
+- **[Migration Summary](docs/features/external-search/MIGRATION_SUMMARY.md)** - AngularJS to Angular 18 migration
+- **[Icon Setup Notes](docs/features/external-search/ICON_SETUP_NOTES.md)** - Icon installation guide
+
+### Troubleshooting
+- **[Bug Fix History](docs/troubleshooting/BUGFIX_HISTORY.md)** - Bug fixes and resolutions
+- **[Asset Path Fix](docs/troubleshooting/ASSET_PATH_FIX.md)** - Asset path resolution in NDE context
+
+### Research & Development
+- **[NDE Integration Research](docs/research/NDE_INTEGRATION_RESEARCH.md)** - NDE integration research
+- **[Development Guidelines](docs/development/AGENTS.md)** - Repository development guidelines
+
+### Technical Specifications
+- **[SPECS.md](SPECS.md)** - Detailed technical specifications
+
+**See the [Documentation Index](docs/README.md) for the complete documentation map.**
 
 ---
 
