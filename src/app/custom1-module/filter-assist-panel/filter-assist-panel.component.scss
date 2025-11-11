@@ -30,7 +30,7 @@
     padding: 0;
 
     &:not(:last-child) {
-      margin-bottom: 8px;
+      margin-bottom: 2px;
     }
   }
 
@@ -38,7 +38,7 @@
   &__link {
     display: flex;
     align-items: center;
-    padding: 8px 12px;
+    padding: 4px 12px;
     text-decoration: none;
     color: #1976d2;
     border-radius: 4px;

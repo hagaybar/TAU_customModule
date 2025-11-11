@@ -1,0 +1,12 @@
+/* location unavailable change text color */
+
+.view-it-title.mat-title-small.ng-star-inserted span
+ {
+      color: green; 
+  }
+
+
+/* bold the thext fine */  
+  mat-card-title.mat-mdc-card-title.margin-bottom-medium {
+  font-weight: bold; /* or 700, 900 */
+}
