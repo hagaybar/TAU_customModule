@@ -106,6 +106,62 @@ External vendors can develop and host add-ons that are dynamically loaded into t
 - **Web Component Conversion**: Components are automatically converted to web components and registered via `customElements.define()` in `AppModule.ngDoBootstrap()`
 - **Important**: The component's `selector` property must exactly match the key used in `selectorComponentMap`
 
+## Implemented Components
+
+### FilterAssistPanelComponent
+
+**Location**: `src/app/custom1-module/filter-assist-panel/`
+
+**Purpose**: Displays external search links in the NDE filter sidebar, allowing users to search their current query in external sources.
+
+**Selector Registration**: `nde-filters-group-before` in `customComponentMappings.ts`
+
+**Features**:
+- Displays links to ULI (Union List of Israel), WorldCat, and Google Scholar
+- Bilingual support (English/Hebrew) with automatic RTL layout
+- Dynamically builds search URLs based on current Primo query
+- Registry service prevents multiple instances from rendering simultaneously
+
+**Dependencies**:
+- `SearchQueryService`: Extracts search query and language from URL parameters
+- `EXTERNAL_SEARCH_SOURCES`: Configuration file with search targets
+- `AutoAssetSrcDirective`: Resolves asset paths for icons
+- `FilterAssistPanelRegistryService`: Ensures single active instance
+
+**Configuration**: `src/app/custom1-module/filter-assist-panel/config/external-sources.config.ts`
+
+**Translations**: Inline string literals with getter methods (hardcoded EN/HE)
+
+### NoResultsExternalLinksComponent
+
+**Location**: `src/app/custom1-module/no-results-external-links/`
+
+**Purpose**: Displays external search links when Primo NDE search returns zero results, providing alternative search options.
+
+**Selector Registration**: `nde-search-no-results-after` in `customComponentMappings.ts`
+
+**Features**:
+- Displays card with links to ULI, WorldCat, and Google Scholar
+- Bilingual support (English/Hebrew) with automatic RTL layout
+- Opens links in new tab with security attributes (`rel="noopener noreferrer"`)
+- Visual "external link" indicator icon
+- Only renders when search query exists
+
+**Dependencies**:
+- `SearchQueryService`: Extracts search query and language from URL parameters
+- `EXTERNAL_SEARCH_SOURCES`: Shared config with FilterAssistPanelComponent
+- `AutoAssetSrcDirective`: Resolves asset paths for icons
+
+**Configuration**: Shares `src/app/custom1-module/filter-assist-panel/config/external-sources.config.ts` with FilterAssistPanelComponent. Changes to this file apply to both components.
+
+**Translations**: Inline string literals with getter methods (hardcoded EN/HE)
+
+**Customization**: To add/remove external sources, edit `external-sources.config.ts`. The configuration includes:
+- Source name (English and Hebrew)
+- Base URL
+- Icon path
+- Mapping function to transform Primo queries to target format
+
 ### Static Assets
 
 - **Static assets** (`src/assets`):

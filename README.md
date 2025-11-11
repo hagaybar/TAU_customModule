@@ -13,8 +13,11 @@ The NDE Customization package is currently available exclusively to Primo custom
 
 ## 🎯 TAU-Specific Features
 
-### External Search Sources Panel
-A **FilterAssistPanel** component that displays external search links in the filter side navigation, allowing users to search their current query in external sources.
+### External Search Integration
+Two complementary components that provide external search options throughout the search experience:
+
+#### 1. External Search Sources Panel (FilterAssistPanel)
+Displays external search links in the filter side navigation, allowing users to search their current query in external sources.
 
 **Implemented Features:**
 - ✅ **External Search Links**: ULI, WorldCat, Google Scholar
@@ -27,12 +30,28 @@ A **FilterAssistPanel** component that displays external search links in the fil
 
 **Technical Details:**
 - Component: `FilterAssistPanelComponent`
-- Selector mapping: `nde-search-filters-side-nav-top`
-- Architecture: Service-based with TypeScript interfaces
-- Documentation: See `EXTERNAL_SEARCH_IMPLEMENTATION.md`
+- Selector mapping: `nde-filters-group-before`
+- Files: `src/app/custom1-module/filter-assist-panel/`
 
-**Configuration:**
-External sources are configured in:
+#### 2. No Results External Links
+Displays external search options when a search returns zero results, helping users continue their research.
+
+**Implemented Features:**
+- ✅ **Alternative Search Options**: Same external sources (ULI, WorldCat, Google Scholar)
+- ✅ **Card Design**: Styled card with external link indicators
+- ✅ **Bilingual Support**: English and Hebrew with RTL layout
+- ✅ **Accessibility**: Keyboard navigation, ARIA labels, secure link attributes
+- ✅ **Query Preservation**: Search term automatically included in external links
+
+**Location in NDE:** Displayed after the no-results message
+
+**Technical Details:**
+- Component: `NoResultsExternalLinksComponent`
+- Selector mapping: `nde-search-no-results-after`
+- Files: `src/app/custom1-module/no-results-external-links/`
+
+#### Shared Configuration
+Both components use the same configuration file for consistency:
 ```
 src/app/custom1-module/filter-assist-panel/config/external-sources.config.ts
 ```
@@ -41,7 +60,12 @@ Each source includes:
 - Name (English and Hebrew)
 - URL template
 - Icon (16×16 PNG)
-- Query mapping function
+- Query mapping function to transform Primo queries
+
+**Benefits:**
+- **Single source of truth**: Changes to external sources apply to both components
+- **Easy maintenance**: Add/remove sources in one place
+- **Consistent UX**: Same sources and behavior across different contexts
 
 **Migration Note:** This feature was migrated from AngularJS to Angular 18. See [Migration Summary](docs/features/external-search/MIGRATION_SUMMARY.md) for technical details.
 
