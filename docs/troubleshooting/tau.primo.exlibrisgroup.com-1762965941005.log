@@ -1,0 +1,25 @@
+Navigated to https://tau.primo.exlibrisgroup.com/nde/researchAssistant?vid=972TAU_INST:NDE_TEST&lang=en
+viewConfig.selector.ts:103 Cannot find selectModifiedNZVid: view is undefined
+viewConfig.selector.ts:105 selectModifiedNZVid: undefined
+viewConfig.selector.ts:87 Cannot find selectPrimoView: config is undefined
+lookup.service.ts:53 remoteModules:  X {__zone_symbol__state: null, __zone_symbol__value: Array(0)}
+bootstrap.ts:8 shell bootstrap success Zs {_parent: cn, _bootstrapComponents: Array(1), _r3Injector: cn, instance: f, ngModuleType: ƒ, …}
+viewConfig.selector.ts:105 selectModifiedNZVid: undefined
+asset-path.service.ts:42 AssetPathService: ready with vid: 972TAU_INST:NDE_TEST nzVid: undefined
+app-init.service.ts:283 Loading custom module CSS
+app-init.service.ts:300 Loading custom CSS
+lookup.service.ts:65 addOnBrowzine:  {}
+lookup.service.ts:93 Add on Modules:  {CustomModule: {…}}
+custom.js:1 Hello from custom.js
+fallback-src.directive.ts:40 Use for img: custom/972TAU_INST-NDE_TEST/assets/images/library-logo.png
+fallback-src.directive.ts:74 [FallbackSrc] loaded   ✔ custom/972TAU_INST-NDE_TEST/assets/images/library-logo.png
+lookup.service.ts:149 Loaded module "CustomModule" {remoteEntry: './custom/972TAU_INST-NDE_TEST/remoteEntry.js', exposedModule: './custom-module', parameters: {…}} Module {__esModule: true, Symbol(Symbol.toStringTag): 'Module'}
+113.848e1dd9c79f4a5a.js:1 custom remote app bootstrap success! ss {_parent: Dn, _bootstrapComponents: Array(0), destroyCbs: Array(1), componentFactoryResolver: Qg, ngModuleType: ƒ, …}
+lookup.service.ts:107 Loaded custom module CustomModule Set(2) {'nde-filters-group', 'nde-search-no-results'}
+lookup.service.ts:119 Loaded custom modules: [ss]
+/assets/fonts/RegularClarivate-Bold.woff2:1   GET https://tau.primo.exlibrisgroup.com/assets/fonts/RegularClarivate-Bold.woff2 net::ERR_ABORTED 404 (Not Found)
+[NEW] Explain Console errors by using Copilot in Edge: click
+         
+         to explain an error. 
+        Learn more
+        Don't show again
