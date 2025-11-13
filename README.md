@@ -3,12 +3,6 @@
 ### Overview
 This is Tel Aviv University's customization package for Primo's New Discovery Experience (NDE). It extends the base ExLibris customModule with TAU-specific features and enhancements.
 
-**Note:**
-<mark>This repository is based on the April 2025 release of NDE and includes TAU-specific customizations.</mark>
-
-**Note:**
-The NDE Customization package is currently available exclusively to Primo customers who have early access to the New Discovery Experience (NDE). Further availability will be announced in upcoming releases.
-
 ---
 
 ## 📋 Summary of TAU Customizations
