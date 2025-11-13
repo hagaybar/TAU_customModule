@@ -6,7 +6,33 @@
   }
 
 
-/* bold the thext fine */  
+/* bold the thext fine */
   mat-card-title.mat-mdc-card-title.margin-bottom-medium {
   font-weight: bold; /* or 700, 900 */
+}
+
+
+/* Call Number Directionality Fix - NDE View */
+/* Date: 13.11.25 */
+/* Purpose: Ensure call numbers always display left-to-right (LTR) regardless of UI language or page directionality */
+/* Targets: <span data-qa="location-call-number"> elements within NDE locations container */
+/* Example: "892.413 מאו" should always display with numbers on the left */
+nde-locations-container [data-qa="location-call-number"] {
+    direction: ltr;
+    unicode-bidi: embed;  /* Creates isolated bidirectional context for the call number */
+    display: inline-block; /* Ensures directionality is properly contained */
+}
+
+/* Call Number Directionality Fix - NDE Location Item Brief Properties */
+/* Date: 13.11.25 */
+/* Purpose: Fix call numbers in the collapsed/brief view of location items */
+/* Context: Brief properties display as a 3-column table structure: */
+/*   Column 1: Item availability (e.g., "הפריט במקום") */
+/*   Column 2: Item loan policy (e.g., "השאלה לשבועיים") */
+/*   Column 3: Item call number (e.g., "892.413 מאו") */
+/* Note: nth-child(3) is reliable here due to consistent table structure */
+nde-location-item .getit-items-brief-property:nth-child(3) span[ndetooltipifoverflow] {
+    direction: ltr;
+    unicode-bidi: embed;  /* Creates isolated bidirectional context for the call number */
+    display: inline-block; /* Ensures directionality is properly contained */
 }
