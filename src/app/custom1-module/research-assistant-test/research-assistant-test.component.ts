@@ -16,22 +16,31 @@ import { Subscription } from 'rxjs';
 })
 export class ResearchAssistantTestComponent implements OnInit, OnDestroy {
   private langChangeSubscription?: Subscription;
+  private observer?: MutationObserver;
+  private retryCount = 0;
+  private readonly MAX_RETRIES = 10;
 
   constructor(private translateService: TranslateService) {
   }
 
   async ngOnInit() {
-    // Apply text modification
-    await this.modifyResearchAssistantText();
+    // Apply text modification with retry
+    await this.modifyWithRetry();
 
     // Subscribe to language changes
     this.subscribeToLanguageChanges();
+
+    // Watch for DOM changes (handles same-page navigation)
+    this.setupMutationObserver();
   }
 
   ngOnDestroy() {
-    // Clean up subscription
+    // Clean up subscriptions and observers
     if (this.langChangeSubscription) {
       this.langChangeSubscription.unsubscribe();
+    }
+    if (this.observer) {
+      this.observer.disconnect();
     }
   }
 
@@ -40,34 +49,78 @@ export class ResearchAssistantTestComponent implements OnInit, OnDestroy {
     this.langChangeSubscription = this.translateService.onLangChange.subscribe(
       (event: LangChangeEvent) => {
         // Re-apply text modification for new language
-        this.modifyResearchAssistantText();
+        this.retryCount = 0;
+        this.modifyWithRetry();
       }
     );
   }
 
+  /** Watches for DOM changes and re-applies modification if needed */
+  private setupMutationObserver() {
+    this.observer = new MutationObserver((mutations) => {
+      // Check if the paragraph was recreated or modified externally
+      const hostElement = document.querySelector('cdi-research-assistant');
+      if (!hostElement) return;
+
+      const shadowRoot = (hostElement as any).shadowRoot as ShadowRoot;
+      if (!shadowRoot) return;
+
+      const paragraph = shadowRoot.querySelector('#landing > div > div.w-full.text-center > p');
+      if (!paragraph) return;
+
+      // Check if our modification is still present
+      const hasOurStyles = shadowRoot.querySelector('#tau-ra-custom-styles');
+      const hasOurWrapper = paragraph.querySelector('.tau-ra-first-part');
+
+      if (!hasOurStyles || !hasOurWrapper) {
+        console.log('📝 Content recreated, re-applying modification...');
+        this.retryCount = 0;
+        this.modifyWithRetry();
+      }
+    });
+
+    // Start observing the entire document for changes
+    this.observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+  }
+
+  /** Attempts to modify text with retry logic for timing issues */
+  private async modifyWithRetry() {
+    const success = await this.modifyResearchAssistantText();
+
+    if (!success && this.retryCount < this.MAX_RETRIES) {
+      this.retryCount++;
+      const delay = Math.min(500 * Math.pow(2, this.retryCount - 1), 3000);
+      console.log(`📝 Retry ${this.retryCount}/${this.MAX_RETRIES} in ${delay}ms...`);
+
+      setTimeout(() => {
+        this.modifyWithRetry();
+      }, delay);
+    }
+  }
+
   /** Modifies Research Assistant text by splitting into two styled parts */
-  private async modifyResearchAssistantText() {
+  private async modifyResearchAssistantText(): Promise<boolean> {
     try {
       // 1. Find the cdi-research-assistant element
       const hostElement = document.querySelector('cdi-research-assistant');
       if (!hostElement) {
-        console.warn('📝 cdi-research-assistant element not found');
-        return;
+        return false;
       }
 
       // 2. Access shadow DOM
       const shadowRoot = (hostElement as any).shadowRoot as ShadowRoot;
       if (!shadowRoot) {
-        console.warn('📝 Shadow DOM not accessible');
-        return;
+        return false;
       }
 
       // 3. Find the target paragraph inside shadow DOM
       const internalSelector = '#landing > div > div.w-full.text-center > p';
       const paragraph = shadowRoot.querySelector(internalSelector);
       if (!paragraph) {
-        console.warn('📝 Target paragraph not found');
-        return;
+        return false;
       }
 
       // 4. Get translated text from custom Alma labels
@@ -114,9 +167,11 @@ export class ResearchAssistantTestComponent implements OnInit, OnDestroy {
       paragraph.appendChild(wrapper);
 
       console.log('✅ Research Assistant text modified successfully');
+      return true;
 
     } catch (error) {
       console.error('❌ Error modifying Research Assistant text:', error);
+      return false;
     }
   }
 
