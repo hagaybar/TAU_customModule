@@ -23,7 +23,6 @@ export class ResearchAssistantTestComponent implements OnInit, OnDestroy {
   private langChangeSubscription?: Subscription;
 
   constructor(private translateService: TranslateService) {
-    console.log('📝 Research Assistant Text Modifier: Initialized');
   }
 
   async ngOnInit() {
