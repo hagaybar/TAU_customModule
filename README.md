@@ -11,12 +11,33 @@ The NDE Customization package is currently available exclusively to Primo custom
 
 ---
 
+## 📋 Summary of TAU Customizations
+
+This package includes the following Tel Aviv University-specific customizations:
+
+| Feature | Type | Status | Description |
+|---------|------|--------|-------------|
+| **External Search Integration** | Component | ✅ Production | Search links panel + No results external links |
+| **Research Assistant Text** | Component | ✅ Production | Styled, bilingual description text |
+| **Call Number Directionality** | CSS | ✅ Production | LTR display for mixed-language call numbers |
+| **Location Availability Color** | CSS | ✅ Production | Green text for availability status |
+| **Card Title Styling** | CSS | ✅ Production | Bold card titles |
+
+**Key Technologies:**
+- Angular 18 standalone components
+- Shadow DOM manipulation
+- Custom Alma labels (i18n)
+- RTL/LTR bidirectional support
+- Custom CSS styling
+
+---
+
 ## 🎯 TAU-Specific Features
 
-### External Search Integration
+### 1. External Search Integration
 Two complementary components that provide external search options throughout the search experience:
 
-#### 1. External Search Sources Panel (FilterAssistPanel)
+#### a) External Search Sources Panel (FilterAssistPanel)
 Displays external search links in the filter side navigation, allowing users to search their current query in external sources.
 
 **Implemented Features:**
@@ -33,7 +54,7 @@ Displays external search links in the filter side navigation, allowing users to 
 - Selector mapping: `nde-filters-group-before`
 - Files: `src/app/custom1-module/filter-assist-panel/`
 
-#### 2. No Results External Links
+#### b) No Results External Links
 Displays external search options when a search returns zero results, helping users continue their research.
 
 **Implemented Features:**
@@ -71,14 +92,101 @@ Each source includes:
 
 ---
 
+### 2. Research Assistant Text Customization
+Customizes the Research Assistant landing page description text with enhanced styling and multilingual support.
+
+**Implemented Features:**
+- ✅ **Split Text Display**: Divides description into two styled parts (bold + gray)
+- ✅ **Bilingual Support**: Uses custom Alma labels for full translation support
+- ✅ **Dynamic Language Switching**: Automatically updates when user changes language
+- ✅ **Shadow DOM Integration**: Accesses and modifies shadow DOM content
+- ✅ **Retry Logic**: Handles timing issues with exponential backoff
+- ✅ **No Visual Footprint**: Component works invisibly
+
+**Location in NDE:** Research Assistant landing page (`/nde/researchAssistant`)
+
+**Technical Details:**
+- Component: `ResearchAssistanceCustomTextComponent`
+- Selector mapping: `nde-research-assistant-after`
+- Files: `src/app/custom1-module/research-assistance-custom-text/`
+- Shadow DOM: Modifies `cdi-research-assistant` element
+- Custom Labels: `nde-ra-first-row` (bold), `nde-ra-second-row` (gray)
+
+**Configuration:**
+Custom labels must be configured in Alma Back Office:
+```
+Configuration Menu → General → NDE Code Table
+```
+
+| Label Key | Description | Styling |
+|-----------|-------------|---------|
+| `nde-ra-first-row` | First line of text | Bold, black |
+| `nde-ra-second-row` | Second line of text | Regular, gray (#666666) |
+
+**Migration Note:** This feature was migrated from AngularJS (custom.js) to Angular 18. See [Research Assistant Implementation](docs/features/research-assistant/RESEARCH_ASSISTANT_IMPLEMENTATION.md) for technical details.
+
+---
+
+### 3. CSS Customizations
+Custom styling fixes and enhancements applied via `src/assets/css/custom.css`.
+
+#### Call Number Directionality Fix
+**Date Implemented:** 13.11.25
+
+Ensures call numbers display left-to-right (LTR) regardless of UI language or page directionality settings.
+
+**Problem Solved:** Mixed content call numbers like "892.413 מאו" were displaying with incorrect directionality in Hebrew/RTL contexts.
+
+**Implementation:**
+- **Location 1**: `nde-locations-container [data-qa="location-call-number"]`
+  - Uses semantic `data-qa` attribute for reliable targeting
+  - Applies to main locations display
+
+- **Location 2**: `nde-location-item .getit-items-brief-property:nth-child(3)`
+  - Targets third column in brief properties table (call number column)
+  - Brief properties structure: Availability | Loan Policy | Call Number
+
+**CSS Properties:**
+```css
+direction: ltr;           /* Forces left-to-right text direction */
+unicode-bidi: embed;      /* Isolates bidirectional context */
+display: inline-block;    /* Ensures proper containment */
+```
+
+#### Location Availability Text Color
+Changes the color of location availability text to green for better visibility.
+
+**Target:** `.view-it-title.mat-title-small.ng-star-inserted span`
+
+#### Card Title Styling
+Makes card titles bold for improved visual hierarchy.
+
+**Target:** `mat-card-title.mat-mdc-card-title.margin-bottom-medium`
+
+**Documentation:** See [Call Number Directionality Fix](docs/reference/call_number_directionality_fix.md) for detailed technical information including selectors, strategies, and Primo VE implementation.
+
+---
+
 ## 📚 Documentation
 
 Comprehensive documentation is organized in the [`docs/`](docs/) folder:
 
 ### Feature Documentation
+
+#### External Search Integration
 - **[External Search Implementation](docs/features/external-search/EXTERNAL_SEARCH_IMPLEMENTATION.md)** - Complete technical guide
 - **[Migration Summary](docs/features/external-search/MIGRATION_SUMMARY.md)** - AngularJS to Angular 18 migration
 - **[Icon Setup Notes](docs/features/external-search/ICON_SETUP_NOTES.md)** - Icon installation guide
+
+#### Research Assistant
+- **[Research Assistant Implementation](docs/features/research-assistant/RESEARCH_ASSISTANT_IMPLEMENTATION.md)** - Complete technical guide
+- **[Summary](docs/features/research-assistant/SUMMARY.md)** - Quick reference and status
+- **[Rollback Guide](docs/features/research-assistant/ROLLBACK_GUIDE.md)** - How to rollback if needed
+- **[Cleanup Plan](docs/features/research-assistant/CLEANUP_PLAN.md)** - Legacy code cleanup
+
+### Reference Documentation
+- **[Call Number Directionality Fix](docs/reference/call_number_directionality_fix.md)** - CSS fixes for call number display (VE & NDE)
+- **[Research Assistant Selectors](docs/reference/research_assistant_selectors.md)** - DOM element discovery documentation
 
 ### Troubleshooting
 - **[Bug Fix History](docs/troubleshooting/BUGFIX_HISTORY.md)** - Bug fixes and resolutions
