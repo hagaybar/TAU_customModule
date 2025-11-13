@@ -1,0 +1,63 @@
+// 1. Find the cdi-research-assistant element (The Shadow Host)
+const hostTag = 'cdi-research-assistant';
+const hostElement = document.querySelector(hostTag);
+
+console.log(`1. Target Host Element: <${hostTag}>`);
+console.log(hostElement);
+console.log('---');
+
+// 2. Check if it has an accessible Shadow DOM
+if (!hostElement || !hostElement.shadowRoot) {
+    console.error(`2. ❌ The element <${hostTag}> was not found or has a 'closed' Shadow DOM.`);
+} else {
+    const shadowRoot = hostElement.shadowRoot;
+    console.log(`2. ✅ Shadow DOM Check: Found #shadow-root (open) on <${hostTag}>.`);
+    console.log(shadowRoot);
+    console.log('---');
+
+    // 3. Search for the paragraph inside the Shadow DOM using the full internal selector
+    // Internal selector: #landing > div > div.w-full.text-center > p
+    const internalSelector = '#landing > div > div.w-full.text-center > p';
+    const targetParagraph = shadowRoot.querySelector(internalSelector);
+
+    if (targetParagraph) {
+        console.log(`3. ✅ Paragraph Search: Found the element using selector "${internalSelector}"`);
+        console.log(targetParagraph);
+        console.log('---');
+
+        // 4. Log the full path and necessary information for manipulation
+
+        // Path for JS Manipulation (relative to the host/component instance)
+        const jsPath = `this.hostElement.shadowRoot.querySelector('${internalSelector}')`;
+
+        // Log the text content to confirm it's the correct paragraph
+        console.log('Element Content (Snippet):', targetParagraph.textContent.substring(0, 80) + '...');
+
+        console.log('\n4. Path and Information for Manipulation (JS/Angular):');
+        console.log(`   - JS/Angular Path: ${jsPath}`);
+        console.log('   - CSS Selector (Internal):', internalSelector);
+        console.log('   - Host Tag:', hostTag);
+
+        // Capture information for Angular template access (if using ViewChild/ElementRef)
+        // In Angular, you'd get the host element and then access the shadowRoot property.
+        // Example: this.el.nativeElement.shadowRoot.querySelector(internalSelector)
+    } else {
+        console.error(`3. ❌ Paragraph Search: Could not find element using selector "${internalSelector}" inside the Shadow DOM.`);
+    }
+}
+VM743:5 1. Target Host Element: <cdi-research-assistant>
+VM743:6 <cdi-research-assistant id=​"research-assistant" height=​"90vh" library-name=​"Some Library" client-key=​"972TAU.972TAU_ALMA.PPRD" product=​"primo" api-url=​"/​primaws/​rest/​priv/​cdi-ra" api-jwt=​"primoExploreJwt" api-params=​"{"vid":​"972TAU_INST:​NDE_TEST","lang":​"en"}​" language=​"en" primary-color=​"#006399" secondary-color=​"#45617a" shows-toasts=​"true" show-beta=​"false" debug=​"false" enable-history=​"true" show-advanced=​"true" query ng-version=​"17.3.11">​…​</cdi-research-assistant>​
+VM743:7 ---
+VM743:14 2. ✅ Shadow DOM Check: Found #shadow-root (open) on <cdi-research-assistant>.
+VM743:15 #shadow-root (open)
+VM743:16 ---
+VM743:24 3. ✅ Paragraph Search: Found the element using selector "#landing > div > div.w-full.text-center > p"
+VM743:25 <p class=​"text-xl mt-3 prose">​…​</p>​
+VM743:26 ---
+VM743:34 Element Content (Snippet): Ask research questions. Explore new topics. Discover credible sources.  Please n...
+VM743:36 
+4. Path and Information for Manipulation (JS/Angular):
+VM743:37    - JS/Angular Path: this.hostElement.shadowRoot.querySelector('#landing > div > div.w-full.text-center > p')
+VM743:38    - CSS Selector (Internal): #landing > div > div.w-full.text-center > p
+VM743:39    - Host Tag: cdi-research-assistant
+undefined

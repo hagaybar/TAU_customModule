@@ -1,5 +1,4 @@
-import {PROXY_TARGET} from "./proxy.const.mjs";
-
+const { PROXY_TARGET } = require("./proxy.const.js");
 
 const proxyRules = [
   {
@@ -30,6 +29,4 @@ const proxyRules = [
   }
 ];
 
-
-
-export default proxyRules;
+module.exports = proxyRules;

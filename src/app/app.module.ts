@@ -7,6 +7,7 @@ import {selectorComponentMap} from "./custom1-module/customComponentMappings";
 import {TranslateModule} from "@ngx-translate/core";
 import { CommonModule } from '@angular/common';
 import { AutoAssetSrcDirective } from './services/auto-asset-src.directive';
+import { ResearchAssistantCustomizerService } from './services/research-assistant-customizer.service';
 
 export const AppModule = ({providers}: {providers:any}) => {
    @NgModule({
@@ -29,16 +30,29 @@ export const AppModule = ({providers}: {providers:any}) => {
     constructor(
       private injector: Injector,
       private router: Router,
+      private researchAssistantCustomizer: ResearchAssistantCustomizerService
     ) {
       router.dispose(); //this prevents the router from being initialized and interfering with the shell app router
     }
 
     ngDoBootstrap(appRef: ApplicationRef) {
+      console.log('🟢 TAU Custom Module: ngDoBootstrap started - Registering components...');
+      console.log('🟢 TAU Custom Module: Total components to register:', selectorComponentMap.size);
+
       for (const [key, value] of selectorComponentMap) {
+        console.log(`🟢 TAU Custom Module: Registering component: ${key} -> ${value.name}`);
         const customElement = createCustomElement(value, {injector: this.injector});
         this.webComponentSelectorMap.set(key, customElement);
+        console.log(`✅ TAU Custom Module: Successfully registered: ${key}`);
         // NDE framework handles customElements.define() - we just create and store the constructor
       }
+
+      console.log('🟢 TAU Custom Module: ngDoBootstrap completed!');
+      console.log('🟢 TAU Custom Module: Registered selectors:', Array.from(this.webComponentSelectorMap.keys()));
+
+      // TEMPORARILY DISABLED: Research Assistant customizer service
+      // Testing basic component approach first
+      // this.researchAssistantCustomizer.initialize();
     }
 
     /**
