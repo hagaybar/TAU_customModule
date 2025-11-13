@@ -46,7 +46,6 @@ export class ResearchAssistantTestComponent implements OnInit, OnDestroy {
   private subscribeToLanguageChanges() {
     this.langChangeSubscription = this.translateService.onLangChange.subscribe(
       (event: LangChangeEvent) => {
-        console.log('📝 Language changed to:', event.lang);
         // Re-apply text modification for new language
         this.modifyResearchAssistantText();
       }
