@@ -137,6 +137,18 @@ export class ResearchAssistantTestComponent implements OnInit, OnDestroy {
       const styleSheet = document.createElement('style');
       styleSheet.id = 'tau-ra-custom-styles';
       styleSheet.textContent = `
+        /* Hide paragraph content until we modify it */
+        #landing > div > div.w-full.text-center > p:not(.tau-ra-modified) {
+          visibility: hidden;
+        }
+
+        /* Show modified paragraph with smooth transition */
+        #landing > div > div.w-full.text-center > p.tau-ra-modified {
+          visibility: visible;
+          opacity: 1;
+          transition: opacity 0.2s ease-in;
+        }
+
         .tau-ra-first-part {
           display: block;
           margin-bottom: 1rem;
@@ -165,6 +177,9 @@ export class ResearchAssistantTestComponent implements OnInit, OnDestroy {
       // 8. Replace paragraph content
       paragraph.innerHTML = '';
       paragraph.appendChild(wrapper);
+
+      // 9. Mark paragraph as modified to make it visible
+      (paragraph as HTMLElement).classList.add('tau-ra-modified');
 
       console.log('✅ Research Assistant text modified successfully');
       return true;
