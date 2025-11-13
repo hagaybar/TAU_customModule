@@ -4,13 +4,8 @@ import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 
 /**
- * Research Assistant Text Customization Component
- *
- * Modifies the Research Assistant description text by:
- * 1. Accessing the shadow DOM of cdi-research-assistant
- * 2. Splitting the text into two styled parts
- * 3. Using custom Alma labels (nde-ra-first-row, nde-ra-second-row)
- * 4. Automatically updating on language changes
+ * Customizes Research Assistant text using shadow DOM manipulation
+ * and custom Alma labels (nde-ra-first-row, nde-ra-second-row)
  */
 @Component({
   selector: 'custom-research-assistant-test',
