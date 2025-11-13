@@ -35,9 +35,7 @@ export class ResearchAssistantTestComponent implements OnInit, OnDestroy {
     }
   }
 
-  /**
-   * Subscribe to language change events and re-apply text modifications
-   */
+  /** Re-applies text modification when language changes */
   private subscribeToLanguageChanges() {
     this.langChangeSubscription = this.translateService.onLangChange.subscribe(
       (event: LangChangeEvent) => {
@@ -47,10 +45,7 @@ export class ResearchAssistantTestComponent implements OnInit, OnDestroy {
     );
   }
 
-  /**
-   * Modify the Research Assistant description text
-   * Splits the paragraph into two styled parts using custom Alma labels
-   */
+  /** Modifies Research Assistant text by splitting into two styled parts */
   private async modifyResearchAssistantText() {
     try {
       // 1. Find the cdi-research-assistant element
