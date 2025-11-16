@@ -219,6 +219,158 @@ Currently implemented two locations for call number directionality fix:
 
 ---
 
+## User Support Integration
+
+### 📋 Personalized WhatsApp Support Links
+**Priority:** Medium
+**Status:** 📋 Planned - Needs Testing
+**Estimated Effort:** Medium (2-4 days)
+
+#### Background
+TAU's five main libraries provide support via WhatsApp. Previous implementation required users to manually select their library from a list, which was unintuitive.
+
+**Inspiration:** LibraryH3lp chat widget implementation (see [ExLibris commit f216d17](https://github.com/ExLibrisGroup/customModule/commit/f216d17ae40e19bb8d571bc3ccb6fe9c7c9fd698))
+
+#### Proposed Enhancement
+Create a component that automatically detects authenticated user's library affiliation and presents them with a personalized WhatsApp link to their specific library's support.
+
+**User Flow:**
+1. **Authenticated Users** → Show single WhatsApp button for their affiliated library
+2. **Unauthenticated Users** → Show all 5 library options OR prompt to log in
+
+#### Implementation Requirements
+
+##### 1. User Data Access
+**Need to determine:**
+- [ ] Which Primo/Alma API endpoint provides user profile data?
+- [ ] Which field contains library/faculty affiliation? (e.g., `userGroup`, `department`, `campus`, `homeLibrary`)
+- [ ] Is this data available in the user session/token?
+- [ ] What are the possible values for each library?
+
+##### 2. Library Mapping
+Create mapping between user affiliation values and WhatsApp contact URLs:
+
+```typescript
+interface LibraryWhatsAppConfig {
+  id: string;
+  name: { en: string; he: string };
+  affiliationValues: string[];  // Possible values from user profile
+  whatsappUrl: string;
+}
+
+// Example mapping (values TBD):
+const LIBRARY_WHATSAPP_MAP: LibraryWhatsAppConfig[] = [
+  {
+    id: 'sourasky',
+    name: { en: 'Sourasky Central Library', he: 'ספריית שורסקי המרכזית' },
+    affiliationValues: ['CENTRAL', 'SOURASKY'],
+    whatsappUrl: 'https://wa.me/...'
+  },
+  // ... other 4 libraries
+];
+```
+
+##### 3. Component Implementation
+**Similar to LibraryH3lp approach:**
+- Angular standalone component
+- Check authentication state
+- Fetch user profile if authenticated
+- Display appropriate WhatsApp link(s)
+- Configurable positioning (floating button, slot, etc.)
+
+```typescript
+// libraryh3lp-whatsapp/whatsapp-support.component.ts
+export class WhatsAppSupportComponent implements OnInit {
+  userLibrary?: LibraryWhatsAppConfig;
+  isAuthenticated = false;
+  allLibraries = LIBRARY_WHATSAPP_MAP;
+
+  async ngOnInit() {
+    this.isAuthenticated = await this.checkAuth();
+    if (this.isAuthenticated) {
+      const userProfile = await this.fetchUserProfile();
+      this.userLibrary = this.mapAffiliationToLibrary(userProfile);
+    }
+  }
+}
+```
+
+##### 4. Configuration Options
+**Potentially move to Alma Code Tables (similar to External Search):**
+- WhatsApp URLs for each library
+- Library names (i18n)
+- Affiliation mapping values
+- Enable/disable per library
+- Component positioning and styling
+
+#### Data Needed
+
+**Before Implementation:**
+1. **WhatsApp URLs** - Get 5 WhatsApp contact/group links from library staff
+2. **User Profile API** - Test which endpoint provides user data
+3. **Affiliation Field** - Determine exact field name and possible values
+4. **Library Values** - Map each library to its affiliation value(s)
+
+#### Edge Cases to Handle
+- [ ] User with no affiliation data → Show all options
+- [ ] User with multiple affiliations → Show all relevant libraries
+- [ ] User from non-main library → Default behavior TBD
+- [ ] API failure → Graceful fallback to showing all options
+- [ ] Unauthenticated users → Show all options or login prompt
+
+#### Testing Requirements
+
+**Functional Testing:**
+- [ ] Authenticated user sees correct library WhatsApp link
+- [ ] Unauthenticated user sees appropriate fallback
+- [ ] WhatsApp links open correctly (mobile vs desktop)
+- [ ] Multiple affiliations handled correctly
+- [ ] No affiliation handled correctly
+- [ ] API error handling works
+- [ ] Component displays correctly on different screen sizes
+
+**User Affiliation Testing:**
+- [ ] Test with user from each of the 5 main libraries
+- [ ] Test with user from satellite library
+- [ ] Test with faculty/staff vs student accounts
+- [ ] Test with guest/external user accounts
+
+**Authentication Testing:**
+- [ ] Component works in logged-out state
+- [ ] Component updates after user logs in
+- [ ] Component updates after user logs out
+- [ ] Session timeout handled correctly
+
+#### Files to Create/Modify
+- 📝 `src/app/custom1-module/whatsapp-support/whatsapp-support.component.ts` (NEW)
+- 📝 `src/app/custom1-module/whatsapp-support/whatsapp-support.component.html` (NEW)
+- 📝 `src/app/custom1-module/whatsapp-support/whatsapp-support.component.scss` (NEW)
+- 📝 `src/app/custom1-module/whatsapp-support/whatsapp-support.component.spec.ts` (NEW)
+- 📝 `src/app/custom1-module/whatsapp-support/config/library-mapping.config.ts` (NEW)
+- 📝 `bootstrapTAU-WhatsAppSupport.ts` (NEW - if standalone add-on)
+- 📝 `docs/features/whatsapp-support/IMPLEMENTATION.md` (NEW)
+- 📝 `build-settings.env` (update if needed)
+
+#### Benefits
+✅ **Better UX** - Users don't need to know/select their library
+✅ **Faster Support Access** - One click to appropriate contact
+✅ **Familiar Platform** - WhatsApp is widely used
+✅ **Personalized** - Leverages authentication data
+✅ **Scalable** - Easy to add/modify library contacts
+
+#### Questions to Resolve
+- [ ] Should this be a standalone add-on or integrated into existing custom module?
+- [ ] What should unauthenticated users see? All options or login prompt?
+- [ ] Mobile vs desktop behavior differences?
+- [ ] Should this replace existing WhatsApp links or complement them?
+- [ ] Analytics tracking for WhatsApp clicks?
+
+#### Related Work
+- Previous WhatsApp integration (location/implementation TBD)
+- LibraryH3lp commit: https://github.com/ExLibrisGroup/customModule/commit/f216d17ae40e19bb8d571bc3ccb6fe9c7c9fd698
+
+---
+
 ## General Improvements
 
 ### 📋 Performance Optimization
