@@ -17,3 +17,24 @@ Commits in this repo favor short, imperative summaries (`Add login facade`, `Fix
 
 ## Environment & Configuration Tips
 Project settings read from `build-settings.env`; duplicate it per environment and export required variables before running the build. When integrating with remote hosts, ensure module federation URLs align with `webpack.config.js` and `webpack.prod.config.js`. For local debugging behind corporate proxies, copy `proxy/proxy.conf.mjs` and update target hosts instead of editing production configs.
+
+## ExLibris CustomModule Reference Repository
+This project is based on the official ExLibris CustomModule template. For documentation, examples, and default file structures, refer to the upstream repository:
+
+**Repository URL:** https://github.com/ExLibrisGroup/customModule
+
+**Key resources:**
+- **README.md** - Complete setup and development guide
+- **Default file structures** - Reference implementations for components, themes, and configurations
+- **Examples** - Sample components and customization patterns
+- **Proxy configuration** - Latest proxy setup for local development
+- **Theme customization** - Material 3 theme generation and customization examples
+
+When implementing new features or troubleshooting issues, check the ExLibris repository for:
+- Latest best practices and patterns
+- Default configurations and file structures
+- Example implementations of similar features
+- Updated documentation on NDE integration
+- Community solutions and patterns
+
+**Usage:** You can browse the repository directly or use tools to search for specific files, configurations, or examples within the repository structure.
