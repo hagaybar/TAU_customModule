@@ -36,3 +36,4 @@ nde-location-item .getit-items-brief-property:nth-child(3) span[ndetooltipifover
     unicode-bidi: embed;  /* Creates isolated bidirectional context for the call number */
     display: inline-block; /* Ensures directionality is properly contained */
 }
+

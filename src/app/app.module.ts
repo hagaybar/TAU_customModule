@@ -7,7 +7,6 @@ import {selectorComponentMap} from "./custom1-module/customComponentMappings";
 import {TranslateModule} from "@ngx-translate/core";
 import { CommonModule } from '@angular/common';
 import { AutoAssetSrcDirective } from './services/auto-asset-src.directive';
-import { ResearchAssistantCustomizerService } from './services/research-assistant-customizer.service';
 
 export const AppModule = ({providers}: {providers:any}) => {
    @NgModule({
@@ -29,8 +28,7 @@ export const AppModule = ({providers}: {providers:any}) => {
 
     constructor(
       private injector: Injector,
-      private router: Router,
-      private researchAssistantCustomizer: ResearchAssistantCustomizerService
+      private router: Router
     ) {
       router.dispose(); //this prevents the router from being initialized and interfering with the shell app router
     }
@@ -49,10 +47,6 @@ export const AppModule = ({providers}: {providers:any}) => {
 
       console.log('🟢 TAU Custom Module: ngDoBootstrap completed!');
       console.log('🟢 TAU Custom Module: Registered selectors:', Array.from(this.webComponentSelectorMap.keys()));
-
-      // TEMPORARILY DISABLED: Research Assistant customizer service
-      // Testing basic component approach first
-      // this.researchAssistantCustomizer.initialize();
     }
 
     /**

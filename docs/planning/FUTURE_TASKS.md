@@ -192,13 +192,6 @@ Modify both components to use the new service:
 
 ---
 
-## Research Assistant
-
-### 📋 Additional Future Enhancements
-_Placeholder for future Research Assistant tasks_
-
----
-
 ## CSS Customizations
 
 ### 📋 Call Number Directionality - Additional Cases
@@ -391,10 +384,12 @@ _Track testing needs (unit tests, e2e tests)_
 **Branch:** `main`
 Migrated external search features from AngularJS to Angular 18.
 
-### ✅ Research Assistant Text Customization
+### ✅ Research Assistant Text Customization (REMOVED)
 **Completed:** 2025-11-13
+**Removed:** 2025-11-16
 **Branch:** `main`
 Implemented shadow DOM manipulation for Research Assistant description text.
+**Note:** Feature has been removed from the codebase. Documentation archived to `docs/archived/research-assistant/`.
 
 ### ✅ Call Number Directionality Fix (Initial)
 **Completed:** 2025-11-13

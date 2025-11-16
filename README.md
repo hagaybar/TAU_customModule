@@ -12,7 +12,6 @@ This package includes the following Tel Aviv University-specific customizations:
 | Feature | Type | Status | Description |
 |---------|------|--------|-------------|
 | **External Search Integration** | Component | ✅ Production | Search links panel + No results external links |
-| **Research Assistant Text** | Component | ✅ Production | Styled, bilingual description text |
 | **Call Number Directionality** | CSS | ✅ Production | LTR display for mixed-language call numbers |
 | **Location Availability Color** | CSS | ✅ Production | Green text for availability status |
 | **Card Title Styling** | CSS | ✅ Production | Bold card titles |
@@ -86,42 +85,7 @@ Each source includes:
 
 ---
 
-### 2. Research Assistant Text Customization
-Customizes the Research Assistant landing page description text with enhanced styling and multilingual support.
-
-**Implemented Features:**
-- ✅ **Split Text Display**: Divides description into two styled parts (bold + gray)
-- ✅ **Bilingual Support**: Uses custom Alma labels for full translation support
-- ✅ **Dynamic Language Switching**: Automatically updates when user changes language
-- ✅ **Shadow DOM Integration**: Accesses and modifies shadow DOM content
-- ✅ **Retry Logic**: Handles timing issues with exponential backoff
-- ✅ **No Visual Footprint**: Component works invisibly
-
-**Location in NDE:** Research Assistant landing page (`/nde/researchAssistant`)
-
-**Technical Details:**
-- Component: `ResearchAssistanceCustomTextComponent`
-- Selector mapping: `nde-research-assistant-after`
-- Files: `src/app/custom1-module/research-assistance-custom-text/`
-- Shadow DOM: Modifies `cdi-research-assistant` element
-- Custom Labels: `nde-ra-first-row` (bold), `nde-ra-second-row` (gray)
-
-**Configuration:**
-Custom labels must be configured in Alma Back Office:
-```
-Configuration Menu → General → NDE Code Table
-```
-
-| Label Key | Description | Styling |
-|-----------|-------------|---------|
-| `nde-ra-first-row` | First line of text | Bold, black |
-| `nde-ra-second-row` | Second line of text | Regular, gray (#666666) |
-
-**Migration Note:** This feature was migrated from AngularJS (custom.js) to Angular 18. See [Research Assistant Implementation](docs/features/research-assistant/RESEARCH_ASSISTANT_IMPLEMENTATION.md) for technical details.
-
----
-
-### 3. CSS Customizations
+### 2. CSS Customizations
 Custom styling fixes and enhancements applied via `src/assets/css/custom.css`.
 
 #### Call Number Directionality Fix
@@ -172,15 +136,8 @@ Comprehensive documentation is organized in the [`docs/`](docs/) folder:
 - **[Migration Summary](docs/features/external-search/MIGRATION_SUMMARY.md)** - AngularJS to Angular 18 migration
 - **[Icon Setup Notes](docs/features/external-search/ICON_SETUP_NOTES.md)** - Icon installation guide
 
-#### Research Assistant
-- **[Research Assistant Implementation](docs/features/research-assistant/RESEARCH_ASSISTANT_IMPLEMENTATION.md)** - Complete technical guide
-- **[Summary](docs/features/research-assistant/SUMMARY.md)** - Quick reference and status
-- **[Rollback Guide](docs/features/research-assistant/ROLLBACK_GUIDE.md)** - How to rollback if needed
-- **[Cleanup Plan](docs/features/research-assistant/CLEANUP_PLAN.md)** - Legacy code cleanup
-
 ### Reference Documentation
 - **[Call Number Directionality Fix](docs/reference/call_number_directionality_fix.md)** - CSS fixes for call number display (VE & NDE)
-- **[Research Assistant Selectors](docs/reference/research_assistant_selectors.md)** - DOM element discovery documentation
 
 ### Troubleshooting
 - **[Bug Fix History](docs/troubleshooting/BUGFIX_HISTORY.md)** - Bug fixes and resolutions
