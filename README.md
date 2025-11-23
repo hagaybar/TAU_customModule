@@ -15,6 +15,7 @@ This package includes the following Tel Aviv University-specific customizations:
 | **Call Number Directionality** | CSS | ✅ Production | LTR display for mixed-language call numbers |
 | **Location Availability Color** | CSS | ✅ Production | Green text for availability status |
 | **Card Title Styling** | CSS | ✅ Production | Bold card titles |
+| **Main Page Image Overlay** | CSS | ✅ Production | Disable background overlay on main page top image |
 
 **Key Technologies:**
 - Angular 18 standalone components
@@ -120,6 +121,12 @@ Changes the color of location availability text to green for better visibility.
 Makes card titles bold for improved visual hierarchy.
 
 **Target:** `mat-card-title.mat-mdc-card-title.margin-bottom-medium`
+
+#### Main Page Image Overlay
+Disables the background overlay on the main page top image to prevent color tinting from the theme.
+
+**Target:** `.custom-search-bar-container .background-overlay`
+
 
 **Documentation:** See [Call Number Directionality Fix](docs/reference/call_number_directionality_fix.md) for detailed technical information including selectors, strategies, and Primo VE implementation.
 

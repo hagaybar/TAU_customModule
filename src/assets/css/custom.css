@@ -37,3 +37,23 @@ nde-location-item .getit-items-brief-property:nth-child(3) span[ndetooltipifover
     display: inline-block; /* Ensures directionality is properly contained */
 }
 
+
+/* === Adjust base font size for entire Primo NDE view === */
+nde-app-root,
+nde-view,
+prm-search,
+prm-brief-result,
+prm-full-view,
+prm-facet,
+body {
+  font-size: 16px !important;
+  line-height: 1.5;
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif !important;
+}
+
+
+/* disable background-overlay on main page top image*/
+/* Purpose: Prevent changing the top image from getting the color of the webpage theme */
+.custom-search-bar-container .background-overlay {
+display: none;
+}
