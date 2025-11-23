@@ -3,6 +3,32 @@
 
 @include mat.core();
 
+// Emit the default typography styles for all components
+@include mat.all-component-typographies();
+
+// Emit typography for all components (no args in M2)
+@include mat.all-component-typographies();
+
+// Optional fallback for non-Material elements (base <body> size)
+body, nde-app-root {
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+
+// Example: make body text a bit larger (change to your values).
+$nde-body-1: mat.m2-define-typography-level(
+  $font-size: 16px,      // <— change this: default is ~14–16px range depending on setup
+  $line-height: 24px
+);
+
+$nde-body-2: mat.m2-define-typography-level(
+  $font-size: 20px,
+  $line-height: 26px
+);
+
+
 // Define custom typography with larger base font size
 $custom-typography: mat.m2-define-typography-config(
   $font-family: 'Roboto, "Helvetica Neue", sans-serif',

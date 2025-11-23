@@ -1,20 +1,38 @@
+import { config } from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// Get the directory name in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Load build-settings.env
+config({ path: path.resolve(__dirname, '../build-settings.env') });
+
+// Extract institution and view IDs from environment
+const INST_ID = process.env.INST_ID || '972TAU_INST';
+const VIEW_ID = process.env.VIEW_ID || 'NDE_TEST';
+const CUSTOM_PATH = `custom/${INST_ID}-${VIEW_ID}`;
+
+console.log(`[Proxy Config] Using custom path: ${CUSTOM_PATH}`);
+
 export const customizationConfigOverride = {
-  "favIcon": "custom/41SLSP_NETWORK-TAU/assets/images/favicon.ico",
-  "libraryLogo": "custom/41SLSP_NETWORK-TAU/assets/images/library-logo.png",
-  "viewSvg": "custom/41SLSP_NETWORK-TAU/assets/icons/custom_icons.svg",
+  "favIcon": `${CUSTOM_PATH}/assets/images/favicon.ico`,
+  "libraryLogo": `${CUSTOM_PATH}/assets/images/library-logo.png`,
+  "viewSvg": `${CUSTOM_PATH}/assets/icons/custom_icons.svg`,
   "homepage": {
-    "homepageBGImage": "custom/41SLSP_NETWORK-TAU/assets/homepage/homepage_background.svg",
+    // "homepageBGImage": `${CUSTOM_PATH}/assets/homepage/homepage_background.svg`,
     "html": {
-      "en": "custom/41SLSP_NETWORK-TAU/assets/homepage/homepage_en.html",
-      "he": "custom/41SLSP_NETWORK-TAU/assets/homepage/homepage_he.html",
-      "ar": "custom/41SLSP_NETWORK-TAU/assets/homepage/homepage_ar.html",
-      "fr": "custom/41SLSP_NETWORK-TAU/assets/homepage/homepage_fr.html",
-      "de": "custom/41SLSP_NETWORK-TAU/assets/homepage/homepage_de.html",
-      "es": "custom/41SLSP_NETWORK-TAU/assets/homepage/homepage_es.html",
-      "it": "custom/41SLSP_NETWORK-TAU/assets/homepage/homepage_it.html",
-      "pl": "custom/41SLSP_NETWORK-TAU/assets/homepage/homepage_pl.html",
-      "ja": "custom/41SLSP_NETWORK-TAU/assets/homepage/homepage_ja.html",
-      "zh": "custom/41SLSP_NETWORK-TAU/assets/homepage/homepage_zh.html"
+      "en": `${CUSTOM_PATH}/assets/homepage/homepage_en.html`,
+      "he": `${CUSTOM_PATH}/assets/homepage/homepage_he.html`,
+      "ar": `${CUSTOM_PATH}/assets/homepage/homepage_ar.html`,
+      "fr": `${CUSTOM_PATH}/assets/homepage/homepage_fr.html`,
+      "de": `${CUSTOM_PATH}/assets/homepage/homepage_de.html`,
+      "es": `${CUSTOM_PATH}/assets/homepage/homepage_es.html`,
+      "it": `${CUSTOM_PATH}/assets/homepage/homepage_it.html`,
+      "pl": `${CUSTOM_PATH}/assets/homepage/homepage_pl.html`,
+      "ja": `${CUSTOM_PATH}/assets/homepage/homepage_ja.html`,
+      "zh": `${CUSTOM_PATH}/assets/homepage/homepage_zh.html`
 
     }
   }

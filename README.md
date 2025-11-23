@@ -267,7 +267,12 @@ There are two options for setting up your local development environment: configu
     ```bash
     npm run start:proxy
     ```
-  - Open your browser on port 4201 to see your changes. e.g: http://localhost:4201/nde/home?vid=EXLDEV1_INST:NDE&lang=en
+  - Open your browser on port 4201 to see your changes.
+    
+    **URL Templates:**
+    - **Production View:** `http://localhost:4201/nde/home?vid=972TAU_INST:NDE&lang=en`
+    - **Test View:** `http://localhost:4201/nde/home?vid=972TAU_INST:NDE_TEST&lang=en`
+    - **Generic Template:** `http://localhost:4201/nde/home?vid=YOUR_VIEW_CODE&lang=en`
 
   
 - **Option 2: Parameter on NDE URL**:
@@ -281,6 +286,16 @@ There are two options for setting up your local development environment: configu
       ```
       For example: `https://sqa-na02.alma.exlibrisgroup.com/nde/home?vid=EXLDEV1_INST:NDE&useLocalCustomPackage=true`
     - This setting assumes that your local development environment is running on the default port `4201`.
+ 
+### Troubleshooting
+
+#### Missing Background Image in Local Proxy
+If you do not see the top background image when running `npm run start:proxy`:
+1. **Cause:** The proxy configuration (`proxy/customization_config_override.mjs`) attempts to load a local image (`src/assets/homepage/homepage_background.svg`) which may not exist.
+2. **Fix:** 
+   - **Option A (Use Default):** Comment out the `homepageBGImage` line in `proxy/customization_config_override.mjs` to use the default production image.
+   - **Option B (Use Custom):** Add your custom image file to `src/assets/homepage/` and ensure the filename matches the configuration.
+   - **Note:** You must restart the proxy server (`npm run start:proxy`) for configuration changes to take effect.
 
   
 ---

@@ -55,6 +55,38 @@ This repository contains TAU-specific customizations documented in:
 4. **Custom styles:** Applied via `src/assets/css/custom.css`
 5. **Documentation:** Always update relevant docs when making changes
 
+## Critical Build Requirements
+
+**MANDATORY: After ANY changes to `build-settings.env`, you MUST regenerate files:**
+
+```bash
+node prebuild.js
+# OR
+npm run build
+```
+
+**Why this is critical:**
+- `prebuild.js` reads `build-settings.env` and generates `src/app/state/asset-base.generated.ts`
+- This generated file contains the asset path (`ASSET_BASE_URL`) used at runtime
+- If not regenerated, asset paths will be wrong, causing 404 errors for all images/icons
+- The `prebuild` script runs automatically before `npm run build` but NOT before `git commit`
+
+**Proxy configuration is also parametric:**
+- `proxy/customization_config_override.mjs` automatically reads from `build-settings.env`
+- No manual updates needed when switching between test/production views
+- Proxy paths will always match your current `INST_ID` and `VIEW_ID` settings
+
+**Example of what goes wrong:**
+- `build-settings.env` says: `/nde/custom/972TAU_INST-NDE_TEST`
+- Generated file still has: `/nde/custom/972TAU_INST-NDE`
+- Result: All assets fail to load with 404 errors
+
+**When to regenerate:**
+1. After changing `VIEW_ID` in `build-settings.env`
+2. After changing `ASSET_BASE_URL` in `build-settings.env`
+3. After switching between production/test views
+4. Before committing changes to `build-settings.env`
+
 ## Important Notes
 
 - The custom module loads as web components into Primo's host application
