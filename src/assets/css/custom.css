@@ -1,3 +1,11 @@
+/* Hide Update Login Credentials in MyAccount */
+.mat-mdc-card-actions {
+    display: none !important;
+}
+/* Hide Update Login Credentials in MyAccount - END */
+
+
+
 /* location unavailable change text color */
 
 .view-it-title.mat-title-small.ng-star-inserted span
@@ -21,6 +29,7 @@ nde-locations-container [data-qa="location-call-number"] {
     direction: ltr;
     unicode-bidi: embed;  /* Creates isolated bidirectional context for the call number */
     display: inline-block; /* Ensures directionality is properly contained */
+    font-weight: bold; /* Optional: Make call numbers bold for better visibility */
 }
 
 /* Call Number Directionality Fix - NDE Location Item Brief Properties */
