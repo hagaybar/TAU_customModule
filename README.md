@@ -12,10 +12,11 @@ This package includes the following Tel Aviv University-specific customizations:
 | Feature | Type | Status | Description |
 |---------|------|--------|-------------|
 | **External Search Integration** | Component | ✅ Production | Search links panel + No results external links |
-| **Call Number Directionality** | CSS | ✅ Production | LTR display for mixed-language call numbers |
+| **Call Number Directionality** | CSS | ✅ Production | LTR display + bold styling for mixed-language call numbers |
 | **Location Availability Color** | CSS | ✅ Production | Green text for availability status |
 | **Card Title Styling** | CSS | ✅ Production | Bold card titles |
 | **Main Page Image Overlay** | CSS | ✅ Production | Disable background overlay on main page top image |
+| **Hide Update Login Credentials** | CSS | ✅ Production | Hide card actions in MyAccount area |
 
 **Key Technologies:**
 - Angular 18 standalone components
@@ -110,6 +111,7 @@ Ensures call numbers display left-to-right (LTR) regardless of UI language or pa
 direction: ltr;           /* Forces left-to-right text direction */
 unicode-bidi: embed;      /* Isolates bidirectional context */
 display: inline-block;    /* Ensures proper containment */
+font-weight: bold;        /* Makes call numbers bold for better visibility */
 ```
 
 #### Location Availability Text Color
@@ -127,6 +129,17 @@ Disables the background overlay on the main page top image to prevent color tint
 
 **Target:** `.custom-search-bar-container .background-overlay`
 
+#### Hide Update Login Credentials
+**Date Implemented:** 21.12.25
+
+Hides the "Update Login Credentials" card actions section in the MyAccount area for a cleaner user interface.
+
+**Target:** `.mat-mdc-card-actions`
+
+**CSS Properties:**
+```css
+display: none !important;  /* Completely hides the card actions element */
+```
 
 **Documentation:** See [Call Number Directionality Fix](docs/reference/call_number_directionality_fix.md) for detailed technical information including selectors, strategies, and Primo VE implementation.
 
