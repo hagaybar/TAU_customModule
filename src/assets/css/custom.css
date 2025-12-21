@@ -5,6 +5,25 @@
 /* Hide Update Login Credentials in MyAccount - END */
 
 
+/* 08.08.2023 color change and bold for library name (AngularJS, for pre-NDE view, not suitable for NDE */
+prm-location-items .tab-content-header .md-title  {
+	color: #44707b;
+	font-weight: bold;
+}
+md-list-item.md-2-line .md-list-item-text h3, md-list-item.md-2-line>.md-no-style .md-list-item-text h3, md-list-item.md-3-line .md-list-item-text h3, md-list-item.md-3-line>.md-no-style .md-list-item-text h3 {
+	color: #44707b;
+	font-weight: bold;
+}
+/* 08.08.2023 color change and bold for library name end */
+
+/* 21.12.25 color change and bold for library name - NDE */
+  /* Target: <span class="getit-library-title mat-title-medium"> */
+  .getit-library-title.mat-title-medium {
+        color: #44707b;
+        font-weight: bold;
+  }
+  /* 21.12.25 color change and bold for library name - NDE end */
+
 
 /* location unavailable change text color */
 
@@ -13,11 +32,13 @@
       color: green;
   }
 
+/* location unavailable change text color end */
 
 /* bold the thext fine */
   mat-card-title.mat-mdc-card-title.margin-bottom-medium {
   font-weight: bold; /* or 700, 900 */
 }
+/* bold the thext fine end */
 
 
 /* Call Number Directionality Fix - NDE View */
@@ -44,7 +65,10 @@ nde-location-item .getit-items-brief-property:nth-child(3) span[ndetooltipifover
     direction: ltr;
     unicode-bidi: embed;  /* Creates isolated bidirectional context for the call number */
     display: inline-block; /* Ensures directionality is properly contained */
+    font-weight: bold; /* Optional: Make call numbers bold for better visibility */
 }
+
+/* Call Number Directionality Fix - END */
 
 
 /* === Adjust base font size for entire Primo NDE view === */
