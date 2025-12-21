@@ -63,6 +63,7 @@ body {
 
 /* disable background-overlay on main page top image*/
 /* Purpose: Prevent changing the top image from getting the color of the webpage theme */
-.custom-search-bar-container .background-overlay {
+/* .custom-search-bar-container .background-overlay {
 display: none;
-}
+} */
+/* disable background-overlay on main page top image end*/
