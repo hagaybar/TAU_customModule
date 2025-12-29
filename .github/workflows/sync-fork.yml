@@ -41,7 +41,7 @@ jobs:
           # 🔧 Register the "ours" merge driver (needed for .gitattributes)
           git config merge.ours.driver true
           echo "🔄 Merging upstream/${DEFAULT_BRANCH} into local branch..."
-          git merge --no-edit "upstream/$DEFAULT_BRANCH" || echo "conflict" > conflict.txt
+          git merge --no-edit "upstream/$DEFAULT_BRANCH"
 
           # 🧠 Auto-resolve README.md conflicts (keep local version)
           if git ls-files -u | grep -q "README.md"; then
