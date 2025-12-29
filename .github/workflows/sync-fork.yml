@@ -92,19 +92,14 @@ jobs:
           git merge --abort || true
 
 
-      - name: Open (or reuse) PR for conflicts
+      - name: Create or update PR for conflicts
         if: steps.merge.outputs.mode == 'conflict'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          BR="sync/conflicts"
-      
-          if [ "$(gh pr list --head "$BR" --base "$DEFAULT_BRANCH" --json number --jq 'length')" = "0" ]; then
-            gh pr create \
-              --title "Sync conflicts with upstream" \
-              --body "This PR contains an attempted merge from upstream $UPSTREAM into $DEFAULT_BRANCH. Resolve conflicts and merge." \
-              --base "$DEFAULT_BRANCH" \
-              --head "$BR"
-          else
-            echo "PR already exists for $BR — updated branch content."
-          fi
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: sync/conflicts
+          title: "Sync conflicts with upstream"
+          body: |
+            This PR contains an attempted merge from upstream ${UPSTREAM} into ${DEFAULT_BRANCH}.
+            Resolve conflicts and merge.
+          base: ${{ env.DEFAULT_BRANCH }}
