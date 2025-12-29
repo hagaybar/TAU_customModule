@@ -22,12 +22,8 @@ export const AppModule = ({providers, shellRouter}: {providers:any, shellRouter:
       AutoAssetSrcDirective,
       TranslateModule.forRoot({})
     ],
-<<<<<<< HEAD
     exports: [AutoAssetSrcDirective],
-    providers: providers,
-=======
     providers: [...providers, {provide: SHELL_ROUTER, useValue: shellRouter}],
->>>>>>> upstream/main
     bootstrap: []
   })
   class AppModule implements DoBootstrap{
