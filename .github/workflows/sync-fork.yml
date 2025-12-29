@@ -81,14 +81,16 @@ jobs:
         run: |
           echo "⚠️ Conflicts detected — creating/updating sync/conflicts"
           BR="sync/conflicts"
-
-          # Keep the conflict state in a branch
-          git checkout -B "$BR"
+      
+          # Stage files (this records the conflict-marked files so a PR can show them)
           git add -A || true
           git commit -m "Merge upstream/$DEFAULT_BRANCH into fork (conflicts)" || true
+      
+          # Push the current HEAD to the conflict branch WITHOUT checking it out
+          git push -f origin HEAD:"$BR"
+          # Clean up merge state
+          git merge --abort || true
 
-          # Force-push so you don't create endless conflict branches
-          git push -f origin "$BR"
 
       - name: Open (or reuse) PR for conflicts
         if: steps.merge.outputs.mode == 'conflict'
