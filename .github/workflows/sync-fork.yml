@@ -2,8 +2,8 @@ name: Sync upstream into customized fork
 
 on:
   schedule:
-    - cron: "17 3 * * 1,4"   # Runs Mon & Thu at 03:17 UTC
-  workflow_dispatch:          # Allow manual trigger from the Actions tab
+    - cron: "17 3 * * 1,4"   # Mon & Thu at 03:17 UTC
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -13,7 +13,7 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     env:
-      UPSTREAM: ExLibrisGroup/customModule         # Original repo slug
+      UPSTREAM: ExLibrisGroup/customModule
       DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
 
     steps:
@@ -23,69 +23,87 @@ jobs:
           fetch-depth: 0
           ref: ${{ env.DEFAULT_BRANCH }}
 
-      - name: Configure git
+      - name: Configure git identity
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: Add and fetch upstream
+      - name: Add upstream + fetch
         run: |
           git remote add upstream "https://github.com/${UPSTREAM}.git" || true
+          git fetch --prune origin
           git fetch --prune upstream
 
-      - name: Merge upstream into local branch
+      - name: Make local branch exactly match fork branch (no ff-only pulls)
+        run: |
+          git checkout "$DEFAULT_BRANCH"
+          git reset --hard "origin/$DEFAULT_BRANCH"
+
+      - name: Merge upstream into fork (README handled by .gitattributes)
         id: merge
         run: |
           set -e
-          git checkout "$DEFAULT_BRANCH"
-          # 🔧 Register the "ours" merge driver (needed for .gitattributes)
-          git config merge.ours.driver true
-          echo "🔄 Merging upstream/${DEFAULT_BRANCH} into local branch..."
-          git merge --no-edit "upstream/$DEFAULT_BRANCH"
 
-          # 🧠 Auto-resolve README.md conflicts (keep local version)
-          if git ls-files -u | grep -q "README.md"; then
-            echo "Auto-resolving README.md conflicts (keep local version)..."
-            git checkout --ours README.md
-            git add README.md
+          # Needed so merge=ours in .gitattributes works on the runner
+          git config merge.ours.driver true
+
+          echo "Merging upstream/$DEFAULT_BRANCH into $DEFAULT_BRANCH..."
+          set +e
+          git merge --no-edit "upstream/$DEFAULT_BRANCH"
+          MERGE_EXIT=$?
+          set -e
+
+          # If merge failed, there are conflicts.
+          if [ $MERGE_EXIT -ne 0 ]; then
+            echo "mode=conflict" >> "$GITHUB_OUTPUT"
+            exit 0
           fi
 
-          # Detect if conflicts remain
-          if [ -f conflict.txt ]; then
-            if git ls-files -u | grep -q .; then
-              echo "mode=conflict" >> $GITHUB_OUTPUT
-            else
-              echo "mode=merged" >> $GITHUB_OUTPUT
-            fi
+          # If merge succeeded, check if anything actually changed
+          if git diff --quiet "origin/$DEFAULT_BRANCH..HEAD"; then
+            echo "mode=noop" >> "$GITHUB_OUTPUT"
           else
-            echo "mode=merged" >> $GITHUB_OUTPUT
+            echo "mode=merged" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Push merged changes to fork
         if: steps.merge.outputs.mode == 'merged'
         run: |
-          echo "✅ Merge successful — pushing changes to fork..."
+          echo "✅ Merge successful — pushing to origin/$DEFAULT_BRANCH"
           git push origin "$DEFAULT_BRANCH" --follow-tags
 
-      - name: Prepare conflict branch for PR
+      - name: Stop if nothing to do
+        if: steps.merge.outputs.mode == 'noop'
+        run: echo "ℹ️ Up to date — nothing to push."
+
+      - name: Create/update a single conflict branch
         if: steps.merge.outputs.mode == 'conflict'
         run: |
-          echo "⚠️ Conflicts detected — preparing conflict branch for PR..."
-          BR="sync/conflict-${{ github.run_id }}"
-          git checkout -b "$BR"
-          # Commit conflict markers so they appear in the PR diff
-          git add -A || true
-          git commit -m "Merge upstream with conflicts (auto-generated)" || true
-          git push origin "$BR" || true
+          echo "⚠️ Conflicts detected — creating/updating sync/conflicts"
+          BR="sync/conflicts"
 
-      - name: Create PR for conflicts
+          # Keep the conflict state in a branch
+          git checkout -B "$BR"
+          git add -A || true
+          git commit -m "Merge upstream/$DEFAULT_BRANCH into fork (conflicts)" || true
+
+          # Force-push so you don't create endless conflict branches
+          git push -f origin "$BR"
+
+      - name: Open (or reuse) PR for conflicts
         if: steps.merge.outputs.mode == 'conflict'
-        uses: peter-evans/create-pull-request@v6
-        with:
-          title: "⚠️ Merge conflicts when syncing with upstream"
-          body: |
-            This PR merges updates from upstream `${{ env.UPSTREAM }}` into your customized branch `${{ env.DEFAULT_BRANCH }}`.
-            Conflicts were detected and committed so they can be resolved here.
-          base: ${{ env.DEFAULT_BRANCH }}
-          head: "sync/conflict-${{ github.run_id }}"
-          commit-message: "Merge upstream/${{ env.DEFAULT_BRANCH }} into customized branch"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BR="sync/conflicts"
+
+          # If PR already exists, don't create another one
+          if gh pr list --head "$BR" --base "$DEFAULT_BRANCH" --json number --jq 'length' | grep -q '^0$'; then
+            gh pr create \
+              --title "⚠️ Sync conflicts with upstream" \
+              --body "This PR contains an attempted merge from upstream `${UPSTREAM}` into `${DEFAULT_BRANCH}`. Resolve conflicts and merge." \
+              --base "$DEFAULT_BRANCH" \
+              --head "$BR"
+          else
+            echo "PR already exists for $BR — updated branch content."
+          fi
