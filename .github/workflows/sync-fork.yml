@@ -98,12 +98,11 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           BR="sync/conflicts"
-
-          # If PR already exists, don't create another one
-          if gh pr list --head "$BR" --base "$DEFAULT_BRANCH" --json number --jq 'length' | grep -q '^0$'; then
+      
+          if [ "$(gh pr list --head "$BR" --base "$DEFAULT_BRANCH" --json number --jq 'length')" = "0" ]; then
             gh pr create \
-              --title "⚠️ Sync conflicts with upstream" \
-              --body "This PR contains an attempted merge from upstream `${UPSTREAM}` into `${DEFAULT_BRANCH}`. Resolve conflicts and merge." \
+              --title "Sync conflicts with upstream" \
+              --body "This PR contains an attempted merge from upstream $UPSTREAM into $DEFAULT_BRANCH. Resolve conflicts and merge." \
               --base "$DEFAULT_BRANCH" \
               --head "$BR"
           else
