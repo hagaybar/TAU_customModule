@@ -91,3 +91,11 @@ body {
 display: none;
 } */
 /* disable background-overlay on main page top image end*/
+/* Snackbar surface background */
+mat-snack-bar-container.mat-mdc-snack-bar-container {
+  --mdc-snackbar-container-color: var(--tau-snackbar-bg, #fffde7);
+}
+
+mat-snack-bar-container .mdc-snackbar__surface {
+  background-color: var(--tau-snackbar-bg, #fffde7) !important;
+}
