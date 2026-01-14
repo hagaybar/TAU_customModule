@@ -99,3 +99,17 @@ mat-snack-bar-container.mat-mdc-snack-bar-container {
 mat-snack-bar-container .mdc-snackbar__surface {
   background-color: var(--tau-snackbar-bg, #fffde7) !important;
 }
+
+/* Fix two-button group alignment in RTL */
+html[dir="rtl"] .dropdown-group {
+flex-direction: row-reverse !important;
+}
+/* Fallback in case gap is overridden or not applied */
+.ti-browzine-button-container .ti-custom-button-text custom-svg-icon,
+.ti-browzine-button-container .ti-custom-button-text .icon {
+margin-inline-start: 0.2rem !important;
+}
+/* Add space between PDF button text and icon */
+.mdc-button__label .quicklink-button-text {
+margin-inline-end: 0.2rem !important; /* pushes the icon away from the text */
+}
