@@ -12,6 +12,7 @@ This package includes the following Tel Aviv University-specific customizations:
 | Feature | Type | Status | Description |
 |---------|------|--------|-------------|
 | **External Search Integration** | Component | ✅ Production | Search links panel + No results external links |
+| **CenLib Map** | Component | 🧪 Development | Shelf location map button in get-it section |
 | **Call Number Directionality** | CSS | ✅ Production | LTR display + bold styling for mixed-language call numbers |
 | **Location Availability Color** | CSS | ✅ Production | Green text for availability status |
 | **Card Title Styling** | CSS | ✅ Production | Bold card titles |
@@ -87,7 +88,58 @@ Each source includes:
 
 ---
 
-### 2. CSS Customizations
+### 2. CenLib Map (Shelf Location Map)
+
+A feature that displays a "Shelf Map" button in the get-it section for physical items. When clicked, it opens a modal dialog showing the item's call number and mapped shelf location information.
+
+**Status:** 🧪 Development (Testing in NDE_TEST view)
+
+#### Implemented Features (Phases 0-2):
+
+- ✅ **Map Button**: Appears at the bottom of each location item in the get-it section
+- ✅ **Modal Dialog**: Opens when button is clicked, displays shelf location information
+- ✅ **Call Number Extraction**: Automatically extracts call number from parent location item
+- ✅ **Bilingual Support**: English and Hebrew labels with RTL layout support
+- ✅ **Range-Based Mapping**: Maps call numbers to shelf codes using numeric ranges (Dewey Decimal)
+- ✅ **Mapping Display**: Shows SVG code, section description, and floor number
+
+#### How It Works:
+
+1. **Button Component** (`CenlibMapButtonComponent`):
+   - Registered at `nde-location-item-bottom` insertion point
+   - Extracts call number from DOM using `[data-qa="location-call-number"]` selector
+   - Opens Material dialog with call number data
+
+2. **Dialog Component** (`CenlibMapDialogComponent`):
+   - Displays call number with LTR direction for proper rendering
+   - Uses `ShelfMappingService` to find matching shelf location
+   - Shows SVG code, section description (bilingual), and floor number
+
+3. **Shelf Mapping Service**:
+   - Extracts numeric portion from call numbers
+   - Matches against configured range-based mappings
+   - Currently uses Dewey Decimal classification ranges for testing
+
+#### Technical Details:
+
+| Component | File Location |
+|-----------|---------------|
+| Button Component | `src/app/custom1-module/cenlib-map/cenlib-map-button.component.ts` |
+| Dialog Component | `src/app/custom1-module/cenlib-map/cenlib-map-dialog/` |
+| Mapping Config | `src/app/custom1-module/cenlib-map/config/shelf-mapping.config.ts` |
+| Mapping Service | `src/app/custom1-module/cenlib-map/services/shelf-mapping.service.ts` |
+
+**Selector Mapping:** `nde-location-item-bottom` → `CenlibMapButtonComponent`
+
+#### Future Phases (Planned):
+
+- **Phase 3**: Location filtering - show button only for specific libraries
+- **Phase 4**: SVG map rendering - display actual floor map with highlighted shelf
+- **Phase 5**: Production polish - accessibility improvements, analytics
+
+---
+
+### 3. CSS Customizations
 Custom styling fixes and enhancements applied via `src/assets/css/custom.css`.
 
 #### Call Number Directionality Fix

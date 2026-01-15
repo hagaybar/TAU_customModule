@@ -1,0 +1,7 @@
+<button mat-stroked-button
+        class="cenlib-map-button"
+        (click)="openMapDialog()"
+        [attr.aria-label]="currentLanguage === 'he' ? 'הצג מפת מדף' : 'Show shelf map'">
+  <mat-icon>map</mat-icon>
+  <span class="button-text">{{ buttonLabel }}</span>
+</button>

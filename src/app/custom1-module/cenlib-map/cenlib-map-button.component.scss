@@ -1,0 +1,26 @@
+.cenlib-map-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.875rem;
+  padding: 4px 12px;
+  margin-top: 8px;
+  min-height: 32px;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+
+  .button-text {
+    white-space: nowrap;
+  }
+}
+
+// RTL support
+:host-context([dir='rtl']) {
+  .cenlib-map-button {
+    flex-direction: row-reverse;
+  }
+}

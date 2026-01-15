@@ -1,0 +1,33 @@
+<h2 mat-dialog-title>{{ dialogTitle }}</h2>
+<mat-dialog-content>
+  <div class="location-info">
+    <div class="info-row">
+      <span class="label">{{ callNumberLabel }}</span>
+      <span class="value" dir="ltr">{{ data.callNumber || notAvailableMessage }}</span>
+    </div>
+
+    <ng-container *ngIf="mapping; else noMapping">
+      <div class="info-row">
+        <span class="label">{{ svgCodeLabel }}</span>
+        <span class="value svg-code">{{ mapping.svgCode }}</span>
+      </div>
+      <div class="info-row">
+        <span class="label">{{ sectionLabel }}</span>
+        <span class="value">{{ getSectionDescription() }}</span>
+      </div>
+      <div class="info-row" *ngIf="mapping.floor">
+        <span class="label">{{ floorLabel }}</span>
+        <span class="value">{{ mapping.floor }}</span>
+      </div>
+    </ng-container>
+
+    <ng-template #noMapping>
+      <div class="no-mapping-message" *ngIf="data.callNumber">
+        <p>{{ noMappingMessage }}</p>
+      </div>
+    </ng-template>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="dialogRef.close()">{{ closeLabel }}</button>
+</mat-dialog-actions>
