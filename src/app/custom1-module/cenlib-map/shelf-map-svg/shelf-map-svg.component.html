@@ -1,0 +1,71 @@
+<!-- Floor Selection Tabs -->
+<div class="floor-tabs">
+  <button
+    *ngFor="let floor of floors"
+    type="button"
+    class="floor-tab"
+    [class.active]="selectedFloor === floor.floor"
+    [class.has-highlight]="floorHasHighlight(floor)"
+    (click)="selectFloor(floor.floor)"
+  >
+    {{ getFloorLabel(floor) }}
+  </button>
+</div>
+
+<!-- SVG Floor Map -->
+<div class="svg-container">
+  <svg
+    viewBox="0 0 300 150"
+    class="shelf-map"
+    xmlns="http://www.w3.org/2000/svg"
+    role="img"
+    aria-label="Floor shelf map"
+  >
+    <!-- Floor background -->
+    <rect x="0" y="0" width="300" height="150" class="floor-background" />
+
+    <!-- Shelves for current floor -->
+    <ng-container *ngIf="currentFloorData">
+      <g *ngFor="let shelf of currentFloorData.shelves">
+        <rect
+          [attr.x]="shelf.x"
+          [attr.y]="shelf.y"
+          width="60"
+          height="50"
+          rx="3"
+          ry="3"
+          class="shelf-rect"
+          [class.highlighted]="isHighlighted(shelf.id)"
+          [matTooltip]="shelf.rangeLabel"
+          matTooltipPosition="above"
+        />
+        <!-- Shelf number label (small, inside rect) -->
+        <text
+          [attr.x]="getShelfTextX(shelf.x)"
+          [attr.y]="getShelfTextY(shelf.y)"
+          class="shelf-number"
+          [class.highlighted]="isHighlighted(shelf.id)"
+        >
+          {{ getShelfNumber(shelf.id) }}
+        </text>
+      </g>
+    </ng-container>
+
+    <!-- Floor label -->
+    <text x="150" y="145" class="floor-label">
+      {{ currentFloorLabel }}
+    </text>
+  </svg>
+</div>
+
+<!-- Legend -->
+<div class="legend">
+  <div class="legend-item">
+    <span class="legend-color normal"></span>
+    <span class="legend-text">{{ shelvesLabel }}</span>
+  </div>
+  <div class="legend-item">
+    <span class="legend-color highlighted"></span>
+    <span class="legend-text">{{ yourBookLabel }}</span>
+  </div>
+</div>

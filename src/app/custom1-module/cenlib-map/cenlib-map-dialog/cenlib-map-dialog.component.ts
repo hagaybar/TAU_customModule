@@ -4,6 +4,7 @@ import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/materia
 import { MatButtonModule } from '@angular/material/button';
 import { ShelfMappingService } from '../services/shelf-mapping.service';
 import { ShelfMapping } from '../config/shelf-mapping.config';
+import { ShelfMapSvgComponent } from '../shelf-map-svg/shelf-map-svg.component';
 
 /** Dialog data interface */
 export interface CenlibMapDialogData {
@@ -21,7 +22,7 @@ export interface CenlibMapDialogData {
 @Component({
   selector: 'tau-cenlib-map-dialog',
   standalone: true,
-  imports: [CommonModule, MatDialogModule, MatButtonModule],
+  imports: [CommonModule, MatDialogModule, MatButtonModule, ShelfMapSvgComponent],
   templateUrl: './cenlib-map-dialog.component.html',
   styleUrls: ['./cenlib-map-dialog.component.scss'],
 })

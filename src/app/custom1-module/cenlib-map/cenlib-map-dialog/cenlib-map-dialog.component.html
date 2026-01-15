@@ -8,10 +8,6 @@
 
     <ng-container *ngIf="mapping; else noMapping">
       <div class="info-row">
-        <span class="label">{{ svgCodeLabel }}</span>
-        <span class="value svg-code">{{ mapping.svgCode }}</span>
-      </div>
-      <div class="info-row">
         <span class="label">{{ sectionLabel }}</span>
         <span class="value">{{ getSectionDescription() }}</span>
       </div>
@@ -19,6 +15,13 @@
         <span class="label">{{ floorLabel }}</span>
         <span class="value">{{ mapping.floor }}</span>
       </div>
+
+      <!-- SVG Shelf Map -->
+      <tau-shelf-map-svg
+        [highlightedShelfCode]="mapping.svgCode"
+        [initialFloor]="mapping.floor || '1'"
+        [language]="currentLanguage">
+      </tau-shelf-map-svg>
     </ng-container>
 
     <ng-template #noMapping>
