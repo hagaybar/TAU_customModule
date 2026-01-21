@@ -43,6 +43,20 @@
   }
 }
 
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  gap: 16px;
+
+  .loading-text {
+    color: #666;
+    font-size: 0.875rem;
+  }
+}
+
 // Dialog title styling
 [mat-dialog-title] {
   margin: 0 0 16px;
