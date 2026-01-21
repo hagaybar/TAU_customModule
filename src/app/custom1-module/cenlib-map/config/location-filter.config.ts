@@ -17,12 +17,14 @@ export interface LocationFilterConfig {
 /**
  * Current location filter configuration
  * Set enabled: false to show button for all locations
+ *
+ * Note: The filter matches against the library name (e.g., "Sourasky Central Library")
+ * not the sub-location (e.g., "Reading room 1 B - 1st floor")
  */
 export const LOCATION_FILTER_CONFIG: LocationFilterConfig = {
   enabled: true,
   allowedLocations: [
-    'Reading room 1 A - 1st floor;',
-    'Reading room 1 B - 1st floor;',
+    'Sourasky Central Library',
   ],
-  matchType: 'exact',
+  matchType: 'contains',
 };

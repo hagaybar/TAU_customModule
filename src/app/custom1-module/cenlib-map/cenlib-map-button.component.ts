@@ -100,66 +100,44 @@ export class CenlibMapButtonComponent implements AfterViewInit {
 
   /**
    * Extract location name from location item element
-   * Tries multiple search strategies to find the location element:
-   * 1. Within locationItem
-   * 2. Within parent nde-locations-container
-   * 3. Within parent nde-brief-result
+   * Searches parent structure to find the library name header
+   *
+   * DOM structure:
+   * nde-location-item < mat-accordion < div < nde-location-items-container < div < div < nde-location < ...
+   *
+   * The library name is in a button element within nde-location (e.g., "Sourasky Central Library")
    */
   private extractLocationName(locationItem: Element): void {
-    let locationEl: Element | null = null;
-
-    // DEBUG: Log all elements with data-qa attributes within locationItem
-    const allDataQa = locationItem.querySelectorAll('[data-qa]');
-    console.log('[CenLib Debug] All data-qa elements in locationItem:',
-      Array.from(allDataQa).map(el => ({
-        dataQa: el.getAttribute('data-qa'),
-        text: el.textContent?.trim()
-      }))
-    );
-
-    // Strategy 1: Try within locationItem
-    locationEl = locationItem.querySelector('[data-qa="location-sub-location"]');
-    if (locationEl) {
-      console.log('[CenLib Debug] Found location via Strategy 1 (within locationItem)');
+    // Look for nde-location parent (contains the library header)
+    const ndeLocation = locationItem.closest('nde-location');
+    if (!ndeLocation) {
+      return;
     }
 
-    // Strategy 2: Try parent nde-locations-container
-    if (!locationEl) {
-      const locationsContainer = this.elementRef.nativeElement.closest('nde-locations-container');
-      if (locationsContainer) {
-        locationEl = locationsContainer.querySelector('[data-qa="location-sub-location"]');
-        if (locationEl) {
-          console.log('[CenLib Debug] Found location via Strategy 2 (nde-locations-container)');
-        }
+    // Strategy 1: Try to find library name with data-qa selectors
+    const possibleSelectors = [
+      '[data-qa="location-title"]',
+      '[data-qa="location-name"]',
+      '[data-qa="location-items-location"]',
+      '[data-qa="library-name"]',
+    ];
+
+    for (const selector of possibleSelectors) {
+      const el = ndeLocation.querySelector(selector);
+      if (el) {
+        this.locationName = el.textContent?.trim() || '';
+        return;
       }
     }
 
-    // Strategy 3: Try searching up to nde-brief-result
-    if (!locationEl) {
-      const briefResult = this.elementRef.nativeElement.closest('nde-brief-result');
-      if (briefResult) {
-        locationEl = briefResult.querySelector('[data-qa="location-sub-location"]');
-        if (locationEl) {
-          console.log('[CenLib Debug] Found location via Strategy 3 (nde-brief-result)');
-        }
+    // Strategy 2: Look for button containing "Library" or Hebrew library text
+    const buttons = ndeLocation.querySelectorAll('button');
+    for (const btn of Array.from(buttons)) {
+      const text = btn.textContent?.trim() || '';
+      if (text.includes('Library') || text.includes('ספרי')) {
+        this.locationName = text;
+        return;
       }
-    }
-
-    // DEBUG: Log search results summary
-    console.log('[CenLib Debug] Location element search results:', {
-      withinLocationItem: locationItem.querySelector('[data-qa="location-sub-location"]') !== null,
-      finalResult: locationEl ? 'found' : 'not found'
-    });
-
-    if (locationEl) {
-      this.locationName = locationEl.textContent?.trim() || '';
-      console.log('[CenLib Debug] Extracted location text:', `"${this.locationName}"`);
-      console.log('[CenLib Debug] Location element outerHTML:', locationEl.outerHTML);
-    } else {
-      console.log('[CenLib Debug] No location element found with any strategy');
-      // Additional debug: Log the locationItem structure to help identify correct selector
-      console.log('[CenLib Debug] locationItem tagName:', locationItem.tagName);
-      console.log('[CenLib Debug] locationItem classList:', Array.from(locationItem.classList));
     }
   }
 
@@ -170,21 +148,14 @@ export class CenlibMapButtonComponent implements AfterViewInit {
   private checkLocationFilter(): void {
     const { enabled, allowedLocations, matchType } = LOCATION_FILTER_CONFIG;
 
-    // DEBUG: Log filter configuration and comparison
-    console.log('[CenLib Debug] Filter config:', { enabled, allowedLocations, matchType });
-    console.log('[CenLib Debug] Current location to compare:', `"${this.locationName}"`);
-    console.log('[CenLib Debug] Allowed locations:', allowedLocations.map(loc => `"${loc}"`));
-
     // If filtering is disabled, always show
     if (!enabled) {
-      console.log('[CenLib Debug] Filter disabled, showing button');
       this.shouldShow = true;
       return;
     }
 
     // If no location found, don't show
     if (!this.locationName) {
-      console.log('[CenLib Debug] No location found, hiding button');
       this.shouldShow = false;
       return;
     }
@@ -194,19 +165,12 @@ export class CenlibMapButtonComponent implements AfterViewInit {
       this.shouldShow = allowedLocations.some(
         allowed => this.locationName === allowed
       );
-      console.log('[CenLib Debug] Exact match result:', this.shouldShow);
-      allowedLocations.forEach(allowed => {
-        console.log(`[CenLib Debug] Comparing: "${this.locationName}" === "${allowed}" => ${this.locationName === allowed}`);
-      });
     } else {
       // 'contains' match type
       this.shouldShow = allowedLocations.some(
         allowed => this.locationName.includes(allowed)
       );
-      console.log('[CenLib Debug] Contains match result:', this.shouldShow);
     }
-
-    console.log('[CenLib Debug] Final shouldShow:', this.shouldShow);
   }
 
   /** Open the shelf map dialog with call number data */
