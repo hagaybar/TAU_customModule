@@ -94,7 +94,7 @@ A feature that displays a "Shelf Map" button in the get-it section for physical 
 
 **Status:** 🧪 Development (Testing in NDE_TEST view)
 
-#### Implemented Features (Phases 0-2):
+#### Implemented Features:
 
 - ✅ **Map Button**: Appears at the bottom of each location item in the get-it section
 - ✅ **Modal Dialog**: Opens when button is clicked, displays shelf location information
@@ -102,6 +102,10 @@ A feature that displays a "Shelf Map" button in the get-it section for physical 
 - ✅ **Bilingual Support**: English and Hebrew labels with RTL layout support
 - ✅ **Range-Based Mapping**: Maps call numbers to shelf codes using numeric ranges (Dewey Decimal)
 - ✅ **Mapping Display**: Shows SVG code, section description, and floor number
+- ✅ **Google Sheets Integration**: Shelf mappings loaded from external Google Sheets CSV
+- ✅ **Caching**: 5-minute cache to minimize network requests
+- ✅ **Fallback Support**: Automatic fallback to hard-coded data if fetch fails
+- ✅ **Loading State**: Spinner displayed while fetching data
 
 #### How It Works:
 
@@ -113,12 +117,48 @@ A feature that displays a "Shelf Map" button in the get-it section for physical 
 2. **Dialog Component** (`CenlibMapDialogComponent`):
    - Displays call number with LTR direction for proper rendering
    - Uses `ShelfMappingService` to find matching shelf location
+   - Shows loading spinner while fetching data
    - Shows SVG code, section description (bilingual), and floor number
 
 3. **Shelf Mapping Service**:
+   - Fetches shelf mappings from Google Sheets (published as CSV)
+   - Caches data for 5 minutes to reduce network requests
+   - Falls back to hard-coded `SHELF_MAPPINGS` if fetch fails
    - Extracts numeric portion from call numbers
    - Matches against configured range-based mappings
-   - Currently uses Dewey Decimal classification ranges for testing
+
+#### Google Sheets Integration
+
+Shelf mappings are loaded at runtime from a Google Sheets spreadsheet, allowing librarians to update mappings without code changes.
+
+**Google Sheet Structure:**
+| Column | Description |
+|--------|-------------|
+| `rangeStart` | Start of call number range (inclusive) |
+| `rangeEnd` | End of call number range (inclusive) |
+| `svgCode` | SVG element identifier (e.g., `SHELF-01`) |
+| `description` | English description |
+| `descriptionHe` | Hebrew description |
+| `floor` | Floor number |
+
+**Setup:**
+1. Create a Google Sheet with the columns above
+2. Go to **File → Share → Publish to web**
+3. Select the sheet tab and change format to **CSV**
+4. Copy the published URL to `config/google-sheets.config.ts`
+
+**Data Flow:**
+```
+Dialog Opens → Check Cache → [Valid?] → Use cached data
+                    ↓ No
+              Fetch from Google Sheets CSV
+                    ↓
+              [Success?] → Parse CSV → Cache → Display
+                    ↓ No
+              Use fallback SHELF_MAPPINGS
+```
+
+**Update Latency:** Changes in Google Sheets are reflected within ~15-20 minutes (Google's publishing delay + app cache expiry).
 
 #### Technical Details:
 
@@ -126,15 +166,16 @@ A feature that displays a "Shelf Map" button in the get-it section for physical 
 |-----------|---------------|
 | Button Component | `src/app/custom1-module/cenlib-map/cenlib-map-button.component.ts` |
 | Dialog Component | `src/app/custom1-module/cenlib-map/cenlib-map-dialog/` |
-| Mapping Config | `src/app/custom1-module/cenlib-map/config/shelf-mapping.config.ts` |
+| Google Sheets Config | `src/app/custom1-module/cenlib-map/config/google-sheets.config.ts` |
+| Fallback Mappings | `src/app/custom1-module/cenlib-map/config/shelf-mapping.config.ts` |
 | Mapping Service | `src/app/custom1-module/cenlib-map/services/shelf-mapping.service.ts` |
+
+**Dependencies:** `papaparse` (CSV parsing)
 
 **Selector Mapping:** `nde-location-item-bottom` → `CenlibMapButtonComponent`
 
 #### Future Phases (Planned):
 
-- **Phase 3**: Location filtering - show button only for specific libraries
-- **Phase 4**: SVG map rendering - display actual floor map with highlighted shelf
 - **Phase 5**: Production polish - accessibility improvements, analytics
 
 ---
