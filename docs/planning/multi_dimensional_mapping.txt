@@ -1,0 +1,43 @@
+Strategic Plan: Multi-Library Scaling for CenLib Map
+To transform the current prototype into a robust, institution-wide solution, we will shift to a Hierarchical Mapping Logic. This ensures that overlapping Dewey ranges (e.g., 300-399) are correctly resolved to the specific shelf in the specific library and collection where the item is located.
+________________________________________
+1. Data Architecture Upgrade
+The mapping data must evolve from a 1D range list to a 3D coordinate system: Library → Location → Call Number Range.
+Updated Google Sheet Schema
+The source CSV will be updated with two additional columns to act as primary keys.
+LibraryCode	LocationCode	RangeStart	RangeEnd	Floor	SVG_ID	Description_HE
+MAIN	GEN	100	199	1	M-G-1	מדעי הרוח - קומה 1
+LAW	REF	100	199	2	L-R-2	משפטים - קומת כניסה
+________________________________________
+2. Technical Implementation Plan
+Phase A: Context Extraction (Button Component)
+The CenlibMapButtonComponent must now capture more than just the call number. We will update the logic to "scrape" the library and location codes from the Primo NDE DOM structure.
+•	Target Selectors:
+o	Call Number: [data-qa="location-call-number"]
+o	Library Code: [data-qa="location-library-name"] (or equivalent data attribute)
+o	Location/Collection: [data-qa="location-code"]
+•	Data Transfer: These values will be passed into the CenlibMapDialogComponent as a unified context object.
+Phase B: Filtering Logic (Service Layer)
+The ShelfMappingService will be refactored to handle multi-stage filtering. Instead of a simple .find(), it will execute a three-step validation:
+1.	Library Match: Filter the master list for the specific LibraryCode.
+2.	Location Match: Within that library, find the LocationCode.
+3.	Range Match: Finally, parse the Call Number to find the numeric range match.
+Phase C: Data Optimization & Caching
+As the CSV grows to include thousands of rows for multiple libraries:
+•	Pre-Processing: Upon fetching the CSV, the service will "bucket" the data into a Nested Map: Map<Library, Map<Location, MappingRow[]>>.
+•	Search Complexity: This reduces search time from $O(N)$ (scanning every row) to $O(1)$ for the library/location lookup, and $O(K)$ for the specific range.
+________________________________________
+3. Robustness & Fallback Strategy
+To ensure the feature doesn't break when encountering unmapped locations, we will implement the following:
+•	Dynamic Visibility: The button will perform a "Silent Check" against the mapping service. If no mapping exists for that Library/Location combination, the button will not render ($*ngIf$ logic).
+•	Normalization: All inputs (Library, Location, Call Number) will be normalized (trimmed, uppercase, non-numeric characters stripped) before comparison to ensure consistency across different library catalogs.
+•	The "Default" Map: Support for a DEFAULT LocationCode per library, allowing for a general "Floor Map" if the specific shelf range isn't defined.
+________________________________________
+4. Development Roadmap
+Milestone	Task	Priority
+1. Schema	Update Google Sheet with LibraryCode and LocationCode.	High
+2. Extraction	Update Angular component to scrape Library/Location from DOM.	High
+3. Service	Implement the Nested Map filtering logic in shelf-mapping.service.ts.	High
+4. UI/UX	Add the Library/Location name to the Dialog header for clarity.	Medium
+5. Testing	Verify that Main:301 and Law:301 open different maps.	High
+
