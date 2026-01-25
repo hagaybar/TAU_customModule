@@ -44,3 +44,6 @@ Thumbs.db
 # Helper files (temporary/auto-generated)
 helper_files/
 *:Zone.Identifier
+
+# Playwright MCP debug screenshots
+.playwright-mcp/
