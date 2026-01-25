@@ -1,32 +1,58 @@
 /**
  * Shelf Mapping Configuration
- * Maps call number ranges to SVG shelf codes
+ * Maps library + location + call number ranges to SVG shelf codes
  *
- * Phase 4: 30 shelf mappings covering full 001-999 range across 4 floors
+ * MDM (Multi-Dimensional Mapping): Supports multiple libraries and locations
+ * Data is loaded from Google Sheets CSV - the SHELF_MAPPINGS array below is
+ * legacy/fallback data and will be replaced by CSV data at runtime.
  */
 
-/** Interface for shelf mapping entries */
+/** Interface for shelf mapping entries (MDM format) */
 export interface ShelfMapping {
-  /** Start of numeric range (inclusive) */
-  rangeStart: number;
-  /** End of numeric range (inclusive) */
-  rangeEnd: number;
+  /** Library display name in Hebrew (must match Primo DOM exactly) */
+  libraryName: string;
+  /** Location/sublocation display name in Hebrew (must match Primo DOM exactly) */
+  locationName: string;
+  /** Start of call number range (string to preserve decimals like "892.4") */
+  rangeStart: string;
+  /** End of call number range (string to preserve decimals) */
+  rangeEnd: string;
   /** SVG element identifier for the shelf location */
   svgCode: string;
-  /** Human-readable description of the section */
+  /** Human-readable description of the section (English) */
   description: string;
   /** Hebrew description */
   descriptionHe?: string;
   /** Floor number where this section is located */
   floor?: string;
+  /** Physical shelf label (e.g., "A-3", "Row 12") */
+  shelfLabel?: string;
+  /** Librarian notes/special instructions */
+  notes?: string;
 }
 
 /**
- * Shelf mappings - 30 shelves covering call numbers 001-999
+ * Legacy interface for backward compatibility during transition
+ * @deprecated Use ShelfMapping with libraryName/locationName instead
+ */
+export interface LegacyShelfMapping {
+  rangeStart: number;
+  rangeEnd: number;
+  svgCode: string;
+  description: string;
+  descriptionHe?: string;
+  floor?: string;
+}
+
+/**
+ * Legacy shelf mappings - 30 shelves covering call numbers 001-999
+ * @deprecated This is legacy data for backward compatibility during transition.
+ * Production data should come from Google Sheets CSV with libraryName/locationName.
+ *
  * Each shelf covers approximately 33 call numbers
  * Distributed across 4 floors (8+8+7+7 shelves)
  */
-export const SHELF_MAPPINGS: ShelfMapping[] = [
+export const LEGACY_SHELF_MAPPINGS: LegacyShelfMapping[] = [
   // ============ Floor 1: SHELF-01 to SHELF-08 (001-264) ============
   {
     rangeStart: 1,

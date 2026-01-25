@@ -11,7 +11,7 @@ export const GOOGLE_SHEETS_CONFIG = {
    * 3. Select the sheet tab and change format to "Comma-separated values (.csv)"
    * 4. Click Publish and copy the generated URL
    */
-  shelfMappingsUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSc5SfVr7h5iBLW96URF6ZgTr_xpmlda11wUYj_LRNVgADyifOD-gBPTyinaYdGe8nahQ4Z4PrnPq3t/pub?output=csv',
+  shelfMappingsUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRfvZXxEogOfYQFuW8MfyvYx3usy3KRQjQz4e3IEBp0tPjtF940XGxomhhw7Q1-Qtcn6dj-XjcGEthE/pub?output=csv',
 
   /** Cache duration in milliseconds (5 minutes default) */
   cacheDurationMs: 5 * 60 * 1000,

@@ -7,9 +7,25 @@ import { ShelfMappingService } from '../services/shelf-mapping.service';
 import { ShelfMapping } from '../config/shelf-mapping.config';
 import { ShelfMapSvgComponent } from '../shelf-map-svg/shelf-map-svg.component';
 
-/** Dialog data interface */
+/**
+ * Dialog data interface (MDM format)
+ * Contains full location context passed from button component
+ */
 export interface CenlibMapDialogData {
+  /** Call number without cutter (used for range matching) */
   callNumber: string;
+  /** Raw call number from DOM (for display) */
+  rawCallNumber: string;
+  /** Library name in Hebrew (from DOM) */
+  libraryName: string;
+  /** Location name in Hebrew (from DOM) */
+  locationName: string;
+  /** Library name in English (from config) */
+  libraryNameEn?: string;
+  /** Location name in English (from config) */
+  locationNameEn?: string;
+  /** Path to library's SVG floor plan */
+  svgPath?: string;
 }
 
 /**
@@ -35,8 +51,11 @@ export class CenlibMapDialogComponent implements OnInit {
   /** Current UI language */
   currentLanguage: 'en' | 'he' = 'en';
 
-  /** Shelf mapping result */
-  mapping: ShelfMapping | null = null;
+  /** All matching shelf mappings (MDM supports overlapping ranges) */
+  mappings: ShelfMapping[] = [];
+
+  /** Cached SVG codes array (prevents new array creation on each change detection) */
+  svgCodes: string[] = [];
 
   /** Loading state */
   isLoading = true;
@@ -56,9 +75,9 @@ export class CenlibMapDialogComponent implements OnInit {
     this.loadMappingData();
   }
 
-  /** Load mapping data asynchronously */
+  /** Load mapping data asynchronously using MDM lookup */
   private loadMappingData(): void {
-    if (!this.data?.callNumber) {
+    if (!this.data?.callNumber || !this.data?.libraryName || !this.data?.locationName) {
       this.isLoading = false;
       return;
     }
@@ -66,19 +85,27 @@ export class CenlibMapDialogComponent implements OnInit {
     this.isLoading = true;
     this.hasError = false;
 
-    this.shelfMappingService.findMappingAsync(this.data.callNumber).subscribe({
-      next: (mapping) => {
-        this.mapping = mapping;
-        this.isLoading = false;
-      },
-      error: (error) => {
-        console.error('[CenlibMapDialog] Error loading mapping:', error);
-        this.hasError = true;
-        this.isLoading = false;
-        // Try synchronous fallback
-        this.mapping = this.shelfMappingService.findMapping(this.data.callNumber);
-      }
-    });
+    // Use MDM lookup with full location context
+    this.shelfMappingService
+      .findAllMappingsAsync({
+        callNumber: this.data.callNumber,
+        rawCallNumber: this.data.rawCallNumber,
+        libraryName: this.data.libraryName,
+        locationName: this.data.locationName,
+      })
+      .subscribe({
+        next: (mappings) => {
+          this.mappings = mappings;
+          // Cache SVG codes to prevent new array creation on each change detection
+          this.svgCodes = mappings.map((m) => m.svgCode);
+          this.isLoading = false;
+        },
+        error: (error) => {
+          console.error('[CenlibMapDialog] Error loading mappings:', error);
+          this.hasError = true;
+          this.isLoading = false;
+        },
+      });
   }
 
   /** Dialog title based on language */
@@ -111,6 +138,40 @@ export class CenlibMapDialogComponent implements OnInit {
     return this.currentLanguage === 'he' ? 'קומה:' : 'Floor:';
   }
 
+  /** Library label based on language */
+  get libraryLabel(): string {
+    return this.currentLanguage === 'he' ? 'ספרייה:' : 'Library:';
+  }
+
+  /** Location label based on language */
+  get locationLabel(): string {
+    return this.currentLanguage === 'he' ? 'מיקום:' : 'Location:';
+  }
+
+  /** Get library name for display based on language */
+  getLibraryName(): string {
+    return this.currentLanguage === 'he'
+      ? this.data.libraryName
+      : (this.data.libraryNameEn || this.data.libraryName);
+  }
+
+  /** Get location name for display based on language */
+  getLocationName(): string {
+    return this.currentLanguage === 'he'
+      ? this.data.locationName
+      : (this.data.locationNameEn || this.data.locationName);
+  }
+
+  /** Get the primary mapping (first match) */
+  get primaryMapping(): ShelfMapping | null {
+    return this.mappings.length > 0 ? this.mappings[0] : null;
+  }
+
+  /** Get all SVG codes for highlighting (supports multiple shelves) */
+  get allSvgCodes(): string[] {
+    return this.svgCodes;  // Use cached array to prevent infinite change detection
+  }
+
   /** Not available message based on language */
   get notAvailableMessage(): string {
     return this.currentLanguage === 'he' ? 'לא זמין' : 'Not available';
@@ -128,12 +189,12 @@ export class CenlibMapDialogComponent implements OnInit {
     return this.currentLanguage === 'he' ? 'טוען...' : 'Loading...';
   }
 
-  /** Get section description based on language */
+  /** Get section description based on language (from primary mapping) */
   getSectionDescription(): string {
-    if (!this.mapping) return '';
+    if (!this.primaryMapping) return '';
     return this.currentLanguage === 'he'
-      ? (this.mapping.descriptionHe || this.mapping.description)
-      : this.mapping.description;
+      ? (this.primaryMapping.descriptionHe || this.primaryMapping.description)
+      : this.primaryMapping.description;
   }
 
   /** Detect current language from URL */

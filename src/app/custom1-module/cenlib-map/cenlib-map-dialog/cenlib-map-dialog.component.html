@@ -1,9 +1,18 @@
 <h2 mat-dialog-title>{{ dialogTitle }}</h2>
 <mat-dialog-content>
   <div class="location-info">
+    <!-- Library and Location context -->
+    <div class="info-row">
+      <span class="label">{{ libraryLabel }}</span>
+      <span class="value">{{ getLibraryName() }}</span>
+    </div>
+    <div class="info-row">
+      <span class="label">{{ locationLabel }}</span>
+      <span class="value">{{ getLocationName() }}</span>
+    </div>
     <div class="info-row">
       <span class="label">{{ callNumberLabel }}</span>
-      <span class="value" dir="ltr">{{ data.callNumber || notAvailableMessage }}</span>
+      <span class="value" dir="ltr">{{ data.rawCallNumber || data.callNumber || notAvailableMessage }}</span>
     </div>
 
     <!-- Loading State -->
@@ -16,20 +25,21 @@
 
     <!-- Content when loaded -->
     <ng-container *ngIf="!isLoading">
-      <ng-container *ngIf="mapping; else noMapping">
+      <ng-container *ngIf="primaryMapping; else noMapping">
         <div class="info-row">
           <span class="label">{{ sectionLabel }}</span>
           <span class="value">{{ getSectionDescription() }}</span>
         </div>
-        <div class="info-row" *ngIf="mapping.floor">
+        <div class="info-row" *ngIf="primaryMapping.floor">
           <span class="label">{{ floorLabel }}</span>
-          <span class="value">{{ mapping.floor }}</span>
+          <span class="value">{{ primaryMapping.floor }}</span>
         </div>
 
-        <!-- SVG Shelf Map -->
+        <!-- SVG Shelf Map (supports multiple highlights) -->
         <tau-shelf-map-svg
-          [highlightedShelfCode]="mapping.svgCode"
-          [initialFloor]="mapping.floor || '1'"
+          [highlightedShelfCodes]="allSvgCodes"
+          [svgPath]="data.svgPath"
+          [initialFloor]="primaryMapping.floor || '1'"
           [language]="currentLanguage">
         </tau-shelf-map-svg>
       </ng-container>

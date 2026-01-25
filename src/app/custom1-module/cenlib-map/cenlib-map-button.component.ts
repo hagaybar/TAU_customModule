@@ -1,18 +1,33 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, inject } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  inject,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { CenlibMapDialogComponent } from './cenlib-map-dialog/cenlib-map-dialog.component';
-import { LOCATION_FILTER_CONFIG } from './config/location-filter.config';
+import { ShelfMappingService } from './services/shelf-mapping.service';
+import {
+  findLibraryConfig,
+  findLocationConfig,
+  LibraryConfig,
+  LocationConfig,
+} from './config/library.config';
 
 /**
  * CenLib Map Button Component
  * Displays a button in the get-it location row that opens a shelf map dialog
  *
- * Phase 0: Simple POC - button opens modal dialog with placeholder content
- * Phase 1: Extracts call number from parent location item and passes to dialog
- * Phase 3: Location filtering - only show button for configured locations
+ * MDM (Multi-Dimensional Mapping): Supports multiple libraries and locations.
+ * Button visibility is determined by:
+ * 1. Library name exists in LIBRARY_CONFIG
+ * 2. Location name exists in that library's locations
+ * 3. A mapping exists for the library+location+call number combination
  */
 @Component({
   selector: 'tau-cenlib-map-button',
@@ -25,18 +40,31 @@ import { LOCATION_FILTER_CONFIG } from './config/location-filter.config';
 export class CenlibMapButtonComponent implements AfterViewInit {
   private elementRef = inject(ElementRef);
   private cdr = inject(ChangeDetectorRef);
+  private shelfMappingService = inject(ShelfMappingService);
 
   /** Current UI language */
   currentLanguage: 'en' | 'he' = 'en';
 
-  /** Extracted call number from parent location item */
+  /** Extracted call number from parent location item (after cutter removal) */
   private callNumber: string = '';
 
-  /** Whether to show the button (based on location filter) */
+  /** Raw call number from DOM (before cutter removal, for display) */
+  private rawCallNumber: string = '';
+
+  /** Whether to show the button (based on MDM lookup) */
   shouldShow: boolean = false;
 
-  /** Extracted location name from parent location item */
+  /** Library name in Hebrew (from DOM via .getit-library-title) */
+  private libraryName: string = '';
+
+  /** Location/sublocation name in Hebrew (from DOM via [data-qa="location-sub-location"]) */
   private locationName: string = '';
+
+  /** Resolved library config (if found) */
+  private libraryConfig: LibraryConfig | undefined = undefined;
+
+  /** Resolved location config (if found) */
+  private locationConfig: LocationConfig | undefined = undefined;
 
   constructor(private dialog: MatDialog) {
     this.detectLanguage();
@@ -44,8 +72,7 @@ export class CenlibMapButtonComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.extractLocationData();
-    this.checkLocationFilter();
-    this.cdr.detectChanges();
+    this.checkShouldShow();
   }
 
   /** Button label based on language */
@@ -65,121 +92,167 @@ export class CenlibMapButtonComponent implements AfterViewInit {
   }
 
   /**
-   * Extract location data (call number and location name) from parent element
+   * Extract location data (library name, location name, call number) from parent element
+   *
+   * DOM structure:
+   * - Library name: .getit-library-title (within nde-location parent)
+   * - Location name: [data-qa="location-sub-location"] (within nde-location parent)
+   * - Call number: [data-qa="location-call-number"] (within nde-location-item)
    */
   private extractLocationData(): void {
-    // Traverse up to find the nde-location-item parent
+    // Find the nde-location parent (contains library header)
+    const ndeLocation = this.elementRef.nativeElement.closest('nde-location');
+    if (ndeLocation) {
+      this.extractLibraryName(ndeLocation);
+      this.extractSubLocationName(ndeLocation);
+    }
+
+    // Find the nde-location-item parent (contains call number)
     const locationItem = this.elementRef.nativeElement.closest('nde-location-item');
     if (locationItem) {
-      // Extract call number
       this.extractCallNumber(locationItem);
-      // Extract location name
-      this.extractLocationName(locationItem);
+    }
+  }
+
+  /**
+   * Extract library name from nde-location element
+   * Uses .getit-library-title selector as discovered in DOM investigation
+   */
+  private extractLibraryName(ndeLocation: Element): void {
+    const libraryTitleEl = ndeLocation.querySelector('.getit-library-title');
+    if (libraryTitleEl) {
+      this.libraryName = libraryTitleEl.textContent?.trim() || '';
+      return;
+    }
+
+    // Fallback: Try button with library-like text
+    const buttons = ndeLocation.querySelectorAll('button');
+    for (const btn of Array.from(buttons)) {
+      const text = btn.textContent?.trim() || '';
+      // Look for Hebrew library indicators
+      if (text.includes('ספרי') || text.includes('Library')) {
+        this.libraryName = text;
+        return;
+      }
+    }
+  }
+
+  /**
+   * Extract sublocation name from nde-location element
+   * Uses [data-qa="location-sub-location"] selector as discovered in DOM investigation
+   */
+  private extractSubLocationName(ndeLocation: Element): void {
+    const subLocationEl = ndeLocation.querySelector(
+      '[data-qa="location-sub-location"]'
+    );
+    if (subLocationEl) {
+      // Remove trailing semicolon if present
+      let text = subLocationEl.textContent?.trim() || '';
+      if (text.endsWith(';')) {
+        text = text.slice(0, -1).trim();
+      }
+      this.locationName = text;
     }
   }
 
   /**
    * Extract call number from location item element
    * Tries multiple selectors to handle both expanded and brief views
+   * Also removes the cutter string for range matching
    */
   private extractCallNumber(locationItem: Element): void {
+    let rawValue = '';
+
     // Try the data-qa selector first (expanded view)
-    const callNumberEl = locationItem.querySelector('[data-qa="location-call-number"]');
-    if (callNumberEl) {
-      this.callNumber = callNumberEl.textContent?.trim() || '';
-      return;
-    }
-    // Fallback: brief property view (3rd column)
-    const briefCallNumber = locationItem.querySelector(
-      '.getit-items-brief-property:nth-child(3) span[ndetooltipifoverflow]'
+    const callNumberEl = locationItem.querySelector(
+      '[data-qa="location-call-number"]'
     );
-    if (briefCallNumber) {
-      this.callNumber = briefCallNumber.textContent?.trim() || '';
-    }
-  }
-
-  /**
-   * Extract location name from location item element
-   * Searches parent structure to find the library name header
-   *
-   * DOM structure:
-   * nde-location-item < mat-accordion < div < nde-location-items-container < div < div < nde-location < ...
-   *
-   * The library name is in a button element within nde-location (e.g., "Sourasky Central Library")
-   */
-  private extractLocationName(locationItem: Element): void {
-    // Look for nde-location parent (contains the library header)
-    const ndeLocation = locationItem.closest('nde-location');
-    if (!ndeLocation) {
-      return;
-    }
-
-    // Strategy 1: Try to find library name with data-qa selectors
-    const possibleSelectors = [
-      '[data-qa="location-title"]',
-      '[data-qa="location-name"]',
-      '[data-qa="location-items-location"]',
-      '[data-qa="library-name"]',
-    ];
-
-    for (const selector of possibleSelectors) {
-      const el = ndeLocation.querySelector(selector);
-      if (el) {
-        this.locationName = el.textContent?.trim() || '';
-        return;
-      }
-    }
-
-    // Strategy 2: Look for button containing "Library" or Hebrew library text
-    const buttons = ndeLocation.querySelectorAll('button');
-    for (const btn of Array.from(buttons)) {
-      const text = btn.textContent?.trim() || '';
-      if (text.includes('Library') || text.includes('ספרי')) {
-        this.locationName = text;
-        return;
-      }
-    }
-  }
-
-  /**
-   * Check if current location passes the filter
-   * Sets shouldShow based on location filter configuration
-   */
-  private checkLocationFilter(): void {
-    const { enabled, allowedLocations, matchType } = LOCATION_FILTER_CONFIG;
-
-    // If filtering is disabled, always show
-    if (!enabled) {
-      this.shouldShow = true;
-      return;
-    }
-
-    // If no location found, don't show
-    if (!this.locationName) {
-      this.shouldShow = false;
-      return;
-    }
-
-    // Check if location matches any allowed location
-    if (matchType === 'exact') {
-      this.shouldShow = allowedLocations.some(
-        allowed => this.locationName === allowed
-      );
+    if (callNumberEl) {
+      rawValue = callNumberEl.textContent?.trim() || '';
     } else {
-      // 'contains' match type
-      this.shouldShow = allowedLocations.some(
-        allowed => this.locationName.includes(allowed)
+      // Fallback: brief property view (3rd column)
+      const briefCallNumber = locationItem.querySelector(
+        '.getit-items-brief-property:nth-child(3) span[ndetooltipifoverflow]'
       );
+      if (briefCallNumber) {
+        rawValue = briefCallNumber.textContent?.trim() || '';
+      }
     }
+
+    // Store both raw and processed versions
+    this.rawCallNumber = rawValue;
+    this.callNumber = this.shelfMappingService.removeCutter(rawValue);
   }
 
-  /** Open the shelf map dialog with call number data */
+  /**
+   * Check if button should be shown based on MDM lookup
+   * The button is shown only if:
+   * 1. Library name is found in LIBRARY_CONFIG
+   * 2. Location name is found in that library's locations
+   * 3. A mapping exists for library+location+call number combination
+   */
+  private checkShouldShow(): void {
+    // Step 1: Check if library is configured
+    this.libraryConfig = findLibraryConfig(this.libraryName);
+    if (!this.libraryConfig) {
+      console.log(
+        `[CenlibMapButton] Library not configured: "${this.libraryName}"`
+      );
+      this.shouldShow = false;
+      this.cdr.detectChanges();
+      return;
+    }
+
+    // Step 2: Check if location is configured for this library
+    this.locationConfig = findLocationConfig(
+      this.libraryConfig,
+      this.locationName
+    );
+    if (!this.locationConfig) {
+      console.log(
+        `[CenlibMapButton] Location not configured: "${this.locationName}" in library "${this.libraryName}"`
+      );
+      this.shouldShow = false;
+      this.cdr.detectChanges();
+      return;
+    }
+
+    // Step 3: Check if mapping exists in Google Sheets data
+    this.shelfMappingService
+      .hasMappingAsync(this.libraryName, this.locationName, this.callNumber)
+      .subscribe({
+        next: (hasMapping) => {
+          this.shouldShow = hasMapping;
+          if (!hasMapping) {
+            console.log(
+              `[CenlibMapButton] No mapping for: ${this.libraryName} / ${this.locationName} / ${this.callNumber}`
+            );
+          }
+          this.cdr.detectChanges();
+        },
+        error: (err) => {
+          console.error('[CenlibMapButton] Error checking mapping:', err);
+          this.shouldShow = false;
+          this.cdr.detectChanges();
+        },
+      });
+  }
+
+  /** Open the shelf map dialog with full location context */
   openMapDialog(): void {
     this.dialog.open(CenlibMapDialogComponent, {
       width: '500px',
       maxWidth: '90vw',
       panelClass: 'cenlib-map-dialog-panel',
-      data: { callNumber: this.callNumber },
+      data: {
+        callNumber: this.callNumber,
+        rawCallNumber: this.rawCallNumber,
+        libraryName: this.libraryName,
+        locationName: this.locationName,
+        libraryNameEn: this.libraryConfig?.name,
+        locationNameEn: this.locationConfig?.name,
+        svgPath: this.libraryConfig?.svgPath,
+      },
     });
   }
 }
