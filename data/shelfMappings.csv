@@ -1,0 +1,35 @@
+libraryName,locationName,rangeStart,rangeEnd,svgCode,description,descriptionHe,floor,shelfLabel,notes
+Sourasky Central Library,Reading room 1 A - 1st floor,1,33,shelf_path110_010,General Works A (sheets),כללי א (sheets),1,1,notes for כללי א (sheets) 1
+Sourasky Central Library,Reading room 1 B - 1st floor,34,66,shelf_path110_010,General Works B (sheets),כללי ב (sheets),1,2,notes for כללי ב (sheets) 1
+Sourasky Central Library,Reading room 2 A - 2nd floor,67,99,shelf_path110_010,General Works C (sheets),כללי ג (sheets),1,3,notes for כללי ג (sheets) 1
+Sourasky Central Library,Reading room 2 B - 2nd floor,100,132,shelf_path110_010,Philosophy A (sheets),פילוסופיה א (sheets),1,4,notes for פילוסופיה א (sheets) 1
+Sourasky Central Library,Reading room 1 A - 1st floor,100,132,shelf_path110_010,General Works A (sheets),כללי א (sheets),1,1,notes for כללי א (sheets) 1
+Sourasky Central Library,Reading room 1 B - 1st floor,100,132,shelf_path110_010,General Works B (sheets),כללי ב (sheets),1,2,notes for כללי ב (sheets) 1
+Sourasky Central Library,Reading room 2 A - 2nd floor,100,132,shelf_path110_010,General Works C (sheets),כללי ג (sheets),1,3,notes for כללי ג (sheets) 1
+Sourasky Central Library,Reading room 2 B - 2nd floor,100,132,shelf_path110_010,Philosophy A (sheets),פילוסופיה א (sheets),1,4,notes for פילוסופיה א (sheets) 1
+Sourasky Central Library,Reading room 1 A - 1st floor,133,165,shelf_path110_010,Philosophy B (sheets),פילוסופיה ב (sheets),1,5,notes for פילוסופיה ב (sheets) 1
+Sourasky Central Library,Reading room 1 B - 1st floor,166,198,shelf_path110_010,Philosophy C (sheets),פילוסופיה ג (sheets),1,6,notes for פילוסופיה ג (sheets) 1
+Sourasky Central Library,Reading room 2 A - 2nd floor,199,231,shelf_path112_007,Religion A (sheets),דת א (sheets),1,7,notes for דת א (sheets) 1
+Sourasky Central Library,Reading room 2 B - 2nd floor,232,264,shelf_path112_007,Religion B (sheets),דת ב (sheets),1,8,notes for דת ב (sheets) 1
+Sourasky Central Library,Reading room 1 A - 1st floor,265,297,shelf_path112_007,Religion C (sheets),דת ג (sheets),2,9,notes for דת ג (sheets) 2
+Sourasky Central Library,Reading room 1 B - 1st floor,298,330,shelf_path112_007,Social Sciences A (sheets),מדעי החברה א (sheets),2,10,notes for מדעי החברה א (sheets) 2
+Sourasky Central Library,Reading room 2 A - 2nd floor,331,363,shelf_path112_007,Social Sciences B (sheets),מדעי החברה ב (sheets),2,11,notes for מדעי החברה ב (sheets) 2
+Sourasky Central Library,Reading room 2 B - 2nd floor,364,396,shelf_path112_007,Social Sciences C (sheets),מדעי החברה ג (sheets),2,12,notes for מדעי החברה ג (sheets) 2
+Sourasky Central Library,Reading room 1 A - 1st floor,397,429,shelf_path112_008,Language A (sheets),שפה א (sheets),2,13,notes for שפה א (sheets) 2
+Sourasky Central Library,Reading room 1 B - 1st floor,430,462,shelf_path112_008,Language B (sheets),שפה ב (sheets),2,14,notes for שפה ב (sheets) 2
+Sourasky Central Library,Reading room 2 A - 2nd floor,463,495,shelf_path112_008,Language C (sheets),שפה ג (sheets),2,15,notes for שפה ג (sheets) 2
+Sourasky Central Library,Reading room 2 B - 2nd floor,496,528,shelf_path112_008,Science A (sheets),מדעים א (sheets),2,16,notes for מדעים א (sheets) 2
+Sourasky Central Library,Reading room 1 A - 1st floor,529,561,shelf_path112_008,Science B (sheets),מדעים ב (sheets),3,17,notes for מדעים ב (sheets) 3
+Sourasky Central Library,Reading room 1 B - 1st floor,562,594,shelf_path112_008,Science C (sheets),מדעים ג (sheets),3,18,notes for מדעים ג (sheets) 3
+Sourasky Central Library,Reading room 2 A - 2nd floor,595,627,shelf_path114_082,Technology A (sheets),טכנולוגיה א (sheets),3,19,notes for טכנולוגיה א (sheets) 3
+Sourasky Central Library,Reading room 2 B - 2nd floor,628,660,shelf_path114_082,Technology B (sheets),טכנולוגיה ב (sheets),3,20,notes for טכנולוגיה ב (sheets) 3
+Sourasky Central Library,Reading room 1 A - 1st floor,661,693,shelf_path114_082,Technology C (sheets),טכנולוגיה ג (sheets),3,21,notes for טכנולוגיה ג (sheets) 3
+Sourasky Central Library,Reading room 1 B - 1st floor,694,726,shelf_path114_082,Arts A (sheets),אמנות א (sheets),3,22,notes for אמנות א (sheets) 3
+Sourasky Central Library,Reading room 2 A - 2nd floor,727,759,shelf_path114_082,Arts B (sheets),אמנות ב (sheets),3,23,notes for אמנות ב (sheets) 3
+Sourasky Central Library,Reading room 2 B - 2nd floor,760,792,shelf_path114_082,Arts C (sheets),אמנות ג (sheets),4,24,notes for אמנות ג (sheets) 4
+Sourasky Central Library,Reading room 1 A - 1st floor,793,825,shelf_path114_083,Literature A (sheets),ספרות א (sheets),4,25,notes for ספרות א (sheets) 4
+Sourasky Central Library,Reading room 1 B - 1st floor,826,858,shelf_path114_083,Literature B (sheets),ספרות ב (sheets),4,26,notes for ספרות ב (sheets) 4
+Sourasky Central Library,Reading room 2 A - 2nd floor,859,891,shelf_path114_083,Literature C (sheets),ספרות ג (sheets),4,27,notes for ספרות ג (sheets) 4
+Sourasky Central Library,Reading room 2 B - 2nd floor,892,924,shelf_path114_083,History A (sheets),היסטוריה א (sheets),4,28,notes for היסטוריה א (sheets) 4
+Sourasky Central Library,Reading room 2 B - 2nd floor,925,957,shelf_path114_083,History B (sheets),היסטוריה ב (sheets),4,29,notes for היסטוריה ב (sheets) 4
+Sourasky Central Library,Reading room 2 B - 2nd floor,958,999,shelf_path114_083,History C (sheets),היסטוריה ג (sheets),4,,notes for היסטוריה ג (sheets) 4
