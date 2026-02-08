@@ -6,6 +6,19 @@ This file contains specific instructions for Claude Code when working with this 
 
 This is Tel Aviv University's customization package for Primo's New Discovery Experience (NDE), based on the ExLibris CustomModule template.
 
+## Node.js Version Requirement
+
+**CRITICAL: Before running ANY npm or node commands, ensure you're using the correct Node.js version.**
+
+This project requires **Node.js v18.20.8**. A `.nvmrc` file is included in the project root.
+
+**At the start of every session, run:**
+```bash
+nvm use 18.20.8
+```
+
+This ensures consistent builds and avoids version-related issues.
+
 ## ExLibris CustomModule Reference Repository
 
 **IMPORTANT:** Always refer to the official ExLibris repository for documentation, examples, and troubleshooting:
