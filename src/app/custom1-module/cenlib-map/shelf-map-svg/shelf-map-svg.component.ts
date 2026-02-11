@@ -144,9 +144,12 @@ export class ShelfMapSvgComponent implements OnChanges, OnDestroy {
       .get(fullPath, { responseType: 'text' })
       .subscribe({
         next: (svgContent) => {
+          // Fix SVG for proper scaling: add viewBox if missing
+          const fixedSvgContent = this.fixSvgForScaling(svgContent);
+
           // Sanitize and store SVG content
           console.log(`[ShelfMapSvg] SVG loaded successfully (${svgContent.length} bytes)`);
-          this.externalSvgContent = this.sanitizer.bypassSecurityTrustHtml(svgContent);
+          this.externalSvgContent = this.sanitizer.bypassSecurityTrustHtml(fixedSvgContent);
           this.isLoading = false;
           this.cdr.detectChanges();
 
@@ -164,6 +167,83 @@ export class ShelfMapSvgComponent implements OnChanges, OnDestroy {
   }
 
   /**
+   * Fix SVG content for proper scaling by adding viewBox if missing
+   * and removing overflow="hidden" that prevents proper scaling
+   */
+  private fixSvgForScaling(svgContent: string): string {
+    // Extract width and height from SVG
+    const widthMatch = svgContent.match(/width="(\d+)"/);
+    const heightMatch = svgContent.match(/height="(\d+)"/);
+
+    if (widthMatch && heightMatch) {
+      const width = widthMatch[1];
+      const height = heightMatch[1];
+
+      // Check if viewBox already exists
+      if (!svgContent.includes('viewBox')) {
+        // Add viewBox attribute after the opening <svg tag
+        svgContent = svgContent.replace(
+          /<svg([^>]*)>/i,
+          `<svg$1 viewBox="0 0 ${width} ${height}">`
+        );
+        console.log(`[ShelfMapSvg] Added viewBox="0 0 ${width} ${height}" to SVG`);
+      }
+    }
+
+    // Remove overflow="hidden" which clips the SVG instead of scaling
+    svgContent = svgContent.replace(/\s*overflow="hidden"/gi, '');
+
+    return svgContent;
+  }
+
+  /**
+   * Generate alternative ID formats for a given code
+   * Handles known mismatches like cl1_106_a → cl_106_a
+   */
+  private getAlternativeIds(code: string): string[] {
+    const alternatives: string[] = [];
+
+    // Pattern: prefix + number + underscore + rest (e.g., cl1_106_a → cl_106_a)
+    // Remove number after 2-letter prefix: cl1_ → cl_, ka1_ → ka_, kb1_ → kb_
+    const prefixNumberMatch = code.match(/^([a-z]{2})(\d+)_(.+)$/i);
+    if (prefixNumberMatch) {
+      const [, prefix, , rest] = prefixNumberMatch;
+      alternatives.push(`${prefix}_${rest}`);
+    }
+
+    // Also try adding a number if missing: cl_ → cl1_
+    const noPrefixNumberMatch = code.match(/^([a-z]{2})_(\d+.*)$/i);
+    if (noPrefixNumberMatch) {
+      const [, prefix, rest] = noPrefixNumberMatch;
+      alternatives.push(`${prefix}1_${rest}`);
+      alternatives.push(`${prefix}2_${rest}`);
+    }
+
+    return alternatives;
+  }
+
+  /**
+   * Find shelf element by code, trying alternatives if exact match not found
+   */
+  private findShelfElement(container: HTMLElement, code: string): SVGElement | null {
+    // Try exact match first
+    let shelf = container.querySelector(`#${CSS.escape(code)}`) as SVGElement;
+    if (shelf) return shelf;
+
+    // Try alternative ID formats
+    const alternatives = this.getAlternativeIds(code);
+    for (const altCode of alternatives) {
+      shelf = container.querySelector(`#${CSS.escape(altCode)}`) as SVGElement;
+      if (shelf) {
+        console.log(`[ShelfMapSvg] Found shelf using alternative ID: ${code} → ${altCode}`);
+        return shelf;
+      }
+    }
+
+    return null;
+  }
+
+  /**
    * Apply highlighting to shelf elements in external SVG
    */
   private applyHighlighting(): void {
@@ -173,13 +253,23 @@ export class ShelfMapSvgComponent implements OnChanges, OnDestroy {
     const container = this.svgContainer.nativeElement as HTMLElement;
     const codes = this.allHighlightedCodes;
 
-    // Reset all previously highlighted shelves
-    const allShelves = container.querySelectorAll('[id^="shelf_"]');
-    allShelves.forEach((shelf) => {
-      (shelf as SVGElement).style.fill = '';
-      (shelf as SVGElement).style.stroke = '';
-      (shelf as SVGElement).style.strokeWidth = '';
-      shelf.classList.remove('highlighted');
+    // Log available shelf IDs once for debugging (only IDs that look like shelf codes)
+    const allElements = container.querySelectorAll('[id]');
+    const shelfIds = Array.from(allElements)
+      .map(el => el.id)
+      .filter(id => /^[a-z]{2,3}[0-9]?_/i.test(id) || id.startsWith('shelf_'))
+      .slice(0, 20); // Limit to first 20 for brevity
+    if (shelfIds.length > 0) {
+      console.log(`[ShelfMapSvg] Sample shelf-like IDs in SVG:`, shelfIds);
+    }
+
+    // Reset all previously highlighted elements (broader selector)
+    const allHighlighted = container.querySelectorAll('.highlighted');
+    allHighlighted.forEach((el) => {
+      (el as SVGElement).style.fill = '';
+      (el as SVGElement).style.stroke = '';
+      (el as SVGElement).style.strokeWidth = '';
+      el.classList.remove('highlighted');
     });
 
     // Apply highlighting to matching shelves
@@ -187,11 +277,11 @@ export class ShelfMapSvgComponent implements OnChanges, OnDestroy {
     const missingShelves: string[] = [];
 
     codes.forEach((code) => {
-      const shelf = container.querySelector(`#${code}`) as SVGElement;
+      const shelf = this.findShelfElement(container, code);
       if (shelf) {
         shelf.style.fill = '#f44336'; // Red highlight
         shelf.style.stroke = '#b71c1c';
-        shelf.style.strokeWidth = '2';
+        shelf.style.strokeWidth = '3';
         shelf.classList.add('highlighted');
         highlightedShelves.push(code);
       } else {
@@ -204,7 +294,7 @@ export class ShelfMapSvgComponent implements OnChanges, OnDestroy {
       console.log(`[ShelfMapSvg] Highlighted ${highlightedShelves.length} shelf(s):`, highlightedShelves);
     }
     if (missingShelves.length > 0) {
-      console.warn(`[ShelfMapSvg] Shelf(s) not found:`, missingShelves);
+      console.warn(`[ShelfMapSvg] Shelf(s) not found (no matching ID in SVG):`, missingShelves);
     }
 
     this.highlightingApplied = true;

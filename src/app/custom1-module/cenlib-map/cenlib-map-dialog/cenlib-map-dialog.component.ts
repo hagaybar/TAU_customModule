@@ -167,6 +167,31 @@ export class CenlibMapDialogComponent implements OnInit {
     return this.mappings.length > 0 ? this.mappings[0] : null;
   }
 
+  /**
+   * Get the SVG path based on the floor from the mapping
+   * Uses floor-specific SVG files (e.g., sourasky-floor-1.svg, sourasky-floor-2.svg)
+   */
+  get svgPath(): string {
+    if (!this.data.svgPath) return '';
+
+    // Get floor from primary mapping, default to '2' for backward compatibility
+    const floor = this.primaryMapping?.floor || '2';
+
+    // Replace floor number in the SVG path
+    // Pattern: sourasky-floor-X.svg or similar
+    const basePath = this.data.svgPath;
+
+    // Check if path already contains a floor number pattern
+    const floorPattern = /floor-\d+\.svg$/i;
+    if (floorPattern.test(basePath)) {
+      // Replace existing floor number with the mapping's floor
+      return basePath.replace(/floor-\d+\.svg$/i, `floor-${floor}.svg`);
+    }
+
+    // If no floor pattern found, return original path
+    return basePath;
+  }
+
   /** Get all SVG codes for highlighting (supports multiple shelves) */
   get allSvgCodes(): string[] {
     return this.svgCodes;  // Use cached array to prevent infinite change detection

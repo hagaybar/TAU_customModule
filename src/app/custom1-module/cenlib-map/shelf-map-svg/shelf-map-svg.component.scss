@@ -28,15 +28,17 @@
   background: #fafafa;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
-  padding: 8px;
+  padding: 12px;
   overflow: auto;
-  max-height: 500px;
+  max-height: 540px;
 
-  // Style the injected SVG
+  // Style the injected SVG - fit within container while showing full floor
   ::ng-deep svg {
     width: 100%;
     height: auto;
+    max-height: 500px;
     display: block;
+    margin: 0 auto;
   }
 
   // Highlighted shelf styling (applied via JS)
@@ -98,7 +100,7 @@
 .shelf-map {
   width: 100%;
   height: auto;
-  max-width: 350px;
+  max-width: 420px;
   display: block;
   margin: 0 auto;
 }
