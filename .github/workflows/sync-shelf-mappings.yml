@@ -20,7 +20,7 @@ jobs:
           set -euo pipefail
           mkdir -p data
           curl -L --fail --silent --show-error \
-            "https://docs.google.com/spreadsheets/d/e/2PACX-1vRfvZXxEogOfYQFuW8MfyvYx3usy3KRQjQz4e3IEBp0tPjtF940XGxomhhw7Q1-Qtcn6dj-XjcGEthE/pub?output=csv" \
+            "https://docs.google.com/spreadsheets/d/e/2PACX-1vTE9A3GC_l4_kjAjy2c6Cc_woDgJCEctZSo0dY2zN-UMgziokuWLqZwSznQtaAHa5v7g7K_tkjMVhXY/pub?output=csv"
             -o data/shelfMappings.csv
 
       - name: Commit and push if changed
