@@ -7,8 +7,8 @@
       <span class="value">{{ getLibraryName() }}</span>
     </div>
     <div class="info-row">
-      <span class="label">{{ locationLabel }}</span>
-      <span class="value">{{ getLocationName() }}</span>
+      <span class="label">{{ collectionLabel }}</span>
+      <span class="value">{{ getCollectionName() }}</span>
     </div>
     <div class="info-row">
       <span class="label">{{ callNumberLabel }}</span>
@@ -33,6 +33,14 @@
         <div class="info-row" *ngIf="primaryMapping.floor">
           <span class="label">{{ floorLabel }}</span>
           <span class="value">{{ primaryMapping.floor }}</span>
+        </div>
+        <div class="info-row" *ngIf="getShelfLabel()">
+          <span class="label">{{ shelfLabelLabel }}</span>
+          <span class="value">{{ getShelfLabel() }}</span>
+        </div>
+        <div class="info-row" *ngIf="getNotes()">
+          <span class="label">{{ notesLabel }}</span>
+          <span class="value">{{ getNotes() }}</span>
         </div>
 
         <!-- SVG Shelf Map (supports multiple highlights) -->

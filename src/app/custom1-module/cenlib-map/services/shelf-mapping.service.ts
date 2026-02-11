@@ -11,10 +11,11 @@ import {
 import { GOOGLE_SHEETS_CONFIG } from '../config/google-sheets.config';
 import { LocationContext } from '../models/location-context.model';
 
-/** Raw row from CSV parsing (MDM format with library/location names) */
+/** Raw row from CSV parsing (MDM format with library/collection names) */
 interface CsvRow {
   libraryName: string;
-  locationName: string;
+  collectionName: string;
+  collectionNameHe: string;
   rangeStart: string;
   rangeEnd: string;
   svgCode: string;
@@ -22,7 +23,9 @@ interface CsvRow {
   descriptionHe: string;
   floor: string;
   shelfLabel: string;
+  shelfLabelHe: string;
   notes: string;
+  notesHe: string;
 }
 
 /**
@@ -39,8 +42,9 @@ export class ShelfMappingService {
   private cachedMappings: ShelfMapping[] | null = null;
 
   /**
-   * Nested mapping index for O(1) lookup by library+location
-   * Structure: libraryName (normalized) -> locationName (normalized) -> ShelfMapping[]
+   * Nested mapping index for O(1) lookup by library+collection
+   * Structure: libraryName (normalized) -> collectionName (normalized) -> ShelfMapping[]
+   * Both English and Hebrew collection names are indexed as keys pointing to the same mappings
    */
   private mappingIndex: Map<string, Map<string, ShelfMapping[]>> | null = null;
 
@@ -124,7 +128,7 @@ export class ShelfMappingService {
 
   /**
    * Parse CSV string into ShelfMapping array (MDM format)
-   * Expects columns: libraryName, locationName, rangeStart, rangeEnd, svgCode, etc.
+   * Expects columns: libraryName, collectionName, collectionNameHe, rangeStart, rangeEnd, svgCode, etc.
    *
    * @param csv Raw CSV string
    * @returns Array of ShelfMapping objects
@@ -144,14 +148,15 @@ export class ShelfMappingService {
       .filter(
         (row) =>
           row.libraryName &&
-          row.locationName &&
+          row.collectionName &&
           row.rangeStart &&
           row.rangeEnd &&
           row.svgCode
       )
       .map((row) => ({
         libraryName: row.libraryName.trim(),
-        locationName: row.locationName.trim(),
+        collectionName: row.collectionName.trim(),
+        collectionNameHe: row.collectionNameHe?.trim() || undefined,
         rangeStart: row.rangeStart.trim(),
         rangeEnd: row.rangeEnd.trim(),
         svgCode: row.svgCode.trim(),
@@ -159,7 +164,9 @@ export class ShelfMappingService {
         descriptionHe: row.descriptionHe?.trim() || undefined,
         floor: row.floor?.trim() || undefined,
         shelfLabel: row.shelfLabel?.trim() || undefined,
+        shelfLabelHe: row.shelfLabelHe?.trim() || undefined,
         notes: row.notes?.trim() || undefined,
+        notesHe: row.notesHe?.trim() || undefined,
       }));
   }
 
@@ -290,6 +297,9 @@ export class ShelfMappingService {
   /**
    * Build the nested mapping index from flat array
    * Called after loading mappings from CSV
+   *
+   * Indexes by BOTH English (collectionName) and Hebrew (collectionNameHe) collection names
+   * so lookups work regardless of UI language
    */
   private buildMappingIndex(): void {
     if (!this.cachedMappings) {
@@ -301,18 +311,29 @@ export class ShelfMappingService {
 
     for (const mapping of this.cachedMappings) {
       const libKey = this.normalize(mapping.libraryName);
-      const locKey = this.normalize(mapping.locationName);
 
       if (!this.mappingIndex.has(libKey)) {
         this.mappingIndex.set(libKey, new Map());
       }
 
       const libMap = this.mappingIndex.get(libKey)!;
-      if (!libMap.has(locKey)) {
-        libMap.set(locKey, []);
+
+      // Index by BOTH English and Hebrew collection names
+      const collectionKeys: string[] = [];
+      if (mapping.collectionName) {
+        collectionKeys.push(this.normalize(mapping.collectionName));
+      }
+      if (mapping.collectionNameHe) {
+        collectionKeys.push(this.normalize(mapping.collectionNameHe));
       }
 
-      libMap.get(locKey)!.push(mapping);
+      // Add mapping under EACH collection name key
+      for (const colKey of collectionKeys) {
+        if (!libMap.has(colKey)) {
+          libMap.set(colKey, []);
+        }
+        libMap.get(colKey)!.push(mapping);
+      }
     }
 
     console.log(
@@ -349,7 +370,7 @@ export class ShelfMappingService {
    * Find ALL mappings for a given context (supports overlapping ranges)
    * This is the main MDM lookup method
    *
-   * @param context Location context with library/location names and call number
+   * @param context Location context with library/collection names and call number
    * @returns Array of all matching ShelfMapping objects
    */
   findAllMappings(context: LocationContext): ShelfMapping[] {
@@ -359,7 +380,7 @@ export class ShelfMappingService {
     }
 
     const libKey = this.normalize(context.libraryName);
-    const locKey = this.normalize(context.locationName);
+    const colKey = this.normalize(context.collectionName);
 
     const libMap = this.mappingIndex.get(libKey);
     if (!libMap) {
@@ -367,10 +388,10 @@ export class ShelfMappingService {
       return [];
     }
 
-    const mappings = libMap.get(locKey);
+    const mappings = libMap.get(colKey);
     if (!mappings) {
       console.log(
-        `[ShelfMappingService] No mappings for location: ${context.locationName} in library: ${context.libraryName}`
+        `[ShelfMappingService] No mappings for collection: ${context.collectionName} in library: ${context.libraryName}`
       );
       return [];
     }
@@ -385,14 +406,14 @@ export class ShelfMappingService {
    * Check if any mapping exists for a given context
    * Ensures mappings are loaded before checking
    *
-   * @param libraryName Library name (Hebrew, from DOM)
-   * @param locationName Location name (Hebrew, from DOM)
+   * @param libraryName Library name (from DOM)
+   * @param collectionName Collection name (from DOM, English or Hebrew)
    * @param callNumber Call number (without cutter)
    * @returns Observable<boolean> - true if at least one mapping exists
    */
   hasMappingAsync(
     libraryName: string,
-    locationName: string,
+    collectionName: string,
     callNumber: string
   ): Observable<boolean> {
     return this.loadMappings().pipe(
@@ -401,7 +422,7 @@ export class ShelfMappingService {
           callNumber,
           rawCallNumber: callNumber,
           libraryName,
-          locationName,
+          collectionName,
         }).length > 0
       )
     );

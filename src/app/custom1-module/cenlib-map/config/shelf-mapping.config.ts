@@ -11,8 +11,10 @@
 export interface ShelfMapping {
   /** Library display name in Hebrew (must match Primo DOM exactly) */
   libraryName: string;
-  /** Location/sublocation display name in Hebrew (must match Primo DOM exactly) */
-  locationName: string;
+  /** Collection/sublocation display name in English (must match Primo DOM when UI is English) */
+  collectionName: string;
+  /** Collection/sublocation display name in Hebrew (must match Primo DOM when UI is Hebrew) */
+  collectionNameHe?: string;
   /** Start of call number range (string to preserve decimals like "892.4") */
   rangeStart: string;
   /** End of call number range (string to preserve decimals) */
@@ -27,8 +29,12 @@ export interface ShelfMapping {
   floor?: string;
   /** Physical shelf label (e.g., "A-3", "Row 12") */
   shelfLabel?: string;
+  /** Physical shelf label in Hebrew */
+  shelfLabelHe?: string;
   /** Librarian notes/special instructions */
   notes?: string;
+  /** Librarian notes/special instructions in Hebrew */
+  notesHe?: string;
 }
 
 /**

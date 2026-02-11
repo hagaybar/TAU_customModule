@@ -18,14 +18,14 @@ export interface LocationContext {
   /** Library display name in Hebrew (from DOM via .getit-library-title) */
   libraryName: string;
 
-  /** Location/sublocation display name in Hebrew (from DOM via [data-qa="location-sub-location"]) */
-  locationName: string;
+  /** Collection/sublocation display name from DOM (via [data-qa="location-sub-location"]) */
+  collectionName: string;
 
   /** Library display name in English (from config lookup, for UI) */
   libraryNameEn?: string;
 
-  /** Location display name in English (from config lookup, for UI) */
-  locationNameEn?: string;
+  /** Collection display name in English (from config lookup, for UI) */
+  collectionNameEn?: string;
 }
 
 /**

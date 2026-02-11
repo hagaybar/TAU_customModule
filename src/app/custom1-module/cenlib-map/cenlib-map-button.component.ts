@@ -54,11 +54,11 @@ export class CenlibMapButtonComponent implements AfterViewInit {
   /** Whether to show the button (based on MDM lookup) */
   shouldShow: boolean = false;
 
-  /** Library name in Hebrew (from DOM via .getit-library-title) */
+  /** Library name (from DOM via .getit-library-title) */
   private libraryName: string = '';
 
-  /** Location/sublocation name in Hebrew (from DOM via [data-qa="location-sub-location"]) */
-  private locationName: string = '';
+  /** Collection/sublocation name (from DOM via [data-qa="location-sub-location"]) */
+  private collectionName: string = '';
 
   /** Resolved library config (if found) */
   private libraryConfig: LibraryConfig | undefined = undefined;
@@ -92,11 +92,11 @@ export class CenlibMapButtonComponent implements AfterViewInit {
   }
 
   /**
-   * Extract location data (library name, location name, call number) from parent element
+   * Extract location data (library name, collection name, call number) from parent element
    *
    * DOM structure:
    * - Library name: .getit-library-title (within nde-location parent)
-   * - Location name: [data-qa="location-sub-location"] (within nde-location parent)
+   * - Collection name: [data-qa="location-sub-location"] (within nde-location parent)
    * - Call number: [data-qa="location-call-number"] (within nde-location-item)
    */
   private extractLocationData(): void {
@@ -104,7 +104,7 @@ export class CenlibMapButtonComponent implements AfterViewInit {
     const ndeLocation = this.elementRef.nativeElement.closest('nde-location');
     if (ndeLocation) {
       this.extractLibraryName(ndeLocation);
-      this.extractSubLocationName(ndeLocation);
+      this.extractCollectionName(ndeLocation);
     }
 
     // Find the nde-location-item parent (contains call number)
@@ -138,10 +138,10 @@ export class CenlibMapButtonComponent implements AfterViewInit {
   }
 
   /**
-   * Extract sublocation name from nde-location element
+   * Extract collection name from nde-location element
    * Uses [data-qa="location-sub-location"] selector as discovered in DOM investigation
    */
-  private extractSubLocationName(ndeLocation: Element): void {
+  private extractCollectionName(ndeLocation: Element): void {
     const subLocationEl = ndeLocation.querySelector(
       '[data-qa="location-sub-location"]'
     );
@@ -151,7 +151,7 @@ export class CenlibMapButtonComponent implements AfterViewInit {
       if (text.endsWith(';')) {
         text = text.slice(0, -1).trim();
       }
-      this.locationName = text;
+      this.collectionName = text;
     }
   }
 
@@ -203,14 +203,14 @@ export class CenlibMapButtonComponent implements AfterViewInit {
       return;
     }
 
-    // Step 2: Check if location is configured for this library
+    // Step 2: Check if collection is configured for this library
     this.locationConfig = findLocationConfig(
       this.libraryConfig,
-      this.locationName
+      this.collectionName
     );
     if (!this.locationConfig) {
       console.log(
-        `[CenlibMapButton] Location not configured: "${this.locationName}" in library "${this.libraryName}"`
+        `[CenlibMapButton] Collection not configured: "${this.collectionName}" in library "${this.libraryName}"`
       );
       this.shouldShow = false;
       this.cdr.detectChanges();
@@ -219,13 +219,13 @@ export class CenlibMapButtonComponent implements AfterViewInit {
 
     // Step 3: Check if mapping exists in Google Sheets data
     this.shelfMappingService
-      .hasMappingAsync(this.libraryName, this.locationName, this.callNumber)
+      .hasMappingAsync(this.libraryName, this.collectionName, this.callNumber)
       .subscribe({
         next: (hasMapping) => {
           this.shouldShow = hasMapping;
           if (!hasMapping) {
             console.log(
-              `[CenlibMapButton] No mapping for: ${this.libraryName} / ${this.locationName} / ${this.callNumber}`
+              `[CenlibMapButton] No mapping for: ${this.libraryName} / ${this.collectionName} / ${this.callNumber}`
             );
           }
           this.cdr.detectChanges();
@@ -248,9 +248,9 @@ export class CenlibMapButtonComponent implements AfterViewInit {
         callNumber: this.callNumber,
         rawCallNumber: this.rawCallNumber,
         libraryName: this.libraryName,
-        locationName: this.locationName,
+        collectionName: this.collectionName,
         libraryNameEn: this.libraryConfig?.name,
-        locationNameEn: this.locationConfig?.name,
+        collectionNameEn: this.locationConfig?.name,
         svgPath: this.libraryConfig?.svgPath,
       },
     });

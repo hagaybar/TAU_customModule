@@ -16,14 +16,14 @@ export interface CenlibMapDialogData {
   callNumber: string;
   /** Raw call number from DOM (for display) */
   rawCallNumber: string;
-  /** Library name in Hebrew (from DOM) */
+  /** Library name (from DOM) */
   libraryName: string;
-  /** Location name in Hebrew (from DOM) */
-  locationName: string;
+  /** Collection name (from DOM, English or Hebrew depending on UI language) */
+  collectionName: string;
   /** Library name in English (from config) */
   libraryNameEn?: string;
-  /** Location name in English (from config) */
-  locationNameEn?: string;
+  /** Collection name in English (from config) */
+  collectionNameEn?: string;
   /** Path to library's SVG floor plan */
   svgPath?: string;
 }
@@ -77,7 +77,7 @@ export class CenlibMapDialogComponent implements OnInit {
 
   /** Load mapping data asynchronously using MDM lookup */
   private loadMappingData(): void {
-    if (!this.data?.callNumber || !this.data?.libraryName || !this.data?.locationName) {
+    if (!this.data?.callNumber || !this.data?.libraryName || !this.data?.collectionName) {
       this.isLoading = false;
       return;
     }
@@ -91,7 +91,7 @@ export class CenlibMapDialogComponent implements OnInit {
         callNumber: this.data.callNumber,
         rawCallNumber: this.data.rawCallNumber,
         libraryName: this.data.libraryName,
-        locationName: this.data.locationName,
+        collectionName: this.data.collectionName,
       })
       .subscribe({
         next: (mappings) => {
@@ -143,9 +143,9 @@ export class CenlibMapDialogComponent implements OnInit {
     return this.currentLanguage === 'he' ? 'ספרייה:' : 'Library:';
   }
 
-  /** Location label based on language */
-  get locationLabel(): string {
-    return this.currentLanguage === 'he' ? 'מיקום:' : 'Location:';
+  /** Collection label based on language */
+  get collectionLabel(): string {
+    return this.currentLanguage === 'he' ? 'אוסף:' : 'Collection:';
   }
 
   /** Get library name for display based on language */
@@ -155,11 +155,11 @@ export class CenlibMapDialogComponent implements OnInit {
       : (this.data.libraryNameEn || this.data.libraryName);
   }
 
-  /** Get location name for display based on language */
-  getLocationName(): string {
+  /** Get collection name for display based on language */
+  getCollectionName(): string {
     return this.currentLanguage === 'he'
-      ? this.data.locationName
-      : (this.data.locationNameEn || this.data.locationName);
+      ? this.data.collectionName
+      : (this.data.collectionNameEn || this.data.collectionName);
   }
 
   /** Get the primary mapping (first match) */
@@ -195,6 +195,32 @@ export class CenlibMapDialogComponent implements OnInit {
     return this.currentLanguage === 'he'
       ? (this.primaryMapping.descriptionHe || this.primaryMapping.description)
       : this.primaryMapping.description;
+  }
+
+  /** Shelf label based on language */
+  get shelfLabelLabel(): string {
+    return this.currentLanguage === 'he' ? 'מדף:' : 'Shelf Label:';
+  }
+
+  /** Notes label based on language */
+  get notesLabel(): string {
+    return this.currentLanguage === 'he' ? 'הערה:' : 'Notes:';
+  }
+
+  /** Get shelf label based on language (from primary mapping) */
+  getShelfLabel(): string {
+    if (!this.primaryMapping) return '';
+    return this.currentLanguage === 'he'
+      ? (this.primaryMapping.shelfLabelHe || this.primaryMapping.shelfLabel || '')
+      : (this.primaryMapping.shelfLabel || '');
+  }
+
+  /** Get notes based on language (from primary mapping) */
+  getNotes(): string {
+    if (!this.primaryMapping) return '';
+    return this.currentLanguage === 'he'
+      ? (this.primaryMapping.notesHe || this.primaryMapping.notes || '')
+      : (this.primaryMapping.notes || '');
   }
 
   /** Detect current language from URL */
