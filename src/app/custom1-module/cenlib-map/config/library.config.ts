@@ -53,13 +53,34 @@ export const LIBRARY_CONFIG: LibraryConfig[] = [
     name: 'Sourasky Central Library',
     svgPath: 'assets/maps/sourasky-floor-2.svg',
     locations: [
+      // Reading Rooms (Main Collections)
       { nameHe: "אולם קריאה א'1, קומה ראשונה", name: 'Reading room 1 A - 1st floor' },
       { nameHe: "אולם קריאה א'2, קומה ראשונה", name: 'Reading room 1 B - 1st floor' },
-      { nameHe: "אולם קריאה ב'1, קומה שנייה", name: 'Reading room 2 A - 2nd floor' },
-      { nameHe: "אולם קריאה ב'2, קומה שנייה", name: 'Reading room 2 B - 2nd floor' },
-      // Add more locations as needed
+      { nameHe: "אולם קריאה ב'1, קומה שניה", name: 'Reading room 2 A - 2nd floor' },
+      { nameHe: "אולם קריאה ב'2, קומה שניה", name: 'Reading room 2 B - 2nd floor' },
+
+      // Special Collections - Entrance Floor
+      { nameHe: 'CB פנו לדלפק היעץ בקומת הכניסה', name: 'CB Bibliography Collection. Apply to the Reference Department, entrance floor' },
+      { nameHe: 'CBG פורמט גדול. פנו לדלפק היעץ בקומת הכניסה', name: 'CBG Reference Oversized Books. Apply to the Reference Department entrance floor' },
+
+      // Special Collections - 1st Floor
+      { nameHe: "CC תרבות קלאסית. קומה א'", name: 'CC Classical studies. 1st floor' },
+      { nameHe: "CCG תרבות קלאסית פורמט גדול. אולם קריאה א'2 קומה א", name: 'CCG Classical studies, oversized books - Reading room 1 B - 1st floor' },
+      { nameHe: "CS אוסף שמחוני. קומה א'", name: 'CS Simchoni Collection. 1st floor' },
+      { nameHe: "CL1 השאלה מוגבלת - קומה א'2 (ארונות 106,107,108)", name: 'CL1 Limited Loan. Reading room 1B – 1 st. floor (106,107,108)' },
+      { nameHe: "CB1   ספרי יעץ - קומה א'2 ארון 108", name: 'CB1 Reference Books. Reading room 1B – 1 st. floor (108)' },
+
+      // Special Collections - 2nd Floor
+      { nameHe: "CFA אוסף פייטלוביץ. קומה ב'", name: 'CFA Faitlovitch Collection. 2nd floor' },
+      { nameHe: "CY אוסף מרגוליס, ספרות יידיש. קומה ב'", name: 'CY Yiddish Collection. 2nd floor' },
+      { nameHe: "CHI אוסף בסינית. קומה ב'", name: 'CHI Chinese collection. 2nd floor' },
+      { nameHe: 'CJ אוסף ביפנית, אולם קריאה ב-2 (ארון 90)', name: 'CJ Japanese collection. Reading room 2 B (90), 2nd floor' },
+      { nameHe: "CK אוסף מדעים. קומה ב'", name: 'CK Science collection. 2nd floor' },
+      { nameHe: "CTW אוסף טאיוואן - קומה ב'", name: 'CTW Taiwan Collection. 2nd floor' },
+      { nameHe: "CL2 השאלה מוגבלת - קומה ב' 2 (ארונות 89,90)", name: 'CL2 Limited Loan. Reading room 2 B – 2 nd. floor (89,90)' },
+      { nameHe: "CB2 ספרי ייעץ - קומה ב' 2 (ארון 89)", name: 'CB2 Reference Books. Reading room 2B – 2 nd. floor (in the closet 89)' },
     ],
-  }  // Add more libraries as needed
+  },
 ];
 
 /**
@@ -83,9 +104,9 @@ export function findLibraryConfig(libraryName: string): LibraryConfig | undefine
  */
 export function findLocationConfig(
   library: LibraryConfig,
-  locationName: string
+  collectionName: string
 ): LocationConfig | undefined {
-  const normalized = normalizeForComparison(locationName);
+  const normalized = normalizeForComparison(collectionName);
   return library.locations.find(
     (loc) =>
       normalizeForComparison(loc.nameHe) === normalized ||
