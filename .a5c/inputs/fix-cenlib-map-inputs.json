@@ -1,0 +1,8 @@
+{
+  "issue1": "Map window is too small - needs ~20% enlargement",
+  "issue2": "Location markers not appearing on SVG floor maps - svgCodes in CSV don't match element IDs in SVG",
+  "proxyRunning": true,
+  "port": 4201,
+  "projectRoot": "/home/hagaybar/projects/TAU_customModule",
+  "componentPath": "src/app/custom1-module/cenlib-map"
+}

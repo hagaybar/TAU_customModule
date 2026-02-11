@@ -1,0 +1,8 @@
+{
+  "name": "a5c-processes",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "@a5c-ai/babysitter-sdk": "latest"
+  }
+}
