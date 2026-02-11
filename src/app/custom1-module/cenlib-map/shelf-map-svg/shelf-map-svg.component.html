@@ -6,7 +6,45 @@
 
 <!-- External SVG Mode -->
 <ng-container *ngIf="useExternalSvg && !isLoading && externalSvgContent">
-  <div class="external-svg-container" #svgContainer [innerHTML]="externalSvgContent"></div>
+  <!-- Zoom Controls -->
+  <div class="map-controls">
+    <button
+      mat-stroked-button
+      (click)="zoomIn()"
+      [disabled]="zoomLevel >= maxZoom"
+      [attr.aria-label]="zoomInLabel"
+    >
+      <mat-icon>add</mat-icon>
+      <span class="control-label">{{ zoomInLabel }}</span>
+    </button>
+    <button
+      mat-stroked-button
+      (click)="zoomOut()"
+      [disabled]="zoomLevel <= minZoom"
+      [attr.aria-label]="zoomOutLabel"
+    >
+      <mat-icon>remove</mat-icon>
+      <span class="control-label">{{ zoomOutLabel }}</span>
+    </button>
+    <button
+      mat-stroked-button
+      (click)="resetZoom()"
+      [attr.aria-label]="fullMapLabel"
+    >
+      <mat-icon>fullscreen</mat-icon>
+      <span class="control-label">{{ fullMapLabel }}</span>
+    </button>
+  </div>
+
+  <!-- Zoomable Map Viewport -->
+  <div class="map-viewport" [class.zoomed]="zoomLevel > 1">
+    <div
+      class="map-content"
+      #svgContainer
+      [innerHTML]="externalSvgContent"
+      [style.transform]="'scale(' + zoomLevel + ')'"
+    ></div>
+  </div>
 
   <!-- Legend for external SVG -->
   <div class="legend">

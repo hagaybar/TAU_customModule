@@ -12,6 +12,8 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
@@ -30,7 +32,7 @@ import { assetBaseUrl } from '../../../state/asset-base.generated';
 @Component({
   selector: 'tau-shelf-map-svg',
   standalone: true,
-  imports: [CommonModule, MatTooltipModule, MatProgressSpinnerModule],
+  imports: [CommonModule, MatButtonModule, MatIconModule, MatTooltipModule, MatProgressSpinnerModule],
   templateUrl: './shelf-map-svg.component.html',
   styleUrls: ['./shelf-map-svg.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -75,6 +77,12 @@ export class ShelfMapSvgComponent implements OnChanges, OnDestroy {
 
   /** Error state */
   hasError = false;
+
+  /** Zoom state properties */
+  zoomLevel: number = 1;
+  readonly minZoom: number = 0.5;
+  readonly maxZoom: number = 3;
+  readonly zoomStep: number = 0.25;
 
   /** Subscription cleanup */
   private svgSubscription: Subscription | null = null;
@@ -363,5 +371,43 @@ export class ShelfMapSvgComponent implements OnChanges, OnDestroy {
   /** Get your book label based on language */
   get yourBookLabel(): string {
     return this.language === 'he' ? 'מיקום הספר' : 'Your book';
+  }
+
+  // ===== Zoom Control Methods =====
+
+  /** Zoom in by one step */
+  zoomIn(): void {
+    if (this.zoomLevel < this.maxZoom) {
+      this.zoomLevel = Math.min(this.zoomLevel + this.zoomStep, this.maxZoom);
+    }
+  }
+
+  /** Zoom out by one step */
+  zoomOut(): void {
+    if (this.zoomLevel > this.minZoom) {
+      this.zoomLevel = Math.max(this.zoomLevel - this.zoomStep, this.minZoom);
+    }
+  }
+
+  /** Reset zoom to default level */
+  resetZoom(): void {
+    this.zoomLevel = 1;
+  }
+
+  // ===== Zoom Control Labels (Bilingual) =====
+
+  /** Get "Zoom in" label based on language */
+  get zoomInLabel(): string {
+    return this.language === 'he' ? 'הגדלה' : 'Zoom in';
+  }
+
+  /** Get "Zoom out" label based on language */
+  get zoomOutLabel(): string {
+    return this.language === 'he' ? 'הקטנה' : 'Zoom out';
+  }
+
+  /** Get "Full map" label based on language */
+  get fullMapLabel(): string {
+    return this.language === 'he' ? 'כל המפה' : 'Full map';
   }
 }

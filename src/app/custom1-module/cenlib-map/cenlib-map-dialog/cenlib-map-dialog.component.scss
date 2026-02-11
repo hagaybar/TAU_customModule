@@ -64,11 +64,20 @@
   font-weight: 500;
 }
 
-// Dialog content styling
+// Dialog content styling - wider for better landscape map display
 mat-dialog-content {
   min-height: 120px;
-  min-width: 600px;
-  max-width: 800px;
+  min-width: 80vw; // Use viewport-relative width for responsiveness
+  max-width: 95vw; // Allow nearly full screen width
+  max-height: 85vh; // Allow dialog to use most of viewport height
+  overflow-y: auto; // Scroll only when content exceeds viewport
+  overflow-x: hidden;
+}
+
+// Override Material's default dialog panel constraints
+::ng-deep .mat-mdc-dialog-container {
+  max-height: 90vh;
+  max-width: 95vw;
 }
 
 // RTL support

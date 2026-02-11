@@ -23,7 +23,80 @@
   }
 }
 
-// External SVG container
+// ===== Zoom Controls =====
+.map-controls {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+
+  button {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    min-width: auto;
+    padding: 6px 12px;
+    font-size: 13px;
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+
+    .control-label {
+      white-space: nowrap;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+    }
+  }
+}
+
+// ===== Zoomable Map Viewport =====
+.map-viewport {
+  background: #fafafa;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 12px;
+  overflow: hidden;
+  position: relative;
+
+  // Enable scrolling when zoomed in
+  &.zoomed {
+    overflow: auto;
+    cursor: grab;
+
+    &:active {
+      cursor: grabbing;
+    }
+  }
+}
+
+.map-content {
+  transform-origin: center center;
+  transition: transform 0.2s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  // Style the injected SVG - fit within container, scale to fit width
+  ::ng-deep svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+
+  // Highlighted shelf styling (applied via JS)
+  ::ng-deep .highlighted {
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+}
+
+// Legacy external SVG container (kept for backwards compatibility)
 .external-svg-container {
   background: #fafafa;
   border: 1px solid #e0e0e0;
@@ -207,5 +280,13 @@
 
   .legend {
     flex-direction: row-reverse;
+  }
+
+  .map-controls {
+    flex-direction: row-reverse;
+
+    button {
+      flex-direction: row-reverse;
+    }
   }
 }
