@@ -241,9 +241,9 @@ export class CenlibMapButtonComponent implements AfterViewInit {
   /** Open the shelf map dialog with full location context */
   openMapDialog(): void {
     this.dialog.open(CenlibMapDialogComponent, {
-      width: '85vw', // Wide enough to display landscape floor maps
-      maxWidth: '95vw',
-      maxHeight: '90vh',
+      width: 'auto',
+      maxWidth: '900px', // Optimal width for floor maps
+      maxHeight: '85vh',
       panelClass: 'cenlib-map-dialog-panel',
       data: {
         callNumber: this.callNumber,

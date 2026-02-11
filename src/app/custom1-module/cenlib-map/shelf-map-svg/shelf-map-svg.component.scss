@@ -63,6 +63,7 @@
   padding: 12px;
   overflow: hidden;
   position: relative;
+  max-height: 400px;
 
   // Enable scrolling when zoomed in
   &.zoomed {
@@ -82,10 +83,11 @@
   justify-content: center;
   align-items: center;
 
-  // Style the injected SVG - fit within container, scale to fit width
+  // Style the injected SVG - fit within container with reasonable size
   ::ng-deep svg {
     width: 100%;
     height: auto;
+    max-height: 380px;
     display: block;
     margin: 0 auto;
   }
