@@ -171,28 +171,90 @@ export class ShelfMappingService {
   }
 
   /**
-   * Extract the first numeric portion from a call number (including decimals)
-   * Handles various call number formats including Dewey decimal system
+   * Parse a Dewey Decimal call number into its components
+   * Handles formats like: "296.851", "QA76.73", "BF109", "100"
    *
-   * @param callNumber The full call number string
-   * @returns The first numeric value found (with decimals), or null if none
+   * @param callNumber The call number string (without cutter)
+   * @returns Parsed components or null if invalid
    *
    * @example
-   * extractNumericValue("892.413 מאו") → 892.413
-   * extractNumericValue("296.851 תלמ") → 296.851
-   * extractNumericValue("QA76.73") → 76.73
-   * extractNumericValue("100-200") → 100
-   * extractNumericValue("ABC") → null
+   * parseCallNumber("296.851") → { prefix: "", mainClass: 296, decimal: "851" }
+   * parseCallNumber("QA76.73") → { prefix: "QA", mainClass: 76, decimal: "73" }
+   * parseCallNumber("BF109")   → { prefix: "BF", mainClass: 109, decimal: "" }
+   * parseCallNumber("100")     → { prefix: "", mainClass: 100, decimal: "" }
    */
-  extractNumericValue(callNumber: string): number | null {
+  private parseCallNumber(callNumber: string): { prefix: string; mainClass: number; decimal: string } | null {
     if (!callNumber) return null;
 
-    // Match the first sequence of digits, optionally followed by decimal point and more digits
-    const match = callNumber.match(/(\d+(?:\.\d+)?)/);
+    // Trim and normalize
+    const normalized = callNumber.trim();
+
+    // Match: optional letter prefix + digits + optional decimal portion
+    // Pattern: ^([A-Za-z]*)\s*(\d+)(?:\.(\d+))?
+    const match = normalized.match(/^([A-Za-z]*)\s*(\d+)(?:\.(\d+))?/);
     if (!match) return null;
 
-    const num = parseFloat(match[1]);
-    return isNaN(num) ? null : num;
+    const mainClass = parseInt(match[2], 10);
+    if (isNaN(mainClass)) return null;
+
+    return {
+      prefix: match[1] || '',
+      mainClass,
+      decimal: match[3] || '',
+    };
+  }
+
+  /**
+   * Compare two Dewey Decimal call numbers
+   * Follows library sorting rules:
+   * 1. Compare letter prefix alphabetically
+   * 2. Compare main class (before decimal) numerically
+   * 3. Compare decimal portion digit-by-digit (string comparison)
+   *
+   * @param a First call number
+   * @param b Second call number
+   * @returns Negative if a < b, positive if a > b, 0 if equal
+   *
+   * @example
+   * compareDeweyNumbers("296.81", "296.851")  → negative (296.81 < 296.851)
+   * compareDeweyNumbers("296.851", "296.9")   → negative (296.851 < 296.9, because .8 < .9)
+   * compareDeweyNumbers("QA76", "QB50")       → negative (QA < QB)
+   * compareDeweyNumbers("10", "9")            → positive (10 > 9)
+   */
+  compareDeweyNumbers(a: string, b: string): number {
+    const parsedA = this.parseCallNumber(a);
+    const parsedB = this.parseCallNumber(b);
+
+    // Handle null cases
+    if (!parsedA && !parsedB) return 0;
+    if (!parsedA) return -1;
+    if (!parsedB) return 1;
+
+    // 1. Compare prefix alphabetically (case-insensitive)
+    const prefixCompare = parsedA.prefix.toLowerCase().localeCompare(parsedB.prefix.toLowerCase());
+    if (prefixCompare !== 0) return prefixCompare;
+
+    // 2. Compare main class numerically
+    const mainClassCompare = parsedA.mainClass - parsedB.mainClass;
+    if (mainClassCompare !== 0) return mainClassCompare;
+
+    // 3. Compare decimal portion digit-by-digit (string comparison)
+    // This correctly handles: "81" < "851" < "9" (because '8' < '9')
+    return parsedA.decimal.localeCompare(parsedB.decimal);
+  }
+
+  /**
+   * Check if a call number is within a Dewey Decimal range
+   * Uses proper digit-by-digit comparison for decimal portions
+   *
+   * @param callNumber The call number to check
+   * @param rangeStart Start of the range
+   * @param rangeEnd End of the range
+   * @returns True if callNumber >= rangeStart AND callNumber <= rangeEnd
+   */
+  isInDeweyRange(callNumber: string, rangeStart: string, rangeEnd: string): boolean {
+    return this.compareDeweyNumbers(callNumber, rangeStart) >= 0 &&
+           this.compareDeweyNumbers(callNumber, rangeEnd) <= 0;
   }
 
   /**
@@ -206,18 +268,14 @@ export class ShelfMappingService {
    * @returns The first matching ShelfMapping, or null if no match found
    */
   findMapping(callNumber: string): ShelfMapping | null {
-    const numValue = this.extractNumericValue(callNumber);
-    if (numValue === null) return null;
+    if (!callNumber || !this.parseCallNumber(callNumber)) return null;
 
     const mappings = this.cachedMappings || [];
 
-    // Find the first mapping where numValue falls within the range
-    const mapping = mappings.find((m) => {
-      const startValue = this.extractNumericValue(m.rangeStart);
-      const endValue = this.extractNumericValue(m.rangeEnd);
-      if (startValue === null || endValue === null) return false;
-      return numValue >= startValue && numValue <= endValue;
-    });
+    // Find the first mapping where callNumber falls within the range
+    const mapping = mappings.find((m) =>
+      this.isInDeweyRange(callNumber, m.rangeStart, m.rangeEnd)
+    );
 
     return mapping || null;
   }
@@ -344,7 +402,7 @@ export class ShelfMappingService {
 
   /**
    * Check if a call number falls within a range
-   * Extracts the first numeric portion and compares
+   * Uses Dewey Decimal digit-by-digit comparison for accurate matching
    *
    * @param callNumber Call number to check (without cutter)
    * @param rangeStart Start of range (string)
@@ -356,15 +414,7 @@ export class ShelfMappingService {
     rangeStart: string,
     rangeEnd: string
   ): boolean {
-    const numValue = this.extractNumericValue(callNumber);
-    const startValue = this.extractNumericValue(rangeStart);
-    const endValue = this.extractNumericValue(rangeEnd);
-
-    if (numValue === null || startValue === null || endValue === null) {
-      return false;
-    }
-
-    return numValue >= startValue && numValue <= endValue;
+    return this.isInDeweyRange(callNumber, rangeStart, rangeEnd);
   }
 
   /**
