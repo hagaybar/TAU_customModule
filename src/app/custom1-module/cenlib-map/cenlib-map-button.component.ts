@@ -5,6 +5,7 @@ import {
   Component,
   ElementRef,
   inject,
+  OnDestroy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -21,13 +22,15 @@ import {
 
 /**
  * CenLib Map Button Component
- * Displays a button in the get-it location row that opens a shelf map dialog
+ * Displays a button at the LOCATION level that opens a shelf map dialog
  *
  * MDM (Multi-Dimensional Mapping): Supports multiple libraries and locations.
  * Button visibility is determined by:
  * 1. Library name exists in LIBRARY_CONFIG
  * 2. Location name exists in that library's locations
  * 3. A mapping exists for the library+location+call number combination
+ *
+ * The call number is extracted from the location summary (first item's call number).
  */
 @Component({
   selector: 'tau-cenlib-map-button',
@@ -37,19 +40,13 @@ import {
   styleUrls: ['./cenlib-map-button.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CenlibMapButtonComponent implements AfterViewInit {
+export class CenlibMapButtonComponent implements AfterViewInit, OnDestroy {
   private elementRef = inject(ElementRef);
   private cdr = inject(ChangeDetectorRef);
   private shelfMappingService = inject(ShelfMappingService);
 
   /** Current UI language */
   currentLanguage: 'en' | 'he' = 'en';
-
-  /** Extracted call number from parent location item (after cutter removal) */
-  private callNumber: string = '';
-
-  /** Raw call number from DOM (before cutter removal, for display) */
-  private rawCallNumber: string = '';
 
   /** Whether to show the button (based on MDM lookup) */
   shouldShow: boolean = false;
@@ -60,19 +57,43 @@ export class CenlibMapButtonComponent implements AfterViewInit {
   /** Collection/sublocation name (from DOM via [data-qa="location-sub-location"]) */
   private collectionName: string = '';
 
+  /** Call number (from summary, without cutter) */
+  private callNumber: string = '';
+
+  /** Raw call number (from summary, for display) */
+  private rawCallNumber: string = '';
+
   /** Resolved library config (if found) */
   private libraryConfig: LibraryConfig | undefined = undefined;
 
   /** Resolved location config (if found) */
   private locationConfig: LocationConfig | undefined = undefined;
 
+  /** MutationObserver for watching DOM changes */
+  private observer: MutationObserver | null = null;
+
+  /** Whether initialization is complete */
+  private initialized = false;
+
   constructor(private dialog: MatDialog) {
     this.detectLanguage();
   }
 
   ngAfterViewInit(): void {
-    this.extractLocationData();
-    this.checkShouldShow();
+    // Try to extract data immediately
+    const success = this.tryExtractAndCheck();
+
+    if (!success) {
+      // If data not ready, set up observer to wait for it
+      this.setupObserver();
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.observer) {
+      this.observer.disconnect();
+      this.observer = null;
+    }
   }
 
   /** Button label based on language */
@@ -92,122 +113,100 @@ export class CenlibMapButtonComponent implements AfterViewInit {
   }
 
   /**
-   * Extract location data (library name, collection name, call number) from parent element
-   *
-   * DOM structure:
-   * - Library name: .getit-library-title (within nde-location parent)
-   * - Collection name: [data-qa="location-sub-location"] (within nde-location parent)
-   * - Call number: [data-qa="location-call-number"] (within nde-location-item)
+   * Try to extract location data and check for mapping
+   * @returns true if data extraction was successful
    */
-  private extractLocationData(): void {
-    // Find the nde-location parent (contains library header)
+  private tryExtractAndCheck(): boolean {
+    if (this.initialized) return true;
+
     const ndeLocation = this.elementRef.nativeElement.closest('nde-location');
-    if (ndeLocation) {
-      this.extractLibraryName(ndeLocation);
-      this.extractCollectionName(ndeLocation);
+    if (!ndeLocation) {
+      console.log('[CenlibMapButton] Could not find nde-location parent');
+      return false;
     }
 
-    // Find the nde-location-item parent (contains call number)
-    const locationItem = this.elementRef.nativeElement.closest('nde-location-item');
-    if (locationItem) {
-      this.extractCallNumber(locationItem);
-    }
-  }
-
-  /**
-   * Extract library name from nde-location element
-   * Uses .getit-library-title selector as discovered in DOM investigation
-   */
-  private extractLibraryName(ndeLocation: Element): void {
+    // Extract library name
     const libraryTitleEl = ndeLocation.querySelector('.getit-library-title');
     if (libraryTitleEl) {
       this.libraryName = libraryTitleEl.textContent?.trim() || '';
-      return;
     }
 
-    // Fallback: Try button with library-like text
-    const buttons = ndeLocation.querySelectorAll('button');
-    for (const btn of Array.from(buttons)) {
-      const text = btn.textContent?.trim() || '';
-      // Look for Hebrew library indicators
-      if (text.includes('ספרי') || text.includes('Library')) {
-        this.libraryName = text;
-        return;
-      }
-    }
-  }
-
-  /**
-   * Extract collection name from nde-location element
-   * Uses [data-qa="location-sub-location"] selector as discovered in DOM investigation
-   */
-  private extractCollectionName(ndeLocation: Element): void {
-    const subLocationEl = ndeLocation.querySelector(
-      '[data-qa="location-sub-location"]'
-    );
+    // Extract collection name from summary
+    const subLocationEl = ndeLocation.querySelector('[data-qa="location-sub-location"]');
     if (subLocationEl) {
-      // Remove trailing semicolon if present
       let text = subLocationEl.textContent?.trim() || '';
       if (text.endsWith(';')) {
         text = text.slice(0, -1).trim();
       }
       this.collectionName = text;
     }
+
+    // Extract call number from summary (this shows the first item's call number)
+    const callNumberEl = ndeLocation.querySelector('[data-qa="location-call-number"]');
+    if (callNumberEl) {
+      this.rawCallNumber = callNumberEl.textContent?.trim() || '';
+      this.callNumber = this.shelfMappingService.removeCutter(this.rawCallNumber);
+    }
+
+    // Check if we have all required data
+    if (!this.libraryName || !this.collectionName || !this.callNumber) {
+      console.log('[CenlibMapButton] Missing data:', {
+        libraryName: this.libraryName,
+        collectionName: this.collectionName,
+        callNumber: this.callNumber,
+      });
+      return false;
+    }
+
+    this.initialized = true;
+    this.checkShouldShow();
+    return true;
   }
 
   /**
-   * Extract call number from location item element
-   * Tries multiple selectors to handle both expanded and brief views
-   * Also removes the cutter string for range matching
+   * Set up MutationObserver to watch for DOM changes
+   * This handles cases where the location data is rendered after our component
    */
-  private extractCallNumber(locationItem: Element): void {
-    let rawValue = '';
+  private setupObserver(): void {
+    const ndeLocation = this.elementRef.nativeElement.closest('nde-location');
+    if (!ndeLocation) return;
 
-    // Try the data-qa selector first (expanded view)
-    const callNumberEl = locationItem.querySelector(
-      '[data-qa="location-call-number"]'
-    );
-    if (callNumberEl) {
-      rawValue = callNumberEl.textContent?.trim() || '';
-    } else {
-      // Fallback: brief property view (3rd column)
-      const briefCallNumber = locationItem.querySelector(
-        '.getit-items-brief-property:nth-child(3) span[ndetooltipifoverflow]'
-      );
-      if (briefCallNumber) {
-        rawValue = briefCallNumber.textContent?.trim() || '';
+    this.observer = new MutationObserver(() => {
+      if (this.tryExtractAndCheck()) {
+        // Data found, disconnect observer
+        this.observer?.disconnect();
+        this.observer = null;
       }
-    }
+    });
 
-    // Store both raw and processed versions
-    this.rawCallNumber = rawValue;
-    this.callNumber = this.shelfMappingService.removeCutter(rawValue);
+    this.observer.observe(ndeLocation, {
+      childList: true,
+      subtree: true,
+    });
+
+    // Also try after a short delay as fallback
+    setTimeout(() => {
+      if (!this.initialized) {
+        this.tryExtractAndCheck();
+      }
+    }, 500);
   }
 
   /**
    * Check if button should be shown based on MDM lookup
-   * The button is shown only if:
-   * 1. Library name is found in LIBRARY_CONFIG
-   * 2. Location name is found in that library's locations
-   * 3. A mapping exists for library+location+call number combination
    */
   private checkShouldShow(): void {
     // Step 1: Check if library is configured
     this.libraryConfig = findLibraryConfig(this.libraryName);
     if (!this.libraryConfig) {
-      console.log(
-        `[CenlibMapButton] Library not configured: "${this.libraryName}"`
-      );
+      console.log(`[CenlibMapButton] Library not configured: "${this.libraryName}"`);
       this.shouldShow = false;
       this.cdr.detectChanges();
       return;
     }
 
     // Step 2: Check if collection is configured for this library
-    this.locationConfig = findLocationConfig(
-      this.libraryConfig,
-      this.collectionName
-    );
+    this.locationConfig = findLocationConfig(this.libraryConfig, this.collectionName);
     if (!this.locationConfig) {
       console.log(
         `[CenlibMapButton] Collection not configured: "${this.collectionName}" in library "${this.libraryName}"`
@@ -223,7 +222,11 @@ export class CenlibMapButtonComponent implements AfterViewInit {
       .subscribe({
         next: (hasMapping) => {
           this.shouldShow = hasMapping;
-          if (!hasMapping) {
+          if (hasMapping) {
+            console.log(
+              `[CenlibMapButton] Found valid mapping for: ${this.libraryName} / ${this.collectionName} / ${this.callNumber}`
+            );
+          } else {
             console.log(
               `[CenlibMapButton] No mapping for: ${this.libraryName} / ${this.collectionName} / ${this.callNumber}`
             );
@@ -242,7 +245,7 @@ export class CenlibMapButtonComponent implements AfterViewInit {
   openMapDialog(): void {
     this.dialog.open(CenlibMapDialogComponent, {
       width: 'auto',
-      maxWidth: '900px', // Optimal width for floor maps
+      maxWidth: '900px',
       maxHeight: '85vh',
       panelClass: 'cenlib-map-dialog-panel',
       data: {

@@ -12,8 +12,8 @@ export const selectorComponentMap = new Map<string, any>([
   // REPLACES the entire no-results component (not -after, complete replacement)
   ['nde-search-no-results', NoResultsExternalLinksComponent],
 
-  // CenLib Map button - displays in get-it location items
-  ['nde-location-item-bottom', CenlibMapButtonComponent],
+  // CenLib Map button - displays at location level (next to Locate button area)
+  ['nde-location-top', CenlibMapButtonComponent],
 
   // Sort Pickup Library options in ILL form - DISABLED (not yet in production)
   // ['nde-ill-request-top', IllPickupLibrarySorterComponent],

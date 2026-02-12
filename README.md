@@ -90,42 +90,46 @@ Each source includes:
 
 ### 2. CenLib Map (Shelf Location Map)
 
-A feature that displays a "Shelf Map" button in the get-it section for physical items. When clicked, it opens a modal dialog showing the item's call number and mapped shelf location information.
+A feature that displays a "Shelf Map" button at the location level in the get-it section for physical items. When clicked, it opens a modal dialog showing the item's call number and an interactive SVG floor map with the shelf location highlighted.
 
 **Status:** 🧪 Development (Testing in NDE_TEST view)
 
 #### Implemented Features:
 
-- ✅ **Map Button**: Appears at the bottom of each location item in the get-it section
-- ✅ **Modal Dialog**: Opens when button is clicked, displays shelf location information
-- ✅ **Call Number Extraction**: Automatically extracts call number from parent location item
+- ✅ **Location-Level Button**: Appears at the top of each location card (one button per location, not per item)
+- ✅ **Interactive Floor Map**: SVG floor plans with highlighted shelf locations
+- ✅ **Zoom Controls**: Zoom in/out and full map view options
+- ✅ **Call Number Extraction**: Automatically extracts call number from location summary
 - ✅ **Bilingual Support**: English and Hebrew labels with RTL layout support
-- ✅ **Range-Based Mapping**: Maps call numbers to shelf codes using numeric ranges (Dewey Decimal)
-- ✅ **Mapping Display**: Shows SVG code, section description, and floor number
+- ✅ **Dewey Decimal Comparison**: Proper digit-by-digit comparison for decimal portions
+- ✅ **Letter Prefix Support**: Handles call numbers with alphabetic prefixes (e.g., QA76.73)
+- ✅ **MDM Support**: Multi-Dimensional Mapping with library and collection context
 - ✅ **Google Sheets Integration**: Shelf mappings loaded from external Google Sheets CSV
 - ✅ **Caching**: 5-minute cache to minimize network requests
-- ✅ **Fallback Support**: Automatic fallback to hard-coded data if fetch fails
-- ✅ **Loading State**: Spinner displayed while fetching data
+- ✅ **MutationObserver**: Handles async DOM rendering of location data
 
 #### How It Works:
 
 1. **Button Component** (`CenlibMapButtonComponent`):
-   - Registered at `nde-location-item-bottom` insertion point
-   - Extracts call number from DOM using `[data-qa="location-call-number"]` selector
-   - Opens Material dialog with call number data
+   - Registered at `nde-location-top` insertion point
+   - Extracts library name, collection name, and call number from location summary
+   - Uses MutationObserver to handle async DOM rendering
+   - Opens Material dialog with full location context
 
 2. **Dialog Component** (`CenlibMapDialogComponent`):
    - Displays call number with LTR direction for proper rendering
    - Uses `ShelfMappingService` to find matching shelf location
-   - Shows loading spinner while fetching data
-   - Shows SVG code, section description (bilingual), and floor number
+   - Shows interactive SVG floor map with zoom controls
+   - Shows library, collection, floor, and shelf label information
 
 3. **Shelf Mapping Service**:
    - Fetches shelf mappings from Google Sheets (published as CSV)
    - Caches data for 5 minutes to reduce network requests
-   - Falls back to hard-coded `SHELF_MAPPINGS` if fetch fails
-   - Extracts numeric portion from call numbers
-   - Matches against configured range-based mappings
+   - **Dewey Decimal Comparison**: Compares call numbers using proper library sorting rules:
+     - Letter prefix compared alphabetically (QA < QB)
+     - Main class (before decimal) compared numerically (10 > 9)
+     - Decimal portion compared digit-by-digit ("296.81" < "296.851" < "296.9")
+   - MDM lookup: Filters by library → collection → call number range
 
 #### Google Sheets Integration
 
@@ -172,7 +176,7 @@ Dialog Opens → Check Cache → [Valid?] → Use cached data
 
 **Dependencies:** `papaparse` (CSV parsing)
 
-**Selector Mapping:** `nde-location-item-bottom` → `CenlibMapButtonComponent`
+**Selector Mapping:** `nde-location-top` → `CenlibMapButtonComponent`
 
 #### Future Phases (Planned):
 
