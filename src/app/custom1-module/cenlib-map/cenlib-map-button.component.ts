@@ -75,6 +75,15 @@ export class CenlibMapButtonComponent implements AfterViewInit, OnDestroy {
   /** Whether initialization is complete */
   private initialized = false;
 
+  /** Reference to the hidden Locate button for cleanup */
+  private hiddenLocateButton: HTMLElement | null = null;
+
+  /** Original parent of our component (for cleanup) */
+  private originalParent: HTMLElement | null = null;
+
+  /** Original next sibling of our component (for cleanup) */
+  private originalNextSibling: Node | null = null;
+
   constructor(private dialog: MatDialog) {
     this.detectLanguage();
   }
@@ -94,6 +103,8 @@ export class CenlibMapButtonComponent implements AfterViewInit, OnDestroy {
       this.observer.disconnect();
       this.observer = null;
     }
+    // Restore the Locate button if it was hidden
+    this.showLocateButton();
   }
 
   /** Button label based on language */
@@ -226,6 +237,8 @@ export class CenlibMapButtonComponent implements AfterViewInit, OnDestroy {
             console.log(
               `[CenlibMapButton] Found valid mapping for: ${this.libraryName} / ${this.collectionName} / ${this.callNumber}`
             );
+            // Hide the original Locate button when showing our Shelf Map button
+            this.hideLocateButton();
           } else {
             console.log(
               `[CenlibMapButton] No mapping for: ${this.libraryName} / ${this.collectionName} / ${this.callNumber}`
@@ -239,6 +252,63 @@ export class CenlibMapButtonComponent implements AfterViewInit, OnDestroy {
           this.cdr.detectChanges();
         },
       });
+  }
+
+  /**
+   * Hide the original Locate button and move our component to its location
+   * This replaces the Locate button with our Shelf Map button in the same position
+   */
+  private hideLocateButton(): void {
+    const ndeLocation = this.elementRef.nativeElement.closest('nde-location');
+    if (!ndeLocation) return;
+
+    const locateButton = ndeLocation.querySelector('button.getit-locate-button') as HTMLElement;
+    if (locateButton && locateButton.style.display !== 'none') {
+      // Store reference for cleanup
+      this.hiddenLocateButton = locateButton;
+
+      // Store our original position for cleanup
+      const hostElement = this.elementRef.nativeElement;
+      this.originalParent = hostElement.parentElement;
+      this.originalNextSibling = hostElement.nextSibling;
+
+      // Find the Locate button's parent container and insert ourselves there
+      const locateButtonParent = locateButton.parentElement;
+      if (locateButtonParent) {
+        // Insert our component before the Locate button
+        locateButtonParent.insertBefore(hostElement, locateButton);
+        console.log('[CenlibMapButton] Moved to Locate button position');
+      }
+
+      // Hide the Locate button
+      locateButton.style.display = 'none';
+      console.log('[CenlibMapButton] Hidden original Locate button');
+    }
+  }
+
+  /**
+   * Restore the original Locate button and move our component back (for cleanup in ngOnDestroy)
+   */
+  private showLocateButton(): void {
+    // Restore our component to its original position
+    if (this.originalParent) {
+      const hostElement = this.elementRef.nativeElement;
+      if (this.originalNextSibling) {
+        this.originalParent.insertBefore(hostElement, this.originalNextSibling);
+      } else {
+        this.originalParent.appendChild(hostElement);
+      }
+      console.log('[CenlibMapButton] Restored to original position');
+      this.originalParent = null;
+      this.originalNextSibling = null;
+    }
+
+    // Restore the Locate button visibility
+    if (this.hiddenLocateButton) {
+      this.hiddenLocateButton.style.display = '';
+      console.log('[CenlibMapButton] Restored original Locate button');
+      this.hiddenLocateButton = null;
+    }
   }
 
   /** Open the shelf map dialog with full location context */

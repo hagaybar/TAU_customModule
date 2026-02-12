@@ -1,9 +1,10 @@
 // Location-level shelf map button
-// Positioned at the top of the location card, near the Locate button
+// Replaces the original Locate button with similar styling and positioning
 
 :host {
-  display: block;
-  padding: 8px 16px;
+  display: inline-block;
+  // Match the Locate button's margin/spacing within the location card
+  margin: 0;
 }
 
 .cenlib-map-button {
@@ -15,7 +16,7 @@
   min-height: 36px;
   border-radius: 4px;
 
-  // Match the styling of other location action buttons
+  // Match the styling of the Locate button (getit-locate-button)
   &.mat-mdc-outlined-button {
     border-color: #1976d2;
     color: #1976d2;

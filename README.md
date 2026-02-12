@@ -12,7 +12,7 @@ This package includes the following Tel Aviv University-specific customizations:
 | Feature | Type | Status | Description |
 |---------|------|--------|-------------|
 | **External Search Integration** | Component | ✅ Production | Search links panel + No results external links |
-| **CenLib Map** | Component | 🧪 Development | Shelf location map button in get-it section |
+| **CenLib Map** | Component | 🧪 Development | Shelf location map button replacing Locate button for configured locations |
 | **Call Number Directionality** | CSS | ✅ Production | LTR display + bold styling for mixed-language call numbers |
 | **Location Availability Color** | CSS | ✅ Production | Green text for availability status |
 | **Card Title Styling** | CSS | ✅ Production | Bold card titles |
@@ -96,7 +96,9 @@ A feature that displays a "Shelf Map" button at the location level in the get-it
 
 #### Implemented Features:
 
-- ✅ **Location-Level Button**: Appears at the top of each location card (one button per location, not per item)
+- ✅ **Locate Button Replacement**: Replaces the native Primo "Locate" button with "Shelf Map" button for configured locations
+- ✅ **Smart Positioning**: Button appears inside the location card, in the exact position of the original Locate button
+- ✅ **Conditional Display**: Only shows for configured libraries/locations with valid shelf mappings
 - ✅ **Interactive Floor Map**: SVG floor plans with highlighted shelf locations
 - ✅ **Zoom Controls**: Zoom in/out and full map view options
 - ✅ **Call Number Extraction**: Automatically extracts call number from location summary
@@ -107,6 +109,33 @@ A feature that displays a "Shelf Map" button at the location level in the get-it
 - ✅ **Google Sheets Integration**: Shelf mappings loaded from external Google Sheets CSV
 - ✅ **Caching**: 5-minute cache to minimize network requests
 - ✅ **MutationObserver**: Handles async DOM rendering of location data
+- ✅ **Cleanup on Destroy**: Restores original Locate button when component is destroyed
+
+#### Locate Button Replacement
+
+The component intelligently replaces the native Primo "Locate" button with our custom "Shelf Map" button:
+
+**How It Works:**
+1. Component is registered at `nde-location-top` insertion point
+2. When a valid mapping is found (`shouldShow = true`):
+   - Finds the original Locate button using `button.getit-locate-button` selector
+   - Moves our component into the same container as the Locate button
+   - Hides the original Locate button (`display: none`)
+3. When component is destroyed:
+   - Restores our component to its original position
+   - Shows the original Locate button again
+
+**Behavior by Location Type:**
+
+| Location Type | Locate Button | Shelf Map Button |
+|--------------|---------------|------------------|
+| Configured library + location + valid mapping | Hidden | Visible (in Locate's position) |
+| Configured library + location + no mapping | Visible | Hidden |
+| Non-configured library | Visible | Hidden |
+
+**Visual Result:**
+- For Sourasky Central Library (configured): "Shelf Map" button appears on the right side of the location card
+- For other libraries: Original "Locate" button remains visible
 
 #### How It Works:
 
@@ -114,7 +143,9 @@ A feature that displays a "Shelf Map" button at the location level in the get-it
    - Registered at `nde-location-top` insertion point
    - Extracts library name, collection name, and call number from location summary
    - Uses MutationObserver to handle async DOM rendering
+   - **Replaces Locate button**: When valid mapping found, moves itself into the Locate button's container and hides the original
    - Opens Material dialog with full location context
+   - **Cleanup**: Restores original Locate button visibility on component destroy
 
 2. **Dialog Component** (`CenlibMapDialogComponent`):
    - Displays call number with LTR direction for proper rendering
