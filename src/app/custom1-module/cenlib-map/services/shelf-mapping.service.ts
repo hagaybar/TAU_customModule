@@ -171,26 +171,27 @@ export class ShelfMappingService {
   }
 
   /**
-   * Extract the first numeric portion from a call number
-   * Handles various call number formats including Dewey and LC
+   * Extract the first numeric portion from a call number (including decimals)
+   * Handles various call number formats including Dewey decimal system
    *
    * @param callNumber The full call number string
-   * @returns The first numeric value found, or null if none
+   * @returns The first numeric value found (with decimals), or null if none
    *
    * @example
-   * extractNumericValue("892.413 מאו") → 892
-   * extractNumericValue("QA76.73") → 76
+   * extractNumericValue("892.413 מאו") → 892.413
+   * extractNumericValue("296.851 תלמ") → 296.851
+   * extractNumericValue("QA76.73") → 76.73
    * extractNumericValue("100-200") → 100
    * extractNumericValue("ABC") → null
    */
   extractNumericValue(callNumber: string): number | null {
     if (!callNumber) return null;
 
-    // Match the first sequence of digits in the string
-    const match = callNumber.match(/(\d+)/);
+    // Match the first sequence of digits, optionally followed by decimal point and more digits
+    const match = callNumber.match(/(\d+(?:\.\d+)?)/);
     if (!match) return null;
 
-    const num = parseInt(match[1], 10);
+    const num = parseFloat(match[1]);
     return isNaN(num) ? null : num;
   }
 
