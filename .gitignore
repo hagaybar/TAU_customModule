@@ -47,3 +47,13 @@ helper_files/
 
 # Playwright MCP debug screenshots
 .playwright-mcp/
+
+# Babysitter run data (temporary)
+.a5c/runs/
+
+# Temporary screenshots
+*.png
+!readme-files/*.png
+
+# Empty instruction files
+replacing_button_instruction.txt

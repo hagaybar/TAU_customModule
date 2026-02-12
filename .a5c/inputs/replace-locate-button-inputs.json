@@ -1,0 +1,6 @@
+{
+  "devServerUrl": "http://localhost:4201",
+  "searchQuery": "296.851",
+  "targetLibrary": "Sourasky Central Library",
+  "description": "Replace Locate button with Shelf Map button when filters match"
+}
