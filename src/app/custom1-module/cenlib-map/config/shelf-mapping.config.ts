@@ -9,8 +9,10 @@
 
 /** Interface for shelf mapping entries (MDM format) */
 export interface ShelfMapping {
-  /** Library display name in Hebrew (must match Primo DOM exactly) */
+  /** Library display name in English (must match Primo DOM when UI is English) */
   libraryName: string;
+  /** Library display name in Hebrew (must match Primo DOM when UI is Hebrew) */
+  libraryNameHe?: string;
   /** Collection/sublocation display name in English (must match Primo DOM when UI is English) */
   collectionName: string;
   /** Collection/sublocation display name in Hebrew (must match Primo DOM when UI is Hebrew) */

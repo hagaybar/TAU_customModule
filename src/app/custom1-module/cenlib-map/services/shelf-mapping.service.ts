@@ -14,6 +14,7 @@ import { LocationContext } from '../models/location-context.model';
 /** Raw row from CSV parsing (MDM format with library/collection names) */
 interface CsvRow {
   libraryName: string;
+  libraryNameHe: string;
   collectionName: string;
   collectionNameHe: string;
   rangeStart: string;
@@ -155,6 +156,7 @@ export class ShelfMappingService {
       )
       .map((row) => ({
         libraryName: row.libraryName.trim(),
+        libraryNameHe: row.libraryNameHe?.trim() || undefined,
         collectionName: row.collectionName.trim(),
         collectionNameHe: row.collectionNameHe?.trim() || undefined,
         rangeStart: row.rangeStart.trim(),
@@ -369,13 +371,14 @@ export class ShelfMappingService {
     this.mappingIndex = new Map();
 
     for (const mapping of this.cachedMappings) {
-      const libKey = this.normalize(mapping.libraryName);
-
-      if (!this.mappingIndex.has(libKey)) {
-        this.mappingIndex.set(libKey, new Map());
+      // Index by BOTH English and Hebrew library names
+      const libraryKeys: string[] = [];
+      if (mapping.libraryName) {
+        libraryKeys.push(this.normalize(mapping.libraryName));
       }
-
-      const libMap = this.mappingIndex.get(libKey)!;
+      if (mapping.libraryNameHe) {
+        libraryKeys.push(this.normalize(mapping.libraryNameHe));
+      }
 
       // Index by BOTH English and Hebrew collection names
       const collectionKeys: string[] = [];
@@ -386,12 +389,21 @@ export class ShelfMappingService {
         collectionKeys.push(this.normalize(mapping.collectionNameHe));
       }
 
-      // Add mapping under EACH collection name key
-      for (const colKey of collectionKeys) {
-        if (!libMap.has(colKey)) {
-          libMap.set(colKey, []);
+      // Add mapping under EACH library name key (both English and Hebrew)
+      for (const libKey of libraryKeys) {
+        if (!this.mappingIndex.has(libKey)) {
+          this.mappingIndex.set(libKey, new Map());
         }
-        libMap.get(colKey)!.push(mapping);
+
+        const libMap = this.mappingIndex.get(libKey)!;
+
+        // Add mapping under EACH collection name key
+        for (const colKey of collectionKeys) {
+          if (!libMap.has(colKey)) {
+            libMap.set(colKey, []);
+          }
+          libMap.get(colKey)!.push(mapping);
+        }
       }
     }
 
