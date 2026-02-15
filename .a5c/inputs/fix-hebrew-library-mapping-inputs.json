@@ -1,0 +1,11 @@
+{
+  "issueDescription": "CenLib Map button appears correctly when UI language is English, but does not appear when UI language is Hebrew. The root cause is that the mapping index is built using only English library names from the CSV, but when the UI is in Hebrew, the DOM contains Hebrew library names. The lookup fails because there's no index entry for Hebrew names.",
+  "libraryNameHe": "הספרייה המרכזית סוראסקי",
+  "libraryNameEn": "Sourasky Central Library",
+  "googleSheetsUrl": "https://docs.google.com/spreadsheets/d/e/2PACX-1vTE9A3GC_l4_kjAjy2c6Cc_woDgJCEctZSo0dY2zN-UMgziokuWLqZwSznQtaAHa5v7g7K_tkjMVhXY/pub?output=csv",
+  "targetFiles": [
+    "src/app/custom1-module/cenlib-map/services/shelf-mapping.service.ts",
+    "src/app/custom1-module/cenlib-map/config/shelf-mapping.config.ts",
+    "src/app/custom1-module/cenlib-map/config/google-sheets.config.ts"
+  ]
+}

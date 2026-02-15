@@ -1,10 +1,13 @@
 .location-info {
   padding: 16px 0;
+  // This ensures the container itself respects the direction attribute
+  display: flex;
+  flex-direction: column;
 
   .info-row {
     display: flex;
     align-items: baseline;
-    gap: 8px;
+    gap: 12px;
     padding: 8px 0;
     border-bottom: 1px solid #eee;
 
@@ -15,56 +18,47 @@
     .label {
       font-weight: 500;
       color: #666;
-      min-width: 100px;
+      min-width: 120px;
+      // LOGICAL: Always aligns to the "start" of the line (Left in EN, Right in HE)
+      text-align: start; 
     }
 
     .value {
       font-size: 1rem;
       color: #333;
+      flex: 1;
+      text-align: start;
 
+      // Your specific SVG code styling
       &.svg-code {
         font-family: 'Roboto Mono', monospace;
         background-color: #f5f5f5;
         padding: 2px 8px;
         border-radius: 4px;
         font-size: 0.875rem;
+        // Keep the code itself LTR even in Hebrew UI
+        display: inline-block;
+        direction: ltr; 
       }
     }
   }
 }
 
-.no-mapping-message {
-  padding: 16px;
-  text-align: center;
-  color: #999;
-
-  p {
-    margin: 0;
-  }
-}
-
-.loading-container {
+// Loading and Error states
+.loading-container, .no-mapping-message {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 32px;
   gap: 16px;
+  text-align: center; // Center is direction-neutral
+  color: #666;
 
-  .loading-text {
-    color: #666;
-    font-size: 0.875rem;
-  }
+  p { margin: 0; }
 }
 
-// Dialog title styling
-[mat-dialog-title] {
-  margin: 0 0 16px;
-  font-size: 1.25rem;
-  font-weight: 500;
-}
-
-// Dialog content styling - optimal size for floor maps
+// Dialog Layout logic
 mat-dialog-content {
   min-height: 120px;
   min-width: 320px;
@@ -72,26 +66,13 @@ mat-dialog-content {
   max-height: 70vh;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 0 16px 16px;
+  // LOGICAL: padding-inline-start/end instead of left/right
+  padding-inline: 16px; 
+  padding-bottom: 16px;
 }
 
-// Override Material's default dialog panel constraints
-::ng-deep .mat-mdc-dialog-container {
-  max-height: 85vh;
-  max-width: 900px;
-}
-
-// RTL support
-:host-context([dir='rtl']) {
-  [mat-dialog-title] {
-    text-align: right;
-  }
-
-  .location-info .info-row {
-    flex-direction: row-reverse;
-
-    .label {
-      text-align: left;
-    }
-  }
+// Small RTL-specific tweak for the Title
+[mat-dialog-title].rtl {
+  direction: rtl;
+  text-align: start;
 }

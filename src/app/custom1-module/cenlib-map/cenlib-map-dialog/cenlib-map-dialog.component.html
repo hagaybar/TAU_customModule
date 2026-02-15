@@ -1,6 +1,6 @@
-<h2 mat-dialog-title>{{ dialogTitle }}</h2>
-<mat-dialog-content>
-  <div class="location-info">
+<h2 mat-dialog-title [class.rtl]="currentLanguage === 'he'">{{ dialogTitle }}</h2>
+<mat-dialog-content [class.rtl]="currentLanguage === 'he'">
+  <div class="location-info" [attr.dir]="currentLanguage === 'he' ? 'rtl' : 'ltr'">
     <!-- Library and Location context -->
     <div class="info-row">
       <span class="label">{{ libraryLabel }}</span>

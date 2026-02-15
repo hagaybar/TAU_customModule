@@ -1,0 +1,11 @@
+{
+  "knownIssue": "RTL directionality issue: In Hebrew UI mode, labels with colons (e.g., 'ספרייה:', 'אוסף:') display with incorrect text direction - the colon appears at the beginning of the string instead of the end due to missing dir='rtl' attribute on dialog elements.",
+  "filesToCommit": [
+    "src/app/custom1-module/cenlib-map/config/google-sheets.config.ts",
+    "src/app/custom1-module/cenlib-map/config/shelf-mapping.config.ts",
+    "src/app/custom1-module/cenlib-map/services/shelf-mapping.service.ts"
+  ],
+  "dialogComponent": "src/app/custom1-module/cenlib-map/cenlib-map-dialog/cenlib-map-dialog.component.html",
+  "dialogStyles": "src/app/custom1-module/cenlib-map/cenlib-map-dialog/cenlib-map-dialog.component.scss",
+  "devServerUrl": "http://localhost:4201"
+}
