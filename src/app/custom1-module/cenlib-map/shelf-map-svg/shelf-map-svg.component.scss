@@ -64,15 +64,18 @@
   overflow: hidden;
   position: relative;
   max-height: 400px;
+  // Prevent text selection while panning
+  user-select: none;
+  -webkit-user-select: none;
 
-  // Enable scrolling when zoomed in
+  // Enable panning cursor when zoomed in
   &.zoomed {
-    overflow: auto;
     cursor: grab;
+  }
 
-    &:active {
-      cursor: grabbing;
-    }
+  // Show grabbing cursor while actively panning
+  &.panning {
+    cursor: grabbing;
   }
 }
 

@@ -84,6 +84,15 @@ export class ShelfMapSvgComponent implements OnChanges, OnDestroy {
   readonly maxZoom: number = 3;
   readonly zoomStep: number = 0.25;
 
+  /** Pan state properties */
+  isPanning: boolean = false;
+  panStartX: number = 0;
+  panStartY: number = 0;
+  panOffsetX: number = 0;
+  panOffsetY: number = 0;
+  private lastPanOffsetX: number = 0;
+  private lastPanOffsetY: number = 0;
+
   /** Subscription cleanup */
   private svgSubscription: Subscription | null = null;
 
@@ -392,6 +401,75 @@ export class ShelfMapSvgComponent implements OnChanges, OnDestroy {
   /** Reset zoom to default level */
   resetZoom(): void {
     this.zoomLevel = 1;
+    this.resetPan();
+  }
+
+  // ===== Pan Control Methods =====
+
+  /** Reset pan offset to center */
+  private resetPan(): void {
+    this.panOffsetX = 0;
+    this.panOffsetY = 0;
+    this.lastPanOffsetX = 0;
+    this.lastPanOffsetY = 0;
+  }
+
+  /** Handle pan start (mouse down or touch start) */
+  onPanStart(event: MouseEvent | TouchEvent): void {
+    // Only allow panning when zoomed in
+    if (this.zoomLevel <= 1) return;
+
+    this.isPanning = true;
+
+    if (event instanceof MouseEvent) {
+      this.panStartX = event.clientX;
+      this.panStartY = event.clientY;
+    } else if (event.touches && event.touches.length === 1) {
+      this.panStartX = event.touches[0].clientX;
+      this.panStartY = event.touches[0].clientY;
+    }
+
+    // Store the current offset as the base for this drag
+    this.lastPanOffsetX = this.panOffsetX;
+    this.lastPanOffsetY = this.panOffsetY;
+  }
+
+  /** Handle pan move (mouse move or touch move) */
+  onPanMove(event: MouseEvent | TouchEvent): void {
+    if (!this.isPanning) return;
+
+    let currentX: number;
+    let currentY: number;
+
+    if (event instanceof MouseEvent) {
+      currentX = event.clientX;
+      currentY = event.clientY;
+    } else if (event.touches && event.touches.length === 1) {
+      currentX = event.touches[0].clientX;
+      currentY = event.touches[0].clientY;
+      // Prevent scrolling on touch devices while panning
+      event.preventDefault();
+    } else {
+      return;
+    }
+
+    // Calculate the delta from the start position
+    const deltaX = currentX - this.panStartX;
+    const deltaY = currentY - this.panStartY;
+
+    // Apply the delta to the last stored offset
+    this.panOffsetX = this.lastPanOffsetX + deltaX;
+    this.panOffsetY = this.lastPanOffsetY + deltaY;
+  }
+
+  /** Handle pan end (mouse up or touch end) */
+  onPanEnd(): void {
+    this.isPanning = false;
+  }
+
+  /** Get the transform style string for the map content */
+  get mapTransform(): string {
+    return `translate(${this.panOffsetX}px, ${this.panOffsetY}px) scale(${this.zoomLevel})`;
   }
 
   // ===== Zoom Control Labels (Bilingual) =====

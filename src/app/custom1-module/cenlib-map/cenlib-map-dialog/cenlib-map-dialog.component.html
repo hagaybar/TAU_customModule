@@ -6,11 +6,10 @@
       <span class="label">{{ libraryLabel }}</span>
       <span class="value">{{ getLibraryName() }}</span>
     </div>
-    <div class="info-row">
+    <div class="info-row combined-location-call">
       <span class="label">{{ collectionLabel }}</span>
       <span class="value">{{ getCollectionName() }}</span>
-    </div>
-    <div class="info-row">
+      <span class="separator">|</span>
       <span class="label">{{ callNumberLabel }}</span>
       <span class="value" dir="ltr">{{ data.rawCallNumber || data.callNumber || notAvailableMessage }}</span>
     </div>

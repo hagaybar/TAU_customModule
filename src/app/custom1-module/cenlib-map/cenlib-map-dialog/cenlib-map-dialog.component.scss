@@ -20,7 +20,31 @@
       color: #666;
       min-width: 120px;
       // LOGICAL: Always aligns to the "start" of the line (Left in EN, Right in HE)
-      text-align: start; 
+      text-align: start;
+    }
+
+    .separator {
+      color: #ccc;
+      margin: 0 4px;
+    }
+
+    // Combined row: remove min-width constraint on labels
+    &.combined-location-call {
+      flex-wrap: wrap;
+
+      .label {
+        min-width: auto;
+      }
+
+      .value {
+        flex: none;
+
+        // Call number styling - bold green
+        &[dir="ltr"] {
+          font-weight: 700;
+          color: #2e7d32; // Material green 800
+        }
+      }
     }
 
     .value {
