@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "2026.01.results-v1",
+  "effectId": "01KH917VWSX4YACTD1MF16EFQ3",
+  "taskId": "__sdk.breakpoint",
+  "invocationKey": "commit-and-playwright-rtl-tests:S000005:__sdk.breakpoint",
+  "status": "ok",
+  "result": {
+    "approved": true
+  },
+  "startedAt": "2026-02-12T13:39:55.738Z",
+  "finishedAt": "2026-02-12T13:39:55.738Z",
+  "value": {
+    "approved": true
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "2026.01.tasks-v1",
+  "effectId": "01KH8E1GBF9BFNV2JKAN88ENH9",
+  "taskId": "find-locate-button",
+  "invocationKey": "replace-locate-button:S000001:find-locate-button",
+  "stepId": "S000001",
+  "kind": "agent",
+  "title": "Find Locate button selector in Primo DOM",
+  "io": {
+    "inputJsonPath": "tasks/01KH8E1GBF9BFNV2JKAN88ENH9/input.json",
+    "outputJsonPath": "tasks/01KH8E1GBF9BFNV2JKAN88ENH9/result.json"
+  },
+  "inputs": {
+    "devServerUrl": "http://localhost:4201",
+    "searchQuery": "296.851"
+  }
+}

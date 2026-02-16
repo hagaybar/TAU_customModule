@@ -1,0 +1,15 @@
+{
+  "type": "EFFECT_REQUESTED",
+  "recordedAt": "2026-02-12T08:32:35.403Z",
+  "data": {
+    "effectId": "01KH8FP2HZ0BX4VFT1AYM26H6J",
+    "invocationKey": "replace-locate-button:S000004:verify-implementation",
+    "invocationHash": "a7e94fded639a6122812b4c471fd48aeff9698b6c7abde364877197aeecb64db",
+    "stepId": "S000004",
+    "taskId": "verify-implementation",
+    "kind": "agent",
+    "label": "Verify Locate button replacement in browser",
+    "taskDefRef": "tasks/01KH8FP2HZ0BX4VFT1AYM26H6J/task.json"
+  },
+  "checksum": "93a23e0470554d516f5ba01a101e4f425555903ff141fa27b479092c0689e193"
+}

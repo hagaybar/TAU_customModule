@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "2026.01.results-v1",
+  "effectId": "01KH8FWKWCKWBMVA0N7WZJ6AD9",
+  "taskId": "__sdk.breakpoint",
+  "invocationKey": "replace-locate-button:S000005:__sdk.breakpoint",
+  "status": "ok",
+  "result": {
+    "approved": false,
+    "response": "Button positioning issue - button is before nde-location instead of nested inside it"
+  },
+  "startedAt": "2026-02-12T09:10:09.219Z",
+  "finishedAt": "2026-02-12T09:10:09.219Z",
+  "value": {
+    "approved": false,
+    "response": "Button positioning issue - button is before nde-location instead of nested inside it"
+  }
+}

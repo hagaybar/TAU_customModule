@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "2026.01.results-v1",
+  "effectId": "01KH91CVKYP2RSV70WAR1A8TE2",
+  "taskId": "__sdk.breakpoint",
+  "invocationKey": "commit-and-playwright-rtl-tests:S000008:__sdk.breakpoint",
+  "status": "ok",
+  "result": {
+    "approved": false,
+    "response": "User wants the RTL issue fixed first, then test visually"
+  },
+  "startedAt": "2026-02-12T13:44:15.856Z",
+  "finishedAt": "2026-02-12T13:44:15.856Z",
+  "value": {
+    "approved": false,
+    "response": "User wants the RTL issue fixed first, then test visually"
+  }
+}

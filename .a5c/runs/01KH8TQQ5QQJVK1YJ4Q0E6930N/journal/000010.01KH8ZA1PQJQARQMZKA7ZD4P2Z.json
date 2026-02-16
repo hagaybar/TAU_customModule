@@ -1,0 +1,19 @@
+{
+  "type": "EFFECT_REQUESTED",
+  "recordedAt": "2026-02-12T13:05:38.519Z",
+  "data": {
+    "effectId": "01KH8ZA1PAM3DQBJ3J4507S0ZW",
+    "invocationKey": "fix-hebrew-library-mapping:S000005:verify-fix",
+    "invocationHash": "e780ed669b33caaa793f619ffc37afef3aad7a5e776ca9b19f666d333acf1111",
+    "stepId": "S000005",
+    "taskId": "verify-fix",
+    "kind": "agent",
+    "label": "verification",
+    "taskDefRef": "tasks/01KH8ZA1PAM3DQBJ3J4507S0ZW/task.json",
+    "labels": [
+      "verification",
+      "qa"
+    ]
+  },
+  "checksum": "7b4d0710ed4519a06ab3d998c619d2ad9e1d45280ca30275a2f84eb639a8b952"
+}

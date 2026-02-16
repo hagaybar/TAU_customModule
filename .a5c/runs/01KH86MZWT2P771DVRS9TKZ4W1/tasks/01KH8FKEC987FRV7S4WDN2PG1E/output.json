@@ -1,0 +1,13 @@
+{
+  "changes": [
+    {
+      "file": "/home/hagaybar/projects/TAU_customModule/src/app/custom1-module/cenlib-map/cenlib-map-button.component.ts",
+      "description": "Added hiddenLocateButton property to store reference to hidden Locate button; Added hideLocateButton() method to find and hide the original Locate button using closest('nde-location') and querySelector('button.getit-locate-button'); Added showLocateButton() method to restore the Locate button's display; Called hideLocateButton() when shouldShow becomes true in checkShouldShow(); Called showLocateButton() in ngOnDestroy for proper cleanup"
+    },
+    {
+      "file": "/home/hagaybar/projects/TAU_customModule/src/app/custom1-module/cenlib-map/cenlib-map-button.component.scss",
+      "description": "Changed :host display from 'block' to 'inline-block' and removed padding to match the Locate button's positioning; Updated comments to reflect that the button replaces the Locate button"
+    }
+  ],
+  "summary": "Modified the cenlib-map-button component to hide the original Primo Locate button and display the Shelf Map button in its place. When the Shelf Map button should be shown (valid mapping exists), the component finds the Locate button via DOM traversal and hides it. The button reference is stored for cleanup in ngOnDestroy, which restores the Locate button if the component is destroyed. SCSS was updated to use inline-block display for proper alignment within the location card."
+}

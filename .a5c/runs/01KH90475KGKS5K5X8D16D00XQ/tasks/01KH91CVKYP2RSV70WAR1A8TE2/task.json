@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "2026.01.tasks-v1",
+  "effectId": "01KH91CVKYP2RSV70WAR1A8TE2",
+  "taskId": "__sdk.breakpoint",
+  "invocationKey": "commit-and-playwright-rtl-tests:S000008:__sdk.breakpoint",
+  "stepId": "S000008",
+  "kind": "breakpoint",
+  "title": "breakpoint",
+  "metadata": {
+    "label": "breakpoint",
+    "payload": {
+      "context": {},
+      "question": "Playwright tests created and executed. Tests should fail on RTL issue (expected). Ready to complete?",
+      "title": "Final Review"
+    },
+    "requestedAt": "2026-02-12T13:42:07.742Z"
+  },
+  "inputs": {
+    "label": "breakpoint",
+    "payload": {
+      "context": {},
+      "question": "Playwright tests created and executed. Tests should fail on RTL issue (expected). Ready to complete?",
+      "title": "Final Review"
+    },
+    "requestedAt": "2026-02-12T13:42:07.742Z"
+  }
+}

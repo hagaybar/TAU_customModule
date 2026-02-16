@@ -1,0 +1,6 @@
+{
+  "locateButtonSelector": "button.getit-locate-button",
+  "parentContainerSelector": "div.getit-location-card",
+  "buttonStructure": "The Locate button is a Material button (<button mat-button>) with classes: 'flex-row flex-layout-center getit-locate-button toggle-panel mdc-button mat-mdc-button mat-primary mat-mdc-button-base'. It contains a mat-icon with an SVG location pin icon followed by a span with text 'Locate'. The button has an aria-label that includes the sublibrary, call number, and availability info.",
+  "proximityToCallNumber": "The Locate button is inside a div.accordion-header which contains the library name, location/call number info, and the button itself. The call number appears as a sibling span within 'location-brief-properties-container'. The Locate button is in a flex-row div at the same level."
+}

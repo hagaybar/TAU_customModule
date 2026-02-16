@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "2026.01.results-v1",
+  "effectId": "01KH914M3NK8NZE40Z8GEZ5HQR",
+  "taskId": "setup-playwright",
+  "invocationKey": "commit-and-playwright-rtl-tests:S000003:setup-playwright",
+  "status": "ok",
+  "result": {
+    "browsersInstalled": true,
+    "configCreated": true,
+    "e2eDirectoryCreated": true,
+    "installed": true
+  },
+  "startedAt": "2026-02-12T13:38:41.734Z",
+  "finishedAt": "2026-02-12T13:38:41.734Z",
+  "value": {
+    "browsersInstalled": true,
+    "configCreated": true,
+    "e2eDirectoryCreated": true,
+    "installed": true
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "2026.01.results-v1",
+  "effectId": "01KH8Z87ADFWT9GGPC26YFEXH6",
+  "taskId": "__sdk.breakpoint",
+  "invocationKey": "fix-hebrew-library-mapping:S000004:__sdk.breakpoint",
+  "status": "ok",
+  "result": {
+    "approved": true,
+    "response": "User approved proceeding with verification"
+  },
+  "startedAt": "2026-02-12T13:05:34.398Z",
+  "finishedAt": "2026-02-12T13:05:34.398Z",
+  "value": {
+    "approved": true,
+    "response": "User approved proceeding with verification"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "2026.01.tasks-v1",
+  "effectId": "01KH914M3NK8NZE40Z8GEZ5HQR",
+  "taskId": "setup-playwright",
+  "invocationKey": "commit-and-playwright-rtl-tests:S000003:setup-playwright",
+  "stepId": "S000003",
+  "kind": "agent",
+  "title": "Set up Playwright for E2E testing",
+  "description": "Install and configure Playwright if not already set up",
+  "labels": [
+    "playwright",
+    "setup"
+  ],
+  "io": {
+    "inputJsonPath": "tasks/01KH914M3NK8NZE40Z8GEZ5HQR/input.json",
+    "outputJsonPath": "tasks/01KH914M3NK8NZE40Z8GEZ5HQR/result.json"
+  },
+  "inputs": {}
+}

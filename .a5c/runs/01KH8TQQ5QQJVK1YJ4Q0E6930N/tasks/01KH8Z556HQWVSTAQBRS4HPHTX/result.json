@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "2026.01.results-v1",
+  "effectId": "01KH8Z556HQWVSTAQBRS4HPHTX",
+  "taskId": "implement-fix",
+  "invocationKey": "fix-hebrew-library-mapping:S000002:implement-fix",
+  "status": "ok",
+  "result": {
+    "changesDescription": "1. Added libraryNameHe field to CsvRow interface in shelf-mapping.service.ts (line 17). 2. Updated parseCsv() to extract libraryNameHe from CSV (line 159). 3. Rewrote buildMappingIndex() to index by BOTH English (libraryName) and Hebrew (libraryNameHe) library names, so lookups work regardless of UI language. 4. Added libraryNameHe?: string field to ShelfMapping interface in shelf-mapping.config.ts. 5. Updated google-sheets.config.ts to use direct Google Sheets published CSV URL (bypasses GitHub sync delay).",
+    "filesModified": [
+      "src/app/custom1-module/cenlib-map/services/shelf-mapping.service.ts",
+      "src/app/custom1-module/cenlib-map/config/shelf-mapping.config.ts",
+      "src/app/custom1-module/cenlib-map/config/google-sheets.config.ts"
+    ],
+    "success": true,
+    "typeCheckStatus": "passed (pre-existing errors in unrelated test file)"
+  },
+  "startedAt": "2026-02-12T13:04:14.508Z",
+  "finishedAt": "2026-02-12T13:04:14.508Z",
+  "value": {
+    "changesDescription": "1. Added libraryNameHe field to CsvRow interface in shelf-mapping.service.ts (line 17). 2. Updated parseCsv() to extract libraryNameHe from CSV (line 159). 3. Rewrote buildMappingIndex() to index by BOTH English (libraryName) and Hebrew (libraryNameHe) library names, so lookups work regardless of UI language. 4. Added libraryNameHe?: string field to ShelfMapping interface in shelf-mapping.config.ts. 5. Updated google-sheets.config.ts to use direct Google Sheets published CSV URL (bypasses GitHub sync delay).",
+    "filesModified": [
+      "src/app/custom1-module/cenlib-map/services/shelf-mapping.service.ts",
+      "src/app/custom1-module/cenlib-map/config/shelf-mapping.config.ts",
+      "src/app/custom1-module/cenlib-map/config/google-sheets.config.ts"
+    ],
+    "success": true,
+    "typeCheckStatus": "passed (pre-existing errors in unrelated test file)"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "2026.01.tasks-v1",
+  "effectId": "01KH8TR8KHTFSDDBEWDC0FCYGE",
+  "taskId": "analyze-code",
+  "invocationKey": "fix-hebrew-library-mapping:S000001:analyze-code",
+  "stepId": "S000001",
+  "kind": "agent",
+  "title": "Analyze current code for mapping issue",
+  "description": "Analyze the shelf-mapping service to understand current implementation",
+  "labels": [
+    "analysis",
+    "code-review"
+  ],
+  "io": {
+    "inputJsonPath": "tasks/01KH8TR8KHTFSDDBEWDC0FCYGE/input.json",
+    "outputJsonPath": "tasks/01KH8TR8KHTFSDDBEWDC0FCYGE/result.json"
+  },
+  "inputs": {
+    "issueDescription": "CenLib Map button appears correctly when UI language is English, but does not appear when UI language is Hebrew. The root cause is that the mapping index is built using only English library names from the CSV, but when the UI is in Hebrew, the DOM contains Hebrew library names. The lookup fails because there's no index entry for Hebrew names.",
+    "targetFiles": [
+      "src/app/custom1-module/cenlib-map/services/shelf-mapping.service.ts",
+      "src/app/custom1-module/cenlib-map/config/shelf-mapping.config.ts",
+      "src/app/custom1-module/cenlib-map/config/google-sheets.config.ts"
+    ]
+  }
+}

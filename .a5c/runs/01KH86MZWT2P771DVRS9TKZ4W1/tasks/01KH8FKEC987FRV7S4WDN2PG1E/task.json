@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "2026.01.tasks-v1",
+  "effectId": "01KH8FKEC987FRV7S4WDN2PG1E",
+  "taskId": "implement-replace-logic",
+  "invocationKey": "replace-locate-button:S000003:implement-replace-logic",
+  "stepId": "S000003",
+  "kind": "agent",
+  "title": "Implement Locate button replacement logic",
+  "io": {
+    "inputJsonPath": "tasks/01KH8FKEC987FRV7S4WDN2PG1E/input.json",
+    "outputJsonPath": "tasks/01KH8FKEC987FRV7S4WDN2PG1E/result.json"
+  },
+  "inputs": {
+    "buttonStructure": "The Locate button is a Material button (<button mat-button>) with classes: 'flex-row flex-layout-center getit-locate-button toggle-panel mdc-button mat-mdc-button mat-primary mat-mdc-button-base'. It contains a mat-icon with an SVG location pin icon followed by a span with text 'Locate'. The button has an aria-label that includes the sublibrary, call number, and availability info.",
+    "locateButtonSelector": "button.getit-locate-button",
+    "parentContainerSelector": "div.getit-location-card"
+  }
+}

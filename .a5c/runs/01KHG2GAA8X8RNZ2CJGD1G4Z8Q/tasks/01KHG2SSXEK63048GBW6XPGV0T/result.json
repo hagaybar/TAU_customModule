@@ -1,0 +1,97 @@
+{
+  "schemaVersion": "2026.01.results-v1",
+  "effectId": "01KHG2SSXEK63048GBW6XPGV0T",
+  "taskId": "verify-bidi",
+  "invocationKey": "bidi-dialog-test:S000003:verify-bidi",
+  "status": "ok",
+  "result": {
+    "englishSatisfactory": true,
+    "hebrewSatisfactory": true,
+    "issues": [],
+    "verification": {
+      "bidiPrinciples": {
+        "callNumberIsolation": "PASS - Call number has dir=ltr, numbers display correctly",
+        "colonPlacement": "PASS - Colons appear at correct visual position in both languages",
+        "labelValueOrder": "PASS - CSS order property correctly swaps label/value in RTL",
+        "textDirection": "PASS - Hebrew flows RTL, English flows LTR"
+      },
+      "conclusion": "Both Hebrew and English readers will be satisfied with the dialog layout. The BiDi implementation is correct and follows best practices.",
+      "english": {
+        "buttons": "Zoom in, Zoom out, Full map - display correctly in English",
+        "callNumber": "901 ארנ - Hebrew characters display correctly in LTR context",
+        "closeButton": "Close - correctly positioned",
+        "labels": [
+          "Library: - colon at visual END (right side) - CORRECT",
+          "Collection: - colon at visual END (right side) - CORRECT",
+          "Call Number: - colon at visual END (right side) - CORRECT",
+          "Section: - colon at visual END (right side) - CORRECT",
+          "Floor: - colon at visual END (right side) - CORRECT",
+          "Shelf Label: - colon at visual END (right side) - CORRECT"
+        ],
+        "layout": "Values appear to the RIGHT of labels (correct for LTR)",
+        "title": "Shelf Location Map - displays correctly LTR"
+      },
+      "hebrew": {
+        "buttons": "הגדלה+, הקטנה-, כל המפה - display correctly in Hebrew",
+        "callNumber": "901 ארנ - Numbers stay LTR, Hebrew characters display correctly",
+        "closeButton": "סגור - correctly positioned",
+        "labels": [
+          "ספרייה: - colon at visual END (left side) - CORRECT",
+          "אוסף: - colon at visual END (left side) - CORRECT",
+          "מספר קריאה: - colon at visual END (left side) - CORRECT",
+          "מדור: - colon at visual END (left side) - CORRECT",
+          "קומה: - colon at visual END (left side) - CORRECT",
+          "מדף: - colon at visual END (left side) - CORRECT"
+        ],
+        "layout": "Values appear to the LEFT of labels (correct for RTL - value first using CSS order)",
+        "title": "מפת מיקום המדף - displays correctly RTL"
+      }
+    }
+  },
+  "startedAt": "2026-02-15T07:21:39.829Z",
+  "finishedAt": "2026-02-15T07:21:39.829Z",
+  "value": {
+    "englishSatisfactory": true,
+    "hebrewSatisfactory": true,
+    "issues": [],
+    "verification": {
+      "bidiPrinciples": {
+        "callNumberIsolation": "PASS - Call number has dir=ltr, numbers display correctly",
+        "colonPlacement": "PASS - Colons appear at correct visual position in both languages",
+        "labelValueOrder": "PASS - CSS order property correctly swaps label/value in RTL",
+        "textDirection": "PASS - Hebrew flows RTL, English flows LTR"
+      },
+      "conclusion": "Both Hebrew and English readers will be satisfied with the dialog layout. The BiDi implementation is correct and follows best practices.",
+      "english": {
+        "buttons": "Zoom in, Zoom out, Full map - display correctly in English",
+        "callNumber": "901 ארנ - Hebrew characters display correctly in LTR context",
+        "closeButton": "Close - correctly positioned",
+        "labels": [
+          "Library: - colon at visual END (right side) - CORRECT",
+          "Collection: - colon at visual END (right side) - CORRECT",
+          "Call Number: - colon at visual END (right side) - CORRECT",
+          "Section: - colon at visual END (right side) - CORRECT",
+          "Floor: - colon at visual END (right side) - CORRECT",
+          "Shelf Label: - colon at visual END (right side) - CORRECT"
+        ],
+        "layout": "Values appear to the RIGHT of labels (correct for LTR)",
+        "title": "Shelf Location Map - displays correctly LTR"
+      },
+      "hebrew": {
+        "buttons": "הגדלה+, הקטנה-, כל המפה - display correctly in Hebrew",
+        "callNumber": "901 ארנ - Numbers stay LTR, Hebrew characters display correctly",
+        "closeButton": "סגור - correctly positioned",
+        "labels": [
+          "ספרייה: - colon at visual END (left side) - CORRECT",
+          "אוסף: - colon at visual END (left side) - CORRECT",
+          "מספר קריאה: - colon at visual END (left side) - CORRECT",
+          "מדור: - colon at visual END (left side) - CORRECT",
+          "קומה: - colon at visual END (left side) - CORRECT",
+          "מדף: - colon at visual END (left side) - CORRECT"
+        ],
+        "layout": "Values appear to the LEFT of labels (correct for RTL - value first using CSS order)",
+        "title": "מפת מיקום המדף - displays correctly RTL"
+      }
+    }
+  }
+}

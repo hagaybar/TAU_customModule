@@ -1,0 +1,19 @@
+{
+  "type": "EFFECT_REQUESTED",
+  "recordedAt": "2026-02-12T13:37:37.921Z",
+  "data": {
+    "effectId": "01KH914M3NK8NZE40Z8GEZ5HQR",
+    "invocationKey": "commit-and-playwright-rtl-tests:S000003:setup-playwright",
+    "invocationHash": "fb691cd69355b724c5bcc8d3962a50922acbc6f8b085c7f4ff70d23f9512f96b",
+    "stepId": "S000003",
+    "taskId": "setup-playwright",
+    "kind": "agent",
+    "label": "setup",
+    "taskDefRef": "tasks/01KH914M3NK8NZE40Z8GEZ5HQR/task.json",
+    "labels": [
+      "setup",
+      "playwright"
+    ]
+  },
+  "checksum": "56fa88a1c3c5e00e034aa9254a4e3e804d2e372e336a6d6c7f52722ba5d6088f"
+}

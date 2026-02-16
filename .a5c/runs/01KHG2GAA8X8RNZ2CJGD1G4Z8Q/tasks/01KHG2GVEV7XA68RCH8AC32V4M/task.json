@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "2026.01.tasks-v1",
+  "effectId": "01KHG2GVEV7XA68RCH8AC32V4M",
+  "taskId": "analyze-bidi",
+  "invocationKey": "bidi-dialog-test:S000001:analyze-bidi",
+  "stepId": "S000001",
+  "kind": "skill",
+  "title": "Analyze dialog for BiDi issues",
+  "description": "Use bidi-engineering skill to analyze the dialog component for RTL/BiDi issues",
+  "labels": [
+    "analysis",
+    "bidi",
+    "rtl"
+  ],
+  "io": {
+    "inputJsonPath": "tasks/01KHG2GVEV7XA68RCH8AC32V4M/input.json",
+    "outputJsonPath": "tasks/01KHG2GVEV7XA68RCH8AC32V4M/result.json"
+  },
+  "inputs": {
+    "componentFiles": {
+      "html": "src/app/custom1-module/cenlib-map/cenlib-map-dialog/cenlib-map-dialog.component.html",
+      "scss": "src/app/custom1-module/cenlib-map/cenlib-map-dialog/cenlib-map-dialog.component.scss",
+      "ts": "src/app/custom1-module/cenlib-map/cenlib-map-dialog/cenlib-map-dialog.component.ts"
+    }
+  }
+}

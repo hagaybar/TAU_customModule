@@ -1,0 +1,146 @@
+{
+  "schemaVersion": "2026.01.tasks-v1",
+  "effectId": "01KHG2SSXEK63048GBW6XPGV0T",
+  "taskId": "verify-bidi",
+  "invocationKey": "bidi-dialog-test:S000003:verify-bidi",
+  "stepId": "S000003",
+  "kind": "agent",
+  "title": "Verify BiDi correctness",
+  "description": "Review screenshots and analysis to verify BiDi implementation",
+  "labels": [
+    "bidi",
+    "qa",
+    "verification"
+  ],
+  "io": {
+    "inputJsonPath": "tasks/01KHG2SSXEK63048GBW6XPGV0T/input.json",
+    "outputJsonPath": "tasks/01KHG2SSXEK63048GBW6XPGV0T/result.json"
+  },
+  "inputs": {
+    "analysisResult": {
+      "analysisComplete": true,
+      "englishReaderExperience": {
+        "notes": [
+          "Default LTR layout is explicit and correct",
+          "Labels appear left-aligned as expected",
+          "Values appear to the right of labels",
+          "Call numbers display correctly with explicit dir=ltr"
+        ],
+        "rating": "GOOD"
+      },
+      "findings": {
+        "issues": [
+          {
+            "description": "SCSS uses physical properties (text-align: right/left) instead of logical (text-align: start/end)",
+            "item": "Physical CSS properties used",
+            "locations": [
+              "cenlib-map-dialog.component.scss:23 - text-align: right",
+              "cenlib-map-dialog.component.scss:92 - text-align: right",
+              "cenlib-map-dialog.component.scss:108 - text-align: left",
+              "cenlib-map-dialog.component.scss:113 - text-align: right"
+            ],
+            "recommendation": "Replace with text-align: start/end for consistency with logical property model",
+            "severity": "MEDIUM"
+          },
+          {
+            "description": "In RTL mode, .info-row does not explicitly set direction: rtl - relies on inheritance",
+            "item": "Missing direction on .info-row in RTL",
+            "location": "cenlib-map-dialog.component.scss:101-115",
+            "recommendation": "Add explicit direction: rtl to .location-info.rtl .info-row for robustness",
+            "severity": "LOW"
+          },
+          {
+            "description": "Dynamic values like {{ getLibraryName() }} and {{ getCollectionName() }} are not wrapped in <bdi> tags",
+            "item": "Dynamic content not wrapped with <bdi>",
+            "location": "cenlib-map-dialog.component.html:7,11",
+            "recommendation": "Wrap dynamic content in <bdi> tags to isolate bidirectional content",
+            "severity": "LOW"
+          },
+          {
+            "description": "Hebrew labels like 'ספרייה:' have colon embedded - this works but colon position depends on context direction",
+            "item": "Labels include colons in string",
+            "location": "cenlib-map-dialog.component.ts:122-149",
+            "recommendation": "Current approach is acceptable if container has proper direction:rtl",
+            "severity": "INFO"
+          }
+        ],
+        "positive": [
+          {
+            "description": "HTML correctly uses [class.rtl]=\"currentLanguage === 'he'\" on title, content, and location-info",
+            "item": "RTL class application",
+            "location": "cenlib-map-dialog.component.html:1-3"
+          },
+          {
+            "description": "Call number value correctly has dir=\"ltr\" since call numbers are LTR-native data",
+            "item": "Call number LTR isolation",
+            "location": "cenlib-map-dialog.component.html:15"
+          },
+          {
+            "description": "SCSS uses CSS order property to swap label/value positions in RTL - good approach",
+            "item": "CSS RTL order swap",
+            "location": "cenlib-map-dialog.component.scss:101-114"
+          },
+          {
+            "description": ":host-context([dir='rtl']) provides fallback for parent RTL context",
+            "item": "Direction inheritance support",
+            "location": "cenlib-map-dialog.component.scss:131-150"
+          },
+          {
+            "description": "TypeScript correctly detects 'he' and 'he_IL' language codes",
+            "item": "Language detection",
+            "location": "cenlib-map-dialog.component.ts:251-260"
+          }
+        ]
+      },
+      "hebrewReaderExperience": {
+        "notes": [
+          "Layout correctly swaps label/value order using CSS order property",
+          "Title and content have proper RTL direction",
+          "Labels display in Hebrew with correct reading order",
+          "Some physical properties may cause minor alignment inconsistencies"
+        ],
+        "rating": "GOOD"
+      },
+      "overallAssessment": "GOOD_WITH_MINOR_ISSUES",
+      "recommendations": [
+        {
+          "action": "Convert physical text-align to logical",
+          "details": "Replace text-align: right with text-align: end, text-align: left with text-align: start",
+          "priority": "MEDIUM"
+        },
+        {
+          "action": "Add <bdi> wrappers for dynamic content",
+          "details": "Wrap {{ getLibraryName() }}, {{ getCollectionName() }}, etc. in <bdi> tags",
+          "priority": "LOW"
+        },
+        {
+          "action": "Add explicit direction to .info-row in RTL context",
+          "details": "Add direction: rtl to .location-info.rtl .info-row for robustness",
+          "priority": "LOW"
+        }
+      ],
+      "summary": "The dialog component has solid BiDi foundation but has some issues that could affect Hebrew readers.",
+      "tortureStringAnalysis": {
+        "bracketTest": {
+          "prediction": "Brackets should render correctly in respective directions",
+          "status": "LIKELY_OK",
+          "testString": "(בדיקה) vs (Testing)"
+        },
+        "ltrEnderTest": {
+          "prediction": "If container has direction:rtl, period should stay after 'English' - OK",
+          "status": "LIKELY_OK",
+          "testString": "בדיקה English."
+        },
+        "numberTest": {
+          "prediction": "Should display correctly if container has direction:rtl - numbers will stay as 123-456",
+          "status": "LIKELY_OK",
+          "testString": "בדיקה 123-456 בדיקה"
+        }
+      }
+    },
+    "screenshotPaths": [
+      "e2e/screenshots/dialog-hebrew.png",
+      "e2e/screenshots/dialog-english.png"
+    ]
+  }
+}

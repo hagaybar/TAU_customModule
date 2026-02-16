@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "2026.01.results-v1",
+  "effectId": "01KHG2JHXFSTS6HV9T694FTCHX",
+  "taskId": "take-screenshots",
+  "invocationKey": "bidi-dialog-test:S000002:take-screenshots",
+  "status": "ok",
+  "result": {
+    "notes": [
+      "Hebrew screenshot captured successfully with RTL layout",
+      "English screenshot captured successfully with LTR layout",
+      "Both dialogs show the same book at Sourasky Central Library",
+      "Floor map with highlighted shelf visible in both"
+    ],
+    "screenshotPaths": [
+      "e2e/screenshots/dialog-hebrew.png",
+      "e2e/screenshots/dialog-english.png"
+    ],
+    "success": true
+  },
+  "startedAt": "2026-02-15T07:21:16.285Z",
+  "finishedAt": "2026-02-15T07:21:16.285Z",
+  "value": {
+    "notes": [
+      "Hebrew screenshot captured successfully with RTL layout",
+      "English screenshot captured successfully with LTR layout",
+      "Both dialogs show the same book at Sourasky Central Library",
+      "Floor map with highlighted shelf visible in both"
+    ],
+    "screenshotPaths": [
+      "e2e/screenshots/dialog-hebrew.png",
+      "e2e/screenshots/dialog-english.png"
+    ],
+    "success": true
+  }
+}

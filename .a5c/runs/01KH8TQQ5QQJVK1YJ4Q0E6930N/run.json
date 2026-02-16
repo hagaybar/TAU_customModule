@@ -1,0 +1,13 @@
+{
+  "runId": "01KH8TQQ5QQJVK1YJ4Q0E6930N",
+  "request": "fix-hebrew-library-mapping",
+  "processId": "fix-hebrew-library-mapping",
+  "entrypoint": {
+    "importPath": "../../processes/fix-hebrew-library-mapping.js",
+    "exportName": "process"
+  },
+  "processPath": "../../processes/fix-hebrew-library-mapping.js",
+  "layoutVersion": "2026.01-storage-preview",
+  "createdAt": "2026-02-12T11:45:43.616Z",
+  "completionSecret": "c822ebffa23fea667666d72359fc7267"
+}

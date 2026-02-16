@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "2026.01.tasks-v1",
+  "effectId": "01KH8Z7MF7Z8ZMFYSCKBPQFR55",
+  "taskId": "type-check",
+  "invocationKey": "fix-hebrew-library-mapping:S000003:type-check",
+  "stepId": "S000003",
+  "kind": "shell",
+  "title": "Run TypeScript type check",
+  "description": "Verify no type errors after modifications",
+  "labels": [
+    "quality",
+    "type-check"
+  ],
+  "io": {
+    "inputJsonPath": "tasks/01KH8Z7MF7Z8ZMFYSCKBPQFR55/input.json",
+    "outputJsonPath": "tasks/01KH8Z7MF7Z8ZMFYSCKBPQFR55/result.json"
+  },
+  "inputs": {
+    "files": [
+      "src/app/custom1-module/cenlib-map/services/shelf-mapping.service.ts",
+      "src/app/custom1-module/cenlib-map/config/shelf-mapping.config.ts",
+      "src/app/custom1-module/cenlib-map/config/google-sheets.config.ts"
+    ]
+  }
+}

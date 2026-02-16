@@ -1,0 +1,15 @@
+{
+  "type": "EFFECT_REQUESTED",
+  "recordedAt": "2026-02-15T12:23:18.476Z",
+  "data": {
+    "effectId": "01KHGM2P5ZTZ9MC65H8VTGXP9H",
+    "invocationKey": "add-map-pan-drag:S000001:implement-pan-drag",
+    "invocationHash": "69a1bb1a5c4552aed0c15b5dd052e275ad47de4ec9272a7868fb8c1c3856aaf8",
+    "stepId": "S000001",
+    "taskId": "implement-pan-drag",
+    "kind": "agent",
+    "label": "Implement pan/drag functionality",
+    "taskDefRef": "tasks/01KHGM2P5ZTZ9MC65H8VTGXP9H/task.json"
+  },
+  "checksum": "7b1e741653f805b97eef7596f1261c5f2b791d5468f9adbda67cc7b583f0c55a"
+}

@@ -1,0 +1,20 @@
+{
+  "type": "EFFECT_REQUESTED",
+  "recordedAt": "2026-02-15T07:17:24.028Z",
+  "data": {
+    "effectId": "01KHG2JHXFSTS6HV9T694FTCHX",
+    "invocationKey": "bidi-dialog-test:S000002:take-screenshots",
+    "invocationHash": "2ead5ec404c751942f1d654ba2d3ad18a6587e8ebffebdc738b30bb5b036354c",
+    "stepId": "S000002",
+    "taskId": "take-screenshots",
+    "kind": "agent",
+    "label": "screenshots",
+    "taskDefRef": "tasks/01KHG2JHXFSTS6HV9T694FTCHX/task.json",
+    "labels": [
+      "screenshots",
+      "playwright",
+      "e2e"
+    ]
+  },
+  "checksum": "473212f2e6a933230dae77d6e87f924a0fa41a47125f5fc2ec11d3e44f9af6b3"
+}

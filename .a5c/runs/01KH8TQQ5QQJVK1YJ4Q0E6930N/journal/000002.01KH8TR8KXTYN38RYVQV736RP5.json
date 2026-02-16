@@ -1,0 +1,19 @@
+{
+  "type": "EFFECT_REQUESTED",
+  "recordedAt": "2026-02-12T11:46:01.469Z",
+  "data": {
+    "effectId": "01KH8TR8KHTFSDDBEWDC0FCYGE",
+    "invocationKey": "fix-hebrew-library-mapping:S000001:analyze-code",
+    "invocationHash": "5ccd6068f90c44bda2e6416ed22a78de0606205ea6e2f446ab8a0e1133d70b60",
+    "stepId": "S000001",
+    "taskId": "analyze-code",
+    "kind": "agent",
+    "label": "analysis",
+    "taskDefRef": "tasks/01KH8TR8KHTFSDDBEWDC0FCYGE/task.json",
+    "labels": [
+      "analysis",
+      "code-review"
+    ]
+  },
+  "checksum": "94f9bc096c2d994ea1bca214ede144402561c611a586ecee493029753ca79cfd"
+}

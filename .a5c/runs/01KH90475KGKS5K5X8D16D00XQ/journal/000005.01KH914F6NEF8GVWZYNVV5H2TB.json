@@ -1,0 +1,12 @@
+{
+  "type": "EFFECT_RESOLVED",
+  "recordedAt": "2026-02-12T13:37:32.885Z",
+  "data": {
+    "effectId": "01KH9058SCCMGBFWP3WXEVDT0M",
+    "status": "ok",
+    "resultRef": "tasks/01KH9058SCCMGBFWP3WXEVDT0M/result.json",
+    "startedAt": "2026-02-12T13:37:32.872Z",
+    "finishedAt": "2026-02-12T13:37:32.872Z"
+  },
+  "checksum": "17d9229c74be8e4c505f5ccac2f53837be4da418abee0734137854f3c266398d"
+}

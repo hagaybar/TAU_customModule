@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "2026.01.results-v1",
+  "effectId": "01KH8ZB049DDFAAB52ZMW40059",
+  "taskId": "__sdk.breakpoint",
+  "invocationKey": "fix-hebrew-library-mapping:S000006:__sdk.breakpoint",
+  "status": "ok",
+  "result": {
+    "approved": true,
+    "response": "User testing changes before commit. Dev server started."
+  },
+  "startedAt": "2026-02-12T13:07:57.445Z",
+  "finishedAt": "2026-02-12T13:07:57.445Z",
+  "value": {
+    "approved": true,
+    "response": "User testing changes before commit. Dev server started."
+  }
+}

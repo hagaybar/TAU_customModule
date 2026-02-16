@@ -1,0 +1,20 @@
+{
+  "type": "EFFECT_REQUESTED",
+  "recordedAt": "2026-02-12T13:40:01.485Z",
+  "data": {
+    "effectId": "01KH9190A04VZWPKCN1ABXCN8A",
+    "invocationKey": "commit-and-playwright-rtl-tests:S000006:implement-rtl-tests",
+    "invocationHash": "460092130f1dd71fa93c81f2cad81f656cffaa001ef887990a1d21dc57806495",
+    "stepId": "S000006",
+    "taskId": "implement-rtl-tests",
+    "kind": "agent",
+    "label": "implementation",
+    "taskDefRef": "tasks/01KH9190A04VZWPKCN1ABXCN8A/task.json",
+    "labels": [
+      "implementation",
+      "testing",
+      "playwright"
+    ]
+  },
+  "checksum": "6f332f788792866dd260727ddf7dea08e6322761fa77413084eb5f7a4da69edd"
+}

@@ -1,0 +1,14 @@
+{
+  "type": "RUN_CREATED",
+  "recordedAt": "2026-02-15T07:16:10.718Z",
+  "data": {
+    "runId": "01KHG2GAA8X8RNZ2CJGD1G4Z8Q",
+    "processId": "bidi-dialog-test",
+    "entrypoint": {
+      "importPath": "../../processes/bidi-dialog-test.js",
+      "exportName": "process"
+    },
+    "inputsRef": "inputs.json"
+  },
+  "checksum": "2959c843c39aaf5f0628f4eaf50ad3ae2dfaba44db95cb43a9d566c8bec0b2db"
+}

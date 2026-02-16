@@ -1,0 +1,12 @@
+{
+  "type": "EFFECT_RESOLVED",
+  "recordedAt": "2026-02-12T13:20:26.224Z",
+  "data": {
+    "effectId": "01KH904HMQHEY12H46HPAMTB92",
+    "status": "ok",
+    "resultRef": "tasks/01KH904HMQHEY12H46HPAMTB92/result.json",
+    "startedAt": "2026-02-12T13:20:26.210Z",
+    "finishedAt": "2026-02-12T13:20:26.210Z"
+  },
+  "checksum": "9fb40bc94aa6e507cb8089d727279ab126eef03c86373fac1265c35fc9156abc"
+}

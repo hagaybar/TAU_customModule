@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "2026.01.results-v1",
+  "effectId": "01KH8E6747GXGSTN07S0VVMV9R",
+  "taskId": "__sdk.breakpoint",
+  "invocationKey": "replace-locate-button:S000002:__sdk.breakpoint",
+  "status": "ok",
+  "result": {
+    "approved": true,
+    "response": "Yes, proceed"
+  },
+  "startedAt": "2026-02-12T08:31:03.974Z",
+  "finishedAt": "2026-02-12T08:31:03.974Z",
+  "value": {
+    "approved": true,
+    "response": "Yes, proceed"
+  }
+}

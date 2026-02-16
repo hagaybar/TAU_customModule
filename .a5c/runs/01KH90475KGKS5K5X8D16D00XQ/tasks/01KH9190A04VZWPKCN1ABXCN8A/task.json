@@ -1,0 +1,81 @@
+{
+  "schemaVersion": "2026.01.tasks-v1",
+  "effectId": "01KH9190A04VZWPKCN1ABXCN8A",
+  "taskId": "implement-rtl-tests",
+  "invocationKey": "commit-and-playwright-rtl-tests:S000006:implement-rtl-tests",
+  "stepId": "S000006",
+  "kind": "agent",
+  "title": "Implement Playwright RTL tests",
+  "description": "Write the actual Playwright test files",
+  "labels": [
+    "implementation",
+    "playwright",
+    "testing"
+  ],
+  "io": {
+    "inputJsonPath": "tasks/01KH9190A04VZWPKCN1ABXCN8A/input.json",
+    "outputJsonPath": "tasks/01KH9190A04VZWPKCN1ABXCN8A/result.json"
+  },
+  "inputs": {
+    "knownIssue": "RTL directionality issue: In Hebrew UI mode, labels with colons (e.g., 'ספרייה:', 'אוסף:') display with incorrect text direction - the colon appears at the beginning of the string instead of the end due to missing dir='rtl' attribute on dialog elements.",
+    "testDesign": {
+      "expectedBehavior": {
+        "english": {
+          "colonPosition": "right (visual)",
+          "direction": "ltr",
+          "textAlign": "left"
+        },
+        "hebrew": {
+          "colonPosition": "left (visual)",
+          "direction": "rtl",
+          "textAlign": "right"
+        }
+      },
+      "selectors": {
+        "closeButton": "mat-dialog-actions button",
+        "dialogContent": "mat-dialog-content",
+        "dialogTitle": "[mat-dialog-title]",
+        "infoRow": ".location-info .info-row",
+        "label": ".info-row .label",
+        "value": ".info-row .value"
+      },
+      "testCases": [
+        {
+          "description": "Verify dialog opens with English content when lang=en",
+          "id": "TC1",
+          "name": "Dialog Opens in English Mode"
+        },
+        {
+          "description": "Verify dialog opens with Hebrew content when lang=he",
+          "id": "TC2",
+          "name": "Dialog Opens in Hebrew Mode"
+        },
+        {
+          "description": "Check computed CSS direction property on mat-dialog-content",
+          "id": "TC3",
+          "name": "RTL Direction on Dialog Content"
+        },
+        {
+          "description": "Check CSS direction on .info-row .label elements",
+          "id": "TC4",
+          "name": "RTL Direction on Labels"
+        },
+        {
+          "description": "Verify Hebrew label texts match expected values",
+          "id": "TC5",
+          "name": "Label Text Content Verification"
+        },
+        {
+          "description": "Screenshot comparison for colon position",
+          "id": "TC6",
+          "name": "Visual Regression - Colon Position"
+        },
+        {
+          "description": "Verify layouts are appropriate for each language",
+          "id": "TC7",
+          "name": "Compare English vs Hebrew Layout"
+        }
+      ]
+    }
+  }
+}

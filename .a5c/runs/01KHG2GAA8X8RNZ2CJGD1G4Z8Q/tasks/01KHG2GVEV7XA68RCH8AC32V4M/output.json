@@ -1,0 +1,127 @@
+{
+  "analysisComplete": true,
+  "overallAssessment": "GOOD_WITH_MINOR_ISSUES",
+  "summary": "The dialog component has solid BiDi foundation but has some issues that could affect Hebrew readers.",
+
+  "findings": {
+    "positive": [
+      {
+        "item": "RTL class application",
+        "description": "HTML correctly uses [class.rtl]=\"currentLanguage === 'he'\" on title, content, and location-info",
+        "location": "cenlib-map-dialog.component.html:1-3"
+      },
+      {
+        "item": "Call number LTR isolation",
+        "description": "Call number value correctly has dir=\"ltr\" since call numbers are LTR-native data",
+        "location": "cenlib-map-dialog.component.html:15"
+      },
+      {
+        "item": "CSS RTL order swap",
+        "description": "SCSS uses CSS order property to swap label/value positions in RTL - good approach",
+        "location": "cenlib-map-dialog.component.scss:101-114"
+      },
+      {
+        "item": "Direction inheritance support",
+        "description": ":host-context([dir='rtl']) provides fallback for parent RTL context",
+        "location": "cenlib-map-dialog.component.scss:131-150"
+      },
+      {
+        "item": "Language detection",
+        "description": "TypeScript correctly detects 'he' and 'he_IL' language codes",
+        "location": "cenlib-map-dialog.component.ts:251-260"
+      }
+    ],
+
+    "issues": [
+      {
+        "severity": "MEDIUM",
+        "item": "Physical CSS properties used",
+        "description": "SCSS uses physical properties (text-align: right/left) instead of logical (text-align: start/end)",
+        "locations": [
+          "cenlib-map-dialog.component.scss:23 - text-align: right",
+          "cenlib-map-dialog.component.scss:92 - text-align: right",
+          "cenlib-map-dialog.component.scss:108 - text-align: left",
+          "cenlib-map-dialog.component.scss:113 - text-align: right"
+        ],
+        "recommendation": "Replace with text-align: start/end for consistency with logical property model"
+      },
+      {
+        "severity": "LOW",
+        "item": "Missing direction on .info-row in RTL",
+        "description": "In RTL mode, .info-row does not explicitly set direction: rtl - relies on inheritance",
+        "location": "cenlib-map-dialog.component.scss:101-115",
+        "recommendation": "Add explicit direction: rtl to .location-info.rtl .info-row for robustness"
+      },
+      {
+        "severity": "LOW",
+        "item": "Dynamic content not wrapped with <bdi>",
+        "description": "Dynamic values like {{ getLibraryName() }} and {{ getCollectionName() }} are not wrapped in <bdi> tags",
+        "location": "cenlib-map-dialog.component.html:7,11",
+        "recommendation": "Wrap dynamic content in <bdi> tags to isolate bidirectional content"
+      },
+      {
+        "severity": "INFO",
+        "item": "Labels include colons in string",
+        "description": "Hebrew labels like 'ספרייה:' have colon embedded - this works but colon position depends on context direction",
+        "location": "cenlib-map-dialog.component.ts:122-149",
+        "recommendation": "Current approach is acceptable if container has proper direction:rtl"
+      }
+    ]
+  },
+
+  "tortureStringAnalysis": {
+    "numberTest": {
+      "testString": "בדיקה 123-456 בדיקה",
+      "prediction": "Should display correctly if container has direction:rtl - numbers will stay as 123-456",
+      "status": "LIKELY_OK"
+    },
+    "ltrEnderTest": {
+      "testString": "בדיקה English.",
+      "prediction": "If container has direction:rtl, period should stay after 'English' - OK",
+      "status": "LIKELY_OK"
+    },
+    "bracketTest": {
+      "testString": "(בדיקה) vs (Testing)",
+      "prediction": "Brackets should render correctly in respective directions",
+      "status": "LIKELY_OK"
+    }
+  },
+
+  "hebrewReaderExperience": {
+    "rating": "GOOD",
+    "notes": [
+      "Layout correctly swaps label/value order using CSS order property",
+      "Title and content have proper RTL direction",
+      "Labels display in Hebrew with correct reading order",
+      "Some physical properties may cause minor alignment inconsistencies"
+    ]
+  },
+
+  "englishReaderExperience": {
+    "rating": "GOOD",
+    "notes": [
+      "Default LTR layout is explicit and correct",
+      "Labels appear left-aligned as expected",
+      "Values appear to the right of labels",
+      "Call numbers display correctly with explicit dir=ltr"
+    ]
+  },
+
+  "recommendations": [
+    {
+      "priority": "MEDIUM",
+      "action": "Convert physical text-align to logical",
+      "details": "Replace text-align: right with text-align: end, text-align: left with text-align: start"
+    },
+    {
+      "priority": "LOW",
+      "action": "Add <bdi> wrappers for dynamic content",
+      "details": "Wrap {{ getLibraryName() }}, {{ getCollectionName() }}, etc. in <bdi> tags"
+    },
+    {
+      "priority": "LOW",
+      "action": "Add explicit direction to .info-row in RTL context",
+      "details": "Add direction: rtl to .location-info.rtl .info-row for robustness"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "type": "RUN_FAILED",
+  "recordedAt": "2026-02-15T05:36:53.798Z",
+  "data": {
+    "error": {
+      "name": "TypeError",
+      "message": "Cannot read properties of undefined (reading 'knownIssue')",
+      "stack": "TypeError: Cannot read properties of undefined (reading 'knownIssue')\n    at process (file:///home/hagaybar/projects/TAU_customModule/.a5c/processes/commit-and-playwright-rtl-tests.js:21:5)\n    at /home/hagaybar/.nvm/versions/node/v20.20.0/lib/node_modules/@a5c-ai/babysitter-sdk/dist/runtime/orchestrateIteration.js:86:105\n    at async /home/hagaybar/.nvm/versions/node/v20.20.0/lib/node_modules/@a5c-ai/babysitter-sdk/dist/runtime/orchestrateIteration.js:86:28\n    at async withRunLock (/home/hagaybar/.nvm/versions/node/v20.20.0/lib/node_modules/@a5c-ai/babysitter-sdk/dist/storage/lock.js:69:16)\n    at async orchestrateIteration (/home/hagaybar/.nvm/versions/node/v20.20.0/lib/node_modules/@a5c-ai/babysitter-sdk/dist/runtime/orchestrateIteration.js:61:12)\n    at async runIterate (/home/hagaybar/.nvm/versions/node/v20.20.0/lib/node_modules/@a5c-ai/babysitter-sdk/dist/cli/commands/runIterate.js:67:29)\n    at async handleRunIterate (/home/hagaybar/.nvm/versions/node/v20.20.0/lib/node_modules/@a5c-ai/babysitter-sdk/dist/cli/main.js:651:24)\n    at async Object.run (/home/hagaybar/.nvm/versions/node/v20.20.0/lib/node_modules/@a5c-ai/babysitter-sdk/dist/cli/main.js:1392:28)"
+    }
+  },
+  "checksum": "3cd3292d81d01f972a0df610231b52320359dbb0d6f31959cd9877878409d332"
+}

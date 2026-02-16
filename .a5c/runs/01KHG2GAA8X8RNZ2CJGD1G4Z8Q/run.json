@@ -1,0 +1,13 @@
+{
+  "runId": "01KHG2GAA8X8RNZ2CJGD1G4Z8Q",
+  "request": "bidi-dialog-test",
+  "processId": "bidi-dialog-test",
+  "entrypoint": {
+    "importPath": "../../processes/bidi-dialog-test.js",
+    "exportName": "process"
+  },
+  "processPath": "../../processes/bidi-dialog-test.js",
+  "layoutVersion": "2026.01-storage-preview",
+  "createdAt": "2026-02-15T07:16:10.704Z",
+  "completionSecret": "9432d39d138e5f5ba4123b911b821034"
+}

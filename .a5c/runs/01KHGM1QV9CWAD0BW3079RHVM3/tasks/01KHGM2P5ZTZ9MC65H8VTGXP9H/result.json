@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "2026.01.results-v1",
+  "effectId": "01KHGM2P5ZTZ9MC65H8VTGXP9H",
+  "taskId": "implement-pan-drag",
+  "invocationKey": "add-map-pan-drag:S000001:implement-pan-drag",
+  "status": "ok",
+  "result": {
+    "changes": [
+      {
+        "description": "Added pan state properties (isPanning, panStartX, panStartY, panOffsetX, panOffsetY, lastPanOffsetX, lastPanOffsetY), pan event handlers (onPanStart, onPanMove, onPanEnd), resetPan method called from resetZoom(), and mapTransform getter that combines translate and scale transforms",
+        "file": "src/app/custom1-module/cenlib-map/shelf-map-svg/shelf-map-svg.component.ts"
+      },
+      {
+        "description": "Added mouse and touch event bindings to .map-viewport element (mousedown, mousemove, mouseup, mouseleave, touchstart, touchmove, touchend, touchcancel), added .panning class binding, and changed [style.transform] to use mapTransform getter",
+        "file": "src/app/custom1-module/cenlib-map/shelf-map-svg/shelf-map-svg.component.html"
+      },
+      {
+        "description": "Added user-select: none to prevent text selection during panning, simplified cursor handling to use .zoomed for grab cursor and .panning for grabbing cursor",
+        "file": "src/app/custom1-module/cenlib-map/shelf-map-svg/shelf-map-svg.component.scss"
+      }
+    ],
+    "implemented": true,
+    "summary": "Implemented pan/drag functionality for the shelf-map-svg component. When zoomed in (zoomLevel > 1), users can click and drag to pan the map. The feature supports both mouse events (mousedown/mousemove/mouseup/mouseleave) and touch events (touchstart/touchmove/touchend/touchcancel). The pan position is tracked via panOffsetX and panOffsetY properties, which are combined with the zoom scale in the mapTransform getter (translate + scale). The pan position resets when resetZoom() is called. Visual feedback is provided via cursor changes (grab when zoomed, grabbing when actively panning)."
+  },
+  "startedAt": "2026-02-15T12:25:04.064Z",
+  "finishedAt": "2026-02-15T12:25:04.064Z",
+  "value": {
+    "changes": [
+      {
+        "description": "Added pan state properties (isPanning, panStartX, panStartY, panOffsetX, panOffsetY, lastPanOffsetX, lastPanOffsetY), pan event handlers (onPanStart, onPanMove, onPanEnd), resetPan method called from resetZoom(), and mapTransform getter that combines translate and scale transforms",
+        "file": "src/app/custom1-module/cenlib-map/shelf-map-svg/shelf-map-svg.component.ts"
+      },
+      {
+        "description": "Added mouse and touch event bindings to .map-viewport element (mousedown, mousemove, mouseup, mouseleave, touchstart, touchmove, touchend, touchcancel), added .panning class binding, and changed [style.transform] to use mapTransform getter",
+        "file": "src/app/custom1-module/cenlib-map/shelf-map-svg/shelf-map-svg.component.html"
+      },
+      {
+        "description": "Added user-select: none to prevent text selection during panning, simplified cursor handling to use .zoomed for grab cursor and .panning for grabbing cursor",
+        "file": "src/app/custom1-module/cenlib-map/shelf-map-svg/shelf-map-svg.component.scss"
+      }
+    ],
+    "implemented": true,
+    "summary": "Implemented pan/drag functionality for the shelf-map-svg component. When zoomed in (zoomLevel > 1), users can click and drag to pan the map. The feature supports both mouse events (mousedown/mousemove/mouseup/mouseleave) and touch events (touchstart/touchmove/touchend/touchcancel). The pan position is tracked via panOffsetX and panOffsetY properties, which are combined with the zoom scale in the mapTransform getter (translate + scale). The pan position resets when resetZoom() is called. Visual feedback is provided via cursor changes (grab when zoomed, grabbing when actively panning)."
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "2026.01.tasks-v1",
+  "effectId": "01KH8FWKWCKWBMVA0N7WZJ6AD9",
+  "taskId": "__sdk.breakpoint",
+  "invocationKey": "replace-locate-button:S000005:__sdk.breakpoint",
+  "stepId": "S000005",
+  "kind": "breakpoint",
+  "title": "breakpoint",
+  "metadata": {
+    "label": "breakpoint",
+    "payload": {
+      "context": {
+        "files": []
+      },
+      "question": "Implementation verified successfully. Approve?",
+      "title": "Final Review"
+    },
+    "requestedAt": "2026-02-12T08:36:09.740Z"
+  },
+  "inputs": {
+    "label": "breakpoint",
+    "payload": {
+      "context": {
+        "files": []
+      },
+      "question": "Implementation verified successfully. Approve?",
+      "title": "Final Review"
+    },
+    "requestedAt": "2026-02-12T08:36:09.740Z"
+  }
+}

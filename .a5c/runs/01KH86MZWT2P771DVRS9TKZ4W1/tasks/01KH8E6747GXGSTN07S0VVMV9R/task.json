@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "2026.01.tasks-v1",
+  "effectId": "01KH8E6747GXGSTN07S0VVMV9R",
+  "taskId": "__sdk.breakpoint",
+  "invocationKey": "replace-locate-button:S000002:__sdk.breakpoint",
+  "stepId": "S000002",
+  "kind": "breakpoint",
+  "title": "breakpoint",
+  "metadata": {
+    "label": "breakpoint",
+    "payload": {
+      "context": {
+        "files": []
+      },
+      "question": "Found Locate button with selector: \"button.getit-locate-button\". Proceed with implementation?",
+      "title": "DOM Analysis Complete"
+    },
+    "requestedAt": "2026-02-12T08:06:27.207Z"
+  },
+  "inputs": {
+    "label": "breakpoint",
+    "payload": {
+      "context": {
+        "files": []
+      },
+      "question": "Found Locate button with selector: \"button.getit-locate-button\". Proceed with implementation?",
+      "title": "DOM Analysis Complete"
+    },
+    "requestedAt": "2026-02-12T08:06:27.207Z"
+  }
+}

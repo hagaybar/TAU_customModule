@@ -1,0 +1,15 @@
+{
+  "type": "EFFECT_REQUESTED",
+  "recordedAt": "2026-02-12T08:31:09.206Z",
+  "data": {
+    "effectId": "01KH8FKEC987FRV7S4WDN2PG1E",
+    "invocationKey": "replace-locate-button:S000003:implement-replace-logic",
+    "invocationHash": "60ee122f4f6294aaa1bef5218ad0942e956d6ae434b5af0d24ff041a8875b799",
+    "stepId": "S000003",
+    "taskId": "implement-replace-logic",
+    "kind": "agent",
+    "label": "Implement Locate button replacement logic",
+    "taskDefRef": "tasks/01KH8FKEC987FRV7S4WDN2PG1E/task.json"
+  },
+  "checksum": "0fa3fee99a92a6308998960bc52dc8f78e9c08ee690dc26a505b904179b2ee52"
+}

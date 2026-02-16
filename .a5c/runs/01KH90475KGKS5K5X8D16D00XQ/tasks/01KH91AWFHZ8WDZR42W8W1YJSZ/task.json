@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "2026.01.tasks-v1",
+  "effectId": "01KH91AWFHZ8WDZR42W8W1YJSZ",
+  "taskId": "run-playwright-tests",
+  "invocationKey": "commit-and-playwright-rtl-tests:S000007:run-playwright-tests",
+  "stepId": "S000007",
+  "kind": "shell",
+  "title": "Run Playwright RTL tests",
+  "description": "Execute the Playwright tests to verify they detect the RTL issue",
+  "labels": [
+    "execution",
+    "testing"
+  ],
+  "io": {
+    "inputJsonPath": "tasks/01KH91AWFHZ8WDZR42W8W1YJSZ/input.json",
+    "outputJsonPath": "tasks/01KH91AWFHZ8WDZR42W8W1YJSZ/result.json"
+  },
+  "inputs": {
+    "testFiles": [
+      "e2e/cenlib-map-rtl.spec.ts"
+    ]
+  }
+}

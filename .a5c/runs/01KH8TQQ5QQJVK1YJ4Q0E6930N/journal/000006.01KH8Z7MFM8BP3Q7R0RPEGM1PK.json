@@ -1,0 +1,19 @@
+{
+  "type": "EFFECT_REQUESTED",
+  "recordedAt": "2026-02-12T13:04:19.444Z",
+  "data": {
+    "effectId": "01KH8Z7MF7Z8ZMFYSCKBPQFR55",
+    "invocationKey": "fix-hebrew-library-mapping:S000003:type-check",
+    "invocationHash": "743c43a59ae7de1c727fef9f341022abb18ced4211056245fdfe7f4191183978",
+    "stepId": "S000003",
+    "taskId": "type-check",
+    "kind": "shell",
+    "label": "quality",
+    "taskDefRef": "tasks/01KH8Z7MF7Z8ZMFYSCKBPQFR55/task.json",
+    "labels": [
+      "quality",
+      "type-check"
+    ]
+  },
+  "checksum": "9baad32b321f77d355d70850e2f6b0cab4e0eb0a4920d634d29762088c04b48f"
+}

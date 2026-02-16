@@ -1,0 +1,31 @@
+{
+  "testCases": [
+    {"id": "TC1", "name": "Dialog Opens in English Mode", "description": "Verify dialog opens with English content when lang=en"},
+    {"id": "TC2", "name": "Dialog Opens in Hebrew Mode", "description": "Verify dialog opens with Hebrew content when lang=he"},
+    {"id": "TC3", "name": "RTL Direction on Dialog Content", "description": "Check computed CSS direction property on mat-dialog-content"},
+    {"id": "TC4", "name": "RTL Direction on Labels", "description": "Check CSS direction on .info-row .label elements"},
+    {"id": "TC5", "name": "Label Text Content Verification", "description": "Verify Hebrew label texts match expected values"},
+    {"id": "TC6", "name": "Visual Regression - Colon Position", "description": "Screenshot comparison for colon position"},
+    {"id": "TC7", "name": "Compare English vs Hebrew Layout", "description": "Verify layouts are appropriate for each language"}
+  ],
+  "selectors": {
+    "dialogTitle": "[mat-dialog-title]",
+    "dialogContent": "mat-dialog-content",
+    "infoRow": ".location-info .info-row",
+    "label": ".info-row .label",
+    "value": ".info-row .value",
+    "closeButton": "mat-dialog-actions button"
+  },
+  "expectedBehavior": {
+    "hebrew": {
+      "direction": "rtl",
+      "textAlign": "right",
+      "colonPosition": "left (visual)"
+    },
+    "english": {
+      "direction": "ltr",
+      "textAlign": "left",
+      "colonPosition": "right (visual)"
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "type": "EFFECT_REQUESTED",
+  "recordedAt": "2026-02-15T12:25:09.197Z",
+  "data": {
+    "effectId": "01KHGM62A1ZSYFZ7K87HZ2JRZZ",
+    "invocationKey": "add-map-pan-drag:S000002:verify-pan-drag",
+    "invocationHash": "b50f1c3f0cfd456b89de5e2569c9b882495fda7f8447b142dc5d8dea2d27933d",
+    "stepId": "S000002",
+    "taskId": "verify-pan-drag",
+    "kind": "agent",
+    "label": "Verify pan/drag works in browser",
+    "taskDefRef": "tasks/01KHGM62A1ZSYFZ7K87HZ2JRZZ/task.json"
+  },
+  "checksum": "2ead6ac0ec49d3031191338506ba70c3ed67f8c14ede6076bbb084921447c702"
+}

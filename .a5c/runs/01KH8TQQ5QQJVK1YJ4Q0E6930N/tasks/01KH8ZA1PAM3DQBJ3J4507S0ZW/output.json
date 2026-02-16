@@ -1,0 +1,13 @@
+{
+  "verified": true,
+  "verificationDetails": [
+    "CsvRow interface now includes libraryNameHe field (line 17)",
+    "parseCsv() extracts libraryNameHe from CSV (line 159: libraryNameHe: row.libraryNameHe?.trim() || undefined)",
+    "ShelfMapping interface includes libraryNameHe?: string field (lines 14-15)",
+    "buildMappingIndex() creates index entries for BOTH English (libraryName) and Hebrew (libraryNameHe) library names (lines 374-381)",
+    "buildMappingIndex() iterates over both library keys to create dual index entries (lines 392-407)",
+    "Google Sheets URL updated to direct published CSV URL (line 16)",
+    "Fix will work for both Hebrew and English UI languages - lookups will match regardless of language"
+  ],
+  "issues": []
+}

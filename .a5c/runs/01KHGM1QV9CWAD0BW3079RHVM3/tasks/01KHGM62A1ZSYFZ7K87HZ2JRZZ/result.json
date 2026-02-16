@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "2026.01.results-v1",
+  "effectId": "01KHGM62A1ZSYFZ7K87HZ2JRZZ",
+  "taskId": "verify-pan-drag",
+  "invocationKey": "add-map-pan-drag:S000002:verify-pan-drag",
+  "status": "ok",
+  "result": {
+    "issues": [],
+    "panWorks": true,
+    "summary": "Pan/drag functionality in the shelf map component is fully working. Verification details: (1) Map loads correctly with zoom controls (Zoom in, Zoom out, Full map buttons). (2) Zoom in works - clicking zoom in increases scale (1.0 -> 1.5x after 2 clicks) and adds 'zoomed' class to viewport. (3) Pan/drag works correctly - CSS transform updates from matrix(1.5, 0, 0, 1.5, 100, 50) to matrix(1.5, 0, 0, 1.5, 131.774, 65.8869) after dragging, showing actual movement in both X and Y axes. (4) Cursor feedback is correct - shows 'grab' cursor when hovering, changes to 'grabbing' during drag operation. (5) Full map button correctly resets both zoom and pan to identity matrix(1, 0, 0, 1, 0, 0) and removes 'zoomed' class.",
+    "verified": true,
+    "zoomWorks": true
+  },
+  "startedAt": "2026-02-15T12:28:20.041Z",
+  "finishedAt": "2026-02-15T12:28:20.041Z",
+  "value": {
+    "issues": [],
+    "panWorks": true,
+    "summary": "Pan/drag functionality in the shelf map component is fully working. Verification details: (1) Map loads correctly with zoom controls (Zoom in, Zoom out, Full map buttons). (2) Zoom in works - clicking zoom in increases scale (1.0 -> 1.5x after 2 clicks) and adds 'zoomed' class to viewport. (3) Pan/drag works correctly - CSS transform updates from matrix(1.5, 0, 0, 1.5, 100, 50) to matrix(1.5, 0, 0, 1.5, 131.774, 65.8869) after dragging, showing actual movement in both X and Y axes. (4) Cursor feedback is correct - shows 'grab' cursor when hovering, changes to 'grabbing' during drag operation. (5) Full map button correctly resets both zoom and pan to identity matrix(1, 0, 0, 1, 0, 0) and removes 'zoomed' class.",
+    "verified": true,
+    "zoomWorks": true
+  }
+}

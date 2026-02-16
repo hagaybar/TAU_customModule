@@ -1,0 +1,18 @@
+{
+  "type": "EFFECT_REQUESTED",
+  "recordedAt": "2026-02-15T07:21:44.291Z",
+  "data": {
+    "effectId": "01KHG2TG2RMFQ8Q4EXMT9XKTZ3",
+    "invocationKey": "bidi-dialog-test:S000004:__sdk.breakpoint",
+    "invocationHash": "797d0b1f4953eee9bb418503459fd183bdac7dedd332f1d0d313e2e8a6d63186",
+    "stepId": "S000004",
+    "taskId": "__sdk.breakpoint",
+    "kind": "breakpoint",
+    "label": "breakpoint",
+    "taskDefRef": "tasks/01KHG2TG2RMFQ8Q4EXMT9XKTZ3/task.json",
+    "labels": [
+      "breakpoint"
+    ]
+  },
+  "checksum": "7f07c8c5da98e8f6c9a58e6adf68faa11293f5bc7e4e7c7e05c66c0458724668"
+}

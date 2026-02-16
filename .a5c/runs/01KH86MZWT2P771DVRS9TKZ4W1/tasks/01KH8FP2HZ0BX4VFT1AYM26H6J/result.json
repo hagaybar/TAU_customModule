@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "2026.01.results-v1",
+  "effectId": "01KH8FP2HZ0BX4VFT1AYM26H6J",
+  "taskId": "verify-implementation",
+  "invocationKey": "replace-locate-button:S000004:verify-implementation",
+  "status": "ok",
+  "result": {
+    "buttonStyling": true,
+    "configuredLocationTest": true,
+    "dialogWorks": true,
+    "issues": [],
+    "nonConfiguredLocationTest": true,
+    "summary": "All tests passed. For Sourasky Central Library (configured location), the Locate button is hidden and replaced with 'Shelf Map' button. Clicking Shelf Map opens a dialog with map, zoom controls, and book details. For The David J. Light Law Library (non-configured location), the Locate button remains visible and no Shelf Map button appears. Console logs confirm proper operation.",
+    "verified": true
+  },
+  "startedAt": "2026-02-12T08:36:03.561Z",
+  "finishedAt": "2026-02-12T08:36:03.561Z",
+  "value": {
+    "buttonStyling": true,
+    "configuredLocationTest": true,
+    "dialogWorks": true,
+    "issues": [],
+    "nonConfiguredLocationTest": true,
+    "summary": "All tests passed. For Sourasky Central Library (configured location), the Locate button is hidden and replaced with 'Shelf Map' button. Clicking Shelf Map opens a dialog with map, zoom controls, and book details. For The David J. Light Law Library (non-configured location), the Locate button remains visible and no Shelf Map button appears. Console logs confirm proper operation.",
+    "verified": true
+  }
+}

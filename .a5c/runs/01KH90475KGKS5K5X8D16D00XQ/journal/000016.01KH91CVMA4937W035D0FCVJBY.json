@@ -1,0 +1,18 @@
+{
+  "type": "EFFECT_REQUESTED",
+  "recordedAt": "2026-02-12T13:42:07.754Z",
+  "data": {
+    "effectId": "01KH91CVKYP2RSV70WAR1A8TE2",
+    "invocationKey": "commit-and-playwright-rtl-tests:S000008:__sdk.breakpoint",
+    "invocationHash": "b2166c1cc7b9cf763e5daf6a108999fea7fa044bd9a94506b7b3ab0fe3cb643b",
+    "stepId": "S000008",
+    "taskId": "__sdk.breakpoint",
+    "kind": "breakpoint",
+    "label": "breakpoint",
+    "taskDefRef": "tasks/01KH91CVKYP2RSV70WAR1A8TE2/task.json",
+    "labels": [
+      "breakpoint"
+    ]
+  },
+  "checksum": "5077674a324f6fe881dd7dff31054b7fc4f3b1ef0d7bc8ed616625f941c68e8c"
+}

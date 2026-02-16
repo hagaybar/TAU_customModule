@@ -1,0 +1,19 @@
+{
+  "type": "EFFECT_REQUESTED",
+  "recordedAt": "2026-02-12T13:41:03.102Z",
+  "data": {
+    "effectId": "01KH91AWFHZ8WDZR42W8W1YJSZ",
+    "invocationKey": "commit-and-playwright-rtl-tests:S000007:run-playwright-tests",
+    "invocationHash": "2b10cea2832b5c7fa15e9f3af324959846d796aa0a6bd66fa15ea0529fdaf687",
+    "stepId": "S000007",
+    "taskId": "run-playwright-tests",
+    "kind": "shell",
+    "label": "testing",
+    "taskDefRef": "tasks/01KH91AWFHZ8WDZR42W8W1YJSZ/task.json",
+    "labels": [
+      "testing",
+      "execution"
+    ]
+  },
+  "checksum": "b8384b3d725bc32ca0bd92bb232a6fbfc6a3b15e1a6007d7883288c4182cb06f"
+}

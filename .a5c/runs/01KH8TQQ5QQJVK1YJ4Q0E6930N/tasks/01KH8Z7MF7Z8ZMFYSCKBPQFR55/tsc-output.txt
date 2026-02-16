@@ -1,0 +1,2 @@
+src/app/custom1-module/no-results-external-links/no-results-external-links.component.spec.ts(91,24): error TS2339: Property 'cardTitle' does not exist on type 'NoResultsExternalLinksComponent'.
+src/app/custom1-module/no-results-external-links/no-results-external-links.component.spec.ts(96,24): error TS2339: Property 'cardTitle' does not exist on type 'NoResultsExternalLinksComponent'.

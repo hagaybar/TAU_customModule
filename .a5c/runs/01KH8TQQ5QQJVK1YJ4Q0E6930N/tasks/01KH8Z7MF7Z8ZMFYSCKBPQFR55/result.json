@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "2026.01.results-v1",
+  "effectId": "01KH8Z7MF7Z8ZMFYSCKBPQFR55",
+  "taskId": "type-check",
+  "invocationKey": "fix-hebrew-library-mapping:S000003:type-check",
+  "status": "ok",
+  "result": {
+    "output": "Type check completed. Pre-existing errors in no-results-external-links.component.spec.ts are unrelated to cenlib-map changes.",
+    "preExistingErrorsInUnrelatedFiles": true,
+    "typeCheckPassed": true
+  },
+  "startedAt": "2026-02-12T13:04:34.123Z",
+  "finishedAt": "2026-02-12T13:04:34.123Z",
+  "value": {
+    "output": "Type check completed. Pre-existing errors in no-results-external-links.component.spec.ts are unrelated to cenlib-map changes.",
+    "preExistingErrorsInUnrelatedFiles": true,
+    "typeCheckPassed": true
+  }
+}

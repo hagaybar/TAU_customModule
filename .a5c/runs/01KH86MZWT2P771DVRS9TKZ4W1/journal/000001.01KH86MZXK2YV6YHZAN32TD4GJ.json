@@ -1,0 +1,14 @@
+{
+  "type": "RUN_CREATED",
+  "recordedAt": "2026-02-12T05:54:42.739Z",
+  "data": {
+    "runId": "01KH86MZWT2P771DVRS9TKZ4W1",
+    "processId": "replace-locate-button",
+    "entrypoint": {
+      "importPath": "../../processes/replace-locate-button.js",
+      "exportName": "process"
+    },
+    "inputsRef": "inputs.json"
+  },
+  "checksum": "116528ebf127b2a17b15ba2c8f37c6f4e1718b5241c4c7e991e3a18d35f7e500"
+}

@@ -1,0 +1,14 @@
+{
+  "type": "RUN_CREATED",
+  "recordedAt": "2026-02-12T11:45:43.629Z",
+  "data": {
+    "runId": "01KH8TQQ5QQJVK1YJ4Q0E6930N",
+    "processId": "fix-hebrew-library-mapping",
+    "entrypoint": {
+      "importPath": "../../processes/fix-hebrew-library-mapping.js",
+      "exportName": "process"
+    },
+    "inputsRef": "inputs.json"
+  },
+  "checksum": "fbe8426bb574dc427f29d8980455dfbf6daee988a040b6c1e6f26fead1f65de3"
+}

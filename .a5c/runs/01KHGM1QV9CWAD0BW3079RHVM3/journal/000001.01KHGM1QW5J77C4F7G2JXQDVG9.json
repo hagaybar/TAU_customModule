@@ -1,0 +1,14 @@
+{
+  "type": "RUN_CREATED",
+  "recordedAt": "2026-02-15T12:22:47.429Z",
+  "data": {
+    "runId": "01KHGM1QV9CWAD0BW3079RHVM3",
+    "processId": "add-map-pan-drag",
+    "entrypoint": {
+      "importPath": "../../processes/add-map-pan-drag.js",
+      "exportName": "process"
+    },
+    "inputsRef": "inputs.json"
+  },
+  "checksum": "dfd028aabe4215c0d2214b826da80fda1337f809996f36b41891f83d7f0a5c13"
+}

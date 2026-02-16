@@ -1,0 +1,9 @@
+{
+  "verified": true,
+  "configuredLocationTest": true,
+  "nonConfiguredLocationTest": true,
+  "buttonStyling": true,
+  "dialogWorks": true,
+  "issues": [],
+  "summary": "All tests passed. For Sourasky Central Library (configured location), the Locate button is hidden and replaced with 'Shelf Map' button. Clicking Shelf Map opens a dialog with map, zoom controls, and book details. For The David J. Light Law Library (non-configured location), the Locate button remains visible and no Shelf Map button appears. Console logs confirm proper operation."
+}

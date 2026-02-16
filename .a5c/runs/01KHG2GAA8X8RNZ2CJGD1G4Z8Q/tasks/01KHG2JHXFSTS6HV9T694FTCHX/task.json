@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "2026.01.tasks-v1",
+  "effectId": "01KHG2JHXFSTS6HV9T694FTCHX",
+  "taskId": "take-screenshots",
+  "invocationKey": "bidi-dialog-test:S000002:take-screenshots",
+  "stepId": "S000002",
+  "kind": "agent",
+  "title": "Take dialog screenshots in both languages",
+  "description": "Use Playwright to capture dialog in Hebrew and English modes",
+  "labels": [
+    "e2e",
+    "playwright",
+    "screenshots"
+  ],
+  "io": {
+    "inputJsonPath": "tasks/01KHG2JHXFSTS6HV9T694FTCHX/input.json",
+    "outputJsonPath": "tasks/01KHG2JHXFSTS6HV9T694FTCHX/result.json"
+  },
+  "inputs": {
+    "dialogUrl": "http://localhost:4201/discovery/search?vid=972TAU_INST:NDE_TEST",
+    "searchQuery": "test"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "type": "EFFECT_REQUESTED",
+  "recordedAt": "2026-02-12T08:03:52.828Z",
+  "data": {
+    "effectId": "01KH8E1GBF9BFNV2JKAN88ENH9",
+    "invocationKey": "replace-locate-button:S000001:find-locate-button",
+    "invocationHash": "9806551bdf42ff949b311b2ae79d14d8c40e4b025e04eed0d1cd1df1b370fc33",
+    "stepId": "S000001",
+    "taskId": "find-locate-button",
+    "kind": "agent",
+    "label": "Find Locate button selector in Primo DOM",
+    "taskDefRef": "tasks/01KH8E1GBF9BFNV2JKAN88ENH9/task.json"
+  },
+  "checksum": "de6d5635dee3b2a8229790127ff3d8cdd1f1d0167c1b4c2f3f49cb1e9f3af5fd"
+}

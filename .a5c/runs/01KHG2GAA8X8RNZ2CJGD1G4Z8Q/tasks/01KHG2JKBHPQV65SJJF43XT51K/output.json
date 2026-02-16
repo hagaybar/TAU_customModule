@@ -1,0 +1,13 @@
+{
+  "screenshotPaths": [
+    "e2e/screenshots/dialog-hebrew.png",
+    "e2e/screenshots/dialog-english.png"
+  ],
+  "success": true,
+  "notes": [
+    "Hebrew screenshot captured successfully with RTL layout",
+    "English screenshot captured successfully with LTR layout",
+    "Both dialogs show the same book at Sourasky Central Library",
+    "Floor map with highlighted shelf visible in both"
+  ]
+}

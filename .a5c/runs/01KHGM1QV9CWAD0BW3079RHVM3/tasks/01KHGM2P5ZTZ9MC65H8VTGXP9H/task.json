@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "2026.01.tasks-v1",
+  "effectId": "01KHGM2P5ZTZ9MC65H8VTGXP9H",
+  "taskId": "implement-pan-drag",
+  "invocationKey": "add-map-pan-drag:S000001:implement-pan-drag",
+  "stepId": "S000001",
+  "kind": "agent",
+  "title": "Implement pan/drag functionality",
+  "io": {
+    "inputJsonPath": "tasks/01KHGM2P5ZTZ9MC65H8VTGXP9H/input.json",
+    "outputJsonPath": "tasks/01KHGM2P5ZTZ9MC65H8VTGXP9H/result.json"
+  },
+  "inputs": {
+    "componentPath": "src/app/custom1-module/cenlib-map/shelf-map-svg/",
+    "feature": "Pan/drag functionality for shelf map when zoomed",
+    "requirements": [
+      "When zoomed in (zoomLevel > 1), users can click and drag to pan the map",
+      "Support both mouse (mousedown/mousemove/mouseup) and touch (touchstart/touchmove/touchend)",
+      "Pan should work smoothly with proper cursor feedback (grab/grabbing)",
+      "Pan position should reset when zoom is reset via resetZoom()"
+    ]
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "2026.01.tasks-v1",
+  "effectId": "01KH8Z556HQWVSTAQBRS4HPHTX",
+  "taskId": "implement-fix",
+  "invocationKey": "fix-hebrew-library-mapping:S000002:implement-fix",
+  "stepId": "S000002",
+  "kind": "agent",
+  "title": "Implement the Hebrew library name fix",
+  "description": "Modify code to support Hebrew library names in mapping index",
+  "labels": [
+    "bug-fix",
+    "implementation"
+  ],
+  "io": {
+    "inputJsonPath": "tasks/01KH8Z556HQWVSTAQBRS4HPHTX/input.json",
+    "outputJsonPath": "tasks/01KH8Z556HQWVSTAQBRS4HPHTX/result.json"
+  },
+  "inputs": {
+    "analysis": {
+      "analysisComplete": true,
+      "codeLocations": [
+        "shelf-mapping.service.ts:14-29 - CsvRow interface needs libraryNameHe field added after libraryName (line 17)",
+        "shelf-mapping.service.ts:136-171 - parseCsv() needs to map libraryNameHe: row.libraryNameHe?.trim() || undefined",
+        "shelf-mapping.service.ts:363-401 - buildMappingIndex() needs to index by BOTH English and Hebrew library names (similar to how collection names are handled in lines 380-387)",
+        "shelf-mapping.config.ts:11-38 - ShelfMapping interface needs libraryNameHe?: string field",
+        "google-sheets.config.ts:16 - URL should be updated to use direct Google Sheets published CSV URL"
+      ],
+      "currentState": {
+        "csvRowFields": [
+          "libraryName",
+          "collectionName",
+          "collectionNameHe",
+          "rangeStart",
+          "rangeEnd",
+          "svgCode",
+          "description",
+          "descriptionHe",
+          "floor",
+          "shelfLabel",
+          "shelfLabelHe",
+          "notes",
+          "notesHe"
+        ],
+        "hasLibraryNameHe": false,
+        "indexingStrategy": "buildMappingIndex() creates a nested Map: libraryName (normalized) -> collectionName (normalized) -> ShelfMapping[]. Currently only English libraryName is used as the key (line 372), but BOTH English and Hebrew collection names are indexed (lines 380-387). This is the root cause - library names are only indexed in English.",
+        "parseCsvMapsLibraryNameHe": false
+      },
+      "fixStrategy": {
+        "step1": "Add libraryNameHe: string; to CsvRow interface after line 16",
+        "step2": "Add libraryNameHe?: string; to ShelfMapping interface in shelf-mapping.config.ts",
+        "step3": "In parseCsv(), add: libraryNameHe: row.libraryNameHe?.trim() || undefined, after line 157",
+        "step4": "In buildMappingIndex(), after line 376, add code to also index by Hebrew library name using mapping.libraryNameHe if present"
+      }
+    },
+    "changes": [
+      {
+        "description": "Add libraryNameHe to CsvRow interface and parseCsv()",
+        "file": "shelf-mapping.service.ts"
+      },
+      {
+        "description": "Update buildMappingIndex() to index by both English and Hebrew library names",
+        "file": "shelf-mapping.service.ts"
+      },
+      {
+        "description": "Add libraryNameHe field to ShelfMapping interface",
+        "file": "shelf-mapping.config.ts"
+      },
+      {
+        "description": "Update URL to use direct Google Sheets published CSV URL",
+        "file": "google-sheets.config.ts"
+      }
+    ],
+    "libraryNameHe": "הספרייה המרכזית סוראסקי"
+  }
+}

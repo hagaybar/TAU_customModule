@@ -1,0 +1,13 @@
+{
+  "runId": "01KHFWQHPQ05MTWX4YGESYSD07",
+  "request": "commit-and-playwright-rtl-tests",
+  "processId": "commit-and-playwright-rtl-tests",
+  "entrypoint": {
+    "importPath": "../../processes/commit-and-playwright-rtl-tests.js",
+    "exportName": "process"
+  },
+  "processPath": "../../processes/commit-and-playwright-rtl-tests.js",
+  "layoutVersion": "2026.01-storage-preview",
+  "createdAt": "2026-02-15T05:35:16.200Z",
+  "completionSecret": "00be1d4c268ec756c69d31a6cf8f1952"
+}

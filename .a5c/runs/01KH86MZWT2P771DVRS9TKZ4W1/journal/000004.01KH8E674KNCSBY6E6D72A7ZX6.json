@@ -1,0 +1,18 @@
+{
+  "type": "EFFECT_REQUESTED",
+  "recordedAt": "2026-02-12T08:06:27.219Z",
+  "data": {
+    "effectId": "01KH8E6747GXGSTN07S0VVMV9R",
+    "invocationKey": "replace-locate-button:S000002:__sdk.breakpoint",
+    "invocationHash": "9cd45f470be0fbfe57e4f075722140779c4f5940e94a4f977dc984d92efad7c5",
+    "stepId": "S000002",
+    "taskId": "__sdk.breakpoint",
+    "kind": "breakpoint",
+    "label": "breakpoint",
+    "taskDefRef": "tasks/01KH8E6747GXGSTN07S0VVMV9R/task.json",
+    "labels": [
+      "breakpoint"
+    ]
+  },
+  "checksum": "285e5a67699ef44a3659bcea653523e685d5ca678398f68aecca82c4dcf2047e"
+}

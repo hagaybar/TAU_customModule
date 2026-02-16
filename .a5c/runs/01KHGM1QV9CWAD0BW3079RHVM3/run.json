@@ -1,0 +1,13 @@
+{
+  "runId": "01KHGM1QV9CWAD0BW3079RHVM3",
+  "request": "add-map-pan-drag",
+  "processId": "add-map-pan-drag",
+  "entrypoint": {
+    "importPath": "../../processes/add-map-pan-drag.js",
+    "exportName": "process"
+  },
+  "processPath": "../../processes/add-map-pan-drag.js",
+  "layoutVersion": "2026.01-storage-preview",
+  "createdAt": "2026-02-15T12:22:47.412Z",
+  "completionSecret": "5f88ff7fbb648feedc343e6565607bbb"
+}

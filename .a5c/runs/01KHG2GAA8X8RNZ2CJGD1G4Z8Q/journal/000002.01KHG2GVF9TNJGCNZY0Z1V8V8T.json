@@ -1,0 +1,20 @@
+{
+  "type": "EFFECT_REQUESTED",
+  "recordedAt": "2026-02-15T07:16:28.265Z",
+  "data": {
+    "effectId": "01KHG2GVEV7XA68RCH8AC32V4M",
+    "invocationKey": "bidi-dialog-test:S000001:analyze-bidi",
+    "invocationHash": "5dc72c605ce8ec323fa405cdc7c7fb2c1b7c6581621582cbf25722487c178c17",
+    "stepId": "S000001",
+    "taskId": "analyze-bidi",
+    "kind": "skill",
+    "label": "bidi",
+    "taskDefRef": "tasks/01KHG2GVEV7XA68RCH8AC32V4M/task.json",
+    "labels": [
+      "bidi",
+      "analysis",
+      "rtl"
+    ]
+  },
+  "checksum": "526f00db64b26d652489d34dcee8d1f26227d9b76ff357a04c1eedacb8a84641"
+}

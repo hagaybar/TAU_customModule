@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "2026.01.tasks-v1",
+  "effectId": "01KHG2TG2RMFQ8Q4EXMT9XKTZ3",
+  "taskId": "__sdk.breakpoint",
+  "invocationKey": "bidi-dialog-test:S000004:__sdk.breakpoint",
+  "stepId": "S000004",
+  "kind": "breakpoint",
+  "title": "breakpoint",
+  "metadata": {
+    "label": "breakpoint",
+    "payload": {
+      "context": {
+        "files": [
+          {
+            "format": "png",
+            "label": "Hebrew Dialog",
+            "path": "e2e/screenshots/dialog-hebrew.png"
+          },
+          {
+            "format": "png",
+            "label": "English Dialog",
+            "path": "e2e/screenshots/dialog-english.png"
+          }
+        ]
+      },
+      "question": "BiDi analysis complete. Please review the screenshots and analysis. Are both Hebrew and English displays satisfactory?",
+      "title": "BiDi Verification Review"
+    },
+    "requestedAt": "2026-02-15T07:21:44.280Z"
+  },
+  "inputs": {
+    "label": "breakpoint",
+    "payload": {
+      "context": {
+        "files": [
+          {
+            "format": "png",
+            "label": "Hebrew Dialog",
+            "path": "e2e/screenshots/dialog-hebrew.png"
+          },
+          {
+            "format": "png",
+            "label": "English Dialog",
+            "path": "e2e/screenshots/dialog-english.png"
+          }
+        ]
+      },
+      "question": "BiDi analysis complete. Please review the screenshots and analysis. Are both Hebrew and English displays satisfactory?",
+      "title": "BiDi Verification Review"
+    },
+    "requestedAt": "2026-02-15T07:21:44.280Z"
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "2026.01.tasks-v1",
+  "effectId": "01KH8Z87ADFWT9GGPC26YFEXH6",
+  "taskId": "__sdk.breakpoint",
+  "invocationKey": "fix-hebrew-library-mapping:S000004:__sdk.breakpoint",
+  "stepId": "S000004",
+  "kind": "breakpoint",
+  "title": "breakpoint",
+  "metadata": {
+    "label": "breakpoint",
+    "payload": {
+      "context": {
+        "files": [
+          {
+            "format": "code",
+            "language": "typescript",
+            "path": "src/app/custom1-module/cenlib-map/services/shelf-mapping.service.ts"
+          },
+          {
+            "format": "code",
+            "language": "typescript",
+            "path": "src/app/custom1-module/cenlib-map/config/shelf-mapping.config.ts"
+          },
+          {
+            "format": "code",
+            "language": "typescript",
+            "path": "src/app/custom1-module/cenlib-map/config/google-sheets.config.ts"
+          }
+        ]
+      },
+      "question": "Implementation complete. Modified 3 files. Proceed with verification?",
+      "title": "Implementation Review"
+    },
+    "requestedAt": "2026-02-12T13:04:38.733Z"
+  },
+  "inputs": {
+    "label": "breakpoint",
+    "payload": {
+      "context": {
+        "files": [
+          {
+            "format": "code",
+            "language": "typescript",
+            "path": "src/app/custom1-module/cenlib-map/services/shelf-mapping.service.ts"
+          },
+          {
+            "format": "code",
+            "language": "typescript",
+            "path": "src/app/custom1-module/cenlib-map/config/shelf-mapping.config.ts"
+          },
+          {
+            "format": "code",
+            "language": "typescript",
+            "path": "src/app/custom1-module/cenlib-map/config/google-sheets.config.ts"
+          }
+        ]
+      },
+      "question": "Implementation complete. Modified 3 files. Proceed with verification?",
+      "title": "Implementation Review"
+    },
+    "requestedAt": "2026-02-12T13:04:38.733Z"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "feature": "Pan/drag functionality for shelf map when zoomed",
+  "requirements": [
+    "When zoomed in (zoomLevel > 1), users can click and drag to pan the map",
+    "Support both mouse (mousedown/mousemove/mouseup) and touch (touchstart/touchmove/touchend)",
+    "Pan should work smoothly with proper cursor feedback (grab/grabbing)",
+    "Pan position should reset when zoom is reset via resetZoom()"
+  ],
+  "targetComponent": "src/app/custom1-module/cenlib-map/shelf-map-svg/shelf-map-svg.component.ts",
+  "proxyPort": 4201
+}

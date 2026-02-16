@@ -1,0 +1,13 @@
+{
+  "type": "RUN_CREATED",
+  "recordedAt": "2026-02-15T05:35:16.208Z",
+  "data": {
+    "runId": "01KHFWQHPQ05MTWX4YGESYSD07",
+    "processId": "commit-and-playwright-rtl-tests",
+    "entrypoint": {
+      "importPath": "../../processes/commit-and-playwright-rtl-tests.js",
+      "exportName": "process"
+    }
+  },
+  "checksum": "c736bf622e0324613fb5f3049a36854d1710221caa7aa1f8dc771d6ae8188c0e"
+}

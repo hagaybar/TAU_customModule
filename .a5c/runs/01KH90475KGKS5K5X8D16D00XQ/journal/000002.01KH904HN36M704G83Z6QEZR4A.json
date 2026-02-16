@@ -1,0 +1,19 @@
+{
+  "type": "EFFECT_REQUESTED",
+  "recordedAt": "2026-02-12T13:20:06.819Z",
+  "data": {
+    "effectId": "01KH904HMQHEY12H46HPAMTB92",
+    "invocationKey": "commit-and-playwright-rtl-tests:S000001:commit-fix",
+    "invocationHash": "7502831f98adde1fa5d9853386af933cc27af8ac9ea0ebdbdf2ebfb48549765c",
+    "stepId": "S000001",
+    "taskId": "commit-fix",
+    "kind": "agent",
+    "label": "git",
+    "taskDefRef": "tasks/01KH904HMQHEY12H46HPAMTB92/task.json",
+    "labels": [
+      "git",
+      "commit"
+    ]
+  },
+  "checksum": "f4d6a2d0844728056cc81535877f773cbdb8b4a7b094c4b0c423ad5e653db5d6"
+}

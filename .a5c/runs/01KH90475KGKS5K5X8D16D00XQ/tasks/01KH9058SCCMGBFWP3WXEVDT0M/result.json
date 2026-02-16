@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "2026.01.results-v1",
+  "effectId": "01KH9058SCCMGBFWP3WXEVDT0M",
+  "taskId": "__sdk.breakpoint",
+  "invocationKey": "commit-and-playwright-rtl-tests:S000002:__sdk.breakpoint",
+  "status": "ok",
+  "result": {
+    "approved": true,
+    "response": "User approved proceeding with Playwright tests"
+  },
+  "startedAt": "2026-02-12T13:37:32.872Z",
+  "finishedAt": "2026-02-12T13:37:32.872Z",
+  "value": {
+    "approved": true,
+    "response": "User approved proceeding with Playwright tests"
+  }
+}

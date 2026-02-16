@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "2026.01.tasks-v1",
+  "effectId": "01KH8ZB049DDFAAB52ZMW40059",
+  "taskId": "__sdk.breakpoint",
+  "invocationKey": "fix-hebrew-library-mapping:S000006:__sdk.breakpoint",
+  "stepId": "S000006",
+  "kind": "breakpoint",
+  "title": "breakpoint",
+  "metadata": {
+    "label": "breakpoint",
+    "payload": {
+      "context": {
+        "files": [
+          {
+            "format": "markdown",
+            "path": "artifacts/fix-summary.md"
+          }
+        ]
+      },
+      "question": "Fix verified. All type checks passed. Ready to commit changes?",
+      "title": "Final Approval"
+    },
+    "requestedAt": "2026-02-12T13:06:09.673Z"
+  },
+  "inputs": {
+    "label": "breakpoint",
+    "payload": {
+      "context": {
+        "files": [
+          {
+            "format": "markdown",
+            "path": "artifacts/fix-summary.md"
+          }
+        ]
+      },
+      "question": "Fix verified. All type checks passed. Ready to commit changes?",
+      "title": "Final Approval"
+    },
+    "requestedAt": "2026-02-12T13:06:09.673Z"
+  }
+}

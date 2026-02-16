@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "2026.01.results-v1",
+  "effectId": "01KH904HMQHEY12H46HPAMTB92",
+  "taskId": "commit-fix",
+  "invocationKey": "commit-and-playwright-rtl-tests:S000001:commit-fix",
+  "status": "ok",
+  "result": {
+    "commitHash": "fbc6dd4",
+    "message": "feat(cenlib-map): Add Hebrew library name support for mapping index",
+    "success": true
+  },
+  "startedAt": "2026-02-12T13:20:26.210Z",
+  "finishedAt": "2026-02-12T13:20:26.210Z",
+  "value": {
+    "commitHash": "fbc6dd4",
+    "message": "feat(cenlib-map): Add Hebrew library name support for mapping index",
+    "success": true
+  }
+}

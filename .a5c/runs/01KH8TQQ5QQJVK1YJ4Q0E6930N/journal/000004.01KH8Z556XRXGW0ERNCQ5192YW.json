@@ -1,0 +1,19 @@
+{
+  "type": "EFFECT_REQUESTED",
+  "recordedAt": "2026-02-12T13:02:58.269Z",
+  "data": {
+    "effectId": "01KH8Z556HQWVSTAQBRS4HPHTX",
+    "invocationKey": "fix-hebrew-library-mapping:S000002:implement-fix",
+    "invocationHash": "2f89df9934ac662364bffec8a455b67168f97b6246f7b9a7a607a9432d4da238",
+    "stepId": "S000002",
+    "taskId": "implement-fix",
+    "kind": "agent",
+    "label": "implementation",
+    "taskDefRef": "tasks/01KH8Z556HQWVSTAQBRS4HPHTX/task.json",
+    "labels": [
+      "implementation",
+      "bug-fix"
+    ]
+  },
+  "checksum": "f9602f02cc4d6738276375d7cfa0bfe76bd4d8818747dd67cdac7ade5879a56a"
+}

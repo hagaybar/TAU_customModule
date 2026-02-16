@@ -1,0 +1,8 @@
+{
+  "passed": 3,
+  "skipped": 6,
+  "failed": 0,
+  "total": 9,
+  "summary": "Tests ran successfully. 6 tests skipped because shelf map button not visible (requires specific search context). 3 tests passed: basic navigation tests and direct RTL CSS verification. The skipped tests would detect the RTL issue once a proper test fixture with shelf mapping data is available.",
+  "recommendation": "To run the full RTL tests, navigate to a search result page with items that have shelf mappings, or create a test fixture that mocks the dialog directly."
+}

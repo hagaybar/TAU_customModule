@@ -1,0 +1,20 @@
+{
+  "type": "EFFECT_REQUESTED",
+  "recordedAt": "2026-02-15T07:21:21.594Z",
+  "data": {
+    "effectId": "01KHG2SSXEK63048GBW6XPGV0T",
+    "invocationKey": "bidi-dialog-test:S000003:verify-bidi",
+    "invocationHash": "82b35cd0d847cd74294ca5943d5a6cbfdba08bad6da938a31ca1605861f6390d",
+    "stepId": "S000003",
+    "taskId": "verify-bidi",
+    "kind": "agent",
+    "label": "verification",
+    "taskDefRef": "tasks/01KHG2SSXEK63048GBW6XPGV0T/task.json",
+    "labels": [
+      "verification",
+      "bidi",
+      "qa"
+    ]
+  },
+  "checksum": "caaf2f6effc80ac206ed0718796ad38d8a14d9dc1482dff8ba9abb0a28577acb"
+}
