@@ -55,20 +55,48 @@ html[data-theme="dark"] .about-section {
     color: #e0e0e0 !important;
 }
 
-/* All text in dark mode - ensure readability */
+/* All text in dark mode - ensure readability with proper Material Design contrast */
 html.dark-theme p,
 html.dark-theme span,
 html.dark-theme h1, html.dark-theme h2, html.dark-theme h3,
 html.dark-theme h4, html.dark-theme h5, html.dark-theme h6,
 html.dark-theme .mat-body, html.dark-theme .mat-body-1, html.dark-theme .mat-body-2,
 html.dark-theme .mat-caption,
+html.dark-theme label,
+html.dark-theme .label,
+html.dark-theme div,
+html.dark-theme li,
+html.dark-theme article,
 html[data-theme="dark"] p,
 html[data-theme="dark"] span,
 html[data-theme="dark"] h1, html[data-theme="dark"] h2, html[data-theme="dark"] h3,
 html[data-theme="dark"] h4, html[data-theme="dark"] h5, html[data-theme="dark"] h6,
 html[data-theme="dark"] .mat-body, html[data-theme="dark"] .mat-body-1, html[data-theme="dark"] .mat-body-2,
-html[data-theme="dark"] .mat-caption {
-    color: #e0e0e0 !important;
+html[data-theme="dark"] .mat-caption,
+html[data-theme="dark"] label,
+html[data-theme="dark"] .label,
+html[data-theme="dark"] div,
+html[data-theme="dark"] li,
+html[data-theme="dark"] article {
+    color: rgba(255, 255, 255, 0.87) !important;
+}
+
+/* Secondary/medium emphasis text */
+html.dark-theme .mat-hint,
+html.dark-theme .mat-caption,
+html.dark-theme .secondary-text,
+html.dark-theme .text-secondary,
+html.dark-theme .muted,
+html.dark-theme .subtitle,
+html.dark-theme small,
+[data-theme="dark"] .mat-hint,
+[data-theme="dark"] .mat-caption,
+[data-theme="dark"] .secondary-text,
+[data-theme="dark"] .text-secondary,
+[data-theme="dark"] .muted,
+[data-theme="dark"] .subtitle,
+[data-theme="dark"] small {
+    color: rgba(255, 255, 255, 0.70) !important;
 }
 
 /* Header and toolbar - dark mode */
@@ -232,29 +260,463 @@ margin-inline-end: 0.2rem !important; /* pushes the icon away from the text */
 }
 
 /* ============================================= */
-/* DARK MODE OVERRIDES                           */
+/* DARK MODE OVERRIDES - Material Design 2       */
 /* Date: 16.02.26                                */
-/* Purpose: Provide dark mode variants for       */
-/* existing custom styles with good contrast     */
+/* Purpose: Comprehensive dark theme following   */
+/* Material Design 2 principles with proper      */
+/* surface elevation and TAU Blue accent         */
 /* ============================================= */
 
-/* Dark mode color scheme variables */
+/* ============================================= */
+/* CSS Custom Properties for Dark Theme          */
+/* ============================================= */
 html.dark-theme,
 [data-theme="dark"] {
+  /* Base colors */
+  --tau-dark-background: #121212;
+  --tau-dark-surface: #121212;
+
+  /* Elevation-based surface colors (white overlay on #121212) */
+  --tau-dark-surface-1dp: #1e1e1e;
+  --tau-dark-surface-2dp: #232323;
+  --tau-dark-surface-3dp: #252525;
+  --tau-dark-surface-4dp: #272727;
+  --tau-dark-surface-6dp: #2c2c2c;
+  --tau-dark-surface-8dp: #2e2e2e;
+  --tau-dark-surface-12dp: #333333;
+  --tau-dark-surface-16dp: #363636;
+  --tau-dark-surface-24dp: #383838;
+
+  /* Primary colors (TAU Blue lightened for dark theme) */
+  --tau-dark-primary: #7ab3bd;
+  --tau-dark-primary-variant: #5a9aa6;
+  --tau-dark-on-primary: #003739;
+
+  /* Text colors with Material Design opacity levels */
+  --tau-dark-text-high-emphasis: rgba(255, 255, 255, 0.87);
+  --tau-dark-text-medium-emphasis: rgba(255, 255, 255, 0.60);
+  --tau-dark-text-disabled: rgba(255, 255, 255, 0.38);
+
+  /* Legacy variables (for backward compatibility) */
   --tau-dark-bg: #121212;
-  --tau-dark-surface: #1e1e1e;
-  --tau-dark-text-primary: #e0e0e0;
-  --tau-dark-text-secondary: #a0a0a0;
-  --tau-dark-primary: #00dddd;
-  --tau-dark-link: #49f9f9;
+  --tau-dark-text-primary: rgba(255, 255, 255, 0.87);
+  --tau-dark-text-secondary: rgba(255, 255, 255, 0.60);
+  --tau-dark-link: #7ab3bd;
+
+  /* Semantic colors */
+  --tau-dark-error: #CF6679;
+  --tau-dark-link-hover: #9ad3dd;
   --tau-snackbar-bg: #2d2d2d;
+
+  /* Material overrides */
+  --mat-app-background-color: #121212 !important;
+  --mat-app-text-color: rgba(255, 255, 255, 0.87) !important;
+  --mdc-theme-surface: #1e1e1e;
+  --mdc-theme-background: #121212;
+  --mdc-theme-primary: #7ab3bd;
+  --mdc-theme-on-primary: #003739;
+  --mdc-theme-on-surface: rgba(255, 255, 255, 0.87);
+}
+
+/* ============================================= */
+/* Header and Top Bar - Dark Mode                */
+/* ============================================= */
+html.dark-theme header,
+html.dark-theme header.top-bar,
+html.dark-theme header.header,
+html.dark-theme .header,
+html.dark-theme nde-top-bar,
+html.dark-theme .padding-right-left-big,
+[data-theme="dark"] header,
+[data-theme="dark"] header.top-bar,
+[data-theme="dark"] header.header,
+[data-theme="dark"] .header,
+[data-theme="dark"] nde-top-bar,
+[data-theme="dark"] .padding-right-left-big {
+  background-color: var(--tau-dark-surface-1dp, #1e1e1e) !important;
+  color: var(--tau-dark-text-high-emphasis, rgba(255, 255, 255, 0.87)) !important;
+}
+
+/* ============================================= */
+/* Search Bar and Related Components - Dark Mode */
+/* ============================================= */
+html.dark-theme .search-bar-wrapper,
+html.dark-theme .search-bar-wrapper-no-mobile-width,
+html.dark-theme .landing-page-search-bar-wrapper,
+html.dark-theme .custom-search-bar-container,
+[data-theme="dark"] .search-bar-wrapper,
+[data-theme="dark"] .search-bar-wrapper-no-mobile-width,
+[data-theme="dark"] .landing-page-search-bar-wrapper,
+[data-theme="dark"] .custom-search-bar-container {
+  background-color: var(--tau-dark-surface-4dp, #272727) !important;
+}
+
+html.dark-theme button.search-dropdown-container-button,
+html.dark-theme .search-dropdown-container-button,
+[data-theme="dark"] button.search-dropdown-container-button,
+[data-theme="dark"] .search-dropdown-container-button {
+  background-color: var(--tau-dark-surface-4dp, #272727) !important;
+  color: var(--tau-dark-text-high-emphasis, rgba(255, 255, 255, 0.87)) !important;
+  border-color: var(--tau-dark-surface-8dp, #2e2e2e) !important;
+}
+
+/* Search input field */
+html.dark-theme .search-input,
+html.dark-theme input[type="search"],
+html.dark-theme .mat-mdc-input-element,
+[data-theme="dark"] .search-input,
+[data-theme="dark"] input[type="search"],
+[data-theme="dark"] .mat-mdc-input-element {
+  background-color: var(--tau-dark-surface-2dp, #232323) !important;
+  color: var(--tau-dark-text-high-emphasis, rgba(255, 255, 255, 0.87)) !important;
+  caret-color: var(--tau-dark-primary, #7ab3bd) !important;
+}
+
+/* ============================================= */
+/* Quick Links Icons/Cards - Dark Mode           */
+/* ============================================= */
+/* Target the main list containing quick links */
+html.dark-theme main ul a,
+html.dark-theme main ol a,
+html.dark-theme main li a[role="link"],
+html.dark-theme main li a[aria-label],
+html.dark-theme .icon-color,
+html.dark-theme .icon.display-flex,
+html.dark-theme .icon.display-flex.icon-color,
+html.dark-theme div.icon.display-flex,
+html.dark-theme nde-home-quick-links,
+html.dark-theme nde-home-quick-links a,
+html.dark-theme nde-home-quick-links .quick-link,
+html.dark-theme .quick-link-card,
+[data-theme="dark"] main ul a,
+[data-theme="dark"] main ol a,
+[data-theme="dark"] main li a[role="link"],
+[data-theme="dark"] main li a[aria-label],
+[data-theme="dark"] .icon-color,
+[data-theme="dark"] .icon.display-flex,
+[data-theme="dark"] .icon.display-flex.icon-color,
+[data-theme="dark"] div.icon.display-flex,
+[data-theme="dark"] nde-home-quick-links,
+[data-theme="dark"] nde-home-quick-links a,
+[data-theme="dark"] nde-home-quick-links .quick-link,
+[data-theme="dark"] .quick-link-card {
+  background-color: var(--tau-dark-surface-2dp, #232323) !important;
+  color: var(--tau-dark-text-high-emphasis, rgba(255, 255, 255, 0.87)) !important;
+}
+
+html.dark-theme main ul a:hover,
+html.dark-theme main ol a:hover,
+html.dark-theme nde-home-quick-links a:hover,
+html.dark-theme .quick-link-card:hover,
+[data-theme="dark"] main ul a:hover,
+[data-theme="dark"] main ol a:hover,
+[data-theme="dark"] nde-home-quick-links a:hover,
+[data-theme="dark"] .quick-link-card:hover {
+  background-color: var(--tau-dark-surface-4dp, #272727) !important;
+}
+
+/* ============================================= */
+/* Announcements Section - Dark Mode             */
+/* ============================================= */
+html.dark-theme .announcements,
+html.dark-theme div.announcements,
+html.dark-theme div.announcements.display-flex,
+html.dark-theme .announcements-section,
+[data-theme="dark"] .announcements,
+[data-theme="dark"] div.announcements,
+[data-theme="dark"] div.announcements.display-flex,
+[data-theme="dark"] .announcements-section {
+  background-color: var(--tau-dark-surface-1dp, #1e1e1e) !important;
+  color: var(--tau-dark-text-high-emphasis, rgba(255, 255, 255, 0.87)) !important;
+  border-color: var(--tau-dark-surface-4dp, #272727) !important;
+}
+
+/* ============================================= */
+/* About the Library Section - Dark Mode         */
+/* ============================================= */
+html.dark-theme .about-text,
+html.dark-theme div.about-text,
+html.dark-theme div.about-text.flex-column,
+html.dark-theme .about-section,
+html.dark-theme .about-library,
+[data-theme="dark"] .about-text,
+[data-theme="dark"] div.about-text,
+[data-theme="dark"] div.about-text.flex-column,
+[data-theme="dark"] .about-section,
+[data-theme="dark"] .about-library {
+  background-color: var(--tau-dark-surface-1dp, #1e1e1e) !important;
+  color: var(--tau-dark-text-high-emphasis, rgba(255, 255, 255, 0.87)) !important;
+}
+
+/* ============================================= */
+/* Footer - Dark Mode                            */
+/* ============================================= */
+html.dark-theme footer,
+html.dark-theme nde-footer,
+html.dark-theme .footer,
+[data-theme="dark"] footer,
+[data-theme="dark"] nde-footer,
+[data-theme="dark"] .footer {
+  background-color: var(--tau-dark-surface-1dp, #1e1e1e) !important;
+  color: var(--tau-dark-text-medium-emphasis, rgba(255, 255, 255, 0.60)) !important;
+}
+
+html.dark-theme footer a,
+html.dark-theme nde-footer a,
+[data-theme="dark"] footer a,
+[data-theme="dark"] nde-footer a {
+  color: var(--tau-dark-link, #7ab3bd) !important;
+}
+
+/* ============================================= */
+/* Skeleton Loading Shimmer - Dark Mode          */
+/* ============================================= */
+html.dark-theme .shimmer,
+html.dark-theme .skeleton,
+html.dark-theme .loading-skeleton,
+[data-theme="dark"] .shimmer,
+[data-theme="dark"] .skeleton,
+[data-theme="dark"] .loading-skeleton {
+  background-color: var(--tau-dark-surface-4dp, #272727) !important;
+  background-image: linear-gradient(
+    90deg,
+    var(--tau-dark-surface-4dp, #272727) 0%,
+    var(--tau-dark-surface-8dp, #2e2e2e) 50%,
+    var(--tau-dark-surface-4dp, #272727) 100%
+  ) !important;
+}
+
+/* ============================================= */
+/* Main Content Areas - Dark Mode                */
+/* ============================================= */
+html.dark-theme main,
+html.dark-theme .main-content,
+html.dark-theme .content-area,
+html.dark-theme nde-home,
+html.dark-theme nde-home-content,
+[data-theme="dark"] main,
+[data-theme="dark"] .main-content,
+[data-theme="dark"] .content-area,
+[data-theme="dark"] nde-home,
+[data-theme="dark"] nde-home-content {
+  background-color: var(--tau-dark-background, #121212) !important;
+  color: var(--tau-dark-text-high-emphasis, rgba(255, 255, 255, 0.87)) !important;
+}
+
+/* ============================================= */
+/* Search Results - Dark Mode                    */
+/* ============================================= */
+html.dark-theme .search-results,
+html.dark-theme .result-item,
+html.dark-theme .brief-result,
+html.dark-theme prm-brief-result,
+html.dark-theme nde-brief-result,
+[data-theme="dark"] .search-results,
+[data-theme="dark"] .result-item,
+[data-theme="dark"] .brief-result,
+[data-theme="dark"] prm-brief-result,
+[data-theme="dark"] nde-brief-result {
+  background-color: var(--tau-dark-surface-1dp, #1e1e1e) !important;
+  color: var(--tau-dark-text-high-emphasis, rgba(255, 255, 255, 0.87)) !important;
+  border-color: var(--tau-dark-surface-4dp, #272727) !important;
+}
+
+html.dark-theme .search-results:hover,
+html.dark-theme .result-item:hover,
+[data-theme="dark"] .search-results:hover,
+[data-theme="dark"] .result-item:hover {
+  background-color: var(--tau-dark-surface-2dp, #232323) !important;
+}
+
+/* ============================================= */
+/* Facets/Filters Sidebar - Dark Mode            */
+/* ============================================= */
+html.dark-theme .facets,
+html.dark-theme .facet-group,
+html.dark-theme prm-facet,
+html.dark-theme nde-facet,
+html.dark-theme .filter-sidebar,
+[data-theme="dark"] .facets,
+[data-theme="dark"] .facet-group,
+[data-theme="dark"] prm-facet,
+[data-theme="dark"] nde-facet,
+[data-theme="dark"] .filter-sidebar {
+  background-color: var(--tau-dark-surface-1dp, #1e1e1e) !important;
+  color: var(--tau-dark-text-high-emphasis, rgba(255, 255, 255, 0.87)) !important;
+}
+
+/* ============================================= */
+/* Full View / Detail Page - Dark Mode           */
+/* ============================================= */
+html.dark-theme .full-view,
+html.dark-theme prm-full-view,
+html.dark-theme nde-full-view,
+html.dark-theme .detail-view,
+[data-theme="dark"] .full-view,
+[data-theme="dark"] prm-full-view,
+[data-theme="dark"] nde-full-view,
+[data-theme="dark"] .detail-view {
+  background-color: var(--tau-dark-background, #121212) !important;
+  color: var(--tau-dark-text-high-emphasis, rgba(255, 255, 255, 0.87)) !important;
+}
+
+/* ============================================= */
+/* Buttons - Dark Mode                           */
+/* ============================================= */
+html.dark-theme .mat-mdc-button,
+html.dark-theme .mat-mdc-raised-button,
+html.dark-theme .mat-mdc-outlined-button,
+html.dark-theme .mdc-button,
+[data-theme="dark"] .mat-mdc-button,
+[data-theme="dark"] .mat-mdc-raised-button,
+[data-theme="dark"] .mat-mdc-outlined-button,
+[data-theme="dark"] .mdc-button {
+  color: var(--tau-dark-primary, #7ab3bd) !important;
+}
+
+html.dark-theme .mat-mdc-raised-button.mat-primary,
+html.dark-theme .mat-mdc-fab.mat-primary,
+[data-theme="dark"] .mat-mdc-raised-button.mat-primary,
+[data-theme="dark"] .mat-mdc-fab.mat-primary {
+  background-color: var(--tau-dark-primary, #7ab3bd) !important;
+  color: var(--tau-dark-on-primary, #003739) !important;
+}
+
+/* ============================================= */
+/* Dialogs and Overlays - Dark Mode              */
+/* ============================================= */
+html.dark-theme .mat-mdc-dialog-container,
+html.dark-theme .cdk-overlay-pane,
+html.dark-theme .mat-mdc-menu-panel,
+html.dark-theme .mat-mdc-select-panel,
+[data-theme="dark"] .mat-mdc-dialog-container,
+[data-theme="dark"] .cdk-overlay-pane,
+[data-theme="dark"] .mat-mdc-menu-panel,
+[data-theme="dark"] .mat-mdc-select-panel {
+  background-color: var(--tau-dark-surface-8dp, #2e2e2e) !important;
+  color: var(--tau-dark-text-high-emphasis, rgba(255, 255, 255, 0.87)) !important;
+}
+
+/* ============================================= */
+/* Tabs - Dark Mode                              */
+/* ============================================= */
+html.dark-theme .mat-mdc-tab-group,
+html.dark-theme .mat-mdc-tab,
+html.dark-theme .mdc-tab,
+[data-theme="dark"] .mat-mdc-tab-group,
+[data-theme="dark"] .mat-mdc-tab,
+[data-theme="dark"] .mdc-tab {
+  background-color: var(--tau-dark-surface-1dp, #1e1e1e) !important;
+  color: var(--tau-dark-text-high-emphasis, rgba(255, 255, 255, 0.87)) !important;
+}
+
+html.dark-theme .mat-mdc-tab.mdc-tab--active,
+html.dark-theme .mdc-tab--active,
+[data-theme="dark"] .mat-mdc-tab.mdc-tab--active,
+[data-theme="dark"] .mdc-tab--active {
+  color: var(--tau-dark-primary, #7ab3bd) !important;
+}
+
+/* ============================================= */
+/* Filter Chips/Buttons - Dark Mode              */
+/* ============================================= */
+html.dark-theme button[class*="filter"],
+html.dark-theme .filter-button,
+html.dark-theme .filter-chip,
+html.dark-theme .mat-mdc-chip,
+html.dark-theme .chip,
+html.dark-theme [role="listbox"] button,
+html.dark-theme [role="group"] button,
+[data-theme="dark"] button[class*="filter"],
+[data-theme="dark"] .filter-button,
+[data-theme="dark"] .filter-chip,
+[data-theme="dark"] .mat-mdc-chip,
+[data-theme="dark"] .chip,
+[data-theme="dark"] [role="listbox"] button,
+[data-theme="dark"] [role="group"] button {
+  background-color: var(--tau-dark-surface-4dp, #272727) !important;
+  color: rgba(255, 255, 255, 0.87) !important;
+  border-color: var(--tau-dark-surface-8dp, #2e2e2e) !important;
+}
+
+html.dark-theme button[class*="filter"]:hover,
+html.dark-theme .filter-button:hover,
+html.dark-theme .mat-mdc-chip:hover,
+[data-theme="dark"] button[class*="filter"]:hover,
+[data-theme="dark"] .filter-button:hover,
+[data-theme="dark"] .mat-mdc-chip:hover {
+  background-color: var(--tau-dark-surface-8dp, #2e2e2e) !important;
+}
+
+/* Active/Selected filters */
+html.dark-theme button[aria-pressed="true"],
+html.dark-theme button.active,
+html.dark-theme .filter-active,
+html.dark-theme .mat-mdc-chip-selected,
+[data-theme="dark"] button[aria-pressed="true"],
+[data-theme="dark"] button.active,
+[data-theme="dark"] .filter-active,
+[data-theme="dark"] .mat-mdc-chip-selected {
+  background-color: var(--tau-dark-primary, #7ab3bd) !important;
+  color: var(--tau-dark-on-primary, #003739) !important;
+}
+
+/* ============================================= */
+/* Newspaper Search Banner - Dark Mode           */
+/* ============================================= */
+html.dark-theme .newspaper-search,
+html.dark-theme [class*="newspaper"],
+[data-theme="dark"] .newspaper-search,
+[data-theme="dark"] [class*="newspaper"] {
+  background-color: var(--tau-dark-surface-2dp, #232323) !important;
+  color: rgba(255, 255, 255, 0.87) !important;
+}
+
+/* ============================================= */
+/* Pagination - Dark Mode                        */
+/* ============================================= */
+html.dark-theme nav[aria-label="Pagination"],
+html.dark-theme .pagination,
+html.dark-theme [role="navigation"],
+[data-theme="dark"] nav[aria-label="Pagination"],
+[data-theme="dark"] .pagination,
+[data-theme="dark"] [role="navigation"] {
+  background-color: transparent !important;
+}
+
+html.dark-theme nav[aria-label="Pagination"] a,
+html.dark-theme .pagination a,
+[data-theme="dark"] nav[aria-label="Pagination"] a,
+[data-theme="dark"] .pagination a {
+  color: var(--tau-dark-link, #7ab3bd) !important;
+}
+
+html.dark-theme nav[aria-label="Pagination"] a[aria-current],
+html.dark-theme .pagination .active,
+[data-theme="dark"] nav[aria-label="Pagination"] a[aria-current],
+[data-theme="dark"] .pagination .active {
+  background-color: var(--tau-dark-primary, #7ab3bd) !important;
+  color: var(--tau-dark-on-primary, #003739) !important;
+}
+
+/* ============================================= */
+/* Sign-in Banner/Toast - Dark Mode              */
+/* ============================================= */
+html.dark-theme [class*="sign-in"],
+html.dark-theme [class*="signin"],
+html.dark-theme .auth-banner,
+[data-theme="dark"] [class*="sign-in"],
+[data-theme="dark"] [class*="signin"],
+[data-theme="dark"] .auth-banner {
+  background-color: var(--tau-dark-surface-8dp, #2e2e2e) !important;
+  color: rgba(255, 255, 255, 0.87) !important;
 }
 
 /* --- Library Title Colors (Dark Mode) --- */
 /* Pre-NDE view library name */
 html.dark-theme prm-location-items .tab-content-header .md-title,
 [data-theme="dark"] prm-location-items .tab-content-header .md-title {
-  color: #49f9f9;
+  color: var(--tau-dark-primary, #7ab3bd) !important;
   font-weight: bold;
 }
 
@@ -266,14 +728,14 @@ html.dark-theme md-list-item.md-3-line>.md-no-style .md-list-item-text h3,
 [data-theme="dark"] md-list-item.md-2-line>.md-no-style .md-list-item-text h3,
 [data-theme="dark"] md-list-item.md-3-line .md-list-item-text h3,
 [data-theme="dark"] md-list-item.md-3-line>.md-no-style .md-list-item-text h3 {
-  color: #49f9f9;
+  color: var(--tau-dark-primary, #7ab3bd) !important;
   font-weight: bold;
 }
 
 /* NDE view library title */
 html.dark-theme .getit-library-title.mat-title-medium,
 [data-theme="dark"] .getit-library-title.mat-title-medium {
-  color: #49f9f9;
+  color: var(--tau-dark-primary, #7ab3bd) !important;
   font-weight: bold;
 }
 
@@ -342,18 +804,73 @@ html.dark-theme mat-card-title.mat-mdc-card-title.margin-bottom-medium,
 /* --- General Text Contrast Improvements (Dark Mode) --- */
 html.dark-theme .mat-mdc-card,
 [data-theme="dark"] .mat-mdc-card {
-  background-color: #1e1e1e;
-  color: #e0e0e0;
+  background-color: var(--tau-dark-surface-1dp, #1e1e1e) !important;
+  color: var(--tau-dark-text-high-emphasis, rgba(255, 255, 255, 0.87)) !important;
 }
 
 html.dark-theme a,
 [data-theme="dark"] a {
-  color: #49f9f9;
+  color: var(--tau-dark-link, #7ab3bd) !important;
 }
 
 html.dark-theme a:hover,
 [data-theme="dark"] a:hover {
-  color: #00dddd;
+  color: var(--tau-dark-link-hover, #9ad3dd) !important;
+}
+
+/* --- Alert/No Results Boxes (Dark Mode) --- */
+html.dark-theme [role="alert"],
+html.dark-theme .alert,
+html.dark-theme .no-results,
+html.dark-theme .no-matching-records,
+html.dark-theme nde-no-search-results,
+html.dark-theme nde-no-search-results > *,
+html.dark-theme .suggestions-container,
+html.dark-theme .external-search-section,
+[data-theme="dark"] [role="alert"],
+[data-theme="dark"] .alert,
+[data-theme="dark"] .no-results,
+[data-theme="dark"] .no-matching-records,
+[data-theme="dark"] nde-no-search-results,
+[data-theme="dark"] nde-no-search-results > *,
+[data-theme="dark"] .suggestions-container,
+[data-theme="dark"] .external-search-section {
+  background-color: var(--tau-dark-surface-2dp, #232323) !important;
+  color: var(--tau-dark-text-high-emphasis, rgba(255, 255, 255, 0.87)) !important;
+  border-color: var(--tau-dark-surface-4dp, #272727) !important;
+}
+
+/* --- External Search Links Section (Dark Mode) --- */
+html.dark-theme nde-external-search-links,
+html.dark-theme nde-external-search-links *,
+html.dark-theme .external-search-links,
+html.dark-theme .external-search-links *,
+html.dark-theme nde-no-results-external-links,
+html.dark-theme nde-no-results-external-links *,
+[data-theme="dark"] nde-external-search-links,
+[data-theme="dark"] nde-external-search-links *,
+[data-theme="dark"] .external-search-links,
+[data-theme="dark"] .external-search-links *,
+[data-theme="dark"] nde-no-results-external-links,
+[data-theme="dark"] nde-no-results-external-links * {
+  background-color: var(--tau-dark-surface-2dp, #232323) !important;
+  color: var(--tau-dark-text-high-emphasis, rgba(255, 255, 255, 0.87)) !important;
+}
+
+/* External links list items in dark mode */
+html.dark-theme [role="alert"] li,
+html.dark-theme [role="alert"] a,
+[data-theme="dark"] [role="alert"] li,
+[data-theme="dark"] [role="alert"] a {
+  background-color: transparent !important;
+  color: var(--tau-dark-link, #7ab3bd) !important;
+}
+
+html.dark-theme [role="alert"] li:hover,
+html.dark-theme [role="alert"] a:hover,
+[data-theme="dark"] [role="alert"] li:hover,
+[data-theme="dark"] [role="alert"] a:hover {
+  background-color: var(--tau-dark-surface-4dp, #272727) !important;
 }
 
 /* ============================================= */

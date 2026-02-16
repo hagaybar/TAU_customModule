@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "2026.01.tasks-v1",
+  "effectId": "01KHK6RK0W1H1W3H7AM07D5QY1",
+  "taskId": "implement-dark-theme",
+  "invocationKey": "dark-theme-fix:S000004:implement-dark-theme",
+  "stepId": "S000004",
+  "kind": "agent",
+  "title": "Implement dark theme (iteration 1)",
+  "description": "Apply dark theme CSS changes to custom.css",
+  "labels": [
+    "implementation",
+    "iteration-1"
+  ],
+  "io": {
+    "inputJsonPath": "tasks/01KHK6RK0W1H1W3H7AM07D5QY1/input.json",
+    "outputJsonPath": "tasks/01KHK6RK0W1H1W3H7AM07D5QY1/result.json"
+  },
+  "inputs": {
+    "colorScheme": {
+      "colorScheme": {
+        "background": "#121212",
+        "error": "#CF6679",
+        "link": "#7ab3bd",
+        "linkHover": "#9ad3dd",
+        "onPrimary": "#003739",
+        "primary": "#7ab3bd",
+        "primaryVariant": "#5a9aa6",
+        "surface12dp": "#333333",
+        "surface16dp": "#363636",
+        "surface1dp": "#1e1e1e",
+        "surface24dp": "#383838",
+        "surface2dp": "#232323",
+        "surface3dp": "#252525",
+        "surface4dp": "#272727",
+        "surface6dp": "#2c2c2c",
+        "surface8dp": "#2e2e2e",
+        "surfaceBase": "#121212",
+        "textDisabled": "rgba(255, 255, 255, 0.38)",
+        "textHighEmphasis": "rgba(255, 255, 255, 0.87)",
+        "textMediumEmphasis": "rgba(255, 255, 255, 0.60)"
+      },
+      "contrastReport": [
+        "Background (#121212) to High Emphasis Text (rgba(255,255,255,0.87)): Contrast ratio 15.8:1 - PASSES WCAG AAA",
+        "Surface-1dp (#1e1e1e) to High Emphasis Text (rgba(255,255,255,0.87)): Contrast ratio 13.9:1 - PASSES WCAG AAA",
+        "Surface-4dp (#272727) to High Emphasis Text (rgba(255,255,255,0.87)): Contrast ratio 11.3:1 - PASSES WCAG AAA",
+        "Background (#121212) to Primary (#7ab3bd): Contrast ratio 7.2:1 - PASSES WCAG AA for normal text",
+        "Background (#121212) to Medium Emphasis Text (rgba(255,255,255,0.60)): Contrast ratio 9.4:1 - PASSES WCAG AAA",
+        "Surface-1dp (#1e1e1e) to Link (#7ab3bd): Contrast ratio 6.4:1 - PASSES WCAG AA for normal text",
+        "Primary (#7ab3bd) is a lightened version of TAU Blue (#44707b), adjusted for dark theme accessibility",
+        "All color combinations meet WCAG AA minimum contrast requirements (4.5:1 for normal text)"
+      ],
+      "cssVariables": "/* Material Design 2 Dark Theme - TAU Customization */\nhtml.dark-theme,\n[data-theme=\"dark\"] {\n  /* Base colors */\n  --tau-dark-background: #121212;\n  --tau-dark-surface: #121212;\n  \n  /* Elevation-based surface colors (white overlay on #121212) */\n  --tau-dark-surface-1dp: #1e1e1e;\n  --tau-dark-surface-2dp: #232323;\n  --tau-dark-surface-3dp: #252525;\n  --tau-dark-surface-4dp: #272727;\n  --tau-dark-surface-6dp: #2c2c2c;\n  --tau-dark-surface-8dp: #2e2e2e;\n  --tau-dark-surface-12dp: #333333;\n  --tau-dark-surface-16dp: #363636;\n  --tau-dark-surface-24dp: #383838;\n  \n  /* Primary colors (TAU Blue lightened for dark theme) */\n  --tau-dark-primary: #7ab3bd;\n  --tau-dark-primary-variant: #5a9aa6;\n  --tau-dark-on-primary: #003739;\n  \n  /* Text colors with Material Design opacity levels */\n  --tau-dark-text-high-emphasis: rgba(255, 255, 255, 0.87);\n  --tau-dark-text-medium-emphasis: rgba(255, 255, 255, 0.60);\n  --tau-dark-text-disabled: rgba(255, 255, 255, 0.38);\n  \n  /* Semantic colors */\n  --tau-dark-error: #CF6679;\n  --tau-dark-link: #7ab3bd;\n  --tau-dark-link-hover: #9ad3dd;\n  \n  /* Material overrides */\n  --mat-app-background-color: #121212;\n  --mat-app-text-color: rgba(255, 255, 255, 0.87);\n  --mdc-theme-surface: #1e1e1e;\n  --mdc-theme-background: #121212;\n  --mdc-theme-primary: #7ab3bd;\n  --mdc-theme-on-primary: #003739;\n  --mdc-theme-on-surface: rgba(255, 255, 255, 0.87);\n}"
+    },
+    "iteration": 1,
+    "previousFeedback": null,
+    "targetPages": [
+      "homepage",
+      "search-results",
+      "full-view"
+    ]
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "accentColor": "#44707b",
+  "targetPages": [
+    "homepage",
+    "search-results",
+    "full-view"
+  ],
+  "maxIterations": 3
+}

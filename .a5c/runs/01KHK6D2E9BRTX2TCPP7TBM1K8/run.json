@@ -1,0 +1,13 @@
+{
+  "runId": "01KHK6D2E9BRTX2TCPP7TBM1K8",
+  "request": "dark-theme-fix",
+  "processId": "dark-theme-fix",
+  "entrypoint": {
+    "importPath": "../../processes/dark-theme-fix.js",
+    "exportName": "process"
+  },
+  "processPath": "../../processes/dark-theme-fix.js",
+  "layoutVersion": "2026.01-storage-preview",
+  "createdAt": "2026-02-16T12:22:01.937Z",
+  "completionSecret": "5a7994a50df58b79380d5e6c6d4a4e63"
+}

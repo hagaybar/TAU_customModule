@@ -1,0 +1,91 @@
+{
+  "issues": [
+    {
+      "element": "Header/Top bar - main navigation area",
+      "selector": "header.top-bar, header.header, .header",
+      "currentColor": "rgb(255, 255, 255)",
+      "problem": "Pure white background (#ffffff) instead of dark surface. Light text (rgb(224,224,224)) on white creates unreadable contrast. Material Design 2 requires #121212 background or #1e1e1e for elevated surfaces.",
+      "severity": "high"
+    },
+    {
+      "element": "Search bar wrapper container",
+      "selector": ".search-bar-wrapper, .search-bar-wrapper-no-mobile-width, .landing-page-search-bar-wrapper",
+      "currentColor": "rgb(247, 249, 255)",
+      "problem": "Light blue-white background (#f7f9ff) not converted to dark. Light text on light background makes search field hard to see.",
+      "severity": "high"
+    },
+    {
+      "element": "Search scope dropdown buttons",
+      "selector": "button.search-dropdown-container-button",
+      "currentColor": "rgb(247, 249, 255)",
+      "problem": "Light background (#f7f9ff) on dropdown buttons. Text is dark (#181c20) creating inconsistent styling with rest of dark UI.",
+      "severity": "medium"
+    },
+    {
+      "element": "Quick links card icons (Opening hours, FAQ, etc.)",
+      "selector": ".icon-color, .icon.display-flex, nde-home-quick-links a",
+      "currentColor": "rgb(238, 241, 246)",
+      "problem": "Light gray background (#eef1f6) on icon cards not converted to dark surface color. Should be #1e1e1e to #2d2d2d.",
+      "severity": "high"
+    },
+    {
+      "element": "Announcements section card",
+      "selector": ".announcements, div.announcements.display-flex",
+      "currentColor": "rgb(238, 241, 246)",
+      "problem": "Light text (rgb(224,224,224)) on light background (#eef1f6) - completely unreadable. Card should have dark surface background.",
+      "severity": "high"
+    },
+    {
+      "element": "About the Library section",
+      "selector": ".about-text, div.about-text.flex-column",
+      "currentColor": "rgb(238, 241, 246)",
+      "problem": "Light text (rgb(224,224,224)) on light background (#eef1f6) - unreadable. Section needs dark background.",
+      "severity": "high"
+    },
+    {
+      "element": "Footer area",
+      "selector": "footer, nde-footer",
+      "currentColor": "rgb(242, 242, 242)",
+      "problem": "Light background (#f2f2f2) with light text - poor contrast. Footer should use dark surface color.",
+      "severity": "high"
+    },
+    {
+      "element": "Loading skeleton shimmer placeholders",
+      "selector": ".shimmer",
+      "currentColor": "rgb(243, 243, 243)",
+      "problem": "Skeleton loading animation uses light gray (#f3f3f3) instead of dark gray. Visible on search results page.",
+      "severity": "medium"
+    },
+    {
+      "element": "CSS variable --mat-app-background-color",
+      "selector": ":root, html.dark-theme",
+      "currentColor": "#f7f9ff (light mode value)",
+      "problem": "Material app background CSS variable not overridden for dark mode. Still using light theme value. Should be #121212.",
+      "severity": "high"
+    },
+    {
+      "element": "Top bar component (nde-top-bar)",
+      "selector": "nde-top-bar, .padding-right-left-big",
+      "currentColor": "rgb(255, 255, 255)",
+      "problem": "Top bar inherits white background from parent header. Needs explicit dark background override.",
+      "severity": "high"
+    }
+  ],
+  "screenshots": [
+    {"page": "homepage-light", "path": "/home/hagaybar/projects/TAU_customModule/analysis-homepage-light.png"},
+    {"page": "homepage-dark", "path": "/home/hagaybar/projects/TAU_customModule/analysis-homepage-dark.png"},
+    {"page": "search-results-dark", "path": "/home/hagaybar/projects/TAU_customModule/analysis-search-dark.png"}
+  ],
+  "recommendations": [
+    "Override Material CSS variables for dark theme: --mat-app-background-color: #121212; --mat-app-text-color: rgba(255,255,255,0.87);",
+    "Add dark mode styles for header.top-bar, header.header, .header: background-color: #1e1e1e !important;",
+    "Add dark mode styles for .search-bar-wrapper variants: background-color: #2d2d2d !important;",
+    "Add dark mode styles for .announcements, .about-text: background-color: #1e1e1e !important; color: rgba(255,255,255,0.87) !important;",
+    "Add dark mode styles for .icon-color, .icon.display-flex: background-color: #2d2d2d !important;",
+    "Add dark mode styles for footer: background-color: #1e1e1e !important;",
+    "Add dark mode styles for .shimmer skeleton loading: background-color: #2d2d2d !important;",
+    "Add dark mode styles for button.search-dropdown-container-button: background-color: #2d2d2d !important; color: rgba(255,255,255,0.87) !important;",
+    "Consider using elevation-based surface colors per Material Design 2: 0dp=#121212, 1dp=#1e1e1e, 2dp=#222222, 3dp=#252525, 4dp=#272727",
+    "Text should use Material Design 2 opacity levels: High emphasis: rgba(255,255,255,0.87), Medium: rgba(255,255,255,0.60), Disabled: rgba(255,255,255,0.38)"
+  ]
+}

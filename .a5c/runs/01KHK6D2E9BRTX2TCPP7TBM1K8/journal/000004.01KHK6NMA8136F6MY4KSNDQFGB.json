@@ -1,0 +1,19 @@
+{
+  "type": "EFFECT_REQUESTED",
+  "recordedAt": "2026-02-16T12:26:42.376Z",
+  "data": {
+    "effectId": "01KHK6NM9WF9ES9SVDVQEB1RDT",
+    "invocationKey": "dark-theme-fix:S000002:create-color-scheme",
+    "invocationHash": "8b7e00ae236848534c4ef4d0d4b8d49306452cb92a4ca47684595d73e3b16853",
+    "stepId": "S000002",
+    "taskId": "create-color-scheme",
+    "kind": "agent",
+    "label": "color-scheme",
+    "taskDefRef": "tasks/01KHK6NM9WF9ES9SVDVQEB1RDT/task.json",
+    "labels": [
+      "color-scheme",
+      "material-design"
+    ]
+  },
+  "checksum": "0f14f5de23c4d2e66fdfcefc39d9f3764c949913198beab591b42df3cc2c1c81"
+}

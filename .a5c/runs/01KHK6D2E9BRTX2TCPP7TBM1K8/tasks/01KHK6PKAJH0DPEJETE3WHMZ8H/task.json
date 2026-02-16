@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "2026.01.tasks-v1",
+  "effectId": "01KHK6PKAJH0DPEJETE3WHMZ8H",
+  "taskId": "__sdk.breakpoint",
+  "invocationKey": "dark-theme-fix:S000003:__sdk.breakpoint",
+  "stepId": "S000003",
+  "kind": "breakpoint",
+  "title": "breakpoint",
+  "metadata": {
+    "label": "breakpoint",
+    "payload": {
+      "context": {
+        "files": [
+          {
+            "format": "markdown",
+            "path": "tasks/undefined/color-scheme.md"
+          }
+        ]
+      },
+      "question": "Review the proposed Material Design 2 dark theme color scheme. Approve to proceed with implementation?",
+      "title": "Dark Theme Color Scheme Review"
+    },
+    "requestedAt": "2026-02-16T12:27:14.130Z"
+  },
+  "inputs": {
+    "label": "breakpoint",
+    "payload": {
+      "context": {
+        "files": [
+          {
+            "format": "markdown",
+            "path": "tasks/undefined/color-scheme.md"
+          }
+        ]
+      },
+      "question": "Review the proposed Material Design 2 dark theme color scheme. Approve to proceed with implementation?",
+      "title": "Dark Theme Color Scheme Review"
+    },
+    "requestedAt": "2026-02-16T12:27:14.130Z"
+  }
+}

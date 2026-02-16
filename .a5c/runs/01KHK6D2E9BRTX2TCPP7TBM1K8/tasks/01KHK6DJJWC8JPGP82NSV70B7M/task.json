@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "2026.01.tasks-v1",
+  "effectId": "01KHK6DJJWC8JPGP82NSV70B7M",
+  "taskId": "analyze-dark-mode",
+  "invocationKey": "dark-theme-fix:S000001:analyze-dark-mode",
+  "stepId": "S000001",
+  "kind": "agent",
+  "title": "Analyze current dark mode state",
+  "description": "Take screenshots and analyze current dark mode issues",
+  "labels": [
+    "analysis",
+    "dark-mode"
+  ],
+  "io": {
+    "inputJsonPath": "tasks/01KHK6DJJWC8JPGP82NSV70B7M/input.json",
+    "outputJsonPath": "tasks/01KHK6DJJWC8JPGP82NSV70B7M/result.json"
+  },
+  "inputs": {
+    "targetPages": [
+      "homepage",
+      "search-results",
+      "full-view"
+    ]
+  }
+}

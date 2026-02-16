@@ -1,0 +1,19 @@
+{
+  "type": "EFFECT_REQUESTED",
+  "recordedAt": "2026-02-16T12:22:18.473Z",
+  "data": {
+    "effectId": "01KHK6DJJWC8JPGP82NSV70B7M",
+    "invocationKey": "dark-theme-fix:S000001:analyze-dark-mode",
+    "invocationHash": "2d8258005a5f948fc8b53250d57ba5cae9ceedf5e00d31027c0137e8fc9c935b",
+    "stepId": "S000001",
+    "taskId": "analyze-dark-mode",
+    "kind": "agent",
+    "label": "analysis",
+    "taskDefRef": "tasks/01KHK6DJJWC8JPGP82NSV70B7M/task.json",
+    "labels": [
+      "analysis",
+      "dark-mode"
+    ]
+  },
+  "checksum": "5049ab980365aa478ee8abe7ab696ade78d396017828a223c1db99c46d22416c"
+}
