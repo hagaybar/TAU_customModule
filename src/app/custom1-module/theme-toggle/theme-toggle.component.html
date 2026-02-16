@@ -1,0 +1,10 @@
+<button
+  class="theme-toggle-fab"
+  (click)="toggleTheme()"
+  role="switch"
+  [attr.aria-checked]="ariaChecked"
+  aria-label="Toggle dark mode"
+  [title]="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
+>
+  <span class="material-icons">{{ iconName }}</span>
+</button>

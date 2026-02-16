@@ -1,0 +1,98 @@
+// Theme Toggle FAB Styles
+// Floating action button positioned at bottom-right of viewport
+
+:host {
+  display: block;
+}
+
+.theme-toggle-fab {
+  // Fixed positioning at bottom-right
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+
+  // FAB styling
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+
+  // Default colors (light mode)
+  background-color: #6750a4;
+  color: #ffffff;
+
+  // Shadow for elevation
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2),
+              0 6px 10px 0 rgba(0, 0, 0, 0.14),
+              0 1px 18px 0 rgba(0, 0, 0, 0.12);
+
+  // Transitions
+  transition: background-color 0.2s ease-in-out,
+              box-shadow 0.2s ease-in-out,
+              transform 0.2s ease-in-out;
+
+  // Center the icon
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  // Material icon styling
+  .material-icons {
+    font-size: 24px;
+    line-height: 1;
+  }
+
+  // Hover state
+  &:hover {
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+                0 8px 10px 1px rgba(0, 0, 0, 0.14),
+                0 3px 14px 2px rgba(0, 0, 0, 0.12);
+    transform: scale(1.05);
+  }
+
+  // Focus state for accessibility
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(103, 80, 164, 0.4),
+                0 5px 5px -3px rgba(0, 0, 0, 0.2),
+                0 8px 10px 1px rgba(0, 0, 0, 0.14),
+                0 3px 14px 2px rgba(0, 0, 0, 0.12);
+  }
+
+  // Active/pressed state
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+// Dark mode styles
+:host-context(.dark-theme),
+:host-context([data-theme="dark"]) {
+  .theme-toggle-fab {
+    background-color: #d0bcff;
+    color: #381e72;
+
+    &:focus {
+      box-shadow: 0 0 0 3px rgba(208, 188, 255, 0.4),
+                  0 5px 5px -3px rgba(0, 0, 0, 0.2),
+                  0 8px 10px 1px rgba(0, 0, 0, 0.14),
+                  0 3px 14px 2px rgba(0, 0, 0, 0.12);
+    }
+  }
+}
+
+// Responsive adjustments for smaller screens
+@media (max-width: 600px) {
+  .theme-toggle-fab {
+    bottom: 16px;
+    right: 16px;
+    width: 48px;
+    height: 48px;
+
+    .material-icons {
+      font-size: 20px;
+    }
+  }
+}

@@ -1,3 +1,120 @@
+/* =============================================================================
+   TAU Dark Mode - Primo NDE Host App Overrides
+   ============================================================================= */
+
+/* Main body and app root background for dark mode */
+html.dark-theme,
+html.dark-theme body,
+html[data-theme="dark"],
+html[data-theme="dark"] body {
+    background-color: #121212 !important;
+    color: #e0e0e0 !important;
+}
+
+/* Primo NDE specific elements - dark mode */
+html.dark-theme nde-app-root,
+html.dark-theme nde-view,
+html.dark-theme prm-search,
+html.dark-theme .mat-sidenav-container,
+html.dark-theme .mat-drawer-container,
+html.dark-theme .main-content-container,
+html[data-theme="dark"] nde-app-root,
+html[data-theme="dark"] nde-view,
+html[data-theme="dark"] prm-search,
+html[data-theme="dark"] .mat-sidenav-container,
+html[data-theme="dark"] .mat-drawer-container,
+html[data-theme="dark"] .main-content-container {
+    background-color: #121212 !important;
+    color: #e0e0e0 !important;
+}
+
+/* Cards and surfaces - dark mode */
+html.dark-theme .mat-mdc-card,
+html.dark-theme .mat-card,
+html.dark-theme mat-card,
+html.dark-theme .mdc-card,
+html.dark-theme .home-section-content,
+html.dark-theme .quick-links-card,
+html.dark-theme .card,
+html.dark-theme [class*="card"],
+html.dark-theme .welcome-section,
+html.dark-theme .news-section,
+html.dark-theme .about-section,
+html[data-theme="dark"] .mat-mdc-card,
+html[data-theme="dark"] .mat-card,
+html[data-theme="dark"] mat-card,
+html[data-theme="dark"] .mdc-card,
+html[data-theme="dark"] .home-section-content,
+html[data-theme="dark"] .quick-links-card,
+html[data-theme="dark"] .card,
+html[data-theme="dark"] [class*="card"],
+html[data-theme="dark"] .welcome-section,
+html[data-theme="dark"] .news-section,
+html[data-theme="dark"] .about-section {
+    background-color: #1e1e1e !important;
+    color: #e0e0e0 !important;
+}
+
+/* All text in dark mode - ensure readability */
+html.dark-theme p,
+html.dark-theme span,
+html.dark-theme h1, html.dark-theme h2, html.dark-theme h3,
+html.dark-theme h4, html.dark-theme h5, html.dark-theme h6,
+html.dark-theme .mat-body, html.dark-theme .mat-body-1, html.dark-theme .mat-body-2,
+html.dark-theme .mat-caption,
+html[data-theme="dark"] p,
+html[data-theme="dark"] span,
+html[data-theme="dark"] h1, html[data-theme="dark"] h2, html[data-theme="dark"] h3,
+html[data-theme="dark"] h4, html[data-theme="dark"] h5, html[data-theme="dark"] h6,
+html[data-theme="dark"] .mat-body, html[data-theme="dark"] .mat-body-1, html[data-theme="dark"] .mat-body-2,
+html[data-theme="dark"] .mat-caption {
+    color: #e0e0e0 !important;
+}
+
+/* Header and toolbar - dark mode */
+html.dark-theme mat-toolbar,
+html.dark-theme .mat-toolbar,
+html.dark-theme .mdc-top-app-bar,
+html[data-theme="dark"] mat-toolbar,
+html[data-theme="dark"] .mat-toolbar,
+html[data-theme="dark"] .mdc-top-app-bar {
+    background-color: #1e1e1e !important;
+    color: #e0e0e0 !important;
+}
+
+/* Inputs and form fields - dark mode */
+html.dark-theme .mat-mdc-form-field,
+html.dark-theme .mat-form-field,
+html.dark-theme .mdc-text-field,
+html[data-theme="dark"] .mat-mdc-form-field,
+html[data-theme="dark"] .mat-form-field,
+html[data-theme="dark"] .mdc-text-field {
+    color: #e0e0e0 !important;
+}
+
+html.dark-theme .mat-mdc-input-element,
+html.dark-theme input.mat-input-element,
+html[data-theme="dark"] .mat-mdc-input-element,
+html[data-theme="dark"] input.mat-input-element {
+    color: #e0e0e0 !important;
+    caret-color: #00dddd !important;
+}
+
+/* Links - dark mode */
+html.dark-theme a,
+html[data-theme="dark"] a {
+    color: #49f9f9 !important;
+}
+
+html.dark-theme a:hover,
+html[data-theme="dark"] a:hover {
+    color: #00dddd !important;
+}
+
+/* =============================================================================
+   END - TAU Dark Mode - Primo NDE Host App Overrides
+   ============================================================================= */
+
 /* Hide Update Login Credentials in MyAccount */
 .mat-mdc-card-actions {
     display: none !important;
@@ -113,3 +230,132 @@ margin-inline-start: 0.2rem !important;
 .mdc-button__label .quicklink-button-text {
 margin-inline-end: 0.2rem !important; /* pushes the icon away from the text */
 }
+
+/* ============================================= */
+/* DARK MODE OVERRIDES                           */
+/* Date: 16.02.26                                */
+/* Purpose: Provide dark mode variants for       */
+/* existing custom styles with good contrast     */
+/* ============================================= */
+
+/* Dark mode color scheme variables */
+html.dark-theme,
+[data-theme="dark"] {
+  --tau-dark-bg: #121212;
+  --tau-dark-surface: #1e1e1e;
+  --tau-dark-text-primary: #e0e0e0;
+  --tau-dark-text-secondary: #a0a0a0;
+  --tau-dark-primary: #00dddd;
+  --tau-dark-link: #49f9f9;
+  --tau-snackbar-bg: #2d2d2d;
+}
+
+/* --- Library Title Colors (Dark Mode) --- */
+/* Pre-NDE view library name */
+html.dark-theme prm-location-items .tab-content-header .md-title,
+[data-theme="dark"] prm-location-items .tab-content-header .md-title {
+  color: #49f9f9;
+  font-weight: bold;
+}
+
+html.dark-theme md-list-item.md-2-line .md-list-item-text h3,
+html.dark-theme md-list-item.md-2-line>.md-no-style .md-list-item-text h3,
+html.dark-theme md-list-item.md-3-line .md-list-item-text h3,
+html.dark-theme md-list-item.md-3-line>.md-no-style .md-list-item-text h3,
+[data-theme="dark"] md-list-item.md-2-line .md-list-item-text h3,
+[data-theme="dark"] md-list-item.md-2-line>.md-no-style .md-list-item-text h3,
+[data-theme="dark"] md-list-item.md-3-line .md-list-item-text h3,
+[data-theme="dark"] md-list-item.md-3-line>.md-no-style .md-list-item-text h3 {
+  color: #49f9f9;
+  font-weight: bold;
+}
+
+/* NDE view library title */
+html.dark-theme .getit-library-title.mat-title-medium,
+[data-theme="dark"] .getit-library-title.mat-title-medium {
+  color: #49f9f9;
+  font-weight: bold;
+}
+
+/* --- Snackbar Colors (Dark Mode) --- */
+html.dark-theme mat-snack-bar-container.mat-mdc-snack-bar-container,
+[data-theme="dark"] mat-snack-bar-container.mat-mdc-snack-bar-container {
+  --mdc-snackbar-container-color: #2d2d2d;
+}
+
+html.dark-theme mat-snack-bar-container .mdc-snackbar__surface,
+[data-theme="dark"] mat-snack-bar-container .mdc-snackbar__surface {
+  background-color: #2d2d2d !important;
+  color: #e0e0e0 !important;
+}
+
+html.dark-theme mat-snack-bar-container .mat-mdc-snack-bar-label,
+[data-theme="dark"] mat-snack-bar-container .mat-mdc-snack-bar-label {
+  color: #e0e0e0 !important;
+}
+
+html.dark-theme mat-snack-bar-container .mat-mdc-button,
+[data-theme="dark"] mat-snack-bar-container .mat-mdc-button {
+  color: #00dddd !important;
+}
+
+/* --- Call Number Styles (Dark Mode) --- */
+/* Call numbers in NDE locations container */
+html.dark-theme nde-locations-container [data-qa="location-call-number"],
+[data-theme="dark"] nde-locations-container [data-qa="location-call-number"] {
+  direction: ltr;
+  unicode-bidi: embed;
+  display: inline-block;
+  font-weight: bold;
+  color: #e0e0e0;
+  background-color: rgba(0, 221, 221, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* Call numbers in brief view */
+html.dark-theme nde-location-item .getit-items-brief-property:nth-child(3) span[ndetooltipifoverflow],
+[data-theme="dark"] nde-location-item .getit-items-brief-property:nth-child(3) span[ndetooltipifoverflow] {
+  direction: ltr;
+  unicode-bidi: embed;
+  display: inline-block;
+  font-weight: bold;
+  color: #e0e0e0;
+  background-color: rgba(0, 221, 221, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* --- Location Availability Text (Dark Mode) --- */
+html.dark-theme .view-it-title.mat-title-small.ng-star-inserted span,
+[data-theme="dark"] .view-it-title.mat-title-small.ng-star-inserted span {
+  color: #4caf50;
+}
+
+/* --- Card Title (Dark Mode) --- */
+html.dark-theme mat-card-title.mat-mdc-card-title.margin-bottom-medium,
+[data-theme="dark"] mat-card-title.mat-mdc-card-title.margin-bottom-medium {
+  font-weight: bold;
+  color: #e0e0e0;
+}
+
+/* --- General Text Contrast Improvements (Dark Mode) --- */
+html.dark-theme .mat-mdc-card,
+[data-theme="dark"] .mat-mdc-card {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+}
+
+html.dark-theme a,
+[data-theme="dark"] a {
+  color: #49f9f9;
+}
+
+html.dark-theme a:hover,
+[data-theme="dark"] a:hover {
+  color: #00dddd;
+}
+
+/* ============================================= */
+/* END DARK MODE OVERRIDES                       */
+/* ============================================= */

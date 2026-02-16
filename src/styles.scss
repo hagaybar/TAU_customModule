@@ -1,7 +1,56 @@
 /* You can add global styles to this file, and also import other style files */
 @use '@angular/material' as mat;
+@use './app/styles/m3-theme' as m3;
 
 @include mat.core();
+
+// =============================================================================
+// TAU Dark Theme Support - CSS Custom Properties
+// =============================================================================
+
+// Light theme custom properties (default)
+:root,
+:root[data-theme='light'],
+html:not(.dark-theme) {
+  --tau-background-color: #ffffff;
+  --tau-surface-color: #f5f5f5;
+  --tau-on-surface: #1a1a1a;
+  --tau-primary: #006a6a;
+  --tau-text-primary: #1a1a1a;
+  --tau-text-secondary: #5f6368;
+  --tau-snackbar-bg: #323232;
+  --tau-link-color: #006a6a;
+}
+
+// Dark theme custom properties
+:root.dark-theme,
+:root[data-theme='dark'],
+html.dark-theme {
+  --tau-background-color: #121212;
+  --tau-surface-color: #1e1e1e;
+  --tau-on-surface: #e0e0e0;
+  --tau-primary: #00dddd;
+  --tau-text-primary: #e0e0e0;
+  --tau-text-secondary: #a0a0a0;
+  --tau-snackbar-bg: #2d2d2d;
+  --tau-link-color: #49f9f9;
+}
+
+// Apply smooth theme transitions
+html,
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+// Apply dark theme Material styles when dark-theme class is present
+html.dark-theme,
+:root[data-theme='dark'] {
+  @include mat.all-component-colors(m3.$dark-theme);
+
+  // Override Primo NDE host app elements for dark mode
+  background-color: var(--tau-background-color) !important;
+  color: var(--tau-text-primary) !important;
+}
 
 // Emit the default typography styles for all components
 @include mat.all-component-typographies();
