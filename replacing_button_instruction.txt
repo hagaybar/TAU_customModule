@@ -1,0 +1,113 @@
+Objective
+Target the existing "Locate" button (specifically within the nde-location component) and replace it with a clone of the "Shelf Map" button functionality and styling.
+
+1. Selector Analysis
+Target Element (The "Locate" Button): The button is located inside a specific container at the end of the location card row.
+
+Container: div.flex-row.flex-layout-center.gap-1.height-100
+
+Button: button.getit-locate-button
+
+Unique Identifier: The button has an aria-label starting with "Locate...", but relying on classes is safer.
+
+Source Element (The "Shelf Map" Button): The button you want to replicate exists in the DOM under nde-location-top-from-remote-0.
+
+Class: cenlib-map-button
+
+Icon: map (Material Icon font)
+
+2. Implementation Plan
+Step A: Hide the Old Button (CSS)
+The cleanest way to remove the old button without causing layout shifts before the JS runs is via CSS.
+
+CSS
+/* Hide the specific 'Locate' button inside the location card */
+nde-location .getit-location-card .getit-locate-button {
+    display: none !important;
+}
+Step B: DOM Injection Logic (JavaScript/Angular)
+Since this appears to be an Angular app (_ngcontent attributes), strictly DOM manipulation might be overwritten by change detection. However, assuming you are injecting this script externally (e.g., via a customization manager like Ex Libris Primo Studio or a user script), here is the vanilla JS approach to swap them.
+
+Logic:
+
+Find the container of the "Locate" button.
+
+Clone the "Shelf Map" button (or create a new button with that structure).
+
+Append the new button to the container.
+
+Step C: The Code Snippet
+Provide this code block to the developer. It creates a MutationObserver to handle dynamic loading (since these rows often load asynchronously).
+
+JavaScript
+(function() {
+    // Configuration
+    const TARGET_CONTAINER_SELECTOR = 'nde-location .getit-location-card .flex-row.flex-layout-center.gap-1.height-100';
+    const TARGET_BUTTON_SELECTOR = '.getit-locate-button';
+    const NEW_BUTTON_CLASS = 'cenlib-map-button-replacement';
+
+    function replaceLocateWithShelfMap() {
+        // 1. Find all potential target containers
+        const containers = document.querySelectorAll(TARGET_CONTAINER_SELECTOR);
+
+        containers.forEach(container => {
+            // Check if we already processed this container
+            if (container.querySelector(`.${NEW_BUTTON_CLASS}`)) return;
+
+            // Check if the Locate button exists here
+            const locateBtn = container.querySelector(TARGET_BUTTON_SELECTOR);
+            if (!locateBtn) return;
+
+            // 2. Hide original button (if not done via CSS)
+            locateBtn.style.display = 'none';
+
+            // 3. Create the new Shelf Map button
+            // We mimic the structure of the source 'cenlib-map-button' found in your snippet
+            const newBtn = document.createElement('button');
+            newBtn.className = `cenlib-map-button mdc-button mdc-button--outlined mat-mdc-outlined-button mat-unthemed mat-mdc-button-base ${NEW_BUTTON_CLASS}`;
+            newBtn.innerHTML = `
+                <span class="mat-mdc-button-persistent-ripple mdc-button__ripple"></span>
+                <mat-icon role="img" class="mat-icon notranslate material-icons mat-ligature-font mat-icon-no-color" aria-hidden="true">map</mat-icon>
+                <span class="mdc-button__label"><span class="button-text">Shelf Map</span></span>
+                <span class="mat-mdc-focus-indicator"></span>
+                <span class="mat-mdc-button-touch-target"></span>
+            `;
+
+            // 4. Add Click Event
+            // Note: Developer must define what 'Shelf Map' actually DOES.
+            // If it triggers the same action as the top button, we can try to click that hidden top button.
+            newBtn.onclick = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // OPTION A: If the logic is tied to the original 'Locate' button functionality
+                // locateBtn.click(); 
+
+                // OPTION B: If it needs to trigger the logic of the 'Shelf Map' button found at the top
+                // const topShelfMapBtn = container.closest('nde-location').querySelector('nde-location-top-from-remote-0 button');
+                // if(topShelfMapBtn) topShelfMapBtn.click();
+                
+                console.log('Shelf Map clicked'); 
+            };
+
+            // 5. Insert new button
+            container.appendChild(newBtn);
+        });
+    }
+
+    // Observe DOM for changes (lazy loading support)
+    const observer = new MutationObserver((mutations) => {
+        replaceLocateWithShelfMap();
+    });
+
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+})();
+3. Notes for the Developer
+Styling Consistency: The new button uses mdc-button--outlined. Ensure the parent container (div.flex-row...) has enough width to accommodate the potentially wider "Shelf Map" button compared to the icon-only or smaller "Locate" button.
+
+Functionality: The most critical part is determining what the new button does. The code above creates the visual UI. If the goal is to trigger the exact same logic as the "Shelf Map" button that appears at the top of the screenshot (inside nde-location-top-from-remote-0), use Option B in the click handler above.
+
+Targeting: The selector nde-location .getit-location-card is specific enough to avoid replacing buttons elsewhere in the application.
