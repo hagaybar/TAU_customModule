@@ -21,9 +21,9 @@
      inkscape:pageopacity="0.0"
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
-     inkscape:zoom="2.2416666"
-     inkscape:cx="697.91824"
-     inkscape:cy="135.83644"
+     inkscape:zoom="1.5850977"
+     inkscape:cx="682.29235"
+     inkscape:cy="408.49218"
      inkscape:window-width="1920"
      inkscape:window-height="1009"
      inkscape:window-x="-8"
@@ -1554,12 +1554,13 @@
      fill="#ddd9c3"
      id="ka2_62_a" />
   <rect
-     x="598"
+     x="597.21143"
      y="41"
-     width="4"
+     width="4.7885947"
      height="154"
      fill="#ddd9c3"
-     id="ka2_62_b" />
+     id="ka2_62_b"
+     style="stroke-width:1.09414" />
   <rect
      x="569"
      y="40.999901"
@@ -1605,10 +1606,11 @@
   <rect
      x="505"
      y="41"
-     width="4"
+     width="4.7885947"
      height="154"
      fill="#ddd9c3"
-     id="ka1_58_a" />
+     id="ka1_58_a"
+     style="stroke-width:1.09414" />
   <rect
      x="511"
      y="40.999901"
@@ -1751,12 +1753,13 @@
      fill="#ddd9c3"
      id="ka2_67_a" />
   <rect
-     x="706"
+     x="705.21143"
      y="41"
-     width="4"
+     width="4.7885947"
      height="154"
      fill="#ddd9c3"
-     id="ka2_67_b" />
+     id="ka2_67_b"
+     style="stroke-width:1.09414" />
   <rect
      x="807"
      y="40.999901"

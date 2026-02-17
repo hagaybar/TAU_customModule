@@ -22,9 +22,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      showgrid="false"
-     inkscape:zoom="2.2416666"
-     inkscape:cx="661.7844"
-     inkscape:cy="221.48699"
+     inkscape:zoom="1.1208333"
+     inkscape:cx="521.487"
+     inkscape:cy="410.85503"
      inkscape:window-width="1920"
      inkscape:window-height="1009"
      inkscape:window-x="-8"
@@ -2883,10 +2883,11 @@
   <rect
      x="669.15771"
      y="203.68456"
-     width="121"
+     width="123.05035"
      height="4"
      fill="#f2f2f2"
-     id="Trom_kb2" />
+     id="Trom_kb2"
+     style="stroke-width:1.00844" />
   <rect
      x="794"
      y="204"

@@ -13,8 +13,8 @@ export const GOOGLE_SHEETS_CONFIG = {
    */
 
   // take csv directly from google sheets (bypasses GitHub sync delay)
-  shelfMappingsUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTE9A3GC_l4_kjAjy2c6Cc_woDgJCEctZSo0dY2zN-UMgziokuWLqZwSznQtaAHa5v7g7K_tkjMVhXY/pub?output=csv',
-
+  shelfMappingsUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTE9A3GC_l4_kjAjy2c6Cc_woDgJCEctZSo0dY2zN-UMgziokuWLqZwSznQtaAHa5v7g7K_tkjMVhXY/pub?gid=1782446313&single=true&output=csv',
+  
   // Alternative: take csv from github (synced from Google Sheets via GitHub Actions)
   // shelfMappingsUrl: "https://raw.githubusercontent.com/hagaybar/TAU_customModule/feature/cenlib_map_multi_locations/data/shelfMappings.csv",
 
