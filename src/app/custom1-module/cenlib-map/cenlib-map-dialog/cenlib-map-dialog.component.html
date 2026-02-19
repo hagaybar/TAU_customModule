@@ -27,13 +27,24 @@
       <ng-container *ngIf="primaryMapping; else noMapping">
         <div class="info-row">
           <span class="label">{{ sectionLabel }}</span>
-          <span class="value">{{ getSectionDescription() }}</span>
+          <span class="value">{{ hasMultipleMappings ? getMultipleSectionDescriptions() : getSectionDescription() }}</span>
         </div>
-        <div class="info-row" *ngIf="primaryMapping.floor">
+        <div class="info-row" *ngIf="hasMultipleMappings ? getMultipleFloors() : primaryMapping.floor">
           <span class="label">{{ floorLabel }}</span>
-          <span class="value">{{ primaryMapping.floor }}</span>
+          <span class="value">{{ hasMultipleMappings ? getMultipleFloors() : primaryMapping.floor }}</span>
         </div>
-        <div class="info-row" *ngIf="getShelfLabel()">
+        <!-- Multiple shelf labels with intro text -->
+        <ng-container *ngIf="hasMultipleMappings && getMultipleShelfLabels()">
+          <div class="info-row multi-shelf-intro">
+            <span class="value multi-shelf-text">{{ multiShelfIntroText }}</span>
+          </div>
+          <div class="info-row">
+            <span class="label">{{ shelfLabelLabel }}</span>
+            <span class="value">{{ getMultipleShelfLabels() }}</span>
+          </div>
+        </ng-container>
+        <!-- Single shelf label (existing behavior) -->
+        <div class="info-row" *ngIf="!hasMultipleMappings && getShelfLabel()">
           <span class="label">{{ shelfLabelLabel }}</span>
           <span class="value">{{ getShelfLabel() }}</span>
         </div>

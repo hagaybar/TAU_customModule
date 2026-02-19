@@ -248,6 +248,64 @@ export class CenlibMapDialogComponent implements OnInit {
       : (this.primaryMapping.notes || '');
   }
 
+  /** Check if there are multiple mappings */
+  get hasMultipleMappings(): boolean {
+    return this.mappings.length > 1;
+  }
+
+  /** Intro text for multiple shelf locations based on language */
+  get multiShelfIntroText(): string {
+    return this.currentLanguage === 'he'
+      ? 'הפריט נמצא באחד מהמדפים הללו:'
+      : 'The item should be in one of these shelves:';
+  }
+
+  /** Get comma-separated unique shelf labels for multiple mappings */
+  getMultipleShelfLabels(): string {
+    if (this.mappings.length === 0) return '';
+
+    const labels = this.mappings
+      .map(m => this.currentLanguage === 'he'
+        ? (m.shelfLabelHe || m.shelfLabel || '')
+        : (m.shelfLabel || ''))
+      .map(label => label.trim())  // Trim whitespace
+      .filter(label => label !== '');
+
+    // De-duplicate using Set (after trimming)
+    const uniqueLabels = Array.from(new Set(labels));
+    return uniqueLabels.join(', ');
+  }
+
+  /** Get comma-separated unique floors for multiple mappings */
+  getMultipleFloors(): string {
+    if (this.mappings.length === 0) return '';
+
+    const floors = this.mappings
+      .map(m => m.floor || '')
+      .map(floor => floor.trim())  // Trim whitespace
+      .filter(floor => floor !== '');
+
+    // De-duplicate using Set (after trimming)
+    const uniqueFloors = Array.from(new Set(floors));
+    return uniqueFloors.join(', ');
+  }
+
+  /** Get comma-separated unique section descriptions for multiple mappings */
+  getMultipleSectionDescriptions(): string {
+    if (this.mappings.length === 0) return '';
+
+    const descriptions = this.mappings
+      .map(m => this.currentLanguage === 'he'
+        ? (m.descriptionHe || m.description)
+        : m.description)
+      .map(desc => desc.trim())  // Trim whitespace
+      .filter(desc => desc !== '');
+
+    // De-duplicate using Set (after trimming)
+    const uniqueDescriptions = Array.from(new Set(descriptions));
+    return uniqueDescriptions.join(', ');
+  }
+
   /** Detect current language from URL */
   private detectLanguage(): void {
     const params = new URLSearchParams(window.location.search);

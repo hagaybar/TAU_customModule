@@ -62,8 +62,20 @@
         font-size: 0.875rem;
         // Keep the code itself LTR even in Hebrew UI
         display: inline-block;
-        direction: ltr; 
+        direction: ltr;
       }
+
+      // Multi-shelf intro text styling
+      &.multi-shelf-text {
+        font-style: italic;
+        color: #555;
+      }
+    }
+
+    // Multi-shelf intro row - no border, reduced padding
+    &.multi-shelf-intro {
+      border-bottom: none;
+      padding-bottom: 4px;
     }
   }
 }
