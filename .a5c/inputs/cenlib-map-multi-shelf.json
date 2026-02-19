@@ -1,0 +1,16 @@
+{
+  "targetFiles": {
+    "dialogComponent": "src/app/custom1-module/cenlib-map/cenlib-map-dialog/cenlib-map-dialog.component.ts",
+    "dialogTemplate": "src/app/custom1-module/cenlib-map/cenlib-map-dialog/cenlib-map-dialog.component.html",
+    "dialogStyles": "src/app/custom1-module/cenlib-map/cenlib-map-dialog/cenlib-map-dialog.component.scss"
+  },
+  "requirements": {
+    "multiShelfText": {
+      "en": "The item should be in one of these shelves:",
+      "he": "הפריט נמצא באחד מהמדפים הללו:"
+    },
+    "deduplicateShelves": true,
+    "showAllFloors": true,
+    "commaSeparatedList": true
+  }
+}
