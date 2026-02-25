@@ -315,8 +315,8 @@ export class CenlibMapButtonComponent implements AfterViewInit, OnDestroy {
   openMapDialog(): void {
     this.dialog.open(CenlibMapDialogComponent, {
       width: 'auto',
-      maxWidth: '900px',
-      maxHeight: '85vh',
+      maxWidth: '1200px',
+      maxHeight: '95vh',
       panelClass: 'cenlib-map-dialog-panel',
       data: {
         callNumber: this.callNumber,
