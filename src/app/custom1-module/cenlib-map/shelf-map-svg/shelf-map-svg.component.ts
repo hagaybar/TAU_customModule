@@ -152,8 +152,9 @@ export class ShelfMapSvgComponent implements OnChanges, OnDestroy {
     this.useExternalSvg = true;
     this.highlightingApplied = false;  // Reset for new SVG
 
-    // Construct full URL using asset base URL
-    const fullPath = `${assetBaseUrl}/${this.svgPath}`;
+    // Use absolute URL directly if provided, otherwise construct from asset base URL
+    const isAbsoluteUrl = this.svgPath.startsWith('http://') || this.svgPath.startsWith('https://');
+    const fullPath = isAbsoluteUrl ? this.svgPath : `${assetBaseUrl}/${this.svgPath}`;
     console.log(`[ShelfMapSvg] Loading SVG from: ${fullPath}`);
 
     this.svgSubscription?.unsubscribe();

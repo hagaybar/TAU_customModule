@@ -32,7 +32,7 @@ export interface CenlibMapDialogData {
  * CenLib Map Dialog Component
  * Displays a modal dialog with shelf location information
  *
- * Supports async loading of shelf mappings from Google Sheets
+ * Supports async loading of shelf mappings from AWS CDN
  */
 @Component({
   selector: 'tau-cenlib-map-dialog',
@@ -169,7 +169,7 @@ export class CenlibMapDialogComponent implements OnInit {
 
   /**
    * Get the SVG path based on the floor from the mapping
-   * Uses floor-specific SVG files (e.g., sourasky-floor-1.svg, sourasky-floor-2.svg)
+   * Uses floor-specific SVG files from AWS CloudFront (e.g., floor_0.svg, floor_1.svg, floor_2.svg)
    */
   get svgPath(): string {
     if (!this.data.svgPath) return '';
@@ -178,13 +178,17 @@ export class CenlibMapDialogComponent implements OnInit {
     const floor = this.primaryMapping?.floor || '2';
 
     // Replace floor number in the SVG path
-    // Pattern: sourasky-floor-X.svg or similar
     const basePath = this.data.svgPath;
 
-    // Check if path already contains a floor number pattern
-    const floorPattern = /floor-\d+\.svg$/i;
-    if (floorPattern.test(basePath)) {
-      // Replace existing floor number with the mapping's floor
+    // Check if path contains AWS CloudFront URL pattern (floor_X.svg with underscore)
+    const awsFloorPattern = /floor_\d+\.svg$/i;
+    if (awsFloorPattern.test(basePath)) {
+      return basePath.replace(/floor_\d+\.svg$/i, `floor_${floor}.svg`);
+    }
+
+    // Legacy pattern support: local assets (floor-X.svg with hyphen)
+    const legacyFloorPattern = /floor-\d+\.svg$/i;
+    if (legacyFloorPattern.test(basePath)) {
       return basePath.replace(/floor-\d+\.svg$/i, `floor-${floor}.svg`);
     }
 

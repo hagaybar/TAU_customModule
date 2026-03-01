@@ -8,7 +8,7 @@ import {
   LegacyShelfMapping,
   ShelfMapping,
 } from '../config/shelf-mapping.config';
-import { GOOGLE_SHEETS_CONFIG } from '../config/google-sheets.config';
+import { DATA_SOURCE_CONFIG } from '../config/google-sheets.config';
 import { LocationContext } from '../models/location-context.model';
 
 /** Raw row from CSV parsing (MDM format with library/collection names) */
@@ -33,7 +33,8 @@ interface CsvRow {
  * Shelf Mapping Service
  * Provides methods to map call numbers to shelf locations
  *
- * Supports fetching mappings from Google Sheets with caching and fallback
+ * Primary data source: AWS CloudFront CDN
+ * Backup data source: Google Sheets (if AWS is unavailable)
  */
 @Injectable({ providedIn: 'root' })
 export class ShelfMappingService {
@@ -60,7 +61,7 @@ export class ShelfMappingService {
   private initialized = false;
 
   /**
-   * Load mappings from Google Sheets or cache
+   * Load mappings from AWS CDN or cache
    * Returns cached data if still valid, otherwise fetches fresh data
    * Builds the mapping index after loading for efficient MDM lookup
    *
@@ -71,18 +72,18 @@ export class ShelfMappingService {
     const now = Date.now();
     const cacheAge = now - this.cacheTimestamp;
 
-    if (this.cachedMappings && cacheAge < GOOGLE_SHEETS_CONFIG.cacheDurationMs) {
+    if (this.cachedMappings && cacheAge < DATA_SOURCE_CONFIG.cacheDurationMs) {
       console.log('[ShelfMappingService] Using cached mappings');
       return of(this.cachedMappings);
     }
 
     // Check if URL is configured
     if (
-      !GOOGLE_SHEETS_CONFIG.shelfMappingsUrl ||
-      GOOGLE_SHEETS_CONFIG.shelfMappingsUrl === 'YOUR_PUBLISHED_CSV_URL_HERE'
+      !DATA_SOURCE_CONFIG.shelfMappingsUrl ||
+      DATA_SOURCE_CONFIG.shelfMappingsUrl === 'YOUR_PUBLISHED_CSV_URL_HERE'
     ) {
       console.log(
-        '[ShelfMappingService] Google Sheets URL not configured, no mappings available'
+        '[ShelfMappingService] Data source URL not configured, no mappings available'
       );
       // For MDM, we cannot use legacy mappings as they don't have libraryName/locationName
       // Return empty array - button will be hidden for all items
@@ -93,12 +94,12 @@ export class ShelfMappingService {
       return of([]);
     }
 
-    // Fetch from Google Sheets
+    // Fetch from AWS CDN
     this.loadingSubject.next(true);
-    console.log('[ShelfMappingService] Fetching mappings from Google Sheets');
+    console.log('[ShelfMappingService] Fetching mappings from AWS CDN');
 
     return this.http
-      .get(GOOGLE_SHEETS_CONFIG.shelfMappingsUrl, { responseType: 'text' })
+      .get(DATA_SOURCE_CONFIG.shelfMappingsUrl, { responseType: 'text' })
       .pipe(
         map((csv) => this.parseCsv(csv)),
         tap((mappings) => {
@@ -108,12 +109,12 @@ export class ShelfMappingService {
           this.initialized = true;
           this.loadingSubject.next(false);
           console.log(
-            `[ShelfMappingService] Loaded ${mappings.length} mappings from Google Sheets`
+            `[ShelfMappingService] Loaded ${mappings.length} mappings from AWS CDN`
           );
         }),
         catchError((error) => {
           console.error(
-            '[ShelfMappingService] Failed to fetch from Google Sheets:',
+            '[ShelfMappingService] Failed to fetch from AWS CDN:',
             error
           );
           // Return empty array on error - button will be hidden
@@ -311,7 +312,7 @@ export class ShelfMappingService {
   }
 
   /**
-   * Force refresh mappings from Google Sheets
+   * Force refresh mappings from AWS CDN
    * Clears cache and fetches fresh data
    */
   refreshMappings(): Observable<ShelfMapping[]> {

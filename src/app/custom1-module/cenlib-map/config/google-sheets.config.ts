@@ -1,23 +1,52 @@
 /**
- * Google Sheets Configuration
- * URL and settings for fetching shelf mappings from Google Sheets
+ * Data Source Configuration
+ * URLs and settings for fetching shelf mappings and map assets
+ *
+ * Primary source: AWS CloudFront CDN
+ * Backup source: Google Sheets (for CSV data only)
  */
-export const GOOGLE_SHEETS_CONFIG = {
+
+/** AWS CloudFront CDN base URL */
+export const AWS_CDN_BASE_URL = 'https://d3h8i7y9p8lyw7.cloudfront.net';
+
+export const DATA_SOURCE_CONFIG = {
   /**
-   * Published CSV URL for shelf mappings
+   * Primary: AWS CloudFront CDN
+   * CSV file synced from Google Sheets
+   */
+  shelfMappingsUrl: `${AWS_CDN_BASE_URL}/data/mapping.csv`,
+
+  /**
+   * Backup: Google Sheets direct URL (use if AWS is unavailable)
    * To get this URL:
    * 1. Open the Google Sheet
    * 2. Go to File → Share → Publish to web
    * 3. Select the sheet tab and change format to "Comma-separated values (.csv)"
    * 4. Click Publish and copy the generated URL
    */
-
-  // take csv directly from google sheets (bypasses GitHub sync delay)
-  shelfMappingsUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTE9A3GC_l4_kjAjy2c6Cc_woDgJCEctZSo0dY2zN-UMgziokuWLqZwSznQtaAHa5v7g7K_tkjMVhXY/pub?gid=1782446313&single=true&output=csv',
-  
-  // Alternative: take csv from github (synced from Google Sheets via GitHub Actions)
-  // shelfMappingsUrl: "https://raw.githubusercontent.com/hagaybar/TAU_customModule/feature/cenlib_map_multi_locations/data/shelfMappings.csv",
+  // backupShelfMappingsUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTE9A3GC_l4_kjAjy2c6Cc_woDgJCEctZSo0dY2zN-UMgziokuWLqZwSznQtaAHa5v7g7K_tkjMVhXY/pub?gid=1782446313&single=true&output=csv',
 
   /** Cache duration in milliseconds (5 minutes default) */
   cacheDurationMs: 5 * 60 * 1000,
 };
+
+/**
+ * Map SVG Configuration
+ * Floor plan SVG files hosted on AWS CloudFront
+ */
+export const MAP_CONFIG = {
+  /** Base URL for map SVG files */
+  baseUrl: `${AWS_CDN_BASE_URL}/maps`,
+
+  /**
+   * Get the URL for a specific floor's SVG map
+   * @param floor Floor number (0, 1, or 2)
+   * @returns Full URL to the floor's SVG file
+   */
+  getFloorMapUrl: (floor: string | number): string => {
+    return `${AWS_CDN_BASE_URL}/maps/floor_${floor}.svg`;
+  },
+};
+
+/** @deprecated Use DATA_SOURCE_CONFIG instead */
+export const GOOGLE_SHEETS_CONFIG = DATA_SOURCE_CONFIG;

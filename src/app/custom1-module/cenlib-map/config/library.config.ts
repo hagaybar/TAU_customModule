@@ -7,7 +7,10 @@
  *
  * IMPORTANT: The `nameHe` fields MUST exactly match the text displayed in Primo NDE DOM.
  * These are used as lookup keys for matching.
+ *
+ * Map SVG files are hosted on AWS CloudFront CDN.
  */
+import { MAP_CONFIG } from './google-sheets.config';
 
 /**
  * Configuration for a single location within a library
@@ -30,7 +33,7 @@ export interface LibraryConfig {
   /** Display name in English (for UI display) */
   name: string;
 
-  /** Path to library's floor plan SVG (relative to assets) */
+  /** URL or path to library's floor plan SVG (supports absolute URLs from AWS CDN) */
   svgPath: string;
 
   /** Supported locations for this library */
@@ -44,14 +47,15 @@ export interface LibraryConfig {
  * 1. Find the exact Hebrew name as displayed in Primo DOM (via .getit-library-title)
  * 2. Add a new entry with nameHe matching exactly
  * 3. Add the locations with their exact Hebrew names from [data-qa="location-sub-location"]
- * 4. Create an SVG floor plan and add its path
- * 5. Update the Google Sheet CSV with mapping data
+ * 4. Create an SVG floor plan and upload to AWS CloudFront
+ * 5. Update the mapping CSV on AWS (primary) or Google Sheets (backup)
  */
 export const LIBRARY_CONFIG: LibraryConfig[] = [
   {
     nameHe: 'הספרייה המרכזית סוראסקי',
     name: 'Sourasky Central Library',
-    svgPath: 'assets/maps/sourasky-floor-2.svg',
+    // Map SVGs hosted on AWS CloudFront - floor number is substituted dynamically
+    svgPath: MAP_CONFIG.getFloorMapUrl('2'),
     locations: [
       // Reading Rooms (Main Collections)
       { nameHe: "אולם קריאה א'1, קומה ראשונה", name: 'Reading room 1 A - 1st floor' },
