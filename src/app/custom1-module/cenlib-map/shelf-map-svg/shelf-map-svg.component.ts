@@ -20,6 +20,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { FLOOR_LAYOUT, FloorData } from '../config/floor-layout.config';
 import { assetBaseUrl } from '../../../state/asset-base.generated';
+import { AWS_CDN_BASE_URL } from '../config/google-sheets.config';
 
 /**
  * SVG Shelf Map Component
@@ -95,6 +96,13 @@ export class ShelfMapSvgComponent implements OnChanges, OnDestroy {
 
   /** Subscription cleanup */
   private svgSubscription: Subscription | null = null;
+
+  /** Mapping from floor number to local SVG filename for fallback */
+  private readonly LOCAL_SVG_MAP: Record<string, string> = {
+    '0': 'Floor_0.svg',
+    '1': 'Floor_1.SVG',
+    '2': 'Floor_2.SVG'
+  };
 
   /** Flag to track if highlighting has been applied (prevents redundant calls) */
   private highlightingApplied = false;
@@ -176,11 +184,47 @@ export class ShelfMapSvgComponent implements OnChanges, OnDestroy {
         },
         error: (error) => {
           console.error('[ShelfMapSvg] Failed to load SVG:', error);
+
+          // Try fallback for CloudFront URLs
+          const fallbackPath = this.getFallbackSvgPath(fullPath);
+          if (fallbackPath) {
+            console.log('[ShelfMapSvg] Trying fallback local SVG:', fallbackPath);
+            const fallbackUrl = `${assetBaseUrl}/${fallbackPath}`;
+            this.loadSvgFromUrl(fallbackUrl, true);
+            return;
+          }
+
           this.hasError = true;
           this.isLoading = false;
-          this.useExternalSvg = false; // Fall back to hardcoded layout
+          this.useExternalSvg = false;
           this.cdr.detectChanges();
         },
+      });
+  }
+
+  /**
+   * Load SVG from a specific URL (used for both primary and fallback loading)
+   */
+  private loadSvgFromUrl(url: string, isFallback: boolean = false): void {
+    this.svgSubscription?.unsubscribe();
+    this.svgSubscription = this.http
+      .get(url, { responseType: 'text' })
+      .subscribe({
+        next: (svgContent) => {
+          const fixedSvgContent = this.fixSvgForScaling(svgContent);
+          console.log(`[ShelfMapSvg] SVG loaded successfully${isFallback ? ' (fallback)' : ''} (${svgContent.length} bytes)`);
+          this.externalSvgContent = this.sanitizer.bypassSecurityTrustHtml(fixedSvgContent);
+          this.isLoading = false;
+          this.cdr.detectChanges();
+          setTimeout(() => this.applyHighlighting(), 50);
+        },
+        error: (error) => {
+          console.error(`[ShelfMapSvg] Failed to load SVG${isFallback ? ' (fallback)' : ''}:`, error);
+          this.hasError = true;
+          this.isLoading = false;
+          this.useExternalSvg = false;
+          this.cdr.detectChanges();
+        }
       });
   }
 
@@ -324,6 +368,25 @@ export class ShelfMapSvgComponent implements OnChanges, OnDestroy {
     const sortedA = [...a].sort();
     const sortedB = [...b].sort();
     return sortedA.every((val, i) => val === sortedB[i]);
+  }
+
+  /**
+   * Extract floor number from CloudFront URL and return fallback local SVG path
+   */
+  private getFallbackSvgPath(originalUrl: string): string | null {
+    if (!originalUrl.includes(AWS_CDN_BASE_URL)) {
+      return null;
+    }
+    const floorMatch = originalUrl.match(/floor_(\d+)\.svg/i);
+    if (!floorMatch) {
+      return null;
+    }
+    const floorNum = floorMatch[1];
+    const localFile = this.LOCAL_SVG_MAP[floorNum];
+    if (!localFile) {
+      return null;
+    }
+    return `assets/cenlib-map/${localFile}`;
   }
 
   /** Select a floor to display (fallback mode) */

@@ -8,7 +8,7 @@
  * IMPORTANT: The `nameHe` fields MUST exactly match the text displayed in Primo NDE DOM.
  * These are used as lookup keys for matching.
  *
- * Map SVG files are hosted on AWS CloudFront CDN.
+ * Map SVG files: Loaded dynamically from AWS CloudFront CDN
  */
 import { MAP_CONFIG } from './google-sheets.config';
 
@@ -54,8 +54,8 @@ export const LIBRARY_CONFIG: LibraryConfig[] = [
   {
     nameHe: 'הספרייה המרכזית סוראסקי',
     name: 'Sourasky Central Library',
-    // Map SVGs hosted on AWS CloudFront - floor number is substituted dynamically
-    svgPath: MAP_CONFIG.getFloorMapUrl('2'),
+    // SVG maps loaded from AWS CloudFront CDN - floor is determined dynamically from CSV mapping
+    svgPath: MAP_CONFIG.getFloorMapUrl(2),
     locations: [
       // Reading Rooms (Main Collections)
       { nameHe: "אולם קריאה א'1, קומה ראשונה", name: 'Reading room 1 A - 1st floor' },

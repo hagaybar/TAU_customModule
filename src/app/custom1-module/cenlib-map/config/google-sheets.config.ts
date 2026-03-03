@@ -11,20 +11,15 @@ export const AWS_CDN_BASE_URL = 'https://d3h8i7y9p8lyw7.cloudfront.net';
 
 export const DATA_SOURCE_CONFIG = {
   /**
-   * Primary: AWS CloudFront CDN
-   * CSV file synced from Google Sheets
+   * Primary: AWS CloudFront CDN (CORS configured for tau.primo.exlibrisgroup.com and localhost)
    */
   shelfMappingsUrl: `${AWS_CDN_BASE_URL}/data/mapping.csv`,
 
   /**
-   * Backup: Google Sheets direct URL (use if AWS is unavailable)
-   * To get this URL:
-   * 1. Open the Google Sheet
-   * 2. Go to File → Share → Publish to web
-   * 3. Select the sheet tab and change format to "Comma-separated values (.csv)"
-   * 4. Click Publish and copy the generated URL
+   * Backup: Google Sheets (has CORS enabled)
+   * Uncomment if AWS CloudFront has issues
    */
-  // backupShelfMappingsUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTE9A3GC_l4_kjAjy2c6Cc_woDgJCEctZSo0dY2zN-UMgziokuWLqZwSznQtaAHa5v7g7K_tkjMVhXY/pub?gid=1782446313&single=true&output=csv',
+  // shelfMappingsUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTE9A3GC_l4_kjAjy2c6Cc_woDgJCEctZSo0dY2zN-UMgziokuWLqZwSznQtaAHa5v7g7K_tkjMVhXY/pub?gid=1782446313&single=true&output=csv',
 
   /** Cache duration in milliseconds (5 minutes default) */
   cacheDurationMs: 5 * 60 * 1000,
