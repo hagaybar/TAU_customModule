@@ -1,0 +1,242 @@
+Instructions for Primo NDE Shelf-Map Addon Migration            
+                                     
+ Task: Migrate Data Sources from Google Sheets to AWS CloudFront
+
+ This document provides instructions for another Claude agent working
+ in the Primo NDE addon repository to migrate the shelf-map
+ component's data sources.
+
+ ---
+ Overview
+
+ Current State:
+ - Mapping CSV is fetched from Google Sheets
+ - SVG maps are bundled within the Angular component
+
+ Target State:
+ - Mapping CSV fetched from AWS CloudFront CDN
+ - SVG maps fetched dynamically from AWS CloudFront CDN
+
+ ---
+ CloudFront URLs (Production)
+
+ Base URL: https://d3h8i7y9p8lyw7.cloudfront.net
+ Asset: CSV Mapping
+ URL: https://d3h8i7y9p8lyw7.cloudfront.net/data/mapping.csv
+ ────────────────────────────────────────
+ Asset: Floor 0 Map
+ URL: https://d3h8i7y9p8lyw7.cloudfront.net/maps/floor_0.svg
+ ────────────────────────────────────────
+ Asset: Floor 1 Map
+ URL: https://d3h8i7y9p8lyw7.cloudfront.net/maps/floor_1.svg
+ ────────────────────────────────────────
+ Asset: Floor 2 Map
+ URL: https://d3h8i7y9p8lyw7.cloudfront.net/maps/floor_2.svg
+ SVG Pattern: https://d3h8i7y9p8lyw7.cloudfront.net/maps/floor_{n}.svg
+
+ ---
+ CSV Format (14 Columns)
+ Column: libraryName
+ Description: English library name
+ Example: Sourasky Central Library
+ ────────────────────────────────────────
+ Column: libraryNameHe
+ Description: Hebrew library name
+ Example: הספרייה המרכזית סוראסקי
+ ────────────────────────────────────────
+ Column: collectionName
+ Description: English collection description
+ Example: CB2 Reference Books...
+ ────────────────────────────────────────
+ Column: collectionNameHe
+ Description: Hebrew collection description
+ Example: CB2 ספרי ייעץ...
+ ────────────────────────────────────────
+ Column: rangeStart
+ Description: Call number range start
+ Example: 000
+ ────────────────────────────────────────
+ Column: rangeEnd
+ Description: Call number range end
+ Example: 999
+ ────────────────────────────────────────
+ Column: svgCode
+ Description: SVG element ID for highlighting
+ Example: cb2_89_a
+ ────────────────────────────────────────
+ Column: description
+ Description: English description
+ Example: (optional)
+ ────────────────────────────────────────
+ Column: descriptionHe
+ Description: Hebrew description
+ Example: CB2 ספרי ייעץ...
+ ────────────────────────────────────────
+ Column: floor
+ Description: Floor number
+ Example: 0, 1, or 2
+ ────────────────────────────────────────
+ Column: shelfLabel
+ Description: English shelf label
+ Example: 89 A
+ ────────────────────────────────────────
+ Column: shelfLabelHe
+ Description: Hebrew shelf label
+ Example: 89 א'
+ ────────────────────────────────────────
+ Column: notes
+ Description: English notes
+ Example: (optional)
+ ────────────────────────────────────────
+ Column: notesHe
+ Description: Hebrew notes
+ Example: (optional)
+ Total Records: ~419 location mappings
+
+ ---
+ Implementation Steps
+
+ 1. Update CSV Data Source
+
+ Find: The current Google Sheets fetch URL/service
+
+ Replace with:
+ const CSV_URL =
+ 'https://d3h8i7y9p8lyw7.cloudfront.net/data/mapping.csv';
+
+ async loadMappingData(): Promise<LocationMapping[]> {
+   const response = await fetch(CSV_URL);
+   if (!response.ok) {
+     throw new Error(`Failed to load mapping CSV:
+ ${response.status}`);
+   }
+   const csvText = await response.text();
+   return this.parseCSV(csvText);
+ }
+
+ 2. Update SVG Map Loading
+
+ Find: The bundled SVG assets or current loading mechanism
+
+ Replace with dynamic loading:
+ const MAPS_BASE_URL = 'https://d3h8i7y9p8lyw7.cloudfront.net/maps';
+
+ async loadFloorMap(floor: number): Promise<string> {
+   const url = `${MAPS_BASE_URL}/floor_${floor}.svg`;
+   const response = await fetch(url);
+   if (!response.ok) {
+     throw new Error(`Failed to load floor ${floor} map:
+ ${response.status}`);
+   }
+   return response.text();
+ }
+
+ 3. SVG Highlighting Integration
+
+ The SVG files contain elements with IDs matching the svgCode column
+ in the CSV:
+
+ highlightLocation(svgContainer: HTMLElement, svgCode: string): void {
+   const element = svgContainer.querySelector(`#${svgCode}`);
+   if (element) {
+     element.classList.add('highlighted');
+     // Or apply inline styles for highlighting
+   }
+ }
+
+ 4. Bilingual Support
+
+ Use the appropriate column based on user's locale:
+ - English: libraryName, collectionName, description, shelfLabel,
+ notes
+ - Hebrew: libraryNameHe, collectionNameHe, descriptionHe,
+ shelfLabelHe, notesHe
+
+ ---
+ CORS Configuration
+
+ The CloudFront distribution is configured to allow requests from:
+ - https://tau.primo.exlibrisgroup.com (Production Primo)
+ - http://localhost:4200 (Development)
+ - http://localhost:4201 (Alternative dev)
+
+ No authentication required for public asset access (CSV and SVG
+ files).
+
+ ---
+ Caching Considerations
+
+ - CloudFront caches assets for up to 1 hour (3600 seconds)
+ - Consider adding cache-busting if real-time updates are needed:
+ const url = `${CSV_URL}?t=${Date.now()}`;
+ - Or use appropriate Cache-Control headers in fetch requests
+
+ ---
+ Error Handling Recommendations
+
+ async loadAssets(): Promise<void> {
+   try {
+     const [csvData, svgMaps] = await Promise.all([
+       this.loadMappingData(),
+       Promise.all([0, 1, 2].map(floor => this.loadFloorMap(floor)))
+     ]);
+
+     this.mappings = csvData;
+     this.floorMaps = svgMaps;
+   } catch (error) {
+     console.error('Failed to load shelf map assets:', error);
+     // Show user-friendly error message
+     // Optionally fall back to cached data if available
+   }
+ }
+
+ ---
+ Configuration Externalization (Recommended)
+
+ Consider making URLs configurable for different environments:
+
+ // environment.ts
+ export const environment = {
+   production: true,
+   shelfMapConfig: {
+     csvUrl: 'https://d3h8i7y9p8lyw7.cloudfront.net/data/mapping.csv',
+     mapsBaseUrl: 'https://d3h8i7y9p8lyw7.cloudfront.net/maps'
+   }
+ };
+
+ // environment.development.ts
+ export const environment = {
+   production: false,
+   shelfMapConfig: {
+     csvUrl: 'http://localhost:8080/data/mapping.csv',
+     mapsBaseUrl: 'http://localhost:8080/maps'
+   }
+ };
+
+ ---
+ Files to Remove After Migration
+
+ Once the migration is complete, remove:
+ - Any bundled SVG map files from the component assets
+ - Google Sheets integration code/services
+ - Related API keys or credentials for Google Sheets
+
+ ---
+ Testing Checklist
+
+ 1. CSV loads successfully from CloudFront URL
+ 2. All floor maps (0, 1, 2) load successfully
+ 3. Location matching works with new CSV format
+ 4. SVG highlighting works with svgCode IDs
+ 5. Hebrew/English labels display correctly
+ 6. Error handling works when assets unavailable
+ 7. No CORS errors in browser console
+ 8. Performance is acceptable (CloudFront caching working)
+
+ ---
+ Contact
+
+ For issues with the AWS backend or asset URLs, refer to the
+ primo_maps repository:
+ - CloudFront URL: https://d3h8i7y9p8lyw7.cloudfront.net
+ - Admin Panel: https://d3h8i7y9p8lyw7.cloudfront.net/admin/

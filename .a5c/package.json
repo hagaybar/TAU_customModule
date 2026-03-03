@@ -3,6 +3,6 @@
   "version": "1.0.0",
   "type": "module",
   "dependencies": {
-    "@a5c-ai/babysitter-sdk": "latest"
+    "@a5c-ai/babysitter-sdk": "^0.0.170"
   }
 }

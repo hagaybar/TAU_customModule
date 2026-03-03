@@ -1,0 +1,5 @@
+{
+  "testUrl": "http://localhost:4201/nde/fulldisplay?query=history&tab=TAU&search_scope=TAU&mfacet=library,include,4146%E2%80%93190886640004146&offset=0&vid=972TAU_INST:NDE_TEST&lang=en&docid=alma990013418890204146&adaptor=Local%20Search%20Engine&context=L&isFrbr=false&isHighlightedRecord=false",
+  "bundledSvgPath": "src/app/custom1-module/cenlib-map/shelf-map-svg/",
+  "awsCdnBaseUrl": "https://d3h8i7y9p8lyw7.cloudfront.net"
+}
