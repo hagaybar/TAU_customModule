@@ -8,8 +8,11 @@ export const selectorComponentMap = new Map<string, any>([
   // External search facet - displays in filter sidebar
   ['nde-filters-group-before', FilterAssistPanelComponent],
 
-  // REPLACES the entire no-results component (not -after, complete replacement)
-  ['nde-search-no-results', NoResultsExternalLinksComponent],
+  // External-search panel renders as the LAST CHILD of <nde-search-no-results>.
+  // Switched from full replacement ('nde-search-no-results') to the '-bottom'
+  // extension slot per issue #4 — preserves ExLibris's default content
+  // including the new <nde-expand-options> toggle.
+  ['nde-search-no-results-bottom', NoResultsExternalLinksComponent],
 
   // Sort Pickup Library options in ILL form - DISABLED (not yet in production)
   // ['nde-ill-request-top', IllPickupLibrarySorterComponent],

@@ -15,7 +15,7 @@ describe('NoResultsExternalLinksComponent', () => {
     ]);
 
     await TestBed.configureTestingModule({
-      imports: [ NoResultsExternalLinksComponent ], // standalone component
+      imports: [ NoResultsExternalLinksComponent ],
       providers: [
         { provide: SearchQueryService, useValue: serviceSpy }
       ]
@@ -24,6 +24,10 @@ describe('NoResultsExternalLinksComponent', () => {
     mockSearchQueryService = TestBed.inject(SearchQueryService) as jasmine.SpyObj<SearchQueryService>;
     fixture = TestBed.createComponent(NoResultsExternalLinksComponent);
     component = fixture.componentInstance;
+  });
+
+  afterEach(() => {
+    fixture.destroy();
   });
 
   it('should create', () => {
@@ -88,12 +92,12 @@ describe('NoResultsExternalLinksComponent', () => {
 
     it('should display English title when language is English', () => {
       component.currentLanguage = 'en';
-      expect(component.cardTitle).toBe('Try searching in external sources');
+      expect(component.externalLinksTitle).toBe('Try searching in external sources:');
     });
 
-    it('should display Hebrew title when language is Hebrew', () => {
+    it('should display Hebrew title (plural imperative) when language is Hebrew', () => {
       component.currentLanguage = 'he';
-      expect(component.cardTitle).toBe('נסה לחפש במקורות חיצוניים');
+      expect(component.externalLinksTitle).toBe('נסו לחפש במקורות חיצוניים:');
     });
   });
 
@@ -149,7 +153,6 @@ describe('NoResultsExternalLinksComponent', () => {
       component.searchData.searchTerm = 'test search';
       const url = component.buildExternalUrl(faultySource);
 
-      // Should fall back to simple search term
       expect(url).toContain('example.com');
       expect(url).toContain('test');
     });
@@ -164,7 +167,6 @@ describe('NoResultsExternalLinksComponent', () => {
       const source = component.externalSources[0];
       const url = component.buildExternalUrl(source);
 
-      // URL should not contain raw special characters
       expect(url).not.toContain('&');
       expect(url).toContain('%');
     });
@@ -229,94 +231,55 @@ describe('NoResultsExternalLinksComponent', () => {
   });
 
   describe('Component Rendering', () => {
-    it('should render when search query exists', () => {
+    beforeEach(() => {
       mockSearchQueryService.getCurrentLanguage.and.returnValue('en');
       mockSearchQueryService.getSearchData.and.returnValue({
         queries: ['any,contains,test,AND'],
         filters: [],
         searchTerm: 'test'
       });
+    });
 
+    it('should render the external-search section', () => {
       component.ngOnInit();
       fixture.detectChanges();
 
-      const container = fixture.nativeElement.querySelector('.no-results-external-links');
+      const container = fixture.nativeElement.querySelector('.tau-external-search');
       expect(container).toBeTruthy();
     });
 
-    it('should not render when no search query', () => {
-      mockSearchQueryService.getCurrentLanguage.and.returnValue('en');
-      mockSearchQueryService.getSearchData.and.returnValue({
-        queries: [],
-        filters: [],
-        searchTerm: ''
-      });
-
-      component.ngOnInit();
-      fixture.detectChanges();
-
-      const container = fixture.nativeElement.querySelector('.no-results-external-links');
-      expect(container).toBeFalsy();
-    });
-
     it('should render all external sources as links', () => {
-      mockSearchQueryService.getCurrentLanguage.and.returnValue('en');
-      mockSearchQueryService.getSearchData.and.returnValue({
-        queries: ['any,contains,test,AND'],
-        filters: [],
-        searchTerm: 'test'
-      });
-
       component.ngOnInit();
       fixture.detectChanges();
 
-      const links = fixture.nativeElement.querySelectorAll('.link');
+      const links = fixture.nativeElement.querySelectorAll('.tau-external-search__link');
       expect(links.length).toBe(component.externalSources.length);
     });
 
     it('should set correct direction attribute for RTL', () => {
       mockSearchQueryService.getCurrentLanguage.and.returnValue('he');
-      mockSearchQueryService.getSearchData.and.returnValue({
-        queries: ['any,contains,test,AND'],
-        filters: [],
-        searchTerm: 'test'
-      });
 
       component.ngOnInit();
       fixture.detectChanges();
 
-      const container = fixture.nativeElement.querySelector('.no-results-external-links');
+      const container = fixture.nativeElement.querySelector('.tau-external-search');
       expect(container.getAttribute('dir')).toBe('rtl');
     });
 
-    it('should render card title', () => {
-      mockSearchQueryService.getCurrentLanguage.and.returnValue('en');
-      mockSearchQueryService.getSearchData.and.returnValue({
-        queries: ['any,contains,test,AND'],
-        filters: [],
-        searchTerm: 'test'
-      });
-
+    it('should render the section title', () => {
       component.ngOnInit();
       fixture.detectChanges();
 
-      const title = fixture.nativeElement.querySelector('.card-title');
+      const title = fixture.nativeElement.querySelector('.tau-external-search__title');
       expect(title).toBeTruthy();
-      expect(title.textContent).toContain('Try searching in external sources');
+      expect(title.textContent).toContain('Try searching in external sources:');
     });
 
     it('should render links with target="_blank"', () => {
-      mockSearchQueryService.getCurrentLanguage.and.returnValue('en');
-      mockSearchQueryService.getSearchData.and.returnValue({
-        queries: ['any,contains,test,AND'],
-        filters: [],
-        searchTerm: 'test'
-      });
-
       component.ngOnInit();
       fixture.detectChanges();
 
-      const links = fixture.nativeElement.querySelectorAll('.link');
+      const links = fixture.nativeElement.querySelectorAll('.tau-external-search__link');
       links.forEach((link: HTMLAnchorElement) => {
         expect(link.getAttribute('target')).toBe('_blank');
         expect(link.getAttribute('rel')).toBe('noopener noreferrer');
@@ -341,4 +304,10 @@ describe('NoResultsExternalLinksComponent', () => {
       });
     });
   });
+
+  // matchExLibrisBoxWidth (ngAfterViewInit) is verified via Playwright in
+  // the SB environment — see issue #4 for the diagnostic flow. It depends
+  // on the live ExLibris .we-suggest-container element, which TestBed
+  // doesn't provide; the method falls back gracefully when the element is
+  // absent (5 × 100ms retries then a console.warn).
 });

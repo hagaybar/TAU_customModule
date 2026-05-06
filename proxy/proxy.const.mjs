@@ -2,6 +2,7 @@
 // ng serve --proxy-config ./proxy/proxy.conf.mjs
 const environments = {
     'tau': 'https://tau.primo.exlibrisgroup.com',
+    'tau-psb': 'https://tau-psb.primo.exlibrisgroup.com',
     'example': 'https://myPrimoVE.com',
   }
 

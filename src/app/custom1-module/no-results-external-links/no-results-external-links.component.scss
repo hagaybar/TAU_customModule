@@ -1,213 +1,85 @@
-.no-results-container {
+// External-search section appended to ExLibris's <nde-search-no-results>
+// via the '-bottom' extension slot. Visual treatment intentionally mirrors
+// the sibling ExLibris .we-suggest-container so the two boxes form a
+// coherent stacked pair. No fixed width — box is content-sized, like ExLibris's.
+
+.tau-external-search {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 32px 16px;
-  max-width: 900px;
-  margin: 0 auto;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  width: fit-content;             // box hugs its content (mirrors ExLibris's natural sizing — no fixed value)
+  max-width: 100%;                // never overflow the slot wrapper
+  align-self: center;             // takes effect if mounted in a flex column parent
+  margin: 1.563rem auto 0;        // matches ExLibris margin-block-start; centers via auto for non-flex parents
+  padding: 1.5rem;
+  background: transparent;
+  border: 1px solid var(--border, rgb(201, 201, 201));
+  color: var(--sys-outline, inherit);
+  font-family: Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
 
-  // Icon styling
-  .no-results-icon {
-    width: 95px;
-    height: 81px;
-    margin-bottom: 24px;
-
-    svg {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-  }
-
-  // Main heading: "No matching records found"
-  .no-results-heading {
-    font-size: 20px;
-    font-weight: 400;
-    color: #424242;
-    text-align: center;
-    margin-bottom: 8px;
+  &__title {
+    margin: 0 0 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 500;
     line-height: 1.4;
+    opacity: 0.87;
   }
 
-  // Message with search term
-  .no-results-message {
-    font-size: 14px;
-    font-weight: 400;
-    color: #424242;
-    text-align: center;
-    margin-bottom: 24px;
-    line-height: 1.5;
-
-    span {
-      display: inline;
-    }
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
   }
 
-  // Suggestions container (white box with dark gray border and text)
-  .suggestions-container {
-    width: 100%;
-    max-width: 600px;
-    background: #ffffff; // White background
-    border: 1px solid #575757; // Dark gray border
-    border-radius: 4px;
-    padding: 16px 20px;
-    margin-bottom: 0; // No margin if external search follows
+  &__item {
+    margin: 0;
+    padding: 0;
+  }
 
-    .suggestions-title {
-      font-size: 14px;
-      font-weight: 500;
-      color: #575757; // Dark gray text
-      margin: 0 0 12px 0;
-      line-height: 1.4;
+  &__link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0;
+    color: inherit;
+    text-decoration: none;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    transition: opacity 0.15s ease;
+
+    &:hover {
+      text-decoration: underline;
     }
 
-    .suggestions-list {
-      list-style-position: outside;
-      margin: 0;
-      padding: 0 0 0 20px;
-      color: #575757;
-
-      .suggestion-item {
-        font-size: 14px;
-        font-weight: 400;
-        color: #575757;
-        line-height: 1.8;
-        margin-bottom: 4px;
-
-        &:last-child {
-          margin-bottom: 0;
-        }
-      }
+    &:focus-visible {
+      outline: 2px solid currentColor;
+      outline-offset: 2px;
     }
   }
 
-  // External search section (same styling as suggestions)
-  .external-search-section {
-    width: 100%;
-    max-width: 600px;
-    background: #ffffff; // White background
-    border: 1px solid #575757; // Dark gray border
-    border-top: none; // Connect to suggestions box above
-    border-radius: 0 0 4px 4px; // Only round bottom corners
-    padding: 16px 20px;
-
-    .external-search-title {
-      font-size: 14px;
-      font-weight: 500;
-      color: #575757; // Dark gray text
-      margin: 0 0 12px 0;
-      line-height: 1.4;
-    }
-
-    .external-links-list {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .external-link-item {
-      margin: 0;
-      padding: 0;
-    }
-
-    .external-link {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      text-decoration: none;
-      color: #1976d2;
-      font-size: 14px;
-      padding: 2px 0;
-      transition: color 0.2s ease;
-
-      &:hover {
-        color: #0d47a1;
-        text-decoration: underline;
-      }
-
-      &:focus {
-        outline: 2px solid #1976d2;
-        outline-offset: 2px;
-        border-radius: 2px;
-      }
-
-      &:visited {
-        color: #7b1fa2;
-      }
-    }
-
-    .external-link-icon {
-      width: 16px;
-      height: 16px;
-      flex-shrink: 0;
-      display: block;
-    }
-
-    .external-link-label {
-      font-size: 14px;
-      line-height: 1.4;
-      flex-grow: 1;
-    }
-
-    .external-icon {
-      flex-shrink: 0;
-      opacity: 0.6;
-      transition: opacity 0.2s ease;
-    }
+  &__icon {
+    flex-shrink: 0;
+    width: 1rem;
+    height: 1rem;
+    display: block;
   }
 
-  // RTL support
-  &[dir="rtl"] {
-    .suggestions-list {
-      padding: 0 20px 0 0;
-    }
-
-    .external-link {
-      direction: rtl;
-    }
-
-    .external-icon {
-      transform: scaleX(-1);
-    }
+  &__label {
+    flex-grow: 1;
   }
 
-  // Responsive adjustments
-  @media (max-width: 768px) {
-    padding: 24px 12px;
+  &__open-in-new {
+    flex-shrink: 0;
+    opacity: 0.6;
+  }
 
-    .no-results-icon {
-      width: 75px;
-      height: 65px;
-      margin-bottom: 20px;
-    }
-
-    .no-results-heading {
-      font-size: 18px;
-    }
-
-    .no-results-message {
-      font-size: 13px;
-      margin-bottom: 20px;
-    }
-
-    .suggestions-container,
-    .external-search-section {
-      padding: 14px 16px;
-
-      .suggestions-title,
-      .external-search-title {
-        font-size: 13px;
-        margin-bottom: 10px;
-      }
-
-      .suggestion-item,
-      .external-link {
-        font-size: 13px;
-      }
-    }
+  &[dir='rtl'] {
+    .tau-external-search__link { direction: rtl; }
+    .tau-external-search__open-in-new { transform: scaleX(-1); }
   }
 }

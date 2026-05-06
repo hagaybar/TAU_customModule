@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SearchQueryService } from '../filter-assist-panel/services/search-query.service';
 import { SearchTarget, SearchQuery } from '../filter-assist-panel/models/search-target.model';
@@ -7,13 +7,11 @@ import { AutoAssetSrcDirective } from '../../services/auto-asset-src.directive';
 
 /**
  * No Results External Links Component
- * REPLACES the entire NDE no-results component
- *
- * Recreates the original no-results UI (icon, message, suggestions)
- * and adds external search links below for alternative search options.
- *
- * This component completely replaces nde-search-no-results to provide
- * a seamless integration of external search sources.
+ * Mounted via the 'nde-search-no-results-bottom' extension slot, so it
+ * appears as the last child of <nde-search-no-results>, alongside the
+ * default ExLibris content (icon, heading, expand-options, suggestions).
+ * Renders only the external-search-sources box; visual treatment matches
+ * the sibling ExLibris .we-suggest-container box.
  */
 @Component({
   selector: 'tau-no-results-external-links',
@@ -23,88 +21,77 @@ import { AutoAssetSrcDirective } from '../../services/auto-asset-src.directive';
   styleUrls: ['./no-results-external-links.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NoResultsExternalLinksComponent implements OnInit {
-  /** Host component instance - provides access to original NDE component data */
-  @Input() private hostComponent?: any;
-
-  /** List of external search sources from shared config */
+export class NoResultsExternalLinksComponent implements OnInit, AfterViewInit, OnDestroy {
   externalSources: SearchTarget[] = EXTERNAL_SEARCH_SOURCES;
 
-  /** Current UI language */
   currentLanguage: 'en' | 'he' = 'en';
 
-  /** Parsed search data from URL */
   searchData: SearchQuery = {
     queries: [],
     filters: [],
     searchTerm: ''
   };
 
-  /** Text direction based on language */
+  private resizeObserver?: ResizeObserver;
+
   get textDirection(): 'ltr' | 'rtl' {
     return this.currentLanguage === 'he' ? 'rtl' : 'ltr';
   }
 
-  /** Heading: "No matching records found" */
-  get noResultsHeading(): string {
-    return this.currentLanguage === 'he'
-      ? 'לא נמצאו רשומות תואמות'
-      : 'No matching records found';
-  }
-
-  /** Subtext: "There are no results matching your search..." */
-  get noResultsMessage(): string {
-    const term = this.searchData.searchTerm || '';
-    return this.currentLanguage === 'he'
-      ? `אין תוצאות התואמות את החיפוש שלך "${term}".`
-      : `There are no results matching your search "${term}".`;
-  }
-
-  /** Suggestions title */
-  get suggestionsTitle(): string {
-    return this.currentLanguage === 'he'
-      ? 'הצעות:'
-      : 'Suggestions:';
-  }
-
-  /** Suggestions list */
-  get suggestionsList(): string[] {
-    return this.currentLanguage === 'he'
-      ? [
-          'ודא שכל המילים מאויתות נכון.',
-          'נסה היקף חיפוש אחר.',
-          'נסה מילות מפתח שונות.',
-          'נסה מילות מפתח כלליות יותר.',
-          'נסה פחות מילות מפתח.'
-        ]
-      : [
-          'Make sure that all words are spelled correctly.',
-          'Try a different search scope.',
-          'Try different keywords.',
-          'Try more general keywords.',
-          'Try fewer keywords.'
-        ];
-  }
-
-  /** External links section title */
   get externalLinksTitle(): string {
     return this.currentLanguage === 'he'
-      ? 'נסה לחפש במקורות חיצוניים:'
+      ? 'נסו לחפש במקורות חיצוניים:'
       : 'Try searching in external sources:';
   }
 
-  constructor(private searchQueryService: SearchQueryService) {}
+  constructor(
+    private searchQueryService: SearchQueryService,
+    private elementRef: ElementRef<HTMLElement>,
+    private ngZone: NgZone
+  ) {}
 
   ngOnInit(): void {
-    // Detect current language from URL
     this.currentLanguage = this.searchQueryService.getCurrentLanguage();
-
-    // Extract search data from URL
     this.searchData = this.searchQueryService.getSearchData();
+  }
 
-    console.log('NoResultsExternalLinks initialized:', {
-      language: this.currentLanguage,
-      searchData: this.searchData
+  ngAfterViewInit(): void {
+    this.matchExLibrisBoxWidth();
+  }
+
+  ngOnDestroy(): void {
+    this.resizeObserver?.disconnect();
+  }
+
+  /**
+   * Mirrors the width of ExLibris's sibling .we-suggest-container box so
+   * the two stacked boxes always align, regardless of language or viewport.
+   * Falls back silently to the SCSS `width: fit-content` when the ExLibris
+   * box is absent (e.g., when expand_results_toggles_visible is off).
+   */
+  private matchExLibrisBoxWidth(retriesLeft = 5): void {
+    const exlBox = document.querySelector<HTMLElement>('.we-suggest-container');
+    if (!exlBox) {
+      if (retriesLeft > 0) {
+        setTimeout(() => this.matchExLibrisBoxWidth(retriesLeft - 1), 100);
+      } else {
+        console.warn('[NoResultsExternalLinks] .we-suggest-container not found; using fit-content fallback');
+      }
+      return;
+    }
+
+    const target = this.elementRef.nativeElement.querySelector<HTMLElement>('.tau-external-search');
+    if (!target) return;
+
+    const apply = () => {
+      const w = exlBox.offsetWidth;
+      if (w > 0) target.style.width = `${w}px`;
+    };
+    apply();
+
+    this.ngZone.runOutsideAngular(() => {
+      this.resizeObserver = new ResizeObserver(apply);
+      this.resizeObserver.observe(exlBox);
     });
   }
 
