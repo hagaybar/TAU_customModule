@@ -100,3 +100,18 @@ npm run build
 - **Project Documentation:** `docs/` folder
 - **Development Guidelines:** `docs/development/AGENTS.md`
 - **Future Tasks:** `docs/planning/FUTURE_TASKS.md`
+
+## Syncing with upstream ExLibris repo
+
+The `upstream-sync` Claude Code skill (`.claude/skills/upstream-sync/SKILL.md`) handles pulling changes from `ExLibrisGroup/customModule`.
+
+**To use:**
+- "let's check upstream" → analyzes new upstream commits, writes a dated report under `docs/upstream-sync/`, classifies each commit by impact on TAU customizations.
+- "pull commits A, B, C" → cherry-picks chosen SHAs onto a `sync/upstream-<date>` branch, runs `npm run build`, opens a PR.
+- "skip commit A — we don't want X" → marks commits as decided-against so they stop appearing in future analyses.
+
+The skill never pushes directly to `main` and never auto-merges PRs.
+
+**Configuration:** `.upstream-sync/owned-files.json` lists TAU-customized files organized into categories with risk levels. Update this file when you take ownership of a new file or add a new feature area — the skill itself will suggest additions when it sees you skipping changes to files it considered "clean."
+
+**Spec:** `docs/superpowers/specs/2026-05-06-upstream-sync-design.md`
