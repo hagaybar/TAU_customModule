@@ -50,20 +50,26 @@ Displays external search links in the filter side navigation, allowing users to 
 - Files: `src/app/custom1-module/filter-assist-panel/`
 
 #### b) No Results External Links
-Displays external search options when a search returns zero results, helping users continue their research.
+Provides a custom no-results page when a search returns zero records, including an external-search panel with alternative sources.
 
 **Implemented Features:**
-- ✅ **Alternative Search Options**: Same external sources (ULI, WorldCat, Google Scholar)
-- ✅ **Card Design**: Styled card with external link indicators
+- ✅ **Custom no-results UI**: Icon, heading, message, and suggestions list — all rendered by the TAU component (recreating the default ExLibris layout)
+- ✅ **External Search Sources**: ULI, WorldCat, Google Scholar
 - ✅ **Bilingual Support**: English and Hebrew with RTL layout
 - ✅ **Accessibility**: Keyboard navigation, ARIA labels, secure link attributes
 - ✅ **Query Preservation**: Search term automatically included in external links
 
-**Location in NDE:** Displayed after the no-results message
+**Mounting strategy: full replacement (overrides ExLibris's default no-results template).**
+
+The component is registered against the `nde-search-no-results` selector, which causes the **entire default ExLibris no-results component to be replaced**. TAU's component re-renders the icon, heading, message, suggestions list, and external-search section.
+
+**Implication:** any new feature ExLibris adds inside the default no-results layout will NOT appear automatically. Notably, the Primo VE 2026 release added an "Expand Results Options" toggle inside this slot — that toggle is hidden in this configuration. A migration to an extension-slot mount (`nde-search-no-results-bottom`, additive instead of replacing) is implemented on the [`diagnosis/no-results-expand-options-issue-4`](https://github.com/hagaybar/TAU_customModule/tree/diagnosis/no-results-expand-options-issue-4) branch — see [issue #4](https://github.com/hagaybar/TAU_customModule/issues/4) for the full diagnosis and fix. That branch will be merged to main when the Alma customer setting `expand_results_toggles_visible` is enabled in production.
+
+**Location in NDE:** Replaces the default no-results page entirely.
 
 **Technical Details:**
 - Component: `NoResultsExternalLinksComponent`
-- Selector mapping: `nde-search-no-results-after`
+- Selector mapping: `nde-search-no-results` (full replacement; takes the whole subtree)
 - Files: `src/app/custom1-module/no-results-external-links/`
 
 #### Shared Configuration
