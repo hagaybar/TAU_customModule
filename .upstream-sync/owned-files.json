@@ -1,0 +1,81 @@
+{
+  "categories": {
+    "build-infrastructure": {
+      "risk": "high",
+      "description": "Parametric build via build-settings.env, asset path generation",
+      "files": [
+        "prebuild.js",
+        "postbuild.js",
+        "webpack.config.js",
+        "webpack.prod.config.js",
+        "build-settings.env",
+        "angular.json",
+        "tsconfig*.json"
+      ]
+    },
+    "module-registration": {
+      "risk": "high",
+      "description": "Where TAU components attach into Primo's app",
+      "files": [
+        "src/app/app.module.ts",
+        "src/app/injection-tokens.ts"
+      ]
+    },
+    "proxy-config": {
+      "risk": "high",
+      "description": "Local dev proxy to Primo, parametric per build-settings",
+      "files": [
+        "proxy/**"
+      ]
+    },
+    "external-search-integration": {
+      "risk": "medium",
+      "description": "FilterAssistPanel + NoResultsExternalLinks (ULI/WorldCat/Scholar)",
+      "files": [
+        "src/app/custom1-module/filter-assist-panel/**",
+        "src/app/custom1-module/no-results-external-links/**",
+        "src/assets/images/external-sources/**"
+      ]
+    },
+    "homepage": {
+      "risk": "medium",
+      "description": "Custom homepage HTML/CSS",
+      "files": [
+        "src/assets/homepage/**"
+      ]
+    },
+    "header-footer": {
+      "risk": "medium",
+      "description": "Custom header and footer for English/Hebrew",
+      "files": [
+        "src/assets/header-footer/**"
+      ]
+    },
+    "global-styles": {
+      "risk": "medium",
+      "description": "Project-wide style entrypoints",
+      "files": [
+        "src/styles.scss",
+        "src/assets/css/**"
+      ]
+    },
+    "branding": {
+      "risk": "low",
+      "description": "Logos, license, project documentation",
+      "files": [
+        "src/assets/images/library-logo*",
+        "README.md",
+        "CLAUDE.md",
+        "SPECS.md",
+        "LICENSE",
+        "docs/**"
+      ]
+    }
+  },
+  "ignored": [
+    ".a5c/**",
+    ".claude/**",
+    ".angular/**",
+    ".playwright-mcp/**"
+  ]
+}
