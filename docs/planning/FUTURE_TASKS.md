@@ -192,48 +192,6 @@ Modify both components to use the new service:
 
 ---
 
-## Dark Mode
-
-### 🚧 Dark Mode - Colors Need Improvement
-**Priority:** Medium
-**Status:** 🚧 In Progress (Not Production Ready)
-**Branch:** `darkMode`
-**Estimated Effort:** Medium (2-3 days)
-
-#### Current State
-Basic dark mode implementation exists but **colors are not production-ready**.
-
-#### What's Implemented
-- ✅ `ThemeService` with light/dark/system preference detection
-- ✅ Floating toggle FAB component (`theme-toggle/`)
-- ✅ CSS custom properties for theme colors
-- ✅ localStorage persistence
-- ✅ System preference listener (`prefers-color-scheme`)
-- ✅ Dark mode overrides for Primo NDE host app elements
-
-#### What Needs Work
-- [ ] **Find a proper dark theme color palette** - current colors look bad
-- [ ] Consider using Angular Material's built-in dark theme properly
-- [ ] Test contrast ratios for accessibility (WCAG compliance)
-- [ ] Review colors against all Primo NDE host app elements
-- [ ] Test in both NDE and NDE_TEST views
-- [ ] Get design feedback from library staff
-
-#### Related Files
-- `src/app/services/theme.service.ts`
-- `src/app/custom1-module/theme-toggle/`
-- `src/assets/css/custom.css` (dark mode overrides section)
-- `src/styles.scss` (CSS custom properties)
-- `src/app/styles/m3-theme.ts`
-
-#### Notes
-- The toggle button works correctly
-- Theme preference persists across sessions
-- System preference detection works
-- Main issue is the color scheme itself needs design work
-
----
-
 ## CSS Customizations
 
 ### 📋 Call Number Directionality - Additional Cases
