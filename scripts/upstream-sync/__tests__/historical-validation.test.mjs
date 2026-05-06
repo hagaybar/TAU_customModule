@@ -16,10 +16,12 @@ function changedFiles(sha) {
     .filter(Boolean);
 }
 
-// All currently-pending upstream commits should bucket as 'structural' or 'owned-touch'
+// All currently-pending non-merge upstream commits should bucket as 'structural' or 'owned-touch'
 // because every one of them touches files we customized (build infra, styles, services).
-// If any bucket as 'clean', the categories config needs expansion.
-const pendingShas = execFileSync('git', ['log', '--format=%H', 'upstream/main', '^main'], { encoding: 'utf8' })
+// Merge commits are excluded because `git show --name-only --pretty=format:` returns no files
+// for merges; their actual diffs land via their parent commits, which are validated independently.
+// If any non-merge bucket as 'clean', the categories config needs expansion.
+const pendingShas = execFileSync('git', ['log', '--no-merges', '--format=%H', 'upstream/main', '^main'], { encoding: 'utf8' })
   .split('\n')
   .filter(Boolean);
 
