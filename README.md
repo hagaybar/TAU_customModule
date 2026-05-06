@@ -50,27 +50,29 @@ Displays external search links in the filter side navigation, allowing users to 
 - Files: `src/app/custom1-module/filter-assist-panel/`
 
 #### b) No Results External Links
-Provides a custom no-results page when a search returns zero records, including an external-search panel with alternative sources.
+Displays an external-search panel on the no-results page (when a search returns zero records), helping users continue their research in alternative sources.
 
 **Implemented Features:**
-- ✅ **Custom no-results UI**: Icon, heading, message, and suggestions list — all rendered by the TAU component (recreating the default ExLibris layout)
-- ✅ **External Search Sources**: ULI, WorldCat, Google Scholar
+- ✅ **Alternative Search Options**: Same external sources (ULI, WorldCat, Google Scholar)
 - ✅ **Bilingual Support**: English and Hebrew with RTL layout
 - ✅ **Accessibility**: Keyboard navigation, ARIA labels, secure link attributes
 - ✅ **Query Preservation**: Search term automatically included in external links
+- ✅ **Width-matched to the adjacent ExLibris box**: a small `ResizeObserver` mirrors the width of the sibling `.we-suggest-container` so the two stacked boxes line up in any language / viewport. Falls back to `width: fit-content` if the ExLibris box is absent.
 
-**Mounting strategy: full replacement (overrides ExLibris's default no-results template).**
+**Mounting strategy: extension slot (additive — does NOT override ExLibris's default).**
 
-The component is registered against the `nde-search-no-results` selector, which causes the **entire default ExLibris no-results component to be replaced**. TAU's component re-renders the icon, heading, message, suggestions list, and external-search section.
+The component is registered against the `nde-search-no-results-bottom` selector. It is rendered as the **last child of ExLibris's `<nde-search-no-results>`**, alongside the default content (icon, heading, message, the `<nde-expand-options>` toggle introduced in Primo VE 2026, and the suggestions list). TAU's external-search section is appended below.
 
-**Implication:** any new feature ExLibris adds inside the default no-results layout will NOT appear automatically. Notably, the Primo VE 2026 release added an "Expand Results Options" toggle inside this slot — that toggle is hidden in this configuration. A migration to an extension-slot mount (`nde-search-no-results-bottom`, additive instead of replacing) is implemented on the [`diagnosis/no-results-expand-options-issue-4`](https://github.com/hagaybar/TAU_customModule/tree/diagnosis/no-results-expand-options-issue-4) branch — see [issue #4](https://github.com/hagaybar/TAU_customModule/issues/4) for the full diagnosis and fix. That branch will be merged to main when the Alma customer setting `expand_results_toggles_visible` is enabled in production.
+**Implication:** any new feature ExLibris adds to the default no-results layout renders automatically — we don't have to track upstream UI changes by hand.
 
-**Location in NDE:** Replaces the default no-results page entirely.
+**Location in NDE:** Below ExLibris's default no-results suggestions box.
 
 **Technical Details:**
 - Component: `NoResultsExternalLinksComponent`
-- Selector mapping: `nde-search-no-results` (full replacement; takes the whole subtree)
+- Selector mapping: `nde-search-no-results-bottom` (extension slot, mounts as last child)
 - Files: `src/app/custom1-module/no-results-external-links/`
+
+> **History:** this component started as a full replacement of `nde-search-no-results`. After Primo VE 2026 added the Expand Results Options toggle inside that slot — which the full replacement was hiding — we migrated to the `-bottom` extension slot. See [issue #4](https://github.com/hagaybar/TAU_customModule/issues/4) for the diagnosis and fix.
 
 #### Shared Configuration
 Both components use the same configuration file for consistency:
