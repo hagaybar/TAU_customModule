@@ -50,3 +50,31 @@ export function classifyCommit(changedFiles, config) {
     recommendation,
   };
 }
+
+// CLI entrypoint
+import { fileURLToPath } from 'node:url';
+import { execFileSync } from 'node:child_process';
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
+
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  const sha = process.argv[2];
+  if (!sha) {
+    console.error('Usage: classify.mjs <sha>');
+    process.exit(2);
+  }
+
+  const repoRoot = execFileSync('git', ['rev-parse', '--show-toplevel'], { encoding: 'utf8' }).trim();
+  const configPath = path.join(repoRoot, '.upstream-sync', 'owned-files.json');
+  const config = JSON.parse(readFileSync(configPath, 'utf8'));
+
+  // Resolve to full SHA so output is canonical
+  const fullSha = execFileSync('git', ['rev-parse', sha], { encoding: 'utf8' }).trim();
+  const files = execFileSync('git', ['show', '--name-only', '--pretty=format:', fullSha], { encoding: 'utf8' })
+    .split('\n')
+    .map((s) => s.trim())
+    .filter((s) => s.length > 0);
+
+  const result = classifyCommit(files, config);
+  console.log(JSON.stringify({ sha: fullSha, ...result }, null, 2));
+}
