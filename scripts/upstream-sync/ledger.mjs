@@ -43,3 +43,45 @@ export function hasSha(filePath, sha) {
 export function isSkipped(filePath, sha) {
   return hasSha(filePath, sha) === 'skipped';
 }
+
+// CLI entrypoint
+import { fileURLToPath } from 'node:url';
+import { execFileSync } from 'node:child_process';
+import path from 'node:path';
+
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  const repoRoot = execFileSync('git', ['rev-parse', '--show-toplevel'], { encoding: 'utf8' }).trim();
+  const ledgerPath = path.join(repoRoot, 'docs', 'upstream-sync', 'applied.json');
+
+  const cmd = process.argv[2];
+  switch (cmd) {
+    case 'has-sha': {
+      const sha = process.argv[3];
+      if (!sha) { console.error('Usage: ledger.mjs has-sha <sha>'); process.exit(2); }
+      const status = hasSha(ledgerPath, sha);
+      console.log(status);
+      process.exit(status === 'none' ? 1 : 0);
+    }
+    case 'add': {
+      const args = process.argv.slice(3);
+      const entry = {};
+      for (let i = 0; i < args.length; i += 2) {
+        const key = args[i].replace(/^--/, '');
+        entry[key] = args[i + 1];
+      }
+      addEntry(ledgerPath, entry);
+      console.log(`Added ${entry.sha} (${entry.decision})`);
+      break;
+    }
+    case 'list': {
+      console.log(JSON.stringify(readLedger(ledgerPath), null, 2));
+      break;
+    }
+    default:
+      console.error('Usage: ledger.mjs <has-sha|add|list> [args...]');
+      console.error('  has-sha <sha>');
+      console.error('  add --sha <sha> --decision <applied|skipped> [--subject "..."] [--appliedAt YYYY-MM-DD] [--branch <name>] [--reason "..."]');
+      console.error('  list');
+      process.exit(2);
+  }
+}
