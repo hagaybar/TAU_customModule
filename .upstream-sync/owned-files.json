@@ -2,7 +2,7 @@
   "categories": {
     "build-infrastructure": {
       "risk": "high",
-      "description": "Parametric build via build-settings.env, asset path generation",
+      "description": "Parametric build via build-settings.env, asset path generation, runtime asset-path services",
       "files": [
         "prebuild.js",
         "postbuild.js",
@@ -10,7 +10,9 @@
         "webpack.prod.config.js",
         "build-settings.env",
         "angular.json",
-        "tsconfig*.json"
+        "tsconfig*.json",
+        "src/app/services/**",
+        "src/app/state/**"
       ]
     },
     "module-registration": {
