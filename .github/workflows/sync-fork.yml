@@ -1,3 +1,7 @@
+# DEPRECATED: this workflow is superseded by the `upstream-sync` Claude Code skill.
+# See `.claude/skills/upstream-sync/SKILL.md` and
+# `docs/superpowers/specs/2026-05-06-upstream-sync-design.md`.
+# The workflow is left in place for emergency use; prefer the skill.
 name: Sync upstream into customized fork
 
 on:
