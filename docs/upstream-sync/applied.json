@@ -5,5 +5,12 @@
     "subject": "Merge pull request #32 from ExLibrisGroup/release/private/david.bendavid/URM-317720",
     "appliedAt": "2026-05-07",
     "reason": "Merge commit — its substantive content lives in 5eed863 and c713f83 which are evaluated separately. Cherry-picking the merge commit would duplicate that content."
+  },
+  {
+    "sha": "c713f83e74feea0bf792192b00ceebbed6e3c47d",
+    "decision": "skipped",
+    "subject": "Auto-prefix assets/* URLs via webpack public path",
+    "appliedAt": "2026-05-07",
+    "reason": "README-only docs for upstream's AssetsPublicPathDirective. TAU's README is structurally different (project docs, not framework docs) and the directive itself hasn't been adopted (decision pending on 5eed863). If we later adopt the directive, write fresh TAU-voice docs rather than cherry-picking upstream's framework-perspective text."
   }
 ]
