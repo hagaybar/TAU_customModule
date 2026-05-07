@@ -26,5 +26,12 @@
     "subject": "Merge pull request #30 from ExLibrisGroup/revert-29-release/private/david.bendavid/NewImageDir",
     "appliedAt": "2026-05-07",
     "reason": "Merge commit for the revert PR (#30). Its content lives in 1350889. Even the underlying revert is irrelevant to TAU because the original buggy work (PR #29 / 0a7667f / aef3d33) was never on TAU — there's nothing here to revert."
+  },
+  {
+    "sha": "13508892180b7a6e0394404cc61182fb1023ca38",
+    "decision": "skipped",
+    "subject": "Revert \"Release/private/david.bendavid/new image dir\"",
+    "appliedAt": "2026-05-07",
+    "reason": "Pure delete-and-cleanup commit reverting upstream PR #29's broken work (the 0a7667f conflict markers + the original directive file). TAU's fork never had any of that, so the deletions/patches have nothing to apply against — cherry-pick would fail or produce a confusing 'reverting things we never had' commit."
   }
 ]
