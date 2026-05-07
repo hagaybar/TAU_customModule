@@ -12,5 +12,12 @@
     "subject": "Auto-prefix assets/* URLs via webpack public path",
     "appliedAt": "2026-05-07",
     "reason": "README-only docs for upstream's AssetsPublicPathDirective. TAU's README is structurally different (project docs, not framework docs) and the directive itself hasn't been adopted (decision pending on 5eed863). If we later adopt the directive, write fresh TAU-voice docs rather than cherry-picking upstream's framework-perspective text."
+  },
+  {
+    "sha": "5eed863169134c84a45931d159e5ca69ae405dce",
+    "decision": "skipped",
+    "subject": "NewImageDir: assets public path handling",
+    "appliedAt": "2026-05-07",
+    "reason": "Skipped via upstream-sync; tracked separately as a future migration project (Option B: pull AND retire TAU's AutoAssetSrcDirective). See https://github.com/hagaybar/TAU_customModule/issues/8. If adopted, the directive will be re-introduced cleanly rather than via verbatim cherry-pick from this SHA."
   }
 ]
