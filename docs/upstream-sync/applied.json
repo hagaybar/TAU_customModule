@@ -19,5 +19,12 @@
     "subject": "NewImageDir: assets public path handling",
     "appliedAt": "2026-05-07",
     "reason": "Skipped via upstream-sync; tracked separately as a future migration project (Option B: pull AND retire TAU's AutoAssetSrcDirective). See https://github.com/hagaybar/TAU_customModule/issues/8. If adopted, the directive will be re-introduced cleanly rather than via verbatim cherry-pick from this SHA."
+  },
+  {
+    "sha": "da7b51d0137ae83ec542d404908c0354bed836b0",
+    "decision": "skipped",
+    "subject": "Merge pull request #30 from ExLibrisGroup/revert-29-release/private/david.bendavid/NewImageDir",
+    "appliedAt": "2026-05-07",
+    "reason": "Merge commit for the revert PR (#30). Its content lives in 1350889. Even the underlying revert is irrelevant to TAU because the original buggy work (PR #29 / 0a7667f / aef3d33) was never on TAU — there's nothing here to revert."
   }
 ]
