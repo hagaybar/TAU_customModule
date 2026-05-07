@@ -33,5 +33,26 @@
     "subject": "Revert \"Release/private/david.bendavid/new image dir\"",
     "appliedAt": "2026-05-07",
     "reason": "Pure delete-and-cleanup commit reverting upstream PR #29's broken work (the 0a7667f conflict markers + the original directive file). TAU's fork never had any of that, so the deletions/patches have nothing to apply against — cherry-pick would fail or produce a confusing 'reverting things we never had' commit."
+  },
+  {
+    "sha": "aef3d3307a287dbbe856ab3f2b6f401ad4bb094d",
+    "decision": "skipped",
+    "subject": "Merge pull request #29 from ExLibrisGroup/release/private/david.bendavid/NewImageDir",
+    "appliedAt": "2026-05-07",
+    "reason": "Merge commit for PR #29 — the original buggy attempt that introduced the 0a7667f conflict-marker mess. Upstream itself reverted this via PR #30 within 3 days. Three independent reasons to skip: (1) merge-commit mechanic, (2) underlying content is broken, (3) upstream rejected it themselves."
+  },
+  {
+    "sha": "0a7667fe806476ede3b3062757b307bb6415882e",
+    "decision": "skipped",
+    "subject": "Wire assets public path directive in prebuild",
+    "appliedAt": "2026-05-07",
+    "reason": "BROKEN COMMIT — contains literal <<<<<<< HEAD merge-conflict markers committed into prebuild.js (~lines 46-50). Upstream itself reverted this via 1350889. Never pull this commit directly. The intended directive content was re-introduced cleanly in 5eed863, which is already tracked as a future migration in issue #8."
+  },
+  {
+    "sha": "3122a481d3fccbc99f443231dd6a875b3f8dbe93",
+    "decision": "skipped",
+    "subject": "Wire assets public path directive in prebuild",
+    "appliedAt": "2026-05-07",
+    "reason": "README-only update (despite the misleading commit subject) describing how the directive ties into prebuild.js. Same skip rationale as c713f83 — TAU's README is structurally different from upstream's, and the directive itself isn't being adopted (Option B tracked in issue #8)."
   }
 ]
