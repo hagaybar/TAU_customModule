@@ -1,1 +1,9 @@
-[]
+[
+  {
+    "sha": "c1eb45ff68653ccc9820f383e9b80451266f0909",
+    "decision": "skipped",
+    "subject": "Merge pull request #32 from ExLibrisGroup/release/private/david.bendavid/URM-317720",
+    "appliedAt": "2026-05-07",
+    "reason": "Merge commit — its substantive content lives in 5eed863 and c713f83 which are evaluated separately. Cherry-picking the merge commit would duplicate that content."
+  }
+]
