@@ -1,0 +1,9 @@
+{
+  "gateName": "phase-2-owned-files-config",
+  "success": true,
+  "checkResults": [
+    {"name": "owned-files.json parses", "passed": true, "expected": "OK", "actual": "OK", "stdout": "OK\n", "stderr": "", "exitCode": 0},
+    {"name": "config has expected categories", "passed": true, "expected": "OK", "actual": "OK", "stdout": "OK\n", "stderr": "", "exitCode": 0}
+  ],
+  "summary": "All 2 phase-2-owned-files-config checks passed."
+}

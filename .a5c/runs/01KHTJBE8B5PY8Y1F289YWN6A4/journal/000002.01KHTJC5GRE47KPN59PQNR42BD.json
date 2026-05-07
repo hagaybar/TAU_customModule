@@ -1,0 +1,20 @@
+{
+  "type": "EFFECT_REQUESTED",
+  "recordedAt": "2026-02-19T09:05:56.248Z",
+  "data": {
+    "effectId": "01KHTJC5G7AY004PM4SBCQK4GM",
+    "invocationKey": "cenlib-map-multi-shelf-dialog:S000001:implement-multi-shelf",
+    "invocationHash": "e3470372ea4ceb376a44411f2037a1e88b351147f2c6b7d031b25130871fe250",
+    "stepId": "S000001",
+    "taskId": "implement-multi-shelf",
+    "kind": "agent",
+    "label": "implementation",
+    "taskDefRef": "tasks/01KHTJC5G7AY004PM4SBCQK4GM/task.json",
+    "labels": [
+      "implementation",
+      "angular",
+      "multi-shelf"
+    ]
+  },
+  "checksum": "fef2d4c8d3fb37db4a9b469165c93063b5cdcc13281824f1733dcf920c50c627"
+}

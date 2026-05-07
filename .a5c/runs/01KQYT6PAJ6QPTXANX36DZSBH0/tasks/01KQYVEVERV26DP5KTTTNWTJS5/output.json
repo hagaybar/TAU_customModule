@@ -1,0 +1,9 @@
+{
+  "gateName": "phase-5-historical-validation",
+  "success": true,
+  "checkResults": [
+    {"name": "historical validation test file exists", "passed": true, "stdout": "OK\n", "exitCode": 0},
+    {"name": "all tests including historical validation pass", "passed": true, "stdout": "# tests 29; # pass 29; # fail 0", "exitCode": 0, "note": "29/29 tests green; merge commits correctly filtered via --no-merges"}
+  ],
+  "summary": "All phase-5-historical-validation checks passed."
+}

@@ -1,0 +1,15 @@
+{
+  "type": "EFFECT_REQUESTED",
+  "recordedAt": "2026-03-03T15:01:44.411Z",
+  "data": {
+    "effectId": "01KJT3G9AE4Y1MF5VPD4G2277A",
+    "invocationKey": "fix-svg-cors-fallback:S000001:verify-cors-issue",
+    "invocationHash": "c65e9123ae8380e8ac4d1d689a7818c7d86249b3020fc4a5d7772811f17cb664",
+    "stepId": "S000001",
+    "taskId": "verify-cors-issue",
+    "kind": "agent",
+    "label": "Verify CORS error in browser",
+    "taskDefRef": "tasks/01KJT3G9AE4Y1MF5VPD4G2277A/task.json"
+  },
+  "checksum": "e630c1900519bc5741626f0d610ca18fa4f4fa6e10663829f24da99fe98606e8"
+}

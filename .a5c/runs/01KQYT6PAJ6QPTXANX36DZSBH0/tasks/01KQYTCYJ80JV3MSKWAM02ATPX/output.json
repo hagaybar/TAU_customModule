@@ -1,0 +1,52 @@
+{
+  "gateName": "phase-1-scaffolding",
+  "success": true,
+  "checkResults": [
+    {
+      "name": "directories exist",
+      "passed": true,
+      "expected": "OK in stdout, exit 0",
+      "actual": "OK",
+      "stdout": "OK\n",
+      "stderr": "",
+      "exitCode": 0
+    },
+    {
+      "name": "applied.json exists and is empty array",
+      "passed": true,
+      "expected": "[] in stdout",
+      "actual": "[]",
+      "stdout": "[]\n",
+      "stderr": "",
+      "exitCode": 0
+    },
+    {
+      "name": "picomatch in devDependencies",
+      "passed": true,
+      "expected": "stdout does not contain MISSING",
+      "actual": "^4.0.4",
+      "stdout": "^4.0.4\n",
+      "stderr": "",
+      "exitCode": 0
+    },
+    {
+      "name": "test:upstream-sync script registered",
+      "passed": true,
+      "expected": "stdout does not contain MISSING",
+      "actual": "node --test scripts/upstream-sync/__tests__/",
+      "stdout": "node --test scripts/upstream-sync/__tests__/\n",
+      "stderr": "",
+      "exitCode": 0
+    },
+    {
+      "name": "phase 1 commits present",
+      "passed": true,
+      "expected": "stdout contains 'upstream-sync'",
+      "actual": "335ce49 chore: add picomatch + upstream-sync test runner; e6687ee chore: scaffold upstream-sync directories",
+      "stdout": "335ce49 chore: add picomatch + upstream-sync test runner\ne6687ee chore: scaffold upstream-sync directories\nd4c5df7 Add upstream-sync implementation plan\n5767e6e Add upstream-sync design doc\n9273790 Update README to describe no-results full-replacement mount\n",
+      "stderr": "",
+      "exitCode": 0
+    }
+  ],
+  "summary": "All 5 phase-1-scaffolding checks passed."
+}

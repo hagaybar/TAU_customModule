@@ -1,0 +1,133 @@
+{
+  "schemaVersion": "2026.01.results-v1",
+  "effectId": "01KQYV1ZKSQ3QZFFNBRVME04VQ",
+  "taskId": "implement-plan-task",
+  "invocationKey": "tau/upstream-sync-implementation:S000012:implement-plan-task",
+  "status": "ok",
+  "result": {
+    "commitsCreated": [
+      {
+        "message": "feat(upstream-sync): add ledger CLI entrypoint",
+        "sha": "a2b2d42"
+      }
+    ],
+    "filesCreated": [],
+    "filesModified": [
+      "scripts/upstream-sync/ledger.mjs",
+      "docs/upstream-sync/applied.json"
+    ],
+    "issues": [],
+    "notes": "Appended CLI block to ledger.mjs (has-sha/add/list subcommands). All 5 smoke tests passed with expected stdout and exit codes. Ledger reset to '[]' after smoke tests. All 24 unit tests still pass. Committed as a2b2d42 with both ledger.mjs and applied.json staged (applied.json was already empty, so the commit's net change is the CLI block in ledger.mjs).",
+    "smokeTests": [
+      {
+        "actualStdout": "[]",
+        "command": "node scripts/upstream-sync/ledger.mjs list",
+        "exitCode": 0,
+        "expected": "[]",
+        "passed": true
+      },
+      {
+        "actualStdout": "none",
+        "command": "node scripts/upstream-sync/ledger.mjs has-sha abc123",
+        "exitCode": 1,
+        "expected": "stdout 'none', exit 1",
+        "passed": true
+      },
+      {
+        "actualStdout": "Added test123 (applied)",
+        "command": "node scripts/upstream-sync/ledger.mjs add --sha test123 --decision applied --subject \"smoke test\"",
+        "exitCode": 0,
+        "expected": "Added test123 (applied)",
+        "passed": true
+      },
+      {
+        "actualStdout": "applied",
+        "command": "node scripts/upstream-sync/ledger.mjs has-sha test123",
+        "exitCode": 0,
+        "expected": "stdout 'applied', exit 0",
+        "passed": true
+      },
+      {
+        "actualStdout": "[\n  {\n    \"sha\": \"test123\",\n    \"decision\": \"applied\",\n    \"subject\": \"smoke test\"\n  }\n]",
+        "command": "node scripts/upstream-sync/ledger.mjs list",
+        "exitCode": 0,
+        "expected": "JSON array with test123 entry",
+        "passed": true
+      }
+    ],
+    "success": true,
+    "taskNumber": 9,
+    "testsRun": [
+      {
+        "command": "npm run test:upstream-sync",
+        "failed": 0,
+        "passed": true,
+        "totalTests": 24
+      }
+    ]
+  },
+  "startedAt": "2026-05-06T14:30:13.805Z",
+  "finishedAt": "2026-05-06T14:30:13.805Z",
+  "value": {
+    "commitsCreated": [
+      {
+        "message": "feat(upstream-sync): add ledger CLI entrypoint",
+        "sha": "a2b2d42"
+      }
+    ],
+    "filesCreated": [],
+    "filesModified": [
+      "scripts/upstream-sync/ledger.mjs",
+      "docs/upstream-sync/applied.json"
+    ],
+    "issues": [],
+    "notes": "Appended CLI block to ledger.mjs (has-sha/add/list subcommands). All 5 smoke tests passed with expected stdout and exit codes. Ledger reset to '[]' after smoke tests. All 24 unit tests still pass. Committed as a2b2d42 with both ledger.mjs and applied.json staged (applied.json was already empty, so the commit's net change is the CLI block in ledger.mjs).",
+    "smokeTests": [
+      {
+        "actualStdout": "[]",
+        "command": "node scripts/upstream-sync/ledger.mjs list",
+        "exitCode": 0,
+        "expected": "[]",
+        "passed": true
+      },
+      {
+        "actualStdout": "none",
+        "command": "node scripts/upstream-sync/ledger.mjs has-sha abc123",
+        "exitCode": 1,
+        "expected": "stdout 'none', exit 1",
+        "passed": true
+      },
+      {
+        "actualStdout": "Added test123 (applied)",
+        "command": "node scripts/upstream-sync/ledger.mjs add --sha test123 --decision applied --subject \"smoke test\"",
+        "exitCode": 0,
+        "expected": "Added test123 (applied)",
+        "passed": true
+      },
+      {
+        "actualStdout": "applied",
+        "command": "node scripts/upstream-sync/ledger.mjs has-sha test123",
+        "exitCode": 0,
+        "expected": "stdout 'applied', exit 0",
+        "passed": true
+      },
+      {
+        "actualStdout": "[\n  {\n    \"sha\": \"test123\",\n    \"decision\": \"applied\",\n    \"subject\": \"smoke test\"\n  }\n]",
+        "command": "node scripts/upstream-sync/ledger.mjs list",
+        "exitCode": 0,
+        "expected": "JSON array with test123 entry",
+        "passed": true
+      }
+    ],
+    "success": true,
+    "taskNumber": 9,
+    "testsRun": [
+      {
+        "command": "npm run test:upstream-sync",
+        "failed": 0,
+        "passed": true,
+        "totalTests": 24
+      }
+    ]
+  }
+}

@@ -45,3 +45,10 @@ Thumbs.db
 # Helper files (temporary/auto-generated)
 helper_files/
 *:Zone.Identifier
+
+# Babysitter runtime artifacts (process definitions and runs are tracked; caches/logs are not)
+.a5c/cache/
+.a5c/logs/
+
+# Playwright MCP session artifacts (snapshots, console logs, screenshots from agent browser sessions)
+.playwright-mcp/

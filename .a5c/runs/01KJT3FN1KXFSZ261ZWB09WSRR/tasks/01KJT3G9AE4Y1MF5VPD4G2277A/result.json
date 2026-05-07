@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "2026.01.results-v1",
+  "effectId": "01KJT3G9AE4Y1MF5VPD4G2277A",
+  "taskId": "verify-cors-issue",
+  "invocationKey": "fix-svg-cors-fallback:S000001:verify-cors-issue",
+  "status": "ok",
+  "result": {
+    "consoleErrors": [
+      "Access to XMLHttpRequest at 'https://d3h8i7y9p8lyw7.cloudfront.net/maps/floor_1.svg' from origin 'http://localhost:4201' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+      "[ShelfMapSvg] Failed to load SVG: N",
+      "Failed to load resource: net::ERR_FAILED @ https://d3h8i7y9p8lyw7.cloudfront.net/maps/floor_1.svg"
+    ],
+    "csvCorsError": false,
+    "dialogOpened": true,
+    "mapButtonFound": true,
+    "summary": "The Shelf Map dialog opens successfully and displays all location metadata. The CSV mapping file loaded successfully from AWS CloudFront (420 mappings loaded with no CORS error). However, the SVG floor map at https://d3h8i7y9p8lyw7.cloudfront.net/maps/floor_1.svg fails to load due to a CORS policy error - the CloudFront distribution is not configured to include the 'Access-Control-Allow-Origin' header. The dialog displays a fallback placeholder map instead of the actual SVG floor plan.",
+    "svgCorsError": true
+  },
+  "startedAt": "2026-03-03T15:03:08.322Z",
+  "finishedAt": "2026-03-03T15:03:08.322Z",
+  "value": {
+    "consoleErrors": [
+      "Access to XMLHttpRequest at 'https://d3h8i7y9p8lyw7.cloudfront.net/maps/floor_1.svg' from origin 'http://localhost:4201' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.",
+      "[ShelfMapSvg] Failed to load SVG: N",
+      "Failed to load resource: net::ERR_FAILED @ https://d3h8i7y9p8lyw7.cloudfront.net/maps/floor_1.svg"
+    ],
+    "csvCorsError": false,
+    "dialogOpened": true,
+    "mapButtonFound": true,
+    "summary": "The Shelf Map dialog opens successfully and displays all location metadata. The CSV mapping file loaded successfully from AWS CloudFront (420 mappings loaded with no CORS error). However, the SVG floor map at https://d3h8i7y9p8lyw7.cloudfront.net/maps/floor_1.svg fails to load due to a CORS policy error - the CloudFront distribution is not configured to include the 'Access-Control-Allow-Origin' header. The dialog displays a fallback placeholder map instead of the actual SVG floor plan.",
+    "svgCorsError": true
+  }
+}

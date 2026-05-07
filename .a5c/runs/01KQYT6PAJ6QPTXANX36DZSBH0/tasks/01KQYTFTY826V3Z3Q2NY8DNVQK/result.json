@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "2026.01.results-v1",
+  "effectId": "01KQYTFTY826V3Z3Q2NY8DNVQK",
+  "taskId": "verify-gate",
+  "invocationKey": "tau/upstream-sync-implementation:S000005:verify-gate",
+  "status": "ok",
+  "result": {
+    "checkResults": [
+      {
+        "actual": "OK",
+        "exitCode": 0,
+        "expected": "OK",
+        "name": "owned-files.json parses",
+        "passed": true,
+        "stderr": "",
+        "stdout": "OK\n"
+      },
+      {
+        "actual": "OK",
+        "exitCode": 0,
+        "expected": "OK",
+        "name": "config has expected categories",
+        "passed": true,
+        "stderr": "",
+        "stdout": "OK\n"
+      }
+    ],
+    "gateName": "phase-2-owned-files-config",
+    "success": true,
+    "summary": "All 2 phase-2-owned-files-config checks passed."
+  },
+  "startedAt": "2026-05-06T14:19:16.059Z",
+  "finishedAt": "2026-05-06T14:19:16.059Z",
+  "value": {
+    "checkResults": [
+      {
+        "actual": "OK",
+        "exitCode": 0,
+        "expected": "OK",
+        "name": "owned-files.json parses",
+        "passed": true,
+        "stderr": "",
+        "stdout": "OK\n"
+      },
+      {
+        "actual": "OK",
+        "exitCode": 0,
+        "expected": "OK",
+        "name": "config has expected categories",
+        "passed": true,
+        "stderr": "",
+        "stdout": "OK\n"
+      }
+    ],
+    "gateName": "phase-2-owned-files-config",
+    "success": true,
+    "summary": "All 2 phase-2-owned-files-config checks passed."
+  }
+}

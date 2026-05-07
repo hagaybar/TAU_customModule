@@ -1,0 +1,9 @@
+{
+  "type": "RUN_COMPLETED",
+  "recordedAt": "2026-05-06T14:43:08.767Z",
+  "data": {
+    "harness": "claude-code",
+    "outputRef": "state/output.json"
+  },
+  "checksum": "b6d9783086ec796c4766c266177eadbccddb66a1b00cc42136dad8e5891d17c5"
+}

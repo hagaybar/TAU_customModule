@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "2026.01.results-v1",
+  "effectId": "01KHTMHS77ZKV4NV7MS5C0GBX9",
+  "taskId": "__sdk.breakpoint",
+  "invocationKey": "cenlib-map-multi-shelf-dialog:S000004:__sdk.breakpoint",
+  "status": "ok",
+  "result": {
+    "approved": true,
+    "response": "User approved completion. Multi-shelf dialog enhancement is complete."
+  },
+  "startedAt": "2026-02-19T10:48:31.668Z",
+  "finishedAt": "2026-02-19T10:48:31.668Z",
+  "value": {
+    "approved": true,
+    "response": "User approved completion. Multi-shelf dialog enhancement is complete."
+  }
+}

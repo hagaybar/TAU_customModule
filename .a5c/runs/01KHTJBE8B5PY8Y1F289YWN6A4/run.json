@@ -1,0 +1,13 @@
+{
+  "runId": "01KHTJBE8B5PY8Y1F289YWN6A4",
+  "request": "cenlib-map-multi-shelf-dialog",
+  "processId": "cenlib-map-multi-shelf-dialog",
+  "entrypoint": {
+    "importPath": "../../processes/cenlib-map-multi-shelf-dialog.js",
+    "exportName": "process"
+  },
+  "processPath": "../../processes/cenlib-map-multi-shelf-dialog.js",
+  "layoutVersion": "2026.01-storage-preview",
+  "createdAt": "2026-02-19T09:05:32.435Z",
+  "completionSecret": "fdf90918a4561938724a5ef5429062ca"
+}

@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "2026.01.tasks-v1",
+  "effectId": "01KHTJF8FFWNFA9GYCNAYS3ET2",
+  "taskId": "__sdk.breakpoint",
+  "invocationKey": "cenlib-map-multi-shelf-dialog:S000002:__sdk.breakpoint",
+  "stepId": "S000002",
+  "kind": "breakpoint",
+  "title": "breakpoint",
+  "metadata": {
+    "label": "breakpoint",
+    "payload": {
+      "context": {
+        "files": [
+          {
+            "format": "code",
+            "language": "typescript",
+            "path": "src/app/custom1-module/cenlib-map/cenlib-map-dialog/cenlib-map-dialog.component.ts"
+          },
+          {
+            "format": "code",
+            "language": "html",
+            "path": "src/app/custom1-module/cenlib-map/cenlib-map-dialog/cenlib-map-dialog.component.html"
+          }
+        ]
+      },
+      "question": "Implementation complete. Please review the changes and verify they meet the requirements. Approve to proceed to final verification?",
+      "title": "Multi-Shelf Dialog Implementation Review"
+    },
+    "requestedAt": "2026-02-19T09:07:37.583Z"
+  },
+  "inputs": {
+    "label": "breakpoint",
+    "payload": {
+      "context": {
+        "files": [
+          {
+            "format": "code",
+            "language": "typescript",
+            "path": "src/app/custom1-module/cenlib-map/cenlib-map-dialog/cenlib-map-dialog.component.ts"
+          },
+          {
+            "format": "code",
+            "language": "html",
+            "path": "src/app/custom1-module/cenlib-map/cenlib-map-dialog/cenlib-map-dialog.component.html"
+          }
+        ]
+      },
+      "question": "Implementation complete. Please review the changes and verify they meet the requirements. Approve to proceed to final verification?",
+      "title": "Multi-Shelf Dialog Implementation Review"
+    },
+    "requestedAt": "2026-02-19T09:07:37.583Z"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "type": "EFFECT_REQUESTED",
+  "recordedAt": "2026-05-06T14:39:17.696Z",
+  "data": {
+    "harness": "claude-code",
+    "effectId": "01KQYVN65KXD6C9GKHCAT8DS0S",
+    "invocationKey": "tau/upstream-sync-implementation:S000018:implement-plan-task",
+    "invocationHash": "3816c9448022220d456a50ff63c313d3fcf510c361381b17f66236eadf1b36d0",
+    "stepId": "S000018",
+    "taskId": "implement-plan-task",
+    "kind": "agent",
+    "label": "upstream-sync",
+    "taskDefRef": "tasks/01KQYVN65KXD6C9GKHCAT8DS0S/task.json",
+    "labels": [
+      "upstream-sync",
+      "plan-task"
+    ]
+  },
+  "checksum": "23705f6087c4ed2a5deb89248a3233982a7adb5b97aa181ba7d49bd4d4f076d0"
+}

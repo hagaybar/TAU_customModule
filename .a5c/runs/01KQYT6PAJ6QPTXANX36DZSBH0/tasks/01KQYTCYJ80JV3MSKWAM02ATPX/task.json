@@ -1,0 +1,166 @@
+{
+  "agent": {
+    "name": "general-purpose",
+    "prompt": {
+      "context": {
+        "checks": [
+          {
+            "command": "test -d .upstream-sync && test -d scripts/upstream-sync/__tests__ && test -d docs/upstream-sync && test -d .claude/skills/upstream-sync && echo OK",
+            "expectExitCode": 0,
+            "expectStdoutContains": "OK",
+            "kind": "shell",
+            "name": "directories exist"
+          },
+          {
+            "command": "cat docs/upstream-sync/applied.json",
+            "expectStdoutContains": "[]",
+            "kind": "shell",
+            "name": "applied.json exists and is empty array"
+          },
+          {
+            "command": "node -e \"console.log(require('./package.json').devDependencies.picomatch || 'MISSING')\"",
+            "expectStdoutNotContains": "MISSING",
+            "kind": "shell",
+            "name": "picomatch in devDependencies"
+          },
+          {
+            "command": "node -e \"console.log(require('./package.json').scripts['test:upstream-sync'] || 'MISSING')\"",
+            "expectStdoutNotContains": "MISSING",
+            "kind": "shell",
+            "name": "test:upstream-sync script registered"
+          },
+          {
+            "command": "git log --oneline -5 | head -5",
+            "expectStdoutContains": "upstream-sync",
+            "kind": "shell",
+            "name": "phase 1 commits present"
+          }
+        ],
+        "gateName": "phase-1-scaffolding",
+        "repoRoot": "/home/hagaybar/projects/TAU_customModule",
+        "rules": [
+          "Run every shell command from the repo root.",
+          "For commands with expectExitCode: confirm the exit code matches; otherwise fail.",
+          "For commands with expectStdoutContains: confirm the substring is present in stdout; otherwise fail.",
+          "For commands with expectStdoutNotContains: confirm the substring is NOT present; otherwise fail.",
+          "For file checks: confirm the file exists and (if expectContent provided) contains the substring.",
+          "Do NOT fix issues. If a check fails, report it and return success=false. Fixing is not your job here.",
+          "Capture stdout/stderr for every command for inclusion in the report."
+        ]
+      },
+      "instructions": [
+        "Iterate through every check.",
+        "For each, run the command (or verify the file).",
+        "Compare actual output to expected criterion.",
+        "Build a per-check pass/fail report.",
+        "Set top-level success=true only if every individual check passed."
+      ],
+      "outputFormat": "JSON",
+      "outputSchema": {
+        "properties": {
+          "checkResults": {
+            "items": {
+              "properties": {
+                "actual": {
+                  "type": "string"
+                },
+                "exitCode": {
+                  "type": "number"
+                },
+                "expected": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "passed": {
+                  "type": "boolean"
+                },
+                "stderr": {
+                  "type": "string"
+                },
+                "stdout": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name",
+                "passed"
+              ],
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "gateName": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "summary": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "gateName",
+          "success",
+          "checkResults"
+        ],
+        "type": "object"
+      },
+      "role": "Strict QA verifier. Reject if any check fails.",
+      "task": "Run every check in the verification list and confirm each one matches its expected criterion. Return success ONLY if all pass."
+    }
+  },
+  "io": {
+    "inputJsonPath": "tasks/01KQYTCYJ80JV3MSKWAM02ATPX/input.json",
+    "outputJsonPath": "tasks/01KQYTCYJ80JV3MSKWAM02ATPX/output.json"
+  },
+  "kind": "agent",
+  "labels": [
+    "quality-gate",
+    "upstream-sync"
+  ],
+  "title": "Quality gate: phase-1-scaffolding",
+  "schemaVersion": "2026.01.tasks-v1",
+  "effectId": "01KQYTCYJ80JV3MSKWAM02ATPX",
+  "taskId": "verify-gate",
+  "invocationKey": "tau/upstream-sync-implementation:S000003:verify-gate",
+  "stepId": "S000003",
+  "inputs": {
+    "checks": [
+      {
+        "command": "test -d .upstream-sync && test -d scripts/upstream-sync/__tests__ && test -d docs/upstream-sync && test -d .claude/skills/upstream-sync && echo OK",
+        "expectExitCode": 0,
+        "expectStdoutContains": "OK",
+        "kind": "shell",
+        "name": "directories exist"
+      },
+      {
+        "command": "cat docs/upstream-sync/applied.json",
+        "expectStdoutContains": "[]",
+        "kind": "shell",
+        "name": "applied.json exists and is empty array"
+      },
+      {
+        "command": "node -e \"console.log(require('./package.json').devDependencies.picomatch || 'MISSING')\"",
+        "expectStdoutNotContains": "MISSING",
+        "kind": "shell",
+        "name": "picomatch in devDependencies"
+      },
+      {
+        "command": "node -e \"console.log(require('./package.json').scripts['test:upstream-sync'] || 'MISSING')\"",
+        "expectStdoutNotContains": "MISSING",
+        "kind": "shell",
+        "name": "test:upstream-sync script registered"
+      },
+      {
+        "command": "git log --oneline -5 | head -5",
+        "expectStdoutContains": "upstream-sync",
+        "kind": "shell",
+        "name": "phase 1 commits present"
+      }
+    ],
+    "gateName": "phase-1-scaffolding"
+  }
+}

@@ -1,0 +1,121 @@
+{
+  "schemaVersion": "2026.01.results-v1",
+  "effectId": "01KQYV57A023EW0KV8RFFY10CJ",
+  "taskId": "implement-plan-task",
+  "invocationKey": "tau/upstream-sync-implementation:S000014:implement-plan-task",
+  "status": "ok",
+  "result": {
+    "commitsCreated": [
+      {
+        "message": "feat(upstream-sync): expand owned-files config based on historical validation",
+        "sha": "a1e8a62"
+      },
+      {
+        "message": "test(upstream-sync): validate classifier against pending upstream commits",
+        "sha": "ba932fe"
+      },
+      {
+        "message": "fix(upstream-sync): skip merge commits in historical validation",
+        "sha": "d27cd50"
+      }
+    ],
+    "configExpansions": [
+      {
+        "categoryUpdated": "build-infrastructure",
+        "filesAdded": [
+          "src/app/services/**",
+          "src/app/state/**"
+        ],
+        "reason": "upstream commit 5eed863 introduces src/app/services/assets-public-path.directive.ts; conflicts with TAU's parametric build/asset machinery (prebuild.js, src/app/state/asset-base.generated.ts, src/app/services/auto-asset-src.directive.ts)"
+      }
+    ],
+    "filesCreated": [
+      "scripts/upstream-sync/__tests__/historical-validation.test.mjs"
+    ],
+    "filesModified": [
+      ".upstream-sync/owned-files.json"
+    ],
+    "issues": [],
+    "notes": "Validation revealed legitimate gap (services/state directories) and a plan defect (merge-commit handling). Both fixed; all 29 tests now pass. Three commits: a1e8a62 (config expansion), ba932fe (test file), d27cd50 (merge-filter fix).",
+    "planDefects": [
+      "Plan's historical-validation test included merge commits, which return zero files via `git show --name-only --pretty=format:` and always bucket as 'clean' regardless of semantic content. Fixed by adding --no-merges to git log; merge commits' actual diffs land via parent commits which are independently validated. Documented the rationale in the test's comment block."
+    ],
+    "success": true,
+    "taskNumber": 10,
+    "testsRun": [
+      {
+        "command": "npm run test:upstream-sync",
+        "details": "29/29 pass after merge-commit filter fix",
+        "passed": true
+      }
+    ],
+    "validationResults": {
+      "afterFix": "29/29 tests pass",
+      "clean": 0,
+      "expansionIterations": 1,
+      "mergeCommitsExcluded": 3,
+      "nonMergeShasTested": 5,
+      "owned-touch": 2,
+      "structural": 3,
+      "totalPendingUpstreamCommits": 8
+    }
+  },
+  "startedAt": "2026-05-06T14:35:49.774Z",
+  "finishedAt": "2026-05-06T14:35:49.774Z",
+  "value": {
+    "commitsCreated": [
+      {
+        "message": "feat(upstream-sync): expand owned-files config based on historical validation",
+        "sha": "a1e8a62"
+      },
+      {
+        "message": "test(upstream-sync): validate classifier against pending upstream commits",
+        "sha": "ba932fe"
+      },
+      {
+        "message": "fix(upstream-sync): skip merge commits in historical validation",
+        "sha": "d27cd50"
+      }
+    ],
+    "configExpansions": [
+      {
+        "categoryUpdated": "build-infrastructure",
+        "filesAdded": [
+          "src/app/services/**",
+          "src/app/state/**"
+        ],
+        "reason": "upstream commit 5eed863 introduces src/app/services/assets-public-path.directive.ts; conflicts with TAU's parametric build/asset machinery (prebuild.js, src/app/state/asset-base.generated.ts, src/app/services/auto-asset-src.directive.ts)"
+      }
+    ],
+    "filesCreated": [
+      "scripts/upstream-sync/__tests__/historical-validation.test.mjs"
+    ],
+    "filesModified": [
+      ".upstream-sync/owned-files.json"
+    ],
+    "issues": [],
+    "notes": "Validation revealed legitimate gap (services/state directories) and a plan defect (merge-commit handling). Both fixed; all 29 tests now pass. Three commits: a1e8a62 (config expansion), ba932fe (test file), d27cd50 (merge-filter fix).",
+    "planDefects": [
+      "Plan's historical-validation test included merge commits, which return zero files via `git show --name-only --pretty=format:` and always bucket as 'clean' regardless of semantic content. Fixed by adding --no-merges to git log; merge commits' actual diffs land via parent commits which are independently validated. Documented the rationale in the test's comment block."
+    ],
+    "success": true,
+    "taskNumber": 10,
+    "testsRun": [
+      {
+        "command": "npm run test:upstream-sync",
+        "details": "29/29 pass after merge-commit filter fix",
+        "passed": true
+      }
+    ],
+    "validationResults": {
+      "afterFix": "29/29 tests pass",
+      "clean": 0,
+      "expansionIterations": 1,
+      "mergeCommitsExcluded": 3,
+      "nonMergeShasTested": 5,
+      "owned-touch": 2,
+      "structural": 3,
+      "totalPendingUpstreamCommits": 8
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "type": "EFFECT_REQUESTED",
+  "recordedAt": "2026-02-19T09:42:50.116Z",
+  "data": {
+    "effectId": "01KHTMFQFQMJC2BGZFPMQQ68RC",
+    "invocationKey": "cenlib-map-multi-shelf-dialog:S000003:verify-implementation",
+    "invocationHash": "7e475e93338590b968854eaee2af08c3ccb788d77abee1b103b10ec06a4db992",
+    "stepId": "S000003",
+    "taskId": "verify-implementation",
+    "kind": "agent",
+    "label": "verification",
+    "taskDefRef": "tasks/01KHTMFQFQMJC2BGZFPMQQ68RC/task.json",
+    "labels": [
+      "verification",
+      "qa"
+    ]
+  },
+  "checksum": "a78fd1d45290cb7a035d5afd91f57576ad40f49541b7b6db88edb2b9349f3739"
+}

@@ -1,0 +1,87 @@
+{
+  "schemaVersion": "2026.01.results-v1",
+  "effectId": "01KQYV4KBNNQBEEGDBAYHZWS3Y",
+  "taskId": "verify-gate",
+  "invocationKey": "tau/upstream-sync-implementation:S000013:verify-gate",
+  "status": "ok",
+  "result": {
+    "checkResults": [
+      {
+        "exitCode": 0,
+        "name": "ledger source exists",
+        "passed": true,
+        "stdout": "OK\n"
+      },
+      {
+        "exitCode": 0,
+        "name": "ledger tests file exists",
+        "passed": true,
+        "stdout": "OK\n"
+      },
+      {
+        "exitCode": 0,
+        "name": "all upstream-sync tests pass",
+        "note": "# fail 0 = zero failures",
+        "passed": true,
+        "stdout": "# tests 24; # pass 24; # fail 0"
+      },
+      {
+        "exitCode": 0,
+        "name": "ledger list returns []",
+        "passed": true,
+        "stdout": "[]\n"
+      },
+      {
+        "exitCode": 1,
+        "name": "ledger has-sha returns none for unknown sha",
+        "note": "exit 1 expected for missing sha; that's the spec",
+        "passed": true,
+        "stdout": "none\n"
+      }
+    ],
+    "gateName": "phase-4-ledger",
+    "success": true,
+    "summary": "All 5 phase-4-ledger checks passed. 24/24 unit tests green; CLI subcommands working as specified."
+  },
+  "startedAt": "2026-05-06T14:30:34.242Z",
+  "finishedAt": "2026-05-06T14:30:34.242Z",
+  "value": {
+    "checkResults": [
+      {
+        "exitCode": 0,
+        "name": "ledger source exists",
+        "passed": true,
+        "stdout": "OK\n"
+      },
+      {
+        "exitCode": 0,
+        "name": "ledger tests file exists",
+        "passed": true,
+        "stdout": "OK\n"
+      },
+      {
+        "exitCode": 0,
+        "name": "all upstream-sync tests pass",
+        "note": "# fail 0 = zero failures",
+        "passed": true,
+        "stdout": "# tests 24; # pass 24; # fail 0"
+      },
+      {
+        "exitCode": 0,
+        "name": "ledger list returns []",
+        "passed": true,
+        "stdout": "[]\n"
+      },
+      {
+        "exitCode": 1,
+        "name": "ledger has-sha returns none for unknown sha",
+        "note": "exit 1 expected for missing sha; that's the spec",
+        "passed": true,
+        "stdout": "none\n"
+      }
+    ],
+    "gateName": "phase-4-ledger",
+    "success": true,
+    "summary": "All 5 phase-4-ledger checks passed. 24/24 unit tests green; CLI subcommands working as specified."
+  }
+}

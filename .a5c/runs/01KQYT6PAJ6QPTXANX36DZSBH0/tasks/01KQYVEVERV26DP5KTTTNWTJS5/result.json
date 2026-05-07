@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "2026.01.results-v1",
+  "effectId": "01KQYVEVERV26DP5KTTTNWTJS5",
+  "taskId": "verify-gate",
+  "invocationKey": "tau/upstream-sync-implementation:S000015:verify-gate",
+  "status": "ok",
+  "result": {
+    "checkResults": [
+      {
+        "exitCode": 0,
+        "name": "historical validation test file exists",
+        "passed": true,
+        "stdout": "OK\n"
+      },
+      {
+        "exitCode": 0,
+        "name": "all tests including historical validation pass",
+        "note": "29/29 tests green; merge commits correctly filtered via --no-merges",
+        "passed": true,
+        "stdout": "# tests 29; # pass 29; # fail 0"
+      }
+    ],
+    "gateName": "phase-5-historical-validation",
+    "success": true,
+    "summary": "All phase-5-historical-validation checks passed."
+  },
+  "startedAt": "2026-05-06T14:36:06.964Z",
+  "finishedAt": "2026-05-06T14:36:06.964Z",
+  "value": {
+    "checkResults": [
+      {
+        "exitCode": 0,
+        "name": "historical validation test file exists",
+        "passed": true,
+        "stdout": "OK\n"
+      },
+      {
+        "exitCode": 0,
+        "name": "all tests including historical validation pass",
+        "note": "29/29 tests green; merge commits correctly filtered via --no-merges",
+        "passed": true,
+        "stdout": "# tests 29; # pass 29; # fail 0"
+      }
+    ],
+    "gateName": "phase-5-historical-validation",
+    "success": true,
+    "summary": "All phase-5-historical-validation checks passed."
+  }
+}

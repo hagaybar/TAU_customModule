@@ -1,0 +1,15 @@
+{
+  "type": "EFFECT_REQUESTED",
+  "recordedAt": "2026-03-03T15:04:40.267Z",
+  "data": {
+    "effectId": "01KJT3NN1YQ05F5WD021SDY26B",
+    "invocationKey": "fix-svg-cors-fallback:S000003:verify-fix",
+    "invocationHash": "a7916b1407d2cbbfa087ea3070c5b830cd7f6812d88a52f9813b897c7e7532ad",
+    "stepId": "S000003",
+    "taskId": "verify-fix",
+    "kind": "agent",
+    "label": "Rebuild and verify SVG fallback works",
+    "taskDefRef": "tasks/01KJT3NN1YQ05F5WD021SDY26B/task.json"
+  },
+  "checksum": "844e737905808e34968996538405700f1c351d5585f985bddc915da190402a47"
+}

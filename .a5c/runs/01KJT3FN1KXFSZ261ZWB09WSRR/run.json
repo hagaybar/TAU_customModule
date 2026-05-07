@@ -1,0 +1,13 @@
+{
+  "runId": "01KJT3FN1KXFSZ261ZWB09WSRR",
+  "request": "fix-svg-cors-fallback",
+  "processId": "fix-svg-cors-fallback",
+  "entrypoint": {
+    "importPath": "../../processes/fix-svg-cors-fallback.js",
+    "exportName": "process"
+  },
+  "processPath": "../../processes/fix-svg-cors-fallback.js",
+  "layoutVersion": "2026.01-storage-preview",
+  "createdAt": "2026-03-03T15:01:23.645Z",
+  "completionSecret": "dceb478f0396db8fcfdcd36ce2b19235"
+}

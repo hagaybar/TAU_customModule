@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "2026.01.tasks-v1",
+  "effectId": "01KJT3G9AE4Y1MF5VPD4G2277A",
+  "taskId": "verify-cors-issue",
+  "invocationKey": "fix-svg-cors-fallback:S000001:verify-cors-issue",
+  "stepId": "S000001",
+  "kind": "agent",
+  "title": "Verify CORS error in browser",
+  "io": {
+    "inputJsonPath": "tasks/01KJT3G9AE4Y1MF5VPD4G2277A/input.json",
+    "outputJsonPath": "tasks/01KJT3G9AE4Y1MF5VPD4G2277A/result.json"
+  },
+  "inputs": {
+    "awsCdnBaseUrl": "https://d3h8i7y9p8lyw7.cloudfront.net",
+    "testUrl": "http://localhost:4201/nde/fulldisplay?query=history&tab=TAU&search_scope=TAU&mfacet=library,include,4146%E2%80%93190886640004146&offset=0&vid=972TAU_INST:NDE_TEST&lang=en&docid=alma990013418890204146&adaptor=Local%20Search%20Engine&context=L&isFrbr=false&isHighlightedRecord=false"
+  }
+}

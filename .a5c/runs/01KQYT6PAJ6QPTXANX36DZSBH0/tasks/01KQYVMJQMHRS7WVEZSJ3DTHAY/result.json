@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "2026.01.results-v1",
+  "effectId": "01KQYVMJQMHRS7WVEZSJ3DTHAY",
+  "taskId": "verify-gate",
+  "invocationKey": "tau/upstream-sync-implementation:S000017:verify-gate",
+  "status": "ok",
+  "result": {
+    "checkResults": [
+      {
+        "exitCode": 0,
+        "name": "SKILL.md exists",
+        "passed": true,
+        "stdout": "OK\n"
+      },
+      {
+        "exitCode": 0,
+        "name": "SKILL.md has frontmatter",
+        "passed": true,
+        "stdout": "---\nname: upstream-sync\ndescription: ..."
+      },
+      {
+        "exitCode": 0,
+        "name": "SKILL.md mentions all 4 modes",
+        "passed": true,
+        "stdout": "All four modes (Analyze, Apply, Skip, Resolve) found in mode table and section headings"
+      },
+      {
+        "exitCode": 0,
+        "name": "SKILL.md commit landed",
+        "passed": true,
+        "stdout": "1a1f22d feat(upstream-sync): add Claude Code skill definition"
+      }
+    ],
+    "gateName": "phase-6-skill-definition",
+    "success": true,
+    "summary": "All 4 phase-6-skill-definition checks passed. Skill auto-loaded into Claude Code (visible in available-skills list)."
+  },
+  "startedAt": "2026-05-06T14:39:17.348Z",
+  "finishedAt": "2026-05-06T14:39:17.348Z",
+  "value": {
+    "checkResults": [
+      {
+        "exitCode": 0,
+        "name": "SKILL.md exists",
+        "passed": true,
+        "stdout": "OK\n"
+      },
+      {
+        "exitCode": 0,
+        "name": "SKILL.md has frontmatter",
+        "passed": true,
+        "stdout": "---\nname: upstream-sync\ndescription: ..."
+      },
+      {
+        "exitCode": 0,
+        "name": "SKILL.md mentions all 4 modes",
+        "passed": true,
+        "stdout": "All four modes (Analyze, Apply, Skip, Resolve) found in mode table and section headings"
+      },
+      {
+        "exitCode": 0,
+        "name": "SKILL.md commit landed",
+        "passed": true,
+        "stdout": "1a1f22d feat(upstream-sync): add Claude Code skill definition"
+      }
+    ],
+    "gateName": "phase-6-skill-definition",
+    "success": true,
+    "summary": "All 4 phase-6-skill-definition checks passed. Skill auto-loaded into Claude Code (visible in available-skills list)."
+  }
+}

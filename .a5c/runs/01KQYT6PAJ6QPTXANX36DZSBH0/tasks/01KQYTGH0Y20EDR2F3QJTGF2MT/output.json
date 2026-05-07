@@ -1,0 +1,10 @@
+{
+  "taskNumber": 4,
+  "success": true,
+  "filesCreated": ["scripts/upstream-sync/__tests__/classify.test.mjs"],
+  "filesModified": [],
+  "commitsCreated": [],
+  "testsRun": [{"command": "npm run test:upstream-sync", "passed": false, "expectedToFail": true}],
+  "issues": [],
+  "notes": "Tests fail as expected — classify.mjs not yet implemented (Task 5)"
+}

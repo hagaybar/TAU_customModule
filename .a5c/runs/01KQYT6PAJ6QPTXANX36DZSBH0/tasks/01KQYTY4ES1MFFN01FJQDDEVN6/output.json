@@ -1,0 +1,10 @@
+{
+  "taskNumber": 7,
+  "success": true,
+  "filesCreated": ["scripts/upstream-sync/__tests__/ledger.test.mjs"],
+  "filesModified": [],
+  "commitsCreated": [],
+  "testsRun": [{"command": "npm run test:upstream-sync", "ledgerTests": "fail (expected)", "classifierTests": "pass"}],
+  "issues": [],
+  "notes": "Tests fail as expected — ledger.mjs not yet implemented (Task 8)"
+}

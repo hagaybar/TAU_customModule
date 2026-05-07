@@ -1,0 +1,12 @@
+{
+  "gateName": "phase-4-ledger",
+  "success": true,
+  "checkResults": [
+    {"name": "ledger source exists", "passed": true, "stdout": "OK\n", "exitCode": 0},
+    {"name": "ledger tests file exists", "passed": true, "stdout": "OK\n", "exitCode": 0},
+    {"name": "all upstream-sync tests pass", "passed": true, "stdout": "# tests 24; # pass 24; # fail 0", "exitCode": 0, "note": "# fail 0 = zero failures"},
+    {"name": "ledger list returns []", "passed": true, "stdout": "[]\n", "exitCode": 0},
+    {"name": "ledger has-sha returns none for unknown sha", "passed": true, "stdout": "none\n", "exitCode": 1, "note": "exit 1 expected for missing sha; that's the spec"}
+  ],
+  "summary": "All 5 phase-4-ledger checks passed. 24/24 unit tests green; CLI subcommands working as specified."
+}

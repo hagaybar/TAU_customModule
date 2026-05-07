@@ -1,0 +1,10 @@
+{
+  "taskNumber": 8,
+  "success": true,
+  "filesCreated": ["scripts/upstream-sync/ledger.mjs"],
+  "filesModified": [],
+  "commitsCreated": [{"sha": "18a2c6c", "message": "feat(upstream-sync): add ledger read/write helpers"}],
+  "testsRun": [{"command": "npm run test:upstream-sync", "passed": true, "details": "11+13=24 pass"}],
+  "issues": [],
+  "notes": "ledger.mjs written verbatim per plan; all 24 node:test cases pass; commit landed on main as 18a2c6c."
+}

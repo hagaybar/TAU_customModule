@@ -1,0 +1,26 @@
+{
+  "success": true,
+  "changes": [
+    {
+      "file": "/home/hagaybar/projects/TAU_customModule/src/app/custom1-module/cenlib-map/shelf-map-svg/shelf-map-svg.component.ts",
+      "description": "Added import for AWS_CDN_BASE_URL from google-sheets.config"
+    },
+    {
+      "file": "/home/hagaybar/projects/TAU_customModule/src/app/custom1-module/cenlib-map/shelf-map-svg/shelf-map-svg.component.ts",
+      "description": "Added LOCAL_SVG_MAP property mapping floor numbers to local SVG filenames (Floor_0.svg, Floor_1.SVG, Floor_2.SVG)"
+    },
+    {
+      "file": "/home/hagaybar/projects/TAU_customModule/src/app/custom1-module/cenlib-map/shelf-map-svg/shelf-map-svg.component.ts",
+      "description": "Modified error handler in loadExternalSvg() to try fallback local SVG when CloudFront URL fails"
+    },
+    {
+      "file": "/home/hagaybar/projects/TAU_customModule/src/app/custom1-module/cenlib-map/shelf-map-svg/shelf-map-svg.component.ts",
+      "description": "Added loadSvgFromUrl() helper method for loading SVG from a specific URL with fallback logging support"
+    },
+    {
+      "file": "/home/hagaybar/projects/TAU_customModule/src/app/custom1-module/cenlib-map/shelf-map-svg/shelf-map-svg.component.ts",
+      "description": "Added getFallbackSvgPath() method to extract floor number from CloudFront URL and return local fallback path"
+    }
+  ],
+  "summary": "Implemented CloudFront SVG fallback mechanism. When loading SVG from CloudFront fails (due to CORS errors), the component now automatically attempts to load the equivalent bundled local SVG file from assets/cenlib-map/. The fallback extracts the floor number from the CloudFront URL and maps it to the appropriate local file (Floor_0.svg, Floor_1.SVG, or Floor_2.SVG)."
+}

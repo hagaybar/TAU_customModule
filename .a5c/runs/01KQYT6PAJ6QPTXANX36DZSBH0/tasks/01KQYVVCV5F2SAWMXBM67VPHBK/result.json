@@ -1,0 +1,101 @@
+{
+  "schemaVersion": "2026.01.results-v1",
+  "effectId": "01KQYVVCV5F2SAWMXBM67VPHBK",
+  "taskId": "verify-gate",
+  "invocationKey": "tau/upstream-sync-implementation:S000022:verify-gate",
+  "status": "ok",
+  "result": {
+    "checkResults": [
+      {
+        "exitCode": 0,
+        "name": "full upstream-sync test suite passes",
+        "note": "all 29 tests green",
+        "passed": true,
+        "stdout": "# tests 29; # pass 29; # fail 0"
+      },
+      {
+        "exitCode": 0,
+        "name": "classifier CLI runs against a real upstream commit",
+        "note": "output contains 'bucket'; c1eb45f is a merge commit with no own diff (expected behavior)",
+        "passed": true,
+        "stdout": "{\"sha\":\"c1eb45ff...\",\"bucket\":\"clean\",\"recommendation\":\"safe to pull\"}"
+      },
+      {
+        "exitCode": 0,
+        "name": "ledger list runs without error",
+        "passed": true,
+        "stdout": "[]\n"
+      },
+      {
+        "exitCode": 0,
+        "name": "all phases left a clean working tree",
+        "note": "only pre-existing untracked babysitter run dirs and screenshots remain",
+        "passed": true,
+        "stdout": "CLEAN"
+      },
+      {
+        "exitCode": 0,
+        "name": "SKILL.md still has valid frontmatter",
+        "passed": true,
+        "stdout": "---\nname: upstream-sync\ndescription: ...\n---"
+      },
+      {
+        "exitCode": 0,
+        "name": "owned-files.json still parses",
+        "passed": true,
+        "stdout": "OK\n"
+      }
+    ],
+    "gateName": "phase-8-final-integration",
+    "success": true,
+    "summary": "All 6 phase-8-final-integration checks passed. Implementation is complete; the upstream-sync skill is ready for use."
+  },
+  "startedAt": "2026-05-06T14:43:08.404Z",
+  "finishedAt": "2026-05-06T14:43:08.404Z",
+  "value": {
+    "checkResults": [
+      {
+        "exitCode": 0,
+        "name": "full upstream-sync test suite passes",
+        "note": "all 29 tests green",
+        "passed": true,
+        "stdout": "# tests 29; # pass 29; # fail 0"
+      },
+      {
+        "exitCode": 0,
+        "name": "classifier CLI runs against a real upstream commit",
+        "note": "output contains 'bucket'; c1eb45f is a merge commit with no own diff (expected behavior)",
+        "passed": true,
+        "stdout": "{\"sha\":\"c1eb45ff...\",\"bucket\":\"clean\",\"recommendation\":\"safe to pull\"}"
+      },
+      {
+        "exitCode": 0,
+        "name": "ledger list runs without error",
+        "passed": true,
+        "stdout": "[]\n"
+      },
+      {
+        "exitCode": 0,
+        "name": "all phases left a clean working tree",
+        "note": "only pre-existing untracked babysitter run dirs and screenshots remain",
+        "passed": true,
+        "stdout": "CLEAN"
+      },
+      {
+        "exitCode": 0,
+        "name": "SKILL.md still has valid frontmatter",
+        "passed": true,
+        "stdout": "---\nname: upstream-sync\ndescription: ...\n---"
+      },
+      {
+        "exitCode": 0,
+        "name": "owned-files.json still parses",
+        "passed": true,
+        "stdout": "OK\n"
+      }
+    ],
+    "gateName": "phase-8-final-integration",
+    "success": true,
+    "summary": "All 6 phase-8-final-integration checks passed. Implementation is complete; the upstream-sync skill is ready for use."
+  }
+}

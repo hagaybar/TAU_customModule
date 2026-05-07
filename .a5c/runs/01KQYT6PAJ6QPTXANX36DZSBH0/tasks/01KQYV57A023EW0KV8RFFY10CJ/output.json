@@ -1,0 +1,30 @@
+{
+  "taskNumber": 10,
+  "success": true,
+  "filesCreated": ["scripts/upstream-sync/__tests__/historical-validation.test.mjs"],
+  "filesModified": [".upstream-sync/owned-files.json"],
+  "commitsCreated": [
+    {"sha": "a1e8a62", "message": "feat(upstream-sync): expand owned-files config based on historical validation"},
+    {"sha": "ba932fe", "message": "test(upstream-sync): validate classifier against pending upstream commits"},
+    {"sha": "d27cd50", "message": "fix(upstream-sync): skip merge commits in historical validation"}
+  ],
+  "configExpansions": [
+    {"reason": "upstream commit 5eed863 introduces src/app/services/assets-public-path.directive.ts; conflicts with TAU's parametric build/asset machinery (prebuild.js, src/app/state/asset-base.generated.ts, src/app/services/auto-asset-src.directive.ts)", "categoryUpdated": "build-infrastructure", "filesAdded": ["src/app/services/**", "src/app/state/**"]}
+  ],
+  "validationResults": {
+    "totalPendingUpstreamCommits": 8,
+    "mergeCommitsExcluded": 3,
+    "nonMergeShasTested": 5,
+    "clean": 0,
+    "owned-touch": 2,
+    "structural": 3,
+    "expansionIterations": 1,
+    "afterFix": "29/29 tests pass"
+  },
+  "testsRun": [{"command": "npm run test:upstream-sync", "passed": true, "details": "29/29 pass after merge-commit filter fix"}],
+  "issues": [],
+  "planDefects": [
+    "Plan's historical-validation test included merge commits, which return zero files via `git show --name-only --pretty=format:` and always bucket as 'clean' regardless of semantic content. Fixed by adding --no-merges to git log; merge commits' actual diffs land via parent commits which are independently validated. Documented the rationale in the test's comment block."
+  ],
+  "notes": "Validation revealed legitimate gap (services/state directories) and a plan defect (merge-commit handling). Both fixed; all 29 tests now pass. Three commits: a1e8a62 (config expansion), ba932fe (test file), d27cd50 (merge-filter fix)."
+}

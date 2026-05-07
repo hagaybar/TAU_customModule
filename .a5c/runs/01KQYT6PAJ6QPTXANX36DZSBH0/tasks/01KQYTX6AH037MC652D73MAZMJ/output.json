@@ -1,0 +1,11 @@
+{
+  "gateName": "phase-3-classifier",
+  "success": true,
+  "checkResults": [
+    {"name": "classifier source exists", "passed": true, "expected": "OK", "actual": "OK", "stdout": "OK\n", "stderr": "", "exitCode": 0},
+    {"name": "classifier tests file exists", "passed": true, "expected": "OK", "actual": "OK", "stdout": "OK\n", "stderr": "", "exitCode": 0},
+    {"name": "classifier tests pass", "passed": true, "expected": "exit 0, no test failures", "actual": "11/11 pass, exit 0", "stdout": "# tests 11; # pass 11; # fail 0", "stderr": "", "exitCode": 0, "note": "TAP summary line contains '# fail 0' which is the success marker (zero failures). No actual 'not ok' lines."},
+    {"name": "classifier CLI usage error on no args", "passed": true, "expected": "exit 2", "actual": "EXIT=2 with 'Usage: classify.mjs <sha>'", "stdout": "Usage: classify.mjs <sha>\n", "stderr": "", "exitCode": 2}
+  ],
+  "summary": "All 4 phase-3-classifier checks passed. Classifier source + tests in place; 11/11 unit tests green; CLI usage error returns exit 2."
+}

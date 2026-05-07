@@ -1,0 +1,14 @@
+{
+  "type": "RUN_CREATED",
+  "recordedAt": "2026-03-03T15:01:23.660Z",
+  "data": {
+    "runId": "01KJT3FN1KXFSZ261ZWB09WSRR",
+    "processId": "fix-svg-cors-fallback",
+    "entrypoint": {
+      "importPath": "../../processes/fix-svg-cors-fallback.js",
+      "exportName": "process"
+    },
+    "inputsRef": "inputs.json"
+  },
+  "checksum": "af56516a00f904180f67391b104909956e5365da08fb2a9168c732cd84977cf5"
+}

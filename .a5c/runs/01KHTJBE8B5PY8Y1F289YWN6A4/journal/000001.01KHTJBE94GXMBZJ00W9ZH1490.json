@@ -1,0 +1,14 @@
+{
+  "type": "RUN_CREATED",
+  "recordedAt": "2026-02-19T09:05:32.452Z",
+  "data": {
+    "runId": "01KHTJBE8B5PY8Y1F289YWN6A4",
+    "processId": "cenlib-map-multi-shelf-dialog",
+    "entrypoint": {
+      "importPath": "../../processes/cenlib-map-multi-shelf-dialog.js",
+      "exportName": "process"
+    },
+    "inputsRef": "inputs.json"
+  },
+  "checksum": "2087af1eb5d30e60f9750cb50696c2fdcc836e03d057f8ff1794e281e619ef4a"
+}

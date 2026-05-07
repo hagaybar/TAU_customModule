@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "2026.01.results-v1",
+  "effectId": "01KQYV01S9V2DN7S28QHFEK8R4",
+  "taskId": "implement-plan-task",
+  "invocationKey": "tau/upstream-sync-implementation:S000011:implement-plan-task",
+  "status": "ok",
+  "result": {
+    "commitsCreated": [
+      {
+        "message": "feat(upstream-sync): add ledger read/write helpers",
+        "sha": "18a2c6c"
+      }
+    ],
+    "filesCreated": [
+      "scripts/upstream-sync/ledger.mjs"
+    ],
+    "filesModified": [],
+    "issues": [],
+    "notes": "ledger.mjs written verbatim per plan; all 24 node:test cases pass; commit landed on main as 18a2c6c.",
+    "success": true,
+    "taskNumber": 8,
+    "testsRun": [
+      {
+        "command": "npm run test:upstream-sync",
+        "details": "11+13=24 pass",
+        "passed": true
+      }
+    ]
+  },
+  "startedAt": "2026-05-06T14:28:48.046Z",
+  "finishedAt": "2026-05-06T14:28:48.046Z",
+  "value": {
+    "commitsCreated": [
+      {
+        "message": "feat(upstream-sync): add ledger read/write helpers",
+        "sha": "18a2c6c"
+      }
+    ],
+    "filesCreated": [
+      "scripts/upstream-sync/ledger.mjs"
+    ],
+    "filesModified": [],
+    "issues": [],
+    "notes": "ledger.mjs written verbatim per plan; all 24 node:test cases pass; commit landed on main as 18a2c6c.",
+    "success": true,
+    "taskNumber": 8,
+    "testsRun": [
+      {
+        "command": "npm run test:upstream-sync",
+        "details": "11+13=24 pass",
+        "passed": true
+      }
+    ]
+  }
+}

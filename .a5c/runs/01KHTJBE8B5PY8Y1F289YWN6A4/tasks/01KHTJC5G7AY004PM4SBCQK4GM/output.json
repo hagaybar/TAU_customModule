@@ -1,0 +1,16 @@
+{
+  "filesModified": [
+    "src/app/custom1-module/cenlib-map/cenlib-map-dialog/cenlib-map-dialog.component.ts",
+    "src/app/custom1-module/cenlib-map/cenlib-map-dialog/cenlib-map-dialog.component.html",
+    "src/app/custom1-module/cenlib-map/cenlib-map-dialog/cenlib-map-dialog.component.scss"
+  ],
+  "functionsAdded": [
+    "get hasMultipleMappings(): boolean",
+    "get multiShelfIntroText(): string",
+    "getMultipleShelfLabels(): string",
+    "getMultipleFloors(): string",
+    "getMultipleSectionDescriptions(): string"
+  ],
+  "templateChanges": "Added conditional rendering for multiple shelf mappings: when hasMultipleMappings is true, displays intro text ('The item should be in one of these shelves:' / 'הפריט נמצא באחד מהמדפים הללו:') followed by comma-separated unique shelf labels. Section and floor rows now use the multi-value methods when multiple mappings exist. Single mapping behavior preserved with original display logic.",
+  "summary": "Modified the cenlib-map dialog component to display all matching shelf locations when multiple mappings are found. Added five new methods/getters to the TypeScript component for handling multiple mappings with de-duplication. Updated the HTML template to conditionally show an intro text and comma-separated unique values for shelf labels, floors, and sections when multiple mappings exist. Added minimal SCSS styling for the multi-shelf intro text (italic, slightly darker color, no bottom border)."
+}

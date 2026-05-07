@@ -1,0 +1,21 @@
+{
+  "taskNumber": 5,
+  "success": true,
+  "filesCreated": ["scripts/upstream-sync/classify.mjs"],
+  "filesModified": [],
+  "commitsCreated": [
+    {
+      "sha": "ca0b35e",
+      "message": "feat(upstream-sync): add classifyCommit pure function"
+    }
+  ],
+  "testsRun": [
+    {
+      "command": "npm run test:upstream-sync",
+      "passed": true,
+      "details": "11/11 classify tests passed"
+    }
+  ],
+  "issues": [],
+  "notes": "classify.mjs written verbatim from plan; tests passed on first run; commit landed on branch diagnosis/no-results-expand-options-issue-4 (current branch — note plan's later steps may assume main, but Task 5 only requires the commit be created)."
+}

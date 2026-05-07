@@ -1,0 +1,11 @@
+{
+  "gateName": "phase-6-skill-definition",
+  "success": true,
+  "checkResults": [
+    {"name": "SKILL.md exists", "passed": true, "stdout": "OK\n", "exitCode": 0},
+    {"name": "SKILL.md has frontmatter", "passed": true, "stdout": "---\nname: upstream-sync\ndescription: ...", "exitCode": 0},
+    {"name": "SKILL.md mentions all 4 modes", "passed": true, "stdout": "All four modes (Analyze, Apply, Skip, Resolve) found in mode table and section headings", "exitCode": 0},
+    {"name": "SKILL.md commit landed", "passed": true, "stdout": "1a1f22d feat(upstream-sync): add Claude Code skill definition", "exitCode": 0}
+  ],
+  "summary": "All 4 phase-6-skill-definition checks passed. Skill auto-loaded into Claude Code (visible in available-skills list)."
+}

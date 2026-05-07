@@ -1,0 +1,18 @@
+{
+  "type": "EFFECT_REQUESTED",
+  "recordedAt": "2026-02-19T09:43:57.427Z",
+  "data": {
+    "effectId": "01KHTMHS77ZKV4NV7MS5C0GBX9",
+    "invocationKey": "cenlib-map-multi-shelf-dialog:S000004:__sdk.breakpoint",
+    "invocationHash": "a1f09c7ee0177c249e2310f277c8e3c083bfd47ba4973ee299d657915b573fdd",
+    "stepId": "S000004",
+    "taskId": "__sdk.breakpoint",
+    "kind": "breakpoint",
+    "label": "breakpoint",
+    "taskDefRef": "tasks/01KHTMHS77ZKV4NV7MS5C0GBX9/task.json",
+    "labels": [
+      "breakpoint"
+    ]
+  },
+  "checksum": "0bb769e819ec24e93b7f58c32daef878f660ed9a2af76c69523154a0430bbfc8"
+}

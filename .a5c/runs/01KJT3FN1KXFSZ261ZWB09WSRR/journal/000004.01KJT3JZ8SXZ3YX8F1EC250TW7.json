@@ -1,0 +1,15 @@
+{
+  "type": "EFFECT_REQUESTED",
+  "recordedAt": "2026-03-03T15:03:12.409Z",
+  "data": {
+    "effectId": "01KJT3JZ8BFMSV2QR45CS0572D",
+    "invocationKey": "fix-svg-cors-fallback:S000002:implement-fallback",
+    "invocationHash": "f1f25d48a562938df507dd58bdb1aad723826ffc24d4e57b15a7f0ef6d7c8c12",
+    "stepId": "S000002",
+    "taskId": "implement-fallback",
+    "kind": "agent",
+    "label": "Add local SVG fallback logic",
+    "taskDefRef": "tasks/01KJT3JZ8BFMSV2QR45CS0572D/task.json"
+  },
+  "checksum": "8d4cba9566f4047a9812841907251f568518efbcacbc1c6fdd2252242e7d1ab4"
+}

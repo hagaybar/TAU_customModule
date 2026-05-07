@@ -1,0 +1,20 @@
+{
+  "type": "EFFECT_REQUESTED",
+  "recordedAt": "2026-05-06T14:35:50.117Z",
+  "data": {
+    "harness": "claude-code",
+    "effectId": "01KQYVEVERV26DP5KTTTNWTJS5",
+    "invocationKey": "tau/upstream-sync-implementation:S000015:verify-gate",
+    "invocationHash": "3c4f0c63cca261a5537d4cbf173d8f5708e20e8be28c381a7b603664ee7d85e8",
+    "stepId": "S000015",
+    "taskId": "verify-gate",
+    "kind": "agent",
+    "label": "upstream-sync",
+    "taskDefRef": "tasks/01KQYVEVERV26DP5KTTTNWTJS5/task.json",
+    "labels": [
+      "upstream-sync",
+      "quality-gate"
+    ]
+  },
+  "checksum": "892c580e0a8cb9778c753c8095c8bc8edb6c348b3a6ebef1f9b8bb18bb456730"
+}

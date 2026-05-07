@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "2026.01.tasks-v1",
+  "effectId": "01KJT3JZ8BFMSV2QR45CS0572D",
+  "taskId": "implement-fallback",
+  "invocationKey": "fix-svg-cors-fallback:S000002:implement-fallback",
+  "stepId": "S000002",
+  "kind": "agent",
+  "title": "Add local SVG fallback logic",
+  "io": {
+    "inputJsonPath": "tasks/01KJT3JZ8BFMSV2QR45CS0572D/input.json",
+    "outputJsonPath": "tasks/01KJT3JZ8BFMSV2QR45CS0572D/result.json"
+  },
+  "inputs": {
+    "awsCdnBaseUrl": "https://d3h8i7y9p8lyw7.cloudfront.net",
+    "csvCorsError": false,
+    "svgCorsError": true
+  }
+}

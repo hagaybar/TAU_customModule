@@ -1,0 +1,105 @@
+{
+  "agent": {
+    "name": "general-purpose",
+    "prompt": {
+      "context": {
+        "planPath": "docs/superpowers/plans/2026-05-06-upstream-sync.md",
+        "repoRoot": "/home/hagaybar/projects/TAU_customModule",
+        "rules": [
+          "Read the entire Task 10 section from the plan before starting.",
+          "Execute every numbered step in order. Do not batch or skip.",
+          "When the plan provides literal code, write that exact code (preserve formatting and content).",
+          "When the plan provides a command, run it via Bash and verify the expected output matches.",
+          "Run all test commands the plan calls for. Tests MUST pass before committing.",
+          "Make the commit shown at the end of the task with the exact commit message and author trailer.",
+          "If a step fails (test fails, command errors, expected output mismatch): debug and fix WITHOUT relaxing tests or skipping steps. Only fail the whole task after 3 sincere retry attempts.",
+          "Do NOT modify the plan file itself.",
+          "Do NOT touch files outside what the task specifies.",
+          "Operate from the repo root: /home/hagaybar/projects/TAU_customModule. Always use absolute paths or run commands from that directory."
+        ],
+        "taskName": "Validate classifier against historical commits — expand owned-files.json if any pending commit buckets clean",
+        "taskNumber": 10
+      },
+      "instructions": [
+        "Read the plan file and locate the section for Task 10.",
+        "Execute every step in order, using the exact commands and code blocks shown.",
+        "After each step that has an \"Expected\" output, verify the actual output matches.",
+        "Run test commands and confirm they pass before committing.",
+        "Make the commit step at the end of the task.",
+        "Return a JSON summary listing files created/modified, commits created (with SHAs), tests run, and any issues encountered."
+      ],
+      "outputFormat": "JSON",
+      "outputSchema": {
+        "properties": {
+          "commitsCreated": {
+            "items": {
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "filesCreated": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "filesModified": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "issues": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "taskNumber": {
+            "type": "number"
+          },
+          "testsRun": {
+            "items": {
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "taskNumber",
+          "success",
+          "commitsCreated"
+        ],
+        "type": "object"
+      },
+      "role": "Senior implementation engineer executing a strictly bite-sized plan",
+      "task": "Implement Task 10 (\"Validate classifier against historical commits — expand owned-files.json if any pending commit buckets clean\") from the plan file at docs/superpowers/plans/2026-05-06-upstream-sync.md EXACTLY as written. Do not skip any step, do not improvise, do not refactor adjacent code. Write the literal code shown in the plan."
+    }
+  },
+  "io": {
+    "inputJsonPath": "tasks/01KQYV57A023EW0KV8RFFY10CJ/input.json",
+    "outputJsonPath": "tasks/01KQYV57A023EW0KV8RFFY10CJ/output.json"
+  },
+  "kind": "agent",
+  "labels": [
+    "plan-task",
+    "upstream-sync"
+  ],
+  "title": "Plan task 10: Validate classifier against historical commits — expand owned-files.json if any pending commit buckets clean",
+  "schemaVersion": "2026.01.tasks-v1",
+  "effectId": "01KQYV57A023EW0KV8RFFY10CJ",
+  "taskId": "implement-plan-task",
+  "invocationKey": "tau/upstream-sync-implementation:S000014:implement-plan-task",
+  "stepId": "S000014",
+  "inputs": {
+    "planPath": "docs/superpowers/plans/2026-05-06-upstream-sync.md",
+    "taskName": "Validate classifier against historical commits — expand owned-files.json if any pending commit buckets clean",
+    "taskNumber": 10
+  }
+}

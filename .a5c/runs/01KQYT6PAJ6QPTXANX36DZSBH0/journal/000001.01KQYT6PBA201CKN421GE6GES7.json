@@ -1,0 +1,16 @@
+{
+  "type": "RUN_CREATED",
+  "recordedAt": "2026-05-06T14:13:54.154Z",
+  "data": {
+    "runId": "01KQYT6PAJ6QPTXANX36DZSBH0",
+    "processId": "tau/upstream-sync-implementation",
+    "entrypoint": {
+      "importPath": "../../processes/upstream-sync-implementation.js",
+      "exportName": "process"
+    },
+    "harness": "claude-code",
+    "inputsRef": "inputs.json",
+    "prompt": "implement docs/superpowers/plans/2026-05-06-upstream-sync.md with 100% quality gates (yolo mode)"
+  },
+  "checksum": "6523ae55c4d159d37df3e2f51c425a9a3c192a8ea31810df3cf195a7051c0769"
+}

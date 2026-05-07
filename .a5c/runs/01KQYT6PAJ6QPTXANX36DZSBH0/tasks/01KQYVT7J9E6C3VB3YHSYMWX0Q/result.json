@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "2026.01.results-v1",
+  "effectId": "01KQYVT7J9E6C3VB3YHSYMWX0Q",
+  "taskId": "verify-gate",
+  "invocationKey": "tau/upstream-sync-implementation:S000021:verify-gate",
+  "status": "ok",
+  "result": {
+    "checkResults": [
+      {
+        "exitCode": 0,
+        "name": "sync-fork.yml has DEPRECATED notice",
+        "passed": true,
+        "stdout": "# DEPRECATED: this workflow is superseded by the `upstream-sync` Claude Code skill."
+      },
+      {
+        "exitCode": 0,
+        "name": "CLAUDE.md mentions upstream-sync",
+        "passed": true,
+        "stdout": "## Syncing with upstream ExLibris repo"
+      },
+      {
+        "exitCode": 0,
+        "name": "docs/upstream-sync/README.md exists",
+        "passed": true,
+        "stdout": "OK\n"
+      }
+    ],
+    "gateName": "phase-7-documentation",
+    "success": true,
+    "summary": "All 3 phase-7-documentation checks passed."
+  },
+  "startedAt": "2026-05-06T14:42:40.789Z",
+  "finishedAt": "2026-05-06T14:42:40.789Z",
+  "value": {
+    "checkResults": [
+      {
+        "exitCode": 0,
+        "name": "sync-fork.yml has DEPRECATED notice",
+        "passed": true,
+        "stdout": "# DEPRECATED: this workflow is superseded by the `upstream-sync` Claude Code skill."
+      },
+      {
+        "exitCode": 0,
+        "name": "CLAUDE.md mentions upstream-sync",
+        "passed": true,
+        "stdout": "## Syncing with upstream ExLibris repo"
+      },
+      {
+        "exitCode": 0,
+        "name": "docs/upstream-sync/README.md exists",
+        "passed": true,
+        "stdout": "OK\n"
+      }
+    ],
+    "gateName": "phase-7-documentation",
+    "success": true,
+    "summary": "All 3 phase-7-documentation checks passed."
+  }
+}

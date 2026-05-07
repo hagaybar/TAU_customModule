@@ -1,0 +1,105 @@
+{
+  "agent": {
+    "name": "general-purpose",
+    "prompt": {
+      "context": {
+        "planPath": "docs/superpowers/plans/2026-05-06-upstream-sync.md",
+        "repoRoot": "/home/hagaybar/projects/TAU_customModule",
+        "rules": [
+          "Read the entire Task 14 section from the plan before starting.",
+          "Execute every numbered step in order. Do not batch or skip.",
+          "When the plan provides literal code, write that exact code (preserve formatting and content).",
+          "When the plan provides a command, run it via Bash and verify the expected output matches.",
+          "Run all test commands the plan calls for. Tests MUST pass before committing.",
+          "Make the commit shown at the end of the task with the exact commit message and author trailer.",
+          "If a step fails (test fails, command errors, expected output mismatch): debug and fix WITHOUT relaxing tests or skipping steps. Only fail the whole task after 3 sincere retry attempts.",
+          "Do NOT modify the plan file itself.",
+          "Do NOT touch files outside what the task specifies.",
+          "Operate from the repo root: /home/hagaybar/projects/TAU_customModule. Always use absolute paths or run commands from that directory."
+        ],
+        "taskName": "Add docs/upstream-sync/README.md",
+        "taskNumber": 14
+      },
+      "instructions": [
+        "Read the plan file and locate the section for Task 14.",
+        "Execute every step in order, using the exact commands and code blocks shown.",
+        "After each step that has an \"Expected\" output, verify the actual output matches.",
+        "Run test commands and confirm they pass before committing.",
+        "Make the commit step at the end of the task.",
+        "Return a JSON summary listing files created/modified, commits created (with SHAs), tests run, and any issues encountered."
+      ],
+      "outputFormat": "JSON",
+      "outputSchema": {
+        "properties": {
+          "commitsCreated": {
+            "items": {
+              "type": "object"
+            },
+            "type": "array"
+          },
+          "filesCreated": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "filesModified": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "issues": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "notes": {
+            "type": "string"
+          },
+          "success": {
+            "type": "boolean"
+          },
+          "taskNumber": {
+            "type": "number"
+          },
+          "testsRun": {
+            "items": {
+              "type": "object"
+            },
+            "type": "array"
+          }
+        },
+        "required": [
+          "taskNumber",
+          "success",
+          "commitsCreated"
+        ],
+        "type": "object"
+      },
+      "role": "Senior implementation engineer executing a strictly bite-sized plan",
+      "task": "Implement Task 14 (\"Add docs/upstream-sync/README.md\") from the plan file at docs/superpowers/plans/2026-05-06-upstream-sync.md EXACTLY as written. Do not skip any step, do not improvise, do not refactor adjacent code. Write the literal code shown in the plan."
+    }
+  },
+  "io": {
+    "inputJsonPath": "tasks/01KQYVSWZ1R8ZD66PCV5150GT6/input.json",
+    "outputJsonPath": "tasks/01KQYVSWZ1R8ZD66PCV5150GT6/output.json"
+  },
+  "kind": "agent",
+  "labels": [
+    "plan-task",
+    "upstream-sync"
+  ],
+  "title": "Plan task 14: Add docs/upstream-sync/README.md",
+  "schemaVersion": "2026.01.tasks-v1",
+  "effectId": "01KQYVSWZ1R8ZD66PCV5150GT6",
+  "taskId": "implement-plan-task",
+  "invocationKey": "tau/upstream-sync-implementation:S000020:implement-plan-task",
+  "stepId": "S000020",
+  "inputs": {
+    "planPath": "docs/superpowers/plans/2026-05-06-upstream-sync.md",
+    "taskName": "Add docs/upstream-sync/README.md",
+    "taskNumber": 14
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "verified": true,
+  "buildSuccess": true,
+  "mapDisplayed": true,
+  "fallbackUsed": true,
+  "consoleMessages": [
+    "[ShelfMapSvg] Loading SVG from: https://d3h8i7y9p8lyw7.cloudfront.net/maps/floor_1.svg",
+    "[ERROR] Access to XMLHttpRequest blocked by CORS policy",
+    "[ShelfMapSvg] Trying fallback local SVG: assets/cenlib-map/Floor_1.SVG",
+    "[ShelfMapSvg] Added viewBox=\"0 0 1040 720\" to SVG",
+    "[ShelfMapSvg] SVG loaded successfully (fallback) (129823 bytes)",
+    "[ShelfMapSvg] Highlighted 2 shelf(s): [ka1_18_b, ka1_19_a]"
+  ],
+  "issues": [],
+  "summary": "The fallback mechanism is working correctly. When the CDN request fails due to CORS, the system falls back to local SVG files at 'assets/cenlib-map/Floor_X.SVG'. The actual library floor plan SVG (129KB) was loaded successfully showing Hebrew labels for Reading Room A, entrance, and collections. The target shelves 18B and 19A were correctly highlighted."
+}
