@@ -50,6 +50,10 @@ helper_files/
 
 # Babysitter run data (temporary)
 .a5c/runs/
+.a5c/node_modules/
+.a5c/cache/
+.a5c/logs/
+.a5c/hook_debug/
 
 # Temporary screenshots
 *.png
