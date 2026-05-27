@@ -17,6 +17,8 @@ This package includes the following Tel Aviv University-specific customizations:
 | **Card Title Styling** | CSS | ✅ Production | Bold card titles |
 | **Main Page Image Overlay** | CSS | ✅ Production | Disable background overlay on main page top image |
 | **Hide Update Login Credentials** | CSS | ✅ Production | Hide card actions in MyAccount area |
+| **Bilingual Logo** | CSS | ✅ Production | Language-specific library logo (EN/HE) swapped via `lang`/`dir` |
+| **Bilingual Search Background** | CSS | ✅ Production | Language-specific homepage search banner (EN/HE) |
 
 **Key Technologies:**
 - Angular 18 standalone components
@@ -148,6 +150,45 @@ Hides the "Update Login Credentials" card actions section in the MyAccount area 
 ```css
 display: none !important;  /* Completely hides the card actions element */
 ```
+
+#### Bilingual Logo
+**Date Implemented:** 27.05.26
+
+Shows a language-specific library logo in the NDE top bar — the English logo in LTR/English UI, the Hebrew logo in Hebrew UI. NDE has no native per-language logo (`libraryLogo` is a single value), so the swap is done in CSS.
+
+**Mechanism:** the logo is a host `<img>` inside `<nde-logo>`. CSS can't rewrite an `<img>` `src`, so the `content:` property repaints it (preserving `alt`). English uses the default `library-logo.png` (no rule needed); only Hebrew is overridden.
+
+```css
+html[lang="he"] nde-logo img,
+html:not([lang])[dir="rtl"] nde-logo img {
+  content: url('../images/library-logo-he.png');
+}
+```
+
+**Priority:** `lang` decides when present; `dir` is a fallback only when `lang` is absent — so a future Arabic UI (`lang="ar"`, also RTL) correctly keeps the default logo rather than the Hebrew one.
+
+**Files:** `src/assets/images/library-logo.png` (English), `library-logo-he.png` (Hebrew). Previous logo variants archived under `src/assets/images/archive/`.
+
+#### Bilingual Search Background
+**Date Implemented:** 27.05.26
+
+Shows a language-specific homepage search banner — separate images for English and Hebrew UI (the magnifier graphic is mirrored for RTL). NDE has no per-language background image, so this is a CSS override on the host banner element.
+
+**Target:** `.top-bar-background-image` (host element, `background-size: cover`, full screen width).
+
+```css
+.top-bar-background-image {
+  background-image: url('../images/homePageImages/search_background_en.png') !important;
+}
+html[lang="he"] .top-bar-background-image,
+html:not([lang])[dir="rtl"] .top-bar-background-image {
+  background-image: url('../images/homePageImages/search_background_he.png') !important;
+}
+```
+
+The relative `../images/...` path resolves to the custom package automatically (no hardcoded view-id), and the `lang`→`dir` priority matches the logo.
+
+**Files:** `src/assets/images/homePageImages/search_background_en.png` (English), `search_background_he.png` (Hebrew).
 
 **Documentation:** See [Call Number Directionality Fix](docs/reference/call_number_directionality_fix.md) for detailed technical information including selectors, strategies, and Primo VE implementation.
 
