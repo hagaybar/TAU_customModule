@@ -113,3 +113,14 @@ margin-inline-start: 0.2rem !important;
 .mdc-button__label .quicklink-button-text {
 margin-inline-end: 0.2rem !important; /* pushes the icon away from the text */
 }
+
+/* 27.05.26 bilingual logo — Hebrew UI gets its own logo (NDE) */
+/* Verified live on 972TAU_INST:NDE: logo is <nde-logo><a><img alt="Library Logo">. */
+/* English uses the default library-logo.png (no rule needed). */
+/* CSS cannot rewrite an <img> src, but `content:` repaints it and preserves alt. */
+/* Priority: lang decides when present; dir is a fallback only when lang is absent. */
+html[lang="he"] nde-logo img,
+html:not([lang])[dir="rtl"] nde-logo img {
+  content: url('../images/library-logo-he.png');
+}
+/* 27.05.26 bilingual logo end */
