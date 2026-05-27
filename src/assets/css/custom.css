@@ -124,3 +124,16 @@ html:not([lang])[dir="rtl"] nde-logo img {
   content: url('../images/library-logo-he.png');
 }
 /* 27.05.26 bilingual logo end */
+
+/* 27.05.26 bilingual search background — per-language banner (NDE) */
+/* Verified live: host element .top-bar-background-image (background-size:cover, full width). */
+/* Override wins over host CSS; relative path resolves to the custom package. */
+/* Same priority as the logo: lang decides when present; dir is fallback when lang absent. */
+.top-bar-background-image {
+  background-image: url('../images/homePageImages/search_background_en.png') !important;
+}
+html[lang="he"] .top-bar-background-image,
+html:not([lang])[dir="rtl"] .top-bar-background-image {
+  background-image: url('../images/homePageImages/search_background_he.png') !important;
+}
+/* 27.05.26 bilingual search background end */
