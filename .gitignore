@@ -44,3 +44,10 @@ Thumbs.db
 # Helper files (temporary/auto-generated)
 helper_files/
 *:Zone.Identifier
+
+# Babysitter SDK runtime artifacts
+.a5c/runs/
+.a5c/node_modules/
+.a5c/cache/
+.a5c/logs/
+.a5c/hook_debug/
