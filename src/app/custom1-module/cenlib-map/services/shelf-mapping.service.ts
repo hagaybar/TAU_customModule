@@ -8,7 +8,7 @@ import {
   LegacyShelfMapping,
   ShelfMapping,
 } from '../config/shelf-mapping.config';
-import { DATA_SOURCE_CONFIG } from '../config/google-sheets.config';
+import { DATA_SOURCE_CONFIG } from '../config/data-source.config';
 import { LocationContext } from '../models/location-context.model';
 
 /** Raw row from CSV parsing (MDM format with library/collection names) */
@@ -33,8 +33,7 @@ interface CsvRow {
  * Shelf Mapping Service
  * Provides methods to map call numbers to shelf locations
  *
- * Primary data source: AWS CloudFront CDN
- * Backup data source: Google Sheets (if AWS is unavailable)
+ * Data source: AWS CloudFront CDN (CSV)
  */
 @Injectable({ providedIn: 'root' })
 export class ShelfMappingService {

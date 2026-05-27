@@ -20,7 +20,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { FLOOR_LAYOUT, FloorData } from '../config/floor-layout.config';
 import { assetBaseUrl } from '../../../state/asset-base.generated';
-import { AWS_CDN_BASE_URL } from '../config/google-sheets.config';
+import { AWS_CDN_BASE_URL } from '../config/data-source.config';
 
 /**
  * SVG Shelf Map Component

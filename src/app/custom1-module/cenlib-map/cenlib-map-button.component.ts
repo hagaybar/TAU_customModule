@@ -227,7 +227,7 @@ export class CenlibMapButtonComponent implements AfterViewInit, OnDestroy {
       return;
     }
 
-    // Step 3: Check if mapping exists in Google Sheets data
+    // Step 3: Check if mapping exists in the CDN mapping data
     this.shelfMappingService
       .hasMappingAsync(this.libraryName, this.collectionName, this.callNumber)
       .subscribe({

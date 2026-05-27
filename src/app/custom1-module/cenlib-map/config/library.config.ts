@@ -10,7 +10,7 @@
  *
  * Map SVG files: Loaded dynamically from AWS CloudFront CDN
  */
-import { MAP_CONFIG } from './google-sheets.config';
+import { MAP_CONFIG } from './data-source.config';
 
 /**
  * Configuration for a single location within a library
@@ -48,7 +48,7 @@ export interface LibraryConfig {
  * 2. Add a new entry with nameHe matching exactly
  * 3. Add the locations with their exact Hebrew names from [data-qa="location-sub-location"]
  * 4. Create an SVG floor plan and upload to AWS CloudFront
- * 5. Update the mapping CSV on AWS (primary) or Google Sheets (backup)
+ * 5. Update the mapping CSV on AWS CloudFront
  */
 export const LIBRARY_CONFIG: LibraryConfig[] = [
   {

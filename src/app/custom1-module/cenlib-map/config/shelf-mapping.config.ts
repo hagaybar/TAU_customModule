@@ -3,8 +3,8 @@
  * Maps library + location + call number ranges to SVG shelf codes
  *
  * MDM (Multi-Dimensional Mapping): Supports multiple libraries and locations
- * Data is loaded from Google Sheets CSV - the SHELF_MAPPINGS array below is
- * legacy/fallback data and will be replaced by CSV data at runtime.
+ * Data is loaded from the AWS CloudFront CSV at runtime - the SHELF_MAPPINGS
+ * array below is legacy/fallback data.
  */
 
 /** Interface for shelf mapping entries (MDM format) */
@@ -55,7 +55,7 @@ export interface LegacyShelfMapping {
 /**
  * Legacy shelf mappings - 30 shelves covering call numbers 001-999
  * @deprecated This is legacy data for backward compatibility during transition.
- * Production data should come from Google Sheets CSV with libraryName/locationName.
+ * Production data comes from the AWS CloudFront CSV with libraryName/locationName.
  *
  * Each shelf covers approximately 33 call numbers
  * Distributed across 4 floors (8+8+7+7 shelves)
