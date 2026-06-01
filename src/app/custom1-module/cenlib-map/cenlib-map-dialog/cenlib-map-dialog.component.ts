@@ -95,9 +95,13 @@ export class CenlibMapDialogComponent implements OnInit {
       })
       .subscribe({
         next: (mappings) => {
-          this.mappings = mappings;
+          // A single call-number range must never span floors. If matches land
+          // on multiple floors, that's a mapping-data error — scope to the
+          // displayed (primary) floor instead of silently passing off-floor
+          // codes to a floor SVG that can't show them. See issue #12.
+          this.mappings = this.scopeToPrimaryFloor(mappings);
           // Cache SVG codes to prevent new array creation on each change detection
-          this.svgCodes = mappings.map((m) => m.svgCode);
+          this.svgCodes = this.mappings.map((m) => m.svgCode);
           this.isLoading = false;
         },
         error: (error) => {
@@ -106,6 +110,46 @@ export class CenlibMapDialogComponent implements OnInit {
           this.isLoading = false;
         },
       });
+  }
+
+  /**
+   * Scope matched mappings to the primary (first) mapping's floor.
+   *
+   * A Dewey call-number range must never span floors, so all mappings matched
+   * for a single call number are expected to share one floor. If they don't,
+   * the mapping data is wrong: only one floor's SVG is displayed, and off-floor
+   * codes would otherwise be pushed to the SVG where they can never be found
+   * (silently failing to highlight — issue #12). Instead we drop the off-floor
+   * matches, keep the result coherent with the displayed floor, and log a loud,
+   * actionable error so library staff can fix the mapping CSV.
+   *
+   * Valid single-floor data passes through unchanged.
+   *
+   * @param mappings All mappings returned by the MDM lookup
+   * @returns Mappings restricted to the primary floor
+   */
+  scopeToPrimaryFloor(mappings: ShelfMapping[]): ShelfMapping[] {
+    if (mappings.length === 0) return mappings;
+
+    const distinctFloors = new Set(
+      mappings.map((m) => (m.floor || '').trim()).filter((f) => f !== '')
+    );
+    // 0 or 1 distinct floors → valid (or no floor data to scope by)
+    if (distinctFloors.size <= 1) return mappings;
+
+    const primaryFloor = (mappings[0].floor || '').trim();
+    const onFloor = mappings.filter((m) => (m.floor || '').trim() === primaryFloor);
+    const offFloor = mappings.filter((m) => (m.floor || '').trim() !== primaryFloor);
+
+    console.error(
+      '[CenlibMapDialog] Mapping data error: a single call number matched shelves ' +
+        `on multiple floors [${Array.from(distinctFloors).join(', ')}] — a range ` +
+        `must not span floors. Showing floor "${primaryFloor}"; ignoring off-floor ` +
+        'matches (please fix the mapping data):',
+      offFloor.map((m) => ({ svgCode: m.svgCode, floor: m.floor }))
+    );
+
+    return onFloor;
   }
 
   /** Dialog title based on language */
