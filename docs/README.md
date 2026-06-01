@@ -94,7 +94,20 @@ This directory contains all project documentation organized by topic.
   - Element hierarchy and attributes
   - Integration point reference
 
+- **[finding_label_codes.md](reference/finding_label_codes.md)** - Reveal label codes with `debugLabels=true`
+  - Map on-screen text to its label code
+  - Find and edit the correct label in the Primo–Alma labels table
+
 **See**: [Reference README](reference/README.md) for detailed descriptions.
+
+---
+
+### `/debug/`
+**Browser-Console Debug Scripts**
+
+- **[Debug README](debug/README.md)** - Inspector scripts for NDE internals
+  - Translation/label key discovery (manual fallback)
+  - Points to the `debugLabels=true` shortcut for finding label codes
 
 ---
 
@@ -125,6 +138,7 @@ Visual documentation of bugs and their resolutions:
 ### Development
 - [Development Guidelines](development/AGENTS.md)
 - [NDE Integration Research](research/NDE_INTEGRATION_RESEARCH.md)
+- [Finding Label Codes (`debugLabels=true`)](reference/finding_label_codes.md)
 
 ---
 

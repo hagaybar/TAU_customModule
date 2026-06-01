@@ -18,6 +18,8 @@ Commits in this repo favor short, imperative summaries (`Add login facade`, `Fix
 ## Environment & Configuration Tips
 Project settings read from `build-settings.env`; duplicate it per environment and export required variables before running the build. When integrating with remote hosts, ensure module federation URLs align with `webpack.config.js` and `webpack.prod.config.js`. For local debugging behind corporate proxies, copy `proxy/proxy.conf.mjs` and update target hosts instead of editing production configs.
 
+**Finding label codes:** To change UI text in NDE, append `debugLabels=true` to the NDE URL (e.g. `…/nde/home?vid=972TAU_INST:NDE&lang=he&debugLabels=true`). The UI then renders each label's code in place of its text, so you can read the exact code and find it in the Primo–Alma labels table. See [Finding Label Codes in Primo NDE](../reference/finding_label_codes.md).
+
 ## ExLibris CustomModule Reference Repository
 This project is based on the official ExLibris CustomModule template. For documentation, examples, and default file structures, refer to the upstream repository:
 

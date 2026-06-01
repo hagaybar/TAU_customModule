@@ -327,6 +327,7 @@ Comprehensive documentation is organized in the [`docs/`](docs/) folder:
 
 ### Reference Documentation
 - **[Call Number Directionality Fix](docs/reference/call_number_directionality_fix.md)** - CSS fixes for call number display (VE & NDE)
+- **[Finding Label Codes in Primo NDE](docs/reference/finding_label_codes.md)** - Use `debugLabels=true` to reveal label codes for editing UI text
 
 ### Troubleshooting
 - **[Bug Fix History](docs/troubleshooting/BUGFIX_HISTORY.md)** - Bug fixes and resolutions
