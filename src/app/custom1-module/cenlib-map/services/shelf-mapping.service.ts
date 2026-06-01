@@ -207,52 +207,96 @@ export class ShelfMappingService {
   }
 
   /**
-   * Compare two Dewey Decimal call numbers
-   * Follows library sorting rules:
-   * 1. Compare letter prefix alphabetically
-   * 2. Compare main class (before decimal) numerically
-   * 3. Compare decimal portion digit-by-digit (string comparison)
+   * Canonicalize a call number to the form the comparison expects.
    *
-   * @param a First call number
-   * @param b Second call number
-   * @returns Negative if a < b, positive if a > b, 0 if equal
+   * Dewey magnitude is only correct under string comparison when the integer
+   * (main class) part is exactly 3 digits — e.g. "099.5" sorts before "100",
+   * but "99.5" would not. The producer's data is authored in this canonical
+   * 3-digit form, but a call number arriving from the Alma/Primo DOM may not
+   * be, so we zero-pad a short leading integer to 3 digits here.
+   *
+   * Alpha-prefixed call numbers (ML/MT and any other letter-led value) are
+   * left untouched: ML/MT are ordered by the natural number after the prefix
+   * (handled in compareDeweyNumbers), not by zero-padded string magnitude.
+   *
+   * @param value Raw call number (or range bound)
+   * @returns Canonicalized value
    *
    * @example
-   * compareDeweyNumbers("296.81", "296.851")  → negative (296.81 < 296.851)
-   * compareDeweyNumbers("296.851", "296.9")   → negative (296.851 < 296.9, because .8 < .9)
-   * compareDeweyNumbers("QA76", "QB50")       → negative (QA < QB)
-   * compareDeweyNumbers("10", "9")            → positive (10 > 9)
+   * canonicalizeCallNumber("99.5")        → "099.5"
+   * canonicalizeCallNumber("9")           → "009"
+   * canonicalizeCallNumber("296.5")       → "296.5"   (already 3 digits)
+   * canonicalizeCallNumber("301.153(42)") → "301.153(42)"
+   * canonicalizeCallNumber("ML5")         → "ML5"     (alpha prefix, untouched)
    */
-  compareDeweyNumbers(a: string, b: string): number {
-    const parsedA = this.parseCallNumber(a);
-    const parsedB = this.parseCallNumber(b);
-
-    // Handle null cases
-    if (!parsedA && !parsedB) return 0;
-    if (!parsedA) return -1;
-    if (!parsedB) return 1;
-
-    // 1. Compare prefix alphabetically (case-insensitive)
-    const prefixCompare = parsedA.prefix.toLowerCase().localeCompare(parsedB.prefix.toLowerCase());
-    if (prefixCompare !== 0) return prefixCompare;
-
-    // 2. Compare main class numerically
-    const mainClassCompare = parsedA.mainClass - parsedB.mainClass;
-    if (mainClassCompare !== 0) return mainClassCompare;
-
-    // 3. Compare decimal portion digit-by-digit (string comparison)
-    // This correctly handles: "81" < "851" < "9" (because '8' < '9')
-    return parsedA.decimal.localeCompare(parsedB.decimal);
+  private canonicalizeCallNumber(value: string): string {
+    const s = (value ?? '').toString().trim();
+    if (!s) return s;
+    // Alpha-prefixed (ML/MT, QA, …) — never zero-padded.
+    if (/^[A-Za-z]/.test(s)) return s;
+    // Dewey: zero-pad the leading integer (main class) to at least 3 digits.
+    const match = s.match(/^(\d+)(.*)$/);
+    if (!match) return s;
+    const intPart = match[1];
+    const rest = match[2];
+    const padded = intPart.length < 3 ? intPart.padStart(3, '0') : intPart;
+    return padded + rest;
   }
 
   /**
-   * Check if a call number is within a Dewey Decimal range
-   * Uses proper digit-by-digit comparison for decimal portions
+   * Compare two call numbers using the canonical ordering shared with the
+   * Primo Maps producer (NDE_MAPS_MANGER, issue #100). This MUST stay
+   * behaviorally identical to `compareCallNumbers` in that repo
+   * (lambda/range-validation.mjs, admin/utils/range-filter.js,
+   * admin/services/data-model.js) so the consumer's in-range decision matches
+   * the producer's exactly.
+   *
+   * Rule:
+   *  - DEFAULT: plain string comparison of the (canonicalized) value. Dewey
+   *    integer parts are zero-padded to 3 digits so magnitude is correct;
+   *    '(' sorts before '.' so a parenthetical sub-classification sorts right
+   *    after the base and before any decimal; leading zeros stay significant.
+   *  - EXCEPTION: prefixes ML / MT are NOT zero-padded — compare the prefix,
+   *    then the number after it as a NATURAL number (ML5 < ML113).
+   *
+   * (TAU addition over the producer: inputs are canonicalized to 3-digit
+   * leading integers first, since DOM call numbers may not arrive padded.)
+   *
+   * @param a First call number
+   * @param b Second call number
+   * @returns -1 if a < b, 0 if equal, 1 if a > b
+   *
+   * @example
+   * compareDeweyNumbers("099.5", "100")        → -1
+   * compareDeweyNumbers("396(44)", "396.04")   → -1  ('(' < '.')
+   * compareDeweyNumbers("320(044)", "320(44)") → -1  (leading zeros significant)
+   * compareDeweyNumbers("ML5", "ML113")        → -1  (natural number)
+   * compareDeweyNumbers("471.7", "471.7")      →  0
+   */
+  compareDeweyNumbers(a: string, b: string): number {
+    const sa = this.canonicalizeCallNumber(a);
+    const sb = this.canonicalizeCallNumber(b);
+    const pa = (sa.match(/^[A-Za-z]+/) || [''])[0].toUpperCase();
+    const pb = (sb.match(/^[A-Za-z]+/) || [''])[0].toUpperCase();
+    if (pa === pb && (pa === 'ML' || pa === 'MT')) {
+      const na = parseFloat(sa.slice(pa.length));
+      const nb = parseFloat(sb.slice(pb.length));
+      if (!Number.isNaN(na) && !Number.isNaN(nb) && na !== nb) return na < nb ? -1 : 1;
+    }
+    if (sa < sb) return -1;
+    if (sa > sb) return 1;
+    return 0;
+  }
+
+  /**
+   * Check if a call number is within a call-number range (inclusive).
+   * Mirrors the producer's `isCallNumberInRange` (range-filter.js): a point is
+   * in range when it is >= rangeStart AND <= rangeEnd under compareDeweyNumbers.
    *
    * @param callNumber The call number to check
-   * @param rangeStart Start of the range
-   * @param rangeEnd End of the range
-   * @returns True if callNumber >= rangeStart AND callNumber <= rangeEnd
+   * @param rangeStart Start of the range (inclusive)
+   * @param rangeEnd End of the range (inclusive)
+   * @returns True if callNumber is within [rangeStart, rangeEnd]
    */
   isInDeweyRange(callNumber: string, rangeStart: string, rangeEnd: string): boolean {
     return this.compareDeweyNumbers(callNumber, rangeStart) >= 0 &&
