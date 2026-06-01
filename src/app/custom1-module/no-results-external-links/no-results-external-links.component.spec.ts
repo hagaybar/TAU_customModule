@@ -88,12 +88,12 @@ describe('NoResultsExternalLinksComponent', () => {
 
     it('should display English title when language is English', () => {
       component.currentLanguage = 'en';
-      expect(component.cardTitle).toBe('Try searching in external sources');
+      expect(component.externalLinksTitle).toBe('Try searching in external sources:');
     });
 
     it('should display Hebrew title when language is Hebrew', () => {
       component.currentLanguage = 'he';
-      expect(component.cardTitle).toBe('נסה לחפש במקורות חיצוניים');
+      expect(component.externalLinksTitle).toBe('נסה לחפש במקורות חיצוניים:');
     });
   });
 
@@ -164,9 +164,10 @@ describe('NoResultsExternalLinksComponent', () => {
       const source = component.externalSources[0];
       const url = component.buildExternalUrl(source);
 
-      // URL should not contain raw special characters
-      expect(url).not.toContain('&');
-      expect(url).toContain('%');
+      // The search term's special characters must be percent-encoded.
+      // (Structural '&' separators between URL params are expected and fine.)
+      expect(url).toContain('%26'); // '&' from the search term is encoded
+      expect(url).not.toContain('test & special'); // raw term is not present
     });
   });
 
@@ -240,7 +241,7 @@ describe('NoResultsExternalLinksComponent', () => {
       component.ngOnInit();
       fixture.detectChanges();
 
-      const container = fixture.nativeElement.querySelector('.no-results-external-links');
+      const container = fixture.nativeElement.querySelector('.no-results-container');
       expect(container).toBeTruthy();
     });
 
@@ -270,7 +271,7 @@ describe('NoResultsExternalLinksComponent', () => {
       component.ngOnInit();
       fixture.detectChanges();
 
-      const links = fixture.nativeElement.querySelectorAll('.link');
+      const links = fixture.nativeElement.querySelectorAll('.external-link');
       expect(links.length).toBe(component.externalSources.length);
     });
 
@@ -285,7 +286,7 @@ describe('NoResultsExternalLinksComponent', () => {
       component.ngOnInit();
       fixture.detectChanges();
 
-      const container = fixture.nativeElement.querySelector('.no-results-external-links');
+      const container = fixture.nativeElement.querySelector('.no-results-container');
       expect(container.getAttribute('dir')).toBe('rtl');
     });
 
@@ -300,7 +301,7 @@ describe('NoResultsExternalLinksComponent', () => {
       component.ngOnInit();
       fixture.detectChanges();
 
-      const title = fixture.nativeElement.querySelector('.card-title');
+      const title = fixture.nativeElement.querySelector('.external-search-title');
       expect(title).toBeTruthy();
       expect(title.textContent).toContain('Try searching in external sources');
     });
@@ -316,7 +317,7 @@ describe('NoResultsExternalLinksComponent', () => {
       component.ngOnInit();
       fixture.detectChanges();
 
-      const links = fixture.nativeElement.querySelectorAll('.link');
+      const links = fixture.nativeElement.querySelectorAll('.external-link');
       links.forEach((link: HTMLAnchorElement) => {
         expect(link.getAttribute('target')).toBe('_blank');
         expect(link.getAttribute('rel')).toBe('noopener noreferrer');
