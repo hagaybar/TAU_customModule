@@ -17,7 +17,7 @@ const CUSTOM_PATH = `custom/${INST_ID}-${VIEW_ID}`;
 console.log(`[Proxy Config] Using custom path: ${CUSTOM_PATH}`);
 
 export const customizationConfigOverride = {
-  "favIcon": `${CUSTOM_PATH}/assets/images/favicon.ico`,
+  "favIcon": `${CUSTOM_PATH}/assets/icons/favicon.ico`,
   "libraryLogo": `${CUSTOM_PATH}/assets/images/library-logo.png`,
   "viewSvg": `${CUSTOM_PATH}/assets/icons/custom_icons.svg`,
   "homepage": {
