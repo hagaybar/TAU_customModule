@@ -21,6 +21,14 @@ import {
 } from './config/library.config';
 
 /**
+ * Attribute set on the <nde-location> element to record which button instance
+ * currently owns that location's shelf-map slot. Because NDE creates several
+ * component instances for the same location, ownership has to live on a shared
+ * DOM node rather than on the component, so all instances can see it.
+ */
+const SHELF_MAP_OWNER_ATTR = 'data-tau-shelf-map-owner';
+
+/**
  * CenLib Map Button Component
  * Displays a button at the LOCATION level that opens a shelf map dialog
  *
@@ -84,6 +92,15 @@ export class CenlibMapButtonComponent implements AfterViewInit, OnDestroy {
   /** Original next sibling of our component (for cleanup) */
   private originalNextSibling: Node | null = null;
 
+  /** Monotonic counter used to give every instance a unique id */
+  private static instanceCounter = 0;
+
+  /** Unique id for this instance, used to claim a location's shelf-map slot */
+  private readonly instanceId = `cenlib-map-${++CenlibMapButtonComponent.instanceCounter}`;
+
+  /** The <nde-location> this instance has claimed (null until/unless it owns one) */
+  private ownedLocation: HTMLElement | null = null;
+
   constructor(private dialog: MatDialog) {
     this.detectLanguage();
   }
@@ -103,8 +120,9 @@ export class CenlibMapButtonComponent implements AfterViewInit, OnDestroy {
       this.observer.disconnect();
       this.observer = null;
     }
-    // Restore the Locate button if it was hidden
-    this.showLocateButton();
+    // Release our claim on this location and restore the Locate button only if
+    // nothing replaces us (see releaseLocation).
+    this.releaseLocation();
   }
 
   /** Button label based on language */
@@ -232,14 +250,23 @@ export class CenlibMapButtonComponent implements AfterViewInit, OnDestroy {
       .hasMappingAsync(this.libraryName, this.collectionName, this.callNumber)
       .subscribe({
         next: (hasMapping) => {
-          this.shouldShow = hasMapping;
           if (hasMapping) {
             console.log(
               `[CenlibMapButton] Found valid mapping for: ${this.libraryName} / ${this.collectionName} / ${this.callNumber}`
             );
-            // Hide the original Locate button when showing our Shelf Map button
-            this.hideLocateButton();
+            // Only one instance per location may show the button and hide the
+            // Locate button. Extra instances NDE creates for the same location
+            // defer here and render nothing. This is what stops the
+            // create/destroy churn from leaving the Locate button hidden with
+            // no Shelf Map button in its place.
+            this.shouldShow = this.claimLocation();
+            if (!this.shouldShow) {
+              console.log(
+                '[CenlibMapButton] Another instance already owns this location; deferring'
+              );
+            }
           } else {
+            this.shouldShow = false;
             console.log(
               `[CenlibMapButton] No mapping for: ${this.libraryName} / ${this.collectionName} / ${this.callNumber}`
             );
@@ -255,60 +282,120 @@ export class CenlibMapButtonComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * Hide the original Locate button and move our component to its location
-   * This replaces the Locate button with our Shelf Map button in the same position
+   * Claim ownership of this component's <nde-location> shelf-map slot.
+   *
+   * @returns true if THIS instance should render its button (it became the
+   * owner); false if a live sibling instance already owns the slot, in which
+   * case this instance renders nothing.
+   *
+   * Ownership is recorded on the <nde-location> element (see
+   * SHELF_MAP_OWNER_ATTR) so it is visible to every instance NDE creates for
+   * the same location.
    */
-  private hideLocateButton(): void {
-    const ndeLocation = this.elementRef.nativeElement.closest('nde-location');
-    if (!ndeLocation) return;
+  private claimLocation(): boolean {
+    const ndeLocation = this.elementRef.nativeElement.closest(
+      'nde-location'
+    ) as HTMLElement | null;
+    if (!ndeLocation) {
+      // No location context (shouldn't happen) - degrade by showing in place.
+      return true;
+    }
 
-    const locateButton = ndeLocation.querySelector('button.getit-locate-button') as HTMLElement;
-    if (locateButton && locateButton.style.display !== 'none') {
-      // Store reference for cleanup
-      this.hiddenLocateButton = locateButton;
-
-      // Store our original position for cleanup
-      const hostElement = this.elementRef.nativeElement;
-      this.originalParent = hostElement.parentElement;
-      this.originalNextSibling = hostElement.nextSibling;
-
-      // Find the Locate button's parent container and insert ourselves there
-      const locateButtonParent = locateButton.parentElement;
-      if (locateButtonParent) {
-        // Insert our component before the Locate button
-        locateButtonParent.insertBefore(hostElement, locateButton);
-        console.log('[CenlibMapButton] Moved to Locate button position');
+    const currentOwner = ndeLocation.getAttribute(SHELF_MAP_OWNER_ATTR);
+    if (currentOwner && currentOwner !== this.instanceId) {
+      // Another instance claims it - defer only if its button is actually live.
+      const liveButton = ndeLocation.querySelector('button.cenlib-map-button');
+      if (liveButton && liveButton.isConnected) {
+        return false;
       }
+      // Stale owner (its button is gone) - fall through and take over.
+    }
 
-      // Hide the Locate button
+    ndeLocation.setAttribute(SHELF_MAP_OWNER_ATTR, this.instanceId);
+    this.ownedLocation = ndeLocation;
+    this.hideLocateButton(ndeLocation);
+    return true;
+  }
+
+  /**
+   * Move our component next to the native Locate button and hide that button.
+   * Idempotent: safe to call when already positioned and/or already hidden.
+   */
+  private hideLocateButton(ndeLocation: HTMLElement): void {
+    const locateButton = ndeLocation.querySelector(
+      'button.getit-locate-button'
+    ) as HTMLElement | null;
+    if (!locateButton) return;
+
+    const hostElement = this.elementRef.nativeElement as HTMLElement;
+    const locateButtonParent = locateButton.parentElement;
+
+    // Move our component into the Locate button's container (only once).
+    if (locateButtonParent && hostElement.parentElement !== locateButtonParent) {
+      if (!this.originalParent) {
+        this.originalParent = hostElement.parentElement;
+        this.originalNextSibling = hostElement.nextSibling;
+      }
+      locateButtonParent.insertBefore(hostElement, locateButton);
+      console.log('[CenlibMapButton] Moved to Locate button position');
+    }
+
+    if (locateButton.style.display !== 'none') {
+      this.hiddenLocateButton = locateButton;
       locateButton.style.display = 'none';
       console.log('[CenlibMapButton] Hidden original Locate button');
     }
   }
 
   /**
-   * Restore the original Locate button and move our component back (for cleanup in ngOnDestroy)
+   * Release this instance's claim on its location (called from ngOnDestroy).
+   *
+   * The Locate button is restored ONLY when no other Shelf Map button remains
+   * in the location and the Locate button itself is still on the page. This
+   * guarantees a location can never be left with the Locate button hidden and
+   * no Shelf Map button visible - which was the failure mode of the previous
+   * unconditional restore-on-destroy.
    */
-  private showLocateButton(): void {
-    // Restore our component to its original position
-    if (this.originalParent) {
-      const hostElement = this.elementRef.nativeElement;
-      if (this.originalNextSibling) {
+  private releaseLocation(): void {
+    const ndeLocation = this.ownedLocation;
+
+    // Restore our host to its original slot if we moved it and it's still live.
+    const hostElement = this.elementRef.nativeElement as HTMLElement;
+    if (this.originalParent && this.originalParent.isConnected) {
+      if (
+        this.originalNextSibling &&
+        this.originalNextSibling.parentNode === this.originalParent
+      ) {
         this.originalParent.insertBefore(hostElement, this.originalNextSibling);
       } else {
         this.originalParent.appendChild(hostElement);
       }
-      console.log('[CenlibMapButton] Restored to original position');
-      this.originalParent = null;
-      this.originalNextSibling = null;
+    }
+    this.originalParent = null;
+    this.originalNextSibling = null;
+
+    if (ndeLocation) {
+      if (ndeLocation.getAttribute(SHELF_MAP_OWNER_ATTR) === this.instanceId) {
+        ndeLocation.removeAttribute(SHELF_MAP_OWNER_ATTR);
+      }
+
+      // Any other (sibling) shelf-map button still live in this location,
+      // ignoring our own about-to-be-removed button?
+      const otherButton = Array.from(
+        ndeLocation.querySelectorAll('button.cenlib-map-button')
+      ).find((b) => !hostElement.contains(b) && (b as HTMLElement).isConnected);
+
+      const locate = this.hiddenLocateButton;
+      if (locate && locate.isConnected && !otherButton) {
+        locate.style.display = '';
+        console.log(
+          '[CenlibMapButton] Restored original Locate button (no shelf-map button remains)'
+        );
+      }
     }
 
-    // Restore the Locate button visibility
-    if (this.hiddenLocateButton) {
-      this.hiddenLocateButton.style.display = '';
-      console.log('[CenlibMapButton] Restored original Locate button');
-      this.hiddenLocateButton = null;
-    }
+    this.hiddenLocateButton = null;
+    this.ownedLocation = null;
   }
 
   /** Open the shelf map dialog with full location context */
