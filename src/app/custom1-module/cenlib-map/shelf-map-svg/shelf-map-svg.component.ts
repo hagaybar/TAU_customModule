@@ -104,10 +104,14 @@ export class ShelfMapSvgComponent implements OnChanges, OnDestroy {
     '2': 'Floor_2.SVG'
   };
 
-  /** Flag to track if highlighting has been applied (prevents redundant calls) */
-  private highlightingApplied = false;
+  /**
+   * Code set currently painted onto the live SVG, or null when none has been
+   * applied yet (fresh SVG). Used to skip redundant re-paints of the *same*
+   * codes while still re-applying when the code set genuinely changes.
+   */
+  private appliedHighlightCodes: string[] | null = null;
 
-  /** Cached highlighted codes to detect real changes */
+  /** Cached highlighted codes to detect real changes (gates ngOnChanges scheduling) */
   private lastHighlightedCodes: string[] = [];
 
   /** Combined shelf codes (supports both old single input and new array input) */
@@ -158,7 +162,7 @@ export class ShelfMapSvgComponent implements OnChanges, OnDestroy {
     this.isLoading = true;
     this.hasError = false;
     this.useExternalSvg = true;
-    this.highlightingApplied = false;  // Reset for new SVG
+    this.appliedHighlightCodes = null;  // Reset for new SVG: force a re-paint even if codes are unchanged
 
     // Use absolute URL directly if provided, otherwise construct from asset base URL
     const isAbsoluteUrl = this.svgPath.startsWith('http://') || this.svgPath.startsWith('https://');
@@ -259,50 +263,17 @@ export class ShelfMapSvgComponent implements OnChanges, OnDestroy {
   }
 
   /**
-   * Generate alternative ID formats for a given code
-   * Handles known mismatches like cl1_106_a → cl_106_a
-   */
-  private getAlternativeIds(code: string): string[] {
-    const alternatives: string[] = [];
-
-    // Pattern: prefix + number + underscore + rest (e.g., cl1_106_a → cl_106_a)
-    // Remove number after 2-letter prefix: cl1_ → cl_, ka1_ → ka_, kb1_ → kb_
-    const prefixNumberMatch = code.match(/^([a-z]{2})(\d+)_(.+)$/i);
-    if (prefixNumberMatch) {
-      const [, prefix, , rest] = prefixNumberMatch;
-      alternatives.push(`${prefix}_${rest}`);
-    }
-
-    // Also try adding a number if missing: cl_ → cl1_
-    const noPrefixNumberMatch = code.match(/^([a-z]{2})_(\d+.*)$/i);
-    if (noPrefixNumberMatch) {
-      const [, prefix, rest] = noPrefixNumberMatch;
-      alternatives.push(`${prefix}1_${rest}`);
-      alternatives.push(`${prefix}2_${rest}`);
-    }
-
-    return alternatives;
-  }
-
-  /**
-   * Find shelf element by code, trying alternatives if exact match not found
+   * Find shelf element by exact id match only.
+   *
+   * Exact match mirrors the Primo Maps producer's bundle invariant
+   * (validateBundle.mjs: `set.has(svgCode)`). A fuzzy cl1_↔cl_ fallback used to
+   * live here, but empirically no committed mapping row needs it, and rescuing a
+   * near-miss onto a *different* shelf would silently mask producer↔consumer
+   * drift the invariant exists to surface. A genuine miss is reported via the
+   * "Shelf(s) not found" warning in applyHighlighting(). See issue #13.
    */
   private findShelfElement(container: HTMLElement, code: string): SVGElement | null {
-    // Try exact match first
-    let shelf = container.querySelector(`#${CSS.escape(code)}`) as SVGElement;
-    if (shelf) return shelf;
-
-    // Try alternative ID formats
-    const alternatives = this.getAlternativeIds(code);
-    for (const altCode of alternatives) {
-      shelf = container.querySelector(`#${CSS.escape(altCode)}`) as SVGElement;
-      if (shelf) {
-        console.log(`[ShelfMapSvg] Found shelf using alternative ID: ${code} → ${altCode}`);
-        return shelf;
-      }
-    }
-
-    return null;
+    return container.querySelector(`#${CSS.escape(code)}`) as SVGElement | null;
   }
 
   /**
@@ -310,10 +281,16 @@ export class ShelfMapSvgComponent implements OnChanges, OnDestroy {
    */
   private applyHighlighting(): void {
     if (!this.svgContainer?.nativeElement) return;
-    if (this.highlightingApplied) return;  // Prevent redundant calls
 
     const container = this.svgContainer.nativeElement as HTMLElement;
     const codes = this.allHighlightedCodes;
+
+    // Skip only a redundant re-paint of the *same* code set on the same SVG;
+    // a genuine code change (or a fresh SVG, where appliedHighlightCodes is null)
+    // still falls through and re-highlights.
+    if (this.appliedHighlightCodes && this.arraysEqual(codes, this.appliedHighlightCodes)) {
+      return;
+    }
 
     // Log available shelf IDs once for debugging (only IDs that look like shelf codes)
     const allElements = container.querySelectorAll('[id]');
@@ -359,7 +336,7 @@ export class ShelfMapSvgComponent implements OnChanges, OnDestroy {
       console.warn(`[ShelfMapSvg] Shelf(s) not found (no matching ID in SVG):`, missingShelves);
     }
 
-    this.highlightingApplied = true;
+    this.appliedHighlightCodes = [...codes];
   }
 
   /** Helper to compare two string arrays */
