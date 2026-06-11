@@ -87,9 +87,9 @@ body {
 
 /* disable background-overlay on main page top image*/
 /* Purpose: Prevent changing the top image from getting the color of the webpage theme */
-/* .custom-search-bar-container .background-overlay {
-display: none;
-} */
+.custom-search-bar-container .background-overlay {
+  display: none !important;
+}
 /* disable background-overlay on main page top image end*/
 /* Snackbar surface background */
 mat-snack-bar-container.mat-mdc-snack-bar-container {
