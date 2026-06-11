@@ -46,6 +46,7 @@ This ensures consistent builds and avoids version-related issues.
 This repository contains TAU-specific customizations documented in:
 - `README.md` - Summary of all TAU customizations
 - `docs/features/` - Detailed feature documentation
+- `docs/features/landing-banner-customization.md` - **Playbook for the landing banner & search-bar styling** (font, color, overlay, search-bar width) + a **complete inventory of every `src/assets/css/custom.css` rule** and the layout gotchas (h1/h2, landing vs top-bar, local-proxy ≠ production). Read this before tweaking any banner/CSS styling.
 - `docs/reference/` - Technical reference documents
 - `docs/planning/FUTURE_TASKS.md` - Planned enhancements and future work
 
