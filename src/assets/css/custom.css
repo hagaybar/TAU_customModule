@@ -182,3 +182,13 @@ html:not([lang])[dir="rtl"] .landing-search-background-image {
   color: #000 !important;
 }
 /* 11.06.26 banner heading font end */
+
+/* 14.06.26 bold the "Advanced search" link (NDE) */
+/* Verified live on 972TAU_INST:NDE for both EN ("Advanced Search") and HE ("חיפוש מתקדם"). */
+/* .advanced-search-button is the language-independent button class (next to the search bar); */
+/* the label lives in a nested <span class="mdc-button__label"> that inherits this weight. */
+/* Host default weight is 500 (medium); bold it for emphasis. */
+.advanced-search-button {
+  font-weight: bold !important;
+}
+/* 14.06.26 bold the "Advanced search" link end */
