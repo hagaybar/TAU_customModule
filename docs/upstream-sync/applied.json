@@ -54,5 +54,12 @@
     "subject": "Wire assets public path directive in prebuild",
     "appliedAt": "2026-05-07",
     "reason": "README-only update (despite the misleading commit subject) describing how the directive ties into prebuild.js. Same skip rationale as c713f83 — TAU's README is structurally different from upstream's, and the directive itself isn't being adopted (Option B tracked in issue #8)."
+  },
+  {
+    "sha": "e5133f5f2cf23b659e6237e9868939d017a2ce2c",
+    "decision": "skipped",
+    "subject": "third party version updates",
+    "appliedAt": "2026-06-15",
+    "reason": "Skipped via upstream-sync. package-lock.json-only refresh (no package.json change); all 305 bumps are build-time/transitive/platform-binary deps (@angular-devkit, @angular/cli, ajv, @babel, @rollup/* native binaries) — nothing runtime/browser. A fork should refresh its OWN lockfile via npm update rather than adopt upstream's resolved tree verbatim. Low value, low risk."
   }
 ]
