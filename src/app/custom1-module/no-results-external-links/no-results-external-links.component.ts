@@ -4,6 +4,7 @@ import { SearchQueryService } from '../filter-assist-panel/services/search-query
 import { SearchTarget, SearchQuery } from '../filter-assist-panel/models/search-target.model';
 import { EXTERNAL_SEARCH_SOURCES } from '../filter-assist-panel/config/external-sources.config';
 import { AutoAssetSrcDirective } from '../../services/auto-asset-src.directive';
+import { dwarn } from '../../services/debug.util';
 
 /**
  * No Results External Links Component
@@ -75,7 +76,7 @@ export class NoResultsExternalLinksComponent implements OnInit, AfterViewInit, O
       if (retriesLeft > 0) {
         setTimeout(() => this.matchExLibrisBoxWidth(retriesLeft - 1), 100);
       } else {
-        console.warn('[NoResultsExternalLinks] .we-suggest-container not found; using fit-content fallback');
+        dwarn('[NoResultsExternalLinks] .we-suggest-container not found; using fit-content fallback');
       }
       return;
     }

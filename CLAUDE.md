@@ -95,6 +95,25 @@ npm run build
 - Always test changes in the dev environment before building for production
 - Maintain documentation for all customizations in the `docs/` folder
 
+## Debug logging (RULE)
+
+**Shipped components must not call `console.log`/`console.warn`/`console.info` directly.**
+The custom module loads into Primo in every user's browser, so diagnostic logging would
+otherwise dump host/DOM objects and patron form data to the production console (see issue #10).
+
+- **Use the gated logger** `dlog()` / `dwarn()` from `src/app/services/debug.util.ts` for all
+  diagnostic logging. It is **OFF by default** (production console stays clean).
+- **`console.error` is allowed** for genuine, always-visible error reporting (e.g. catch blocks).
+- **Never log raw host components, DOM nodes, or patron/request-form data** — not even via `dlog`.
+- **Activate at runtime (no rebuild)** — in the browser console on any NDE page:
+  ```js
+  localStorage.setItem('tauDebug', '1');   // then reload — TAU debug logs appear
+  localStorage.removeItem('tauDebug');      // turn it back off
+  ```
+  One-session alternative: `window.__TAU_DEBUG__ = true`. Full guide: `docs/development/debug-logging.md`.
+- The **dev proxy** (`proxy/proxy.conf.mjs`) runs at `logLevel: 'info'`, not `'debug'`, to avoid
+  printing the live host's cookies/auth headers to the terminal. Raise to `'debug'` only temporarily.
+
 ## Resources
 
 - **ExLibris Repository:** https://github.com/ExLibrisGroup/customModule

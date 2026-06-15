@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FilterAssistPanelComponent } from '../filter-assist-panel.component';
+import { dlog } from '../../../services/debug.util';
 
 /**
  * Registry service to ensure only one FilterAssistPanel instance renders
@@ -23,10 +24,10 @@ export class FilterAssistPanelRegistryService {
   register(component: FilterAssistPanelComponent): boolean {
     if (!this.activeInstance) {
       this.activeInstance = component;
-      console.log('FilterAssistPanel registered as active instance');
+      dlog('FilterAssistPanel registered as active instance');
       return true;
     }
-    console.log('FilterAssistPanel registration denied (instance already active)');
+    dlog('FilterAssistPanel registration denied (instance already active)');
     return false;
   }
 
@@ -38,7 +39,7 @@ export class FilterAssistPanelRegistryService {
   unregister(component: FilterAssistPanelComponent): void {
     if (this.activeInstance === component) {
       this.activeInstance = null;
-      console.log('FilterAssistPanel unregistered (instance destroyed)');
+      dlog('FilterAssistPanel unregistered (instance destroyed)');
     }
   }
 }

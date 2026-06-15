@@ -5,6 +5,7 @@ import { FilterAssistPanelRegistryService } from './services/filter-assist-panel
 import { SearchTarget, SearchQuery } from './models/search-target.model';
 import { EXTERNAL_SEARCH_SOURCES } from './config/external-sources.config';
 import { AutoAssetSrcDirective } from '../../services/auto-asset-src.directive';
+import { dlog } from '../../services/debug.util';
 
 /**
  * Filter Assist Panel Component
@@ -72,7 +73,7 @@ export class FilterAssistPanelComponent implements OnInit, OnDestroy {
       // Extract search data from URL
       this.searchData = this.searchQueryService.getSearchData();
 
-      console.log('FilterAssistPanel initialized (active instance):', {
+      dlog('FilterAssistPanel initialized (active instance):', {
         language: this.currentLanguage,
         searchData: this.searchData
       });

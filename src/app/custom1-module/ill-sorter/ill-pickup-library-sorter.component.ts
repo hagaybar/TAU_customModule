@@ -5,6 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { Subscription, interval } from 'rxjs';
+import { dlog, dwarn } from '../../services/debug.util';
 
 /**
  * Sorts the "Pickup Library" (owner) field in the ILL Request form.
@@ -48,11 +49,11 @@ export class IllPickupLibrarySorterComponent implements OnInit, OnDestroy {
 
     private attemptSort() {
         this.attempts++;
-        console.log(`IllPickupLibrarySorter: Attempt ${this.attempts}`);
+        dlog(`IllPickupLibrarySorter: Attempt ${this.attempts}`);
 
         // Stop checking if we've tried too many times
         if (this.attempts > this.maxAttempts) {
-            console.warn('IllPickupLibrarySorter: Max attempts reached without success');
+            dwarn('IllPickupLibrarySorter: Max attempts reached without success');
             this.pollSubscription?.unsubscribe();
             return;
         }
@@ -61,7 +62,7 @@ export class IllPickupLibrarySorterComponent implements OnInit, OnDestroy {
 
         // 1. Check if window.ng is available (Angular Debug Tools)
         if (this.attempts === 1 && win.ng) {
-            console.log('IllPickupLibrarySorter: window.ng is available!');
+            dlog('IllPickupLibrarySorter: window.ng is available!');
         }
 
         // 2. Try to find parent via DOM
@@ -70,14 +71,14 @@ export class IllPickupLibrarySorterComponent implements OnInit, OnDestroy {
             let parent = this.el.nativeElement.parentElement;
             while (parent) {
                 if (parent.tagName.toLowerCase().includes('ill-request')) {
-                    console.log('IllPickupLibrarySorter: Found parent DOM element:', parent);
+                    dlog('IllPickupLibrarySorter: Found parent DOM element:', parent);
                     if (win.ng && win.ng.getComponent) {
                         const comp = win.ng.getComponent(parent);
-                        console.log('IllPickupLibrarySorter: Angular Component from DOM:', comp);
+                        dlog('IllPickupLibrarySorter: Angular Component from DOM:', comp);
                         if (comp) this.hostComponent = comp; // SWITCH TO FOUND COMPONENT
                     } else {
                         // Try accessing the __ngContext__ directly if possible (internal Angular)
-                        console.log('IllPickupLibrarySorter: ng.getComponent not available. element properties:', Object.keys(parent));
+                        dlog('IllPickupLibrarySorter: ng.getComponent not available. element properties:', Object.keys(parent));
                     }
                     break;
                 }
@@ -87,10 +88,10 @@ export class IllPickupLibrarySorterComponent implements OnInit, OnDestroy {
 
         // 3. Fallback to existing logic if hostComponent is now set
         if (!this.hostComponent) {
-            console.warn('IllPickupLibrarySorter: hostComponent still missing');
+            dwarn('IllPickupLibrarySorter: hostComponent still missing');
             // Stop early if we can't find anything
             if (this.attempts > 5) {
-                console.warn('IllPickupLibrarySorter: Giving up finding hostComponent');
+                dwarn('IllPickupLibrarySorter: Giving up finding hostComponent');
                 this.pollSubscription?.unsubscribe();
             }
             return;
@@ -102,7 +103,7 @@ export class IllPickupLibrarySorterComponent implements OnInit, OnDestroy {
             this.hostComponent.parentCtrl;
 
         if (!requestService) {
-            console.log('IllPickupLibrarySorter: requestService not found yet');
+            dlog('IllPickupLibrarySorter: requestService not found yet');
             return; // Not ready yet
         }
 
@@ -110,7 +111,7 @@ export class IllPickupLibrarySorterComponent implements OnInit, OnDestroy {
         const formFields = requestService._formFields || requestService.formFields;
 
         if (!formFields || !Array.isArray(formFields)) {
-            console.log('IllPickupLibrarySorter: formFields not found or not array');
+            dlog('IllPickupLibrarySorter: formFields not found or not array');
             return; // Not ready yet
         }
 
@@ -118,17 +119,17 @@ export class IllPickupLibrarySorterComponent implements OnInit, OnDestroy {
         const ownerField = formFields.find((f: any) => f.key === 'owner');
 
         if (ownerField) {
-            console.log('IllPickupLibrarySorter: Found owner field, checking options...');
+            dlog('IllPickupLibrarySorter: Found owner field, checking options...');
             if (ownerField.options && ownerField.options.length > 1) {
                 // We found the target! Sort it.
                 this.sortOwnerOptions(ownerField);
                 // Success - stop polling
                 this.pollSubscription?.unsubscribe();
             } else {
-                console.log('IllPickupLibrarySorter: Owner options empty or single, skipping sort');
+                dlog('IllPickupLibrarySorter: Owner options empty or single, skipping sort');
             }
         } else {
-            console.log('IllPickupLibrarySorter: Owner field not found in formFields');
+            dlog('IllPickupLibrarySorter: Owner field not found in formFields');
         }
     }
 
@@ -165,6 +166,6 @@ export class IllPickupLibrarySorterComponent implements OnInit, OnDestroy {
             return 0;
         });
 
-        console.log('IllPickupLibrarySorter: Options sorted successfully');
+        dlog('IllPickupLibrarySorter: Options sorted successfully');
     }
 }

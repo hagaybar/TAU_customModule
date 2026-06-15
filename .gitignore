@@ -52,3 +52,8 @@ helper_files/
 
 # Playwright MCP session artifacts (snapshots, console logs, screenshots from agent browser sessions)
 .playwright-mcp/
+
+# Stray log exports — never commit captured terminal/browser/host output (issue #10).
+# Exception: babysitter run history under .a5c/ is tracked intentionally (see above).
+*.log
+!.a5c/**/*.log

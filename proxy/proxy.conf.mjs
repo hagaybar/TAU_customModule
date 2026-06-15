@@ -17,7 +17,7 @@ const proxyRules = [
     target: 'not-needed',
     router: (req) => `${req.protocol}://${req.get('host')}`,
     changeOrigin: false,
-    logLevel: 'debug',
+    logLevel: 'info',
     pathRewrite: (path) =>
       path.replace(/^\/(?:nde\/)?custom\/[^/]+\/assets\/?/, '/assets/'),
   },
@@ -26,7 +26,7 @@ const proxyRules = [
     target: PROXY_TARGET,
     secure: true,
     changeOrigin: true,
-    logLevel: 'debug',
+    logLevel: 'info',
     selfHandleResponse: true,
     onProxyRes(proxyRes, req, res) {
       const chunks = [];
@@ -53,12 +53,11 @@ const proxyRules = [
     target: 'not-needed',
     router: (req) => {
       const url = `${req.protocol}://${req.get('host')}`
-      console.log(url);
       return url;
 
     },
     secure: true,
-    logLevel: 'debug',
+    logLevel: 'info',
     pathRewrite: { '^/nde/custom/.*/': '' },
 
   },
@@ -69,7 +68,7 @@ const proxyRules = [
     target: PROXY_TARGET,
     secure: true,
     changeOrigin: true,
-    logLevel: 'debug',
+    logLevel: 'info',
 
   }
 ];

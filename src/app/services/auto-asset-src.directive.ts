@@ -7,6 +7,7 @@ import {
     Renderer2
   } from '@angular/core';
   import { AssetBaseService } from './asset-base.service';
+  import { dlog } from './debug.util';
 
   @Directive({
     selector: '[autoAssetSrc]', // <img autoAssetSrc src="assets/..." />
@@ -22,7 +23,7 @@ import {
     ) {}
   
     ngOnInit(): void {
-        console.log('autoAssetSrc activated for', this.el.nativeElement);
+        dlog('autoAssetSrc activated for', this.el.nativeElement);
       const tag = this.el.nativeElement.tagName.toLowerCase();
       const resolved = this.assetService.resolveAssetUrl(this.src);
   
