@@ -20,8 +20,8 @@ relative `url(...)` paths resolve from `assets/css/`).
 | Knob | Comment block in custom.css | Selector | Current value |
 |------|------------------------------|----------|---------------|
 | Banner background image (per language) | `bilingual search background` | `.top-bar-background-image, .landing-search-background-image` | `images/homePageImages/search_background_{en,he}.png` |
-| Overlay shading (on/off) | `disable background-overlay` | `.custom-search-bar-container .background-overlay` | `display:none` (shading **off**) |
-| Heading font + color | `banner heading font` | `.custom-search-bar-container > :is(h1, h2):not(.visually-hidden)` | Assistant, `#000` (black) |
+| Overlay shading (on/off) | `disable background-overlay` | `.custom-search-bar-container .background-overlay` | rule **commented out** → shading **on** (host default, reverted 15 Jun 2026) |
+| Heading font + color | `banner heading font` | (block **removed** — reverted 15 Jun 2026) | host default (white on `Noto Sans Display`) |
 | Search-bar width | `landing search-bar width` | `.landing-search-background-image .top-bar-container` | `width:75%` (live host default is ~85%) |
 | Bilingual logo | `bilingual logo` | `nde-logo img` | HE → `library-logo-he.png` |
 
@@ -123,10 +123,10 @@ drift). Banner/landing rows are detailed in the sections above.
 
 | Comment fence | Selector | Effect |
 |---|---|---|
-| `disable background-overlay` | `.custom-search-bar-container .background-overlay` | `display:none` — banner shading **off** |
+| `disable background-overlay` | `.custom-search-bar-container .background-overlay` | rule **commented out** (reverted 15 Jun 2026) — banner shading **on** (host default) |
 | `bilingual logo` | `html[lang="he"] nde-logo img`, `html:not([lang])[dir="rtl"] nde-logo img` | HE logo via `content: url(library-logo-he.png)` |
 | `bilingual search background` | `.top-bar-background-image, .landing-search-background-image` (+ HE variants) | per-language banner PNG |
-| `banner heading font` | `.custom-search-bar-container > :is(h1,h2):not(.visually-hidden)` + 3 `@font-face` | Assistant font, `color:#000` |
+| `banner heading font` | _(block removed — reverted 15 Jun 2026)_ | host default heading (white on `Noto Sans Display`); see §3 to re-add Assistant |
 | `landing search-bar width` | `.landing-search-background-image .top-bar-container` | `width:75%`, centered |
 
 ### Account / GetIt / results display
