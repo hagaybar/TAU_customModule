@@ -45,6 +45,11 @@ This directory contains all project documentation organized by topic.
   - AutoAssetSrcDirective implementation
   - Verification steps
 
+- **[loading-animation-color-not-themed.md](troubleshooting/loading-animation-color-not-themed.md)** - Load-time animation stays purple, ignores the view color theme
+  - Host load-order issue (`--sys-primary` baseline vs. per-view theme) — the default dots cannot be recolored
+  - **Resolution:** replace the whole animation via a custom Lottie file in the package
+  - Ex Libris Case **10665359** (answered 2026-06-17)
+
 ---
 
 ### `/research/`
@@ -134,6 +139,7 @@ Visual documentation of bugs and their resolutions:
 ### Troubleshooting
 - [Bug Fix History](troubleshooting/BUGFIX_HISTORY.md)
 - [Asset Path Fix](troubleshooting/ASSET_PATH_FIX.md)
+- [Loading animation color not themed (Ex Libris Case 10665359)](troubleshooting/loading-animation-color-not-themed.md)
 
 ### Development
 - [Development Guidelines](development/AGENTS.md)
