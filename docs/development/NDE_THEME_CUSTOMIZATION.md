@@ -48,3 +48,11 @@ This guide explains how to brand Primo NDE with custom colors and typography usi
 2) Local check: `npm run start:proxy` (recommended) or `npm run start` with `useLocalCustomPackage=true`.
 3) Build: `npm run build`; upload the ZIP from `dist/` to Alma (Manage Customization Package for the NDE view).
 4) Validate in the NDE view that colors/fonts/assets render as expected and that scoping is correct.
+
+## Known limitation: load-time animation keeps the default purple
+The page-load animation (the spinning `.primary-circle` dots) is **not** recolored by the view's
+color theme — it always renders the host default purple (`#5e42d8`). This is a Primo host
+load-order issue (`--sys-primary` baseline loads before the per-view theme), **not** fixable from
+Alma or this module. Reported to Ex Libris — see
+[`../troubleshooting/loading-animation-color-not-themed.md`](../troubleshooting/loading-animation-color-not-themed.md)
+(Case 10665359).
