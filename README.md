@@ -20,6 +20,8 @@ This package includes the following Tel Aviv University-specific customizations:
 | **Hide Update Login Credentials** | CSS | ✅ Production | Hide card actions in MyAccount area |
 | **Bilingual Logo** | CSS | ✅ Production | Language-specific library logo (EN/HE) swapped via `lang`/`dir` |
 | **Bilingual Search Background** | CSS | ✅ Production | Language-specific homepage search banner (EN/HE) |
+| **Advanced Search Link Bold** | CSS | ✅ Production | Bold the "Advanced search" link (EN + HE) |
+| **Custom Loading Animation** | Asset (Lottie) | ✅ Production | Blue four-dot page-load animation replacing the default purple |
 
 **Key Technologies:**
 - Angular 18 standalone components
@@ -310,7 +312,29 @@ The relative `../images/...` path resolves to the custom package automatically (
 
 **Files:** `src/assets/images/homePageImages/search_background_en.png` (English), `search_background_he.png` (Hebrew).
 
+#### Advanced Search Link Bold
+**Date Implemented:** 14.06.26
+
+Bolds the "Advanced search" link next to the search bar — English ("Advanced Search") and Hebrew ("חיפוש מתקדם"). Host default weight is 500 (medium).
+
+**Target:** `.advanced-search-button` (language-independent button class; the nested `.mdc-button__label` inherits the weight).
+
+```css
+.advanced-search-button { font-weight: bold !important; }
+```
+
 **Documentation:** See [Call Number Directionality Fix](docs/reference/call_number_directionality_fix.md) for detailed technical information including selectors, strategies, and Primo VE implementation.
+
+### 4. Custom Loading Animation
+**Date Implemented:** 17.06.26
+
+Replaces the Primo NDE page-load animation (the default "four purple dots") with a **blue** four-dot animation that fits a blue NDE theme.
+
+**How it works:** the NDE host fetches a Lottie animation at boot from the custom package and uses it instead of its built-in default. The file must be named exactly `LoadingAnimationJson.json` and live under `assets/images/loadingAnimations/` in the package (in this repo: `src/assets/images/loadingAnimations/`, which the build maps to `<package>/assets/...` — no `angular.json` change needed).
+
+**File:** `src/assets/images/loadingAnimations/LoadingAnimationJson.json` — the Ex Libris default Lottie, hue-rotated from violet to azure (`#003b7e → #0052b3 → #538bcc → #b0c9e7`), keeping the original motion. Colors are baked into the JSON; the boot animation does **not** follow the `--sys-primary` theme token.
+
+**Documentation:** See [Loading Animation Color (Ex Libris Case 10665359)](docs/troubleshooting/loading-animation-color-not-themed.md) for the full investigation — why the view theme can't recolor the default dots and how the replacement works.
 
 ---
 
@@ -332,6 +356,7 @@ Comprehensive documentation is organized in the [`docs/`](docs/) folder:
 ### Troubleshooting
 - **[Bug Fix History](docs/troubleshooting/BUGFIX_HISTORY.md)** - Bug fixes and resolutions
 - **[Asset Path Fix](docs/troubleshooting/ASSET_PATH_FIX.md)** - Asset path resolution in NDE context
+- **[Loading Animation Color (Ex Libris Case 10665359)](docs/troubleshooting/loading-animation-color-not-themed.md)** - Why the view theme can't recolor the default dots, and how to replace the animation
 
 ### Research & Development
 - **[NDE Integration Research](docs/research/NDE_INTEGRATION_RESEARCH.md)** - NDE integration research
