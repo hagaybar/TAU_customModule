@@ -133,7 +133,7 @@ drift). Banner/landing rows are detailed in the sections above.
 
 | Comment fence | Selector | Effect |
 |---|---|---|
-| `Hide Update Login Credentials in MyAccount` | `.mat-mdc-card-actions` | `display:none` (hides the card actions in My Account) |
+| `Hide Update Login Credentials in MyAccount` | `nde-personal-settings button.text-align-for-update-credentials` | `display:none !important` — scoped 18.06.26; **was** `.mat-mdc-card-actions`, which over-broadly hid the action row of every Material card app-wide (incl. the Get It request card) |
 | `color change and bold for library name - NDE` | `.getit-library-title.mat-title-medium` | `color:#44707b; font-weight:bold` |
 | `color change and bold for library name` (AngularJS) | `prm-location-items .tab-content-header .md-title`, `md-list-item … h3` | `#44707b` + bold — **legacy pre-NDE view only; inert in NDE** |
 | `location unavailable change text color` | `.view-it-title.mat-title-small.ng-star-inserted span` | `color:green` |
