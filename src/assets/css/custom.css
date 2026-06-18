@@ -150,3 +150,14 @@ html:not([lang])[dir="rtl"] .landing-search-background-image {
   font-weight: bold !important;
 }
 /* 14.06.26 bold the "Advanced search" link end */
+
+/* 18.06.26 hide stray checkmark bullets in landing "About" section (NDE) — issue #15 */
+/* Verified live on 972TAU_INST:NDE (he): LandingAboutComponent renders one <li> per */
+/* label nde.landing.about.bullet1–4, each with a hardcoded success.svg checkmark. */
+/* TAU left all four bullet labels blank (&nbsp;), so they render as 4 empty checkmarks. */
+/* The component renders the <img> regardless of the blank label, so CSS is the reliable removal. */
+/* Language-agnostic: covers both EN and HE. */
+nde-landing-about .help-sign-in-container ul {
+  display: none !important;
+}
+/* 18.06.26 hide stray checkmark bullets end */
