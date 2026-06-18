@@ -22,6 +22,7 @@ This package includes the following Tel Aviv University-specific customizations:
 | **Bilingual Search Background** | CSS | ✅ Production | Language-specific homepage search banner (EN/HE) |
 | **Advanced Search Link Bold** | CSS | ✅ Production | Bold the "Advanced search" link (EN + HE) |
 | **Custom Loading Animation** | Asset (Lottie) | ✅ Production | Blue four-dot page-load animation replacing the default purple |
+| **Landing "About" Bullet Fix** | CSS | ✅ Production | Hide stray empty checkmark bullets in the landing "About" box |
 
 **Key Technologies:**
 - Angular 18 standalone components
@@ -322,6 +323,21 @@ Bolds the "Advanced search" link next to the search bar — English ("Advanced S
 ```css
 .advanced-search-button { font-weight: bold !important; }
 ```
+
+#### Landing "About" Stray Checkmark Bullets
+**Date Implemented:** 18.06.26
+
+Removes the stray empty checkmark bullets that appeared at the bottom of the landing "About" box ("מה מחפשים בדעת״א?") on the native NDE landing page (issue #15).
+
+**Problem Solved:** The native `<nde-landing-about>` component renders one `<li>` — each with a hardcoded `success.svg` checkmark — per label `nde.landing.about.bullet1`–`bullet4`. TAU wants no benefits list, but **the labels cannot express that**: a truly empty value errors on save, deleting the override restores the Ex Libris default text, and `&nbsp;` blanks the text yet leaves the checkmark. So hiding the list in CSS is the only way to remove the bullets.
+
+**Target:** `nde-landing-about .help-sign-in-container ul`
+
+```css
+nde-landing-about .help-sign-in-container ul { display: none !important; }
+```
+
+Only affects views using the native landing page (`loadLandingPage: true`) — production `NDE`, and `NDE_TEST` since it was rebuilt as a duplicate of `NDE`. Validated live on `NDE_TEST`.
 
 **Documentation:** See [Call Number Directionality Fix](docs/reference/call_number_directionality_fix.md) for detailed technical information including selectors, strategies, and Primo VE implementation.
 
