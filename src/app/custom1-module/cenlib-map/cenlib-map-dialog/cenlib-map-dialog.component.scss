@@ -1,0 +1,114 @@
+.location-info {
+  padding: 16px 0;
+  // This ensures the container itself respects the direction attribute
+  display: flex;
+  flex-direction: column;
+
+  .info-row {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .label {
+      font-weight: 500;
+      color: #666;
+      min-width: 120px;
+      // LOGICAL: Always aligns to the "start" of the line (Left in EN, Right in HE)
+      text-align: start;
+    }
+
+    .separator {
+      color: #ccc;
+      margin: 0 4px;
+    }
+
+    // Combined row: remove min-width constraint on labels
+    &.combined-location-call {
+      flex-wrap: wrap;
+
+      .label {
+        min-width: auto;
+      }
+
+      .value {
+        flex: none;
+
+        // Call number styling - bold green
+        &[dir="ltr"] {
+          font-weight: 700;
+          color: #2e7d32; // Material green 800
+        }
+      }
+    }
+
+    .value {
+      font-size: 1rem;
+      color: #333;
+      flex: 1;
+      text-align: start;
+
+      // Your specific SVG code styling
+      &.svg-code {
+        font-family: 'Roboto Mono', monospace;
+        background-color: #f5f5f5;
+        padding: 2px 8px;
+        border-radius: 4px;
+        font-size: 0.875rem;
+        // Keep the code itself LTR even in Hebrew UI
+        display: inline-block;
+        direction: ltr;
+      }
+
+      // Multi-shelf intro text styling
+      &.multi-shelf-text {
+        font-style: italic;
+        color: #555;
+      }
+    }
+
+    // Multi-shelf intro row - no border, reduced padding
+    &.multi-shelf-intro {
+      border-bottom: none;
+      padding-bottom: 4px;
+    }
+  }
+}
+
+// Loading and Error states
+.loading-container, .no-mapping-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  gap: 16px;
+  text-align: center; // Center is direction-neutral
+  color: #666;
+
+  p { margin: 0; }
+}
+
+// Dialog Layout logic
+mat-dialog-content {
+  min-height: 120px;
+  min-width: 320px;
+  max-width: 1100px;
+  max-height: 90vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  // LOGICAL: padding-inline-start/end instead of left/right
+  padding-inline: 16px; 
+  padding-bottom: 16px;
+}
+
+// Small RTL-specific tweak for the Title
+[mat-dialog-title].rtl {
+  direction: rtl;
+  text-align: start;
+}

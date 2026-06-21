@@ -1,5 +1,6 @@
 import { FilterAssistPanelComponent } from './filter-assist-panel/filter-assist-panel.component';
 import { NoResultsExternalLinksComponent } from './no-results-external-links/no-results-external-links.component';
+import { CenlibMapButtonComponent } from './cenlib-map/cenlib-map-button.component';
 // import { IllPickupLibrarySorterComponent } from './ill-sorter/ill-pickup-library-sorter.component';
 
 // Define the map of custom element selectors -> Angular components
@@ -13,6 +14,9 @@ export const selectorComponentMap = new Map<string, any>([
   // extension slot per issue #4 — preserves ExLibris's default content
   // including the new <nde-expand-options> toggle.
   ['nde-search-no-results-bottom', NoResultsExternalLinksComponent],
+
+  // CenLib Map button - displays at location level (next to Locate button area)
+  ['nde-location-top', CenlibMapButtonComponent],
 
   // Sort Pickup Library options in ILL form - DISABLED (not yet in production)
   // ['nde-ill-request-top', IllPickupLibrarySorterComponent],

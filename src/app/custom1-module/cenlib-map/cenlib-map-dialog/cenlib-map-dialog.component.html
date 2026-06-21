@@ -1,0 +1,75 @@
+<h2 mat-dialog-title [class.rtl]="currentLanguage === 'he'">{{ dialogTitle }}</h2>
+<mat-dialog-content [class.rtl]="currentLanguage === 'he'">
+  <div class="location-info" [attr.dir]="currentLanguage === 'he' ? 'rtl' : 'ltr'">
+    <!-- Library and Location context -->
+    <div class="info-row">
+      <span class="label">{{ libraryLabel }}</span>
+      <span class="value">{{ getLibraryName() }}</span>
+    </div>
+    <div class="info-row combined-location-call">
+      <span class="label">{{ collectionLabel }}</span>
+      <span class="value">{{ getCollectionName() }}</span>
+      <span class="separator">|</span>
+      <span class="label">{{ callNumberLabel }}</span>
+      <span class="value" dir="ltr">{{ data.rawCallNumber || data.callNumber || notAvailableMessage }}</span>
+    </div>
+
+    <!-- Loading State -->
+    <ng-container *ngIf="isLoading">
+      <div class="loading-container">
+        <mat-spinner diameter="40"></mat-spinner>
+        <span class="loading-text">{{ loadingMessage }}</span>
+      </div>
+    </ng-container>
+
+    <!-- Content when loaded -->
+    <ng-container *ngIf="!isLoading">
+      <ng-container *ngIf="primaryMapping; else noMapping">
+        <div class="info-row">
+          <span class="label">{{ sectionLabel }}</span>
+          <span class="value">{{ hasMultipleMappings ? getMultipleSectionDescriptions() : getSectionDescription() }}</span>
+        </div>
+        <div class="info-row" *ngIf="hasMultipleMappings ? getMultipleFloors() : primaryMapping.floor">
+          <span class="label">{{ floorLabel }}</span>
+          <span class="value">{{ hasMultipleMappings ? getMultipleFloors() : primaryMapping.floor }}</span>
+        </div>
+        <!-- Multiple shelf labels with intro text -->
+        <ng-container *ngIf="hasMultipleMappings && getMultipleShelfLabels()">
+          <div class="info-row multi-shelf-intro">
+            <span class="value multi-shelf-text">{{ multiShelfIntroText }}</span>
+          </div>
+          <div class="info-row">
+            <span class="label">{{ shelfLabelLabel }}</span>
+            <span class="value">{{ getMultipleShelfLabels() }}</span>
+          </div>
+        </ng-container>
+        <!-- Single shelf label (existing behavior) -->
+        <div class="info-row" *ngIf="!hasMultipleMappings && getShelfLabel()">
+          <span class="label">{{ shelfLabelLabel }}</span>
+          <span class="value">{{ getShelfLabel() }}</span>
+        </div>
+        <div class="info-row" *ngIf="getNotes()">
+          <span class="label">{{ notesLabel }}</span>
+          <span class="value">{{ getNotes() }}</span>
+        </div>
+
+        <!-- SVG Shelf Map (supports multiple highlights) -->
+        <tau-shelf-map-svg
+          [highlightedShelfCodes]="allSvgCodes"
+          [svgPath]="svgPath"
+          [initialFloor]="primaryMapping.floor || '1'"
+          [language]="currentLanguage">
+        </tau-shelf-map-svg>
+      </ng-container>
+
+      <ng-template #noMapping>
+        <div class="no-mapping-message" *ngIf="data.callNumber">
+          <p>{{ noMappingMessage }}</p>
+        </div>
+      </ng-template>
+    </ng-container>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="dialogRef.close()">{{ closeLabel }}</button>
+</mat-dialog-actions>

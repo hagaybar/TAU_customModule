@@ -1,0 +1,147 @@
+<!-- Loading State -->
+<div *ngIf="isLoading" class="loading-container">
+  <mat-spinner diameter="40"></mat-spinner>
+  <span class="loading-text">{{ language === 'he' ? 'טוען מפה...' : 'Loading map...' }}</span>
+</div>
+
+<!-- External SVG Mode -->
+<ng-container *ngIf="useExternalSvg && !isLoading && externalSvgContent">
+  <!-- Zoom Controls -->
+  <div class="map-controls">
+    <button
+      mat-stroked-button
+      (click)="zoomIn()"
+      [disabled]="zoomLevel >= maxZoom"
+      [attr.aria-label]="zoomInLabel"
+    >
+      <mat-icon>add</mat-icon>
+      <span class="control-label">{{ zoomInLabel }}</span>
+    </button>
+    <button
+      mat-stroked-button
+      (click)="zoomOut()"
+      [disabled]="zoomLevel <= minZoom"
+      [attr.aria-label]="zoomOutLabel"
+    >
+      <mat-icon>remove</mat-icon>
+      <span class="control-label">{{ zoomOutLabel }}</span>
+    </button>
+    <button
+      mat-stroked-button
+      (click)="resetZoom()"
+      [attr.aria-label]="fullMapLabel"
+    >
+      <mat-icon>fullscreen</mat-icon>
+      <span class="control-label">{{ fullMapLabel }}</span>
+    </button>
+  </div>
+
+  <!-- Zoomable Map Viewport -->
+  <div
+    class="map-viewport"
+    [class.zoomed]="zoomLevel > 1"
+    [class.panning]="isPanning"
+    (mousedown)="onPanStart($event)"
+    (mousemove)="onPanMove($event)"
+    (mouseup)="onPanEnd()"
+    (mouseleave)="onPanEnd()"
+    (touchstart)="onPanStart($event)"
+    (touchmove)="onPanMove($event)"
+    (touchend)="onPanEnd()"
+    (touchcancel)="onPanEnd()"
+  >
+    <div
+      class="map-content"
+      #svgContainer
+      [innerHTML]="externalSvgContent"
+      [style.transform]="mapTransform"
+    ></div>
+  </div>
+
+  <!-- Legend for external SVG -->
+  <div class="legend">
+    <div class="legend-item">
+      <span class="legend-color normal"></span>
+      <span class="legend-text">{{ shelvesLabel }}</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-color highlighted"></span>
+      <span class="legend-text">{{ yourBookLabel }}</span>
+    </div>
+  </div>
+</ng-container>
+
+<!-- Fallback Mode (hardcoded floor layout) -->
+<ng-container *ngIf="!useExternalSvg && !isLoading">
+  <!-- Floor Selection Tabs -->
+  <div class="floor-tabs">
+    <button
+      *ngFor="let floor of floors"
+      type="button"
+      class="floor-tab"
+      [class.active]="selectedFloor === floor.floor"
+      [class.has-highlight]="floorHasHighlight(floor)"
+      (click)="selectFloor(floor.floor)"
+    >
+      {{ getFloorLabel(floor) }}
+    </button>
+  </div>
+
+  <!-- SVG Floor Map -->
+  <div class="svg-container">
+    <svg
+      viewBox="0 0 300 150"
+      class="shelf-map"
+      xmlns="http://www.w3.org/2000/svg"
+      role="img"
+      aria-label="Floor shelf map"
+    >
+      <!-- Floor background -->
+      <rect x="0" y="0" width="300" height="150" class="floor-background" />
+
+      <!-- Shelves for current floor -->
+      <ng-container *ngIf="currentFloorData">
+        <g *ngFor="let shelf of currentFloorData.shelves">
+          <rect
+            [attr.x]="shelf.x"
+            [attr.y]="shelf.y"
+            width="60"
+            height="50"
+            rx="3"
+            ry="3"
+            class="shelf-rect"
+            [class.highlighted]="isHighlighted(shelf.id)"
+            [matTooltip]="shelf.rangeLabel"
+            matTooltipPosition="above"
+          />
+          <!-- Shelf number label (small, inside rect) -->
+          <text
+            [attr.x]="getShelfTextX(shelf.x)"
+            [attr.y]="getShelfTextY(shelf.y)"
+            class="shelf-number"
+            [class.highlighted]="isHighlighted(shelf.id)"
+          >
+            {{ getShelfNumber(shelf.id) }}
+          </text>
+        </g>
+      </ng-container>
+
+      <!-- Floor label -->
+      <text x="150" y="145" class="floor-label">
+        {{ currentFloorLabel }}
+      </text>
+    </svg>
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <div class="legend-item">
+      <span class="legend-color normal"></span>
+      <span class="legend-text">{{ shelvesLabel }}</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-color highlighted"></span>
+      <span class="legend-text">{{ yourBookLabel }}</span>
+    </div>
+  </div>
+</ng-container>
