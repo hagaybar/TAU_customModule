@@ -7,11 +7,22 @@ This is Tel Aviv University's customization package for Primo's New Discovery Ex
 
 ## 📋 Summary of TAU Customizations
 
-This package includes the following Tel Aviv University-specific customizations:
+This package includes the following Tel Aviv University-specific customizations, grouped by
+the kind of work involved. The **add-ons / components** are the substantial engineering — custom
+Angular components (and, for the shelf map, a companion data pipeline). The **styling tweaks** are
+lightweight CSS/asset overrides.
 
-| Feature | Type | Status | Description |
-|---------|------|--------|-------------|
-| **External Search Integration** | Component | ✅ Production | Search links panel + No results external links |
+### 🧩 Add-ons & components (custom application code)
+
+| Feature | Status | Description |
+|---------|--------|-------------|
+| **External Search Integration** | ✅ Production | Search-links panel (filter sidebar) + external links on the no-results page — components with query mapping and bilingual RTL support |
+| **CenLib Shelf Map** | ✅ Production | Interactive "Shelf Map" button + floor-plan dialog that pinpoints an item on the shelf. Data-driven from a companion **Primo Maps** repo (`NDE_MAPS_MANGER`) via an AWS CloudFront CDN |
+
+### 🎨 CSS & styling tweaks (lightweight overrides)
+
+| Tweak | Type | Status | Description |
+|-------|------|--------|-------------|
 | **Call Number Directionality** | CSS | ✅ Production | LTR display + bold styling for mixed-language call numbers |
 | **Location Availability Color** | CSS | ✅ Production | Green text for availability status |
 | **Card Title Styling** | CSS | ✅ Production | Bold card titles |
@@ -19,8 +30,8 @@ This package includes the following Tel Aviv University-specific customizations:
 | **Bilingual Logo** | CSS | ✅ Production | Language-specific library logo (EN/HE) swapped via `lang`/`dir` |
 | **Bilingual Search Background** | CSS | ✅ Production | Language-specific homepage search banner (EN/HE) |
 | **Advanced Search Link Bold** | CSS | ✅ Production | Bold the "Advanced search" link (EN + HE) |
-| **Custom Loading Animation** | Asset (Lottie) | ✅ Production | Blue four-dot page-load animation replacing the default purple |
 | **Landing "About" Bullet Fix** | CSS | ✅ Production | Hide stray empty checkmark bullets in the landing "About" box |
+| **Custom Loading Animation** | Asset (Lottie) | ✅ Production | Blue four-dot page-load animation replacing the default purple |
 
 **Key Technologies:**
 - Angular 18 standalone components
@@ -31,7 +42,12 @@ This package includes the following Tel Aviv University-specific customizations:
 
 ---
 
-## 🎯 TAU-Specific Features
+## 🧩 Add-ons & Components
+
+These are the substantial custom-code features — Angular components loaded into NDE (and, for
+the shelf map, a companion data pipeline). They carry the bulk of the engineering, testing, and
+maintenance effort in this package. Lightweight CSS/asset tweaks are grouped separately under
+[CSS & Styling Tweaks](#-css--styling-tweaks) below.
 
 ### 1. External Search Integration
 Two complementary components that provide external search options throughout the search experience:
@@ -99,7 +115,51 @@ Each source includes:
 
 ---
 
-### 2. CSS Customizations
+### 2. CenLib Shelf Map
+**Status:** ✅ Production (integrated via [PR #16](https://github.com/hagaybar/TAU_customModule/pull/16); bootstrap fix in [PR #17](https://github.com/hagaybar/TAU_customModule/pull/17))
+
+Adds an interactive **"Shelf Map"** button (Hebrew: **"מפת מדף"**) to holding locations in the full-record display. Where TAU has shelf data for a *library + collection + call number*, the custom module hides the native ExLibris **"Locate"** button and shows "Shelf Map" instead; clicking it opens a dialog that shows the section, floor, shelf label, and a **highlighted floor-plan SVG** pinpointing where the item sits on the shelf.
+
+**Implemented Features:**
+- ✅ **Location-level button**: replaces the native "Locate" button only where shelf data exists; falls back to "Locate" everywhere else
+- ✅ **Floor-plan dialog**: highlights the matching shelf element(s) on the library's floor SVG
+- ✅ **Multi-Dimensional Mapping (MDM)**: keyed on library + collection + Dewey call-number range; supports overlapping ranges (lists all candidate shelves)
+- ✅ **Data-driven from a companion repo via AWS CloudFront CDN**: the shelf-mapping CSV and floor-plan SVGs are authored in the **Primo Maps** companion repo and published to a CloudFront CDN; the module fetches them at runtime, cached 5 min, fail-safe (button hidden on any load error)
+- ✅ **Producer-matched call-number matching**: canonical Dewey comparison kept identical to the Primo Maps producer (`NDE_MAPS_MANGER`, issue #100) — cutter stripping, 3-digit zero-padding, `ML`/`MT` natural-number exception
+- ✅ **Floor-scoping guard** (issue #12): a range must not span floors; off-floor matches are dropped and logged instead of highlighted on the wrong SVG
+- ✅ **Bilingual Support**: English and Hebrew, detected from the `lang` URL parameter
+
+**Companion repository (Primo Maps):** the map data this feature *consumes* is *produced* and
+maintained in a separate repository, **`NDE_MAPS_MANGER`** (the "Primo Maps" manager). That repo
+owns the librarian-facing admin tooling and validation Lambda that author the shelf-mapping CSV
+and floor-plan SVG bundle, validate it (e.g. every `svgCode` must exist as an SVG element id —
+`validateBundle.mjs`), and publish it to the AWS CloudFront CDN. This custom module is the
+read-only **consumer**: it downloads the published bundle at runtime and renders it. The two
+repos are deliberately kept in lock-step on the call-number rules — see the split of
+responsibilities and the shared contract in [CenLib Shelf Map](docs/features/map_cenlib_shelves/README.md#companion-repository-primo-maps-nde_maps_manger).
+
+**Currently configured for:** Sourasky Central Library (`הספרייה המרכזית סוראסקי`) reading rooms and special collections. The architecture is multi-library and extensible.
+
+**Location in NDE:** At each physical location in the full-record display (`nde-location-top`), next to the "Locate" button area.
+
+**Technical Details:**
+- Components: `CenlibMapButtonComponent`, `CenlibMapDialogComponent`, `ShelfMapSvgComponent`
+- Service: `ShelfMappingService` (CSV load/cache + Dewey range matching)
+- Selector mapping: `nde-location-top`
+- Files: `src/app/custom1-module/cenlib-map/`
+- Requires `HttpClientModule` in the app bootstrap (see PR #17)
+
+**Documentation:** See [CenLib Shelf Map](docs/features/map_cenlib_shelves/README.md) for the full feature guide (data model, CDN layout, matching rules, the companion Primo Maps repo, and how to extend it to another library).
+
+---
+
+## 🎨 CSS & Styling Tweaks
+
+Lightweight overrides applied via `src/assets/css/custom.css` (plus one Lottie asset swap). These
+are small, self-contained styling adjustments — not application code — and are grouped here to keep
+them distinct from the add-ons above.
+
+### CSS customizations (`custom.css`)
 Custom styling fixes and enhancements applied via `src/assets/css/custom.css`.
 
 #### Call Number Directionality Fix
@@ -220,7 +280,7 @@ The relative `../images/...` path resolves to the custom package automatically (
 
 **Documentation:** See [Call Number Directionality Fix](docs/reference/call_number_directionality_fix.md) for detailed technical information including selectors, strategies, and Primo VE implementation.
 
-### 3. Custom Loading Animation
+### Custom Loading Animation
 **Date Implemented:** 17.06.26
 
 Replaces the Primo NDE page-load animation (the default "four purple dots") with a **blue** four-dot animation that fits a blue NDE theme.
@@ -243,6 +303,9 @@ Comprehensive documentation is organized in the [`docs/`](docs/) folder:
 - **[External Search Implementation](docs/features/external-search/EXTERNAL_SEARCH_IMPLEMENTATION.md)** - Complete technical guide
 - **[Migration Summary](docs/features/external-search/MIGRATION_SUMMARY.md)** - AngularJS to Angular 18 migration
 - **[Icon Setup Notes](docs/features/external-search/ICON_SETUP_NOTES.md)** - Icon installation guide
+
+#### CenLib Shelf Map
+- **[CenLib Shelf Map](docs/features/map_cenlib_shelves/README.md)** - Interactive shelf-location map (data model, CDN layout, call-number matching, extension guide)
 
 ### Reference Documentation
 - **[Call Number Directionality Fix](docs/reference/call_number_directionality_fix.md)** - CSS fixes for call number display (VE & NDE)

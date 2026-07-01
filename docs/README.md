@@ -30,6 +30,20 @@ This directory contains all project documentation organized by topic.
 
 ---
 
+### `/features/map_cenlib_shelves/`
+**CenLib Shelf Map Feature Documentation**
+
+- **[README.md](features/map_cenlib_shelves/README.md)** - Interactive shelf-location map for the Sourasky Central Library
+  - Architecture (button → dialog → SVG) and components
+  - Multi-Dimensional Mapping (MDM) data model and CSV schema
+  - AWS CloudFront CDN layout (mapping CSV + floor-plan SVGs)
+  - Producer-matched Dewey call-number matching (issue #100) and floor-scoping guard (issue #12)
+  - How to extend it to another library / collection
+
+- **[validation/mismatch-report.md](features/map_cenlib_shelves/validation/mismatch-report.md)** - Cross-check of CSV `svgCode`s against floor-SVG element IDs
+
+---
+
 ### `/troubleshooting/`
 **Bug Fixes and Solutions**
 
@@ -122,6 +136,7 @@ Visual documentation of bugs and their resolutions:
 
 ### Feature Documentation
 - [External Search Implementation](features/external-search/EXTERNAL_SEARCH_IMPLEMENTATION.md)
+- [CenLib Shelf Map](features/map_cenlib_shelves/README.md)
 
 ### Troubleshooting
 - [Bug Fix History](troubleshooting/BUGFIX_HISTORY.md)
