@@ -196,10 +196,57 @@ the application bootstrap (`src/app/app.module.ts`). Without it the button never
 
 ---
 
+## Companion repository: Primo Maps (`NDE_MAPS_MANGER`)
+
+The shelf-map feature is one half of a **producer / consumer** pair. This custom module is the
+**consumer** — it downloads a published data bundle and renders it. The data itself is
+**produced and maintained in a separate companion repository, `NDE_MAPS_MANGER`** (the
+"Primo Maps" manager), which is developed and versioned independently of this repo.
+
+### Who does what
+
+| | **Primo Maps** (`NDE_MAPS_MANGER`) — producer | **This repo** (custom module) — consumer |
+|---|---|---|
+| **Role** | Authoring, validation, and publishing of the map data | Downloading and rendering the data in NDE |
+| **Owns** | The shelf-mapping CSV and the floor-plan SVG bundle | The location button, dialog, and SVG-highlighting components |
+| **Tooling** | Librarian-facing admin UI + a validation AWS Lambda | Angular components + `ShelfMappingService` |
+| **Publishes to** | AWS CloudFront CDN (`/data/mapping.csv`, `/maps/floor_{n}.svg`) | — (reads from that CDN at runtime) |
+| **Does *not*** | Touch the NDE UI | Author or mutate the map data |
+
+### The shared contract
+
+Because the two repos are decoupled but must agree exactly, a few invariants are kept in
+lock-step. Any change to these on the producer side must be mirrored here (and vice-versa):
+
+1. **Call-number ordering.** The consumer's `compareDeweyNumbers()` /
+   `isInDeweyRange()` (in `shelf-mapping.service.ts`) are kept behaviourally identical to the
+   producer's `compareCallNumbers` / `isCallNumberInRange`
+   (`lambda/range-validation.mjs`, `admin/utils/range-filter.js`,
+   `admin/services/data-model.js`). Parity is protected by the consumer's spec
+   (`shelf-mapping.service.spec.ts`), which mirrors the producer's own test suites
+   (`admin/__tests__/call-number-ordering.test.js`,
+   `lambda/__tests__/range-validation-compare.test.mjs`). Origin: **issue #100**.
+   *TAU addition over the producer:* DOM call numbers may not arrive 3-digit padded, so the
+   consumer canonicalizes a short leading integer before comparing.
+2. **`svgCode` ↔ SVG element id (exact match).** Every `svgCode` in the CSV must exist as an
+   element `id` in the matching floor SVG. The producer enforces this at publish time
+   (`validateBundle.mjs`: `set.has(svgCode)`); the consumer matches **exact ids only** (no
+   fuzzy fallback) so producer↔consumer drift surfaces as a visible "Shelf(s) not found"
+   warning instead of silently highlighting the wrong shelf. See issue #13.
+3. **CSV schema.** The column set the consumer parses (see [Data model](#data-model-mdm)) is
+   the shape the producer emits.
+
+> **Note on the name:** `NDE_MAPS_MANGER` is the repository's actual identifier (the "manager"
+> spelling in the code/history). It is referred to as "Primo Maps" in conversation.
+
+---
+
 ## Related
 
 - `docs/features/map_cenlib_shelves/Shelf No._Dewey.xlsx` — Dewey → shelf source spreadsheet.
-- Producer repo `NDE_MAPS_MANGER` (issue #100) — authors the CSV and shares the call-number
-  comparison rules this feature mirrors.
+- **[validation/mismatch-report.md](validation/mismatch-report.md)** — `svgCode` ↔ SVG-id
+  cross-check (the consumer-side view of invariant #2 above).
+- Companion repo **`NDE_MAPS_MANGER`** (Primo Maps, issue #100) — produces the CSV/SVG bundle
+  and owns the call-number comparison rules this feature mirrors.
 </content>
 </invoke>
