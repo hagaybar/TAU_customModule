@@ -12,6 +12,7 @@ This package includes the following Tel Aviv University-specific customizations:
 | Feature | Type | Status | Description |
 |---------|------|--------|-------------|
 | **External Search Integration** | Component | ✅ Production | Search links panel + No results external links |
+| **CenLib Shelf Map** | Component | ✅ Production | Interactive "Shelf Map" button + floor-plan dialog for Sourasky Central Library locations |
 | **Call Number Directionality** | CSS | ✅ Production | LTR display + bold styling for mixed-language call numbers |
 | **Location Availability Color** | CSS | ✅ Production | Green text for availability status |
 | **Card Title Styling** | CSS | ✅ Production | Bold card titles |
@@ -233,6 +234,35 @@ Replaces the Primo NDE page-load animation (the default "four purple dots") with
 
 ---
 
+### 4. CenLib Shelf Map
+**Status:** ✅ Production (integrated via [PR #16](https://github.com/hagaybar/TAU_customModule/pull/16); bootstrap fix in [PR #17](https://github.com/hagaybar/TAU_customModule/pull/17))
+
+Adds an interactive **"Shelf Map"** button (Hebrew: **"מפת מדף"**) to holding locations in the full-record display. Where TAU has shelf data for a *library + collection + call number*, the custom module hides the native ExLibris **"Locate"** button and shows "Shelf Map" instead; clicking it opens a dialog that shows the section, floor, shelf label, and a **highlighted floor-plan SVG** pinpointing where the item sits on the shelf.
+
+**Implemented Features:**
+- ✅ **Location-level button**: replaces the native "Locate" button only where shelf data exists; falls back to "Locate" everywhere else
+- ✅ **Floor-plan dialog**: highlights the matching shelf element(s) on the library's floor SVG
+- ✅ **Multi-Dimensional Mapping (MDM)**: keyed on library + collection + Dewey call-number range; supports overlapping ranges (lists all candidate shelves)
+- ✅ **Data-driven from AWS CloudFront CDN**: shelf-mapping CSV + floor-plan SVGs, cached 5 min, fail-safe (button hidden on any load error)
+- ✅ **Producer-matched call-number matching**: canonical Dewey comparison kept identical to the Primo Maps producer (`NDE_MAPS_MANGER`, issue #100) — cutter stripping, 3-digit zero-padding, `ML`/`MT` natural-number exception
+- ✅ **Floor-scoping guard** (issue #12): a range must not span floors; off-floor matches are dropped and logged instead of highlighted on the wrong SVG
+- ✅ **Bilingual Support**: English and Hebrew, detected from the `lang` URL parameter
+
+**Currently configured for:** Sourasky Central Library (`הספרייה המרכזית סוראסקי`) reading rooms and special collections. The architecture is multi-library and extensible.
+
+**Location in NDE:** At each physical location in the full-record display (`nde-location-top`), next to the "Locate" button area.
+
+**Technical Details:**
+- Components: `CenlibMapButtonComponent`, `CenlibMapDialogComponent`, `ShelfMapSvgComponent`
+- Service: `ShelfMappingService` (CSV load/cache + Dewey range matching)
+- Selector mapping: `nde-location-top`
+- Files: `src/app/custom1-module/cenlib-map/`
+- Requires `HttpClientModule` in the app bootstrap (see PR #17)
+
+**Documentation:** See [CenLib Shelf Map](docs/features/map_cenlib_shelves/README.md) for the full feature guide (data model, CDN layout, matching rules, and how to extend it to another library).
+
+---
+
 ## 📚 Documentation
 
 Comprehensive documentation is organized in the [`docs/`](docs/) folder:
@@ -243,6 +273,9 @@ Comprehensive documentation is organized in the [`docs/`](docs/) folder:
 - **[External Search Implementation](docs/features/external-search/EXTERNAL_SEARCH_IMPLEMENTATION.md)** - Complete technical guide
 - **[Migration Summary](docs/features/external-search/MIGRATION_SUMMARY.md)** - AngularJS to Angular 18 migration
 - **[Icon Setup Notes](docs/features/external-search/ICON_SETUP_NOTES.md)** - Icon installation guide
+
+#### CenLib Shelf Map
+- **[CenLib Shelf Map](docs/features/map_cenlib_shelves/README.md)** - Interactive shelf-location map (data model, CDN layout, call-number matching, extension guide)
 
 ### Reference Documentation
 - **[Call Number Directionality Fix](docs/reference/call_number_directionality_fix.md)** - CSS fixes for call number display (VE & NDE)
