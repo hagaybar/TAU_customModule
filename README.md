@@ -29,6 +29,7 @@ lightweight CSS/asset overrides.
 | **Hide Update Login Credentials** | CSS | ✅ Production | Hide card actions in MyAccount area |
 | **Bilingual Logo** | CSS | ✅ Production | Language-specific library logo (EN/HE) swapped via `lang`/`dir` |
 | **Bilingual Search Background** | CSS | ✅ Production | Language-specific homepage search banner (EN/HE) |
+| **Landing Page Banner Override** | CSS | ✅ Production | Repaint the native landing-page image overlay (added by Ex Libris) per-language so the custom banner isn't hidden |
 | **Advanced Search Link Bold** | CSS | ✅ Production | Bold the "Advanced search" link (EN + HE) |
 | **Landing "About" Bullet Fix** | CSS | ✅ Production | Hide stray empty checkmark bullets in the landing "About" box |
 | **Custom Loading Animation** | Asset (Lottie) | ✅ Production | Blue four-dot page-load animation replacing the default purple |
@@ -279,6 +280,31 @@ The relative `../images/...` path resolves to the custom package automatically (
 **Files:** `src/assets/images/homePageImages/search_background_en.png` (English), `search_background_he.png` (Hebrew).
 
 **Documentation:** See [Call Number Directionality Fix](docs/reference/call_number_directionality_fix.md) for detailed technical information including selectors, strategies, and Primo VE implementation.
+
+#### Landing Page Banner Override (native `<img>` overlay)
+**Date Implemented:** 07.07.26
+
+On **2026-07-07 Ex Libris changed the NDE native landing page** (`/nde/home`, served when `loadLandingPage` is enabled) **without notifying us**. It now renders its **own** `<img class="landing-search-background-img">` **layered on top** of the `.landing-search-background-image` element that the [Bilingual Search Background](#bilingual-search-background) rule targets. That `<img>`'s `src` points at a **Primo Back-Office landing-page asset** (`assets/landingpage/search_background.jpg`) — a *single* image for both languages, **not part of this package**, and editable out-of-band from the Back Office landing-page editor. The visible effect: the homepage banner silently reverted to a previous image, and our per-language override was hidden underneath and could no longer win.
+
+CSS cannot rewrite an `<img>`'s `src`, but `content: url()` repaints what it renders — the same technique as the [Bilingual Logo](#bilingual-logo). We repaint the native `<img>` per-language, preserving the host's full-width `object-fit: cover` sizing:
+
+```css
+.landing-search-background-img {
+  content: url('../images/homePageImages/search_background_en.png');
+}
+html[lang="he"] .landing-search-background-img,
+html:not([lang])[dir="rtl"] .landing-search-background-img {
+  content: url('../images/homePageImages/search_background_he.png');
+}
+```
+
+This restores per-language control of the homepage banner from the custom package. Because `content` replaces the rendered pixels **regardless of the element's `src`**, it also holds if the Back-Office `search_background.jpg` is ever swapped again. It reuses the same image files as the Bilingual Search Background rule.
+
+> **Two rules, two elements/pages:** `.top-bar-background-image` (Bilingual Search Background) styles the **search-results** top bar via `background-image`; `.landing-search-background-img` (this rule) handles the **native landing page** overlay `<img>` via `content`. Both are needed.
+
+**Files:** `src/assets/images/homePageImages/search_background_en.png`, `search_background_he.png` (shared with Bilingual Search Background).
+
+**Documentation:** See [Landing Banner Customization](docs/features/landing-banner-customization.md) for the full banner/CSS playbook.
 
 ### Custom Loading Animation
 **Date Implemented:** 17.06.26
