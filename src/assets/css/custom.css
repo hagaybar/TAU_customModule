@@ -144,6 +144,24 @@ html:not([lang])[dir="rtl"] .landing-search-background-image {
 }
 /* 27.05.26 bilingual search background end */
 
+/* 07.07.26 landing-page native banner override (NDE) */
+/* On the native landing page (/nde/home, loadLandingPage=true) Ex Libris overlays its OWN */
+/* <img class="landing-search-background-img"> ON TOP of .landing-search-background-image. Its */
+/* src is a back-office asset (assets/landingpage/search_background.jpg) that is NOT in this */
+/* package and is a SINGLE image for both languages, so it hid the per-language rule above and */
+/* could be changed out-of-band from the Primo Back Office landing-page editor. */
+/* CSS can't rewrite an <img> src, but content:url() repaints it (same trick as the logo above) */
+/* while preserving the host's full-width object-fit:cover sizing — restoring per-language control */
+/* of the homepage banner from the custom package. Verified live on 972TAU_INST:NDE (EN + HE). */
+.landing-search-background-img {
+  content: url('../images/homePageImages/search_background_en.png');
+}
+html[lang="he"] .landing-search-background-img,
+html:not([lang])[dir="rtl"] .landing-search-background-img {
+  content: url('../images/homePageImages/search_background_he.png');
+}
+/* 07.07.26 landing-page native banner override end */
+
 /* 14.06.26 bold the "Advanced search" link (NDE) */
 /* Verified live on 972TAU_INST:NDE for both EN ("Advanced Search") and HE ("חיפוש מתקדם"). */
 /* .advanced-search-button is the language-independent button class (next to the search bar); */
