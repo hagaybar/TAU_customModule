@@ -28,8 +28,13 @@ import { dlog, dwarn, isTauDebugEnabled } from '../../services/debug.util';
 
 type AnyState = Record<string, unknown>;
 
-/** Slices we specifically care about for the DOM/URL → store migration (issue #19). */
-const SLICES_OF_INTEREST = ['delivery', 'router', 'search'] as const;
+/**
+ * Slices we specifically care about for the DOM/URL → store migration (issue #19).
+ * NOTE: the host uses CAPITALIZED slice names — verified live 2026-07-08 the store
+ * exposes `Delivery`, `Search`, `filters`, `router`, `routerState`, `language`
+ * (and 25 more). Lowercase `delivery`/`search` do NOT exist.
+ */
+const SLICES_OF_INTEREST = ['Delivery', 'Search', 'filters', 'router', 'routerState', 'language'] as const;
 
 /** Latest whole-state snapshot, captured by the subscription; read by the console helper. */
 let latestState: AnyState | null = null;
@@ -97,13 +102,13 @@ function installHelper(store: Store<AnyState>): void {
       return latestState ? shapeOf(latestState[name]) : '(no state yet)';
     },
     delivery() {
-      return this.slice('delivery');
+      return this.slice('Delivery'); // capitalized in the host store (verified 2026-07-08)
     },
     router() {
       return this.slice('router');
     },
     search() {
-      return this.slice('search');
+      return this.slice('Search'); // capitalized in the host store (verified 2026-07-08)
     },
     dumpShape() {
       const s = latestState ? shapeOf(latestState) : '(no state yet)';
