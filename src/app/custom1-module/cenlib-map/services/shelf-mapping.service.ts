@@ -10,6 +10,7 @@ import {
 } from '../config/shelf-mapping.config';
 import { DATA_SOURCE_CONFIG } from '../config/data-source.config';
 import { LocationContext } from '../models/location-context.model';
+import { fetchTextWithFallback } from './map-asset-fallback';
 
 /** Raw row from CSV parsing (MDM format with library/collection names) */
 interface CsvRow {
@@ -97,8 +98,7 @@ export class ShelfMappingService {
     this.loadingSubject.next(true);
     console.log('[ShelfMappingService] Fetching mappings from AWS CDN');
 
-    return this.http
-      .get(DATA_SOURCE_CONFIG.shelfMappingsUrl, { responseType: 'text' })
+    return fetchTextWithFallback(this.http, DATA_SOURCE_CONFIG.shelfMappingsUrl)
       .pipe(
         map((csv) => this.parseCsv(csv)),
         tap((mappings) => {

@@ -3,6 +3,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ElementRef, SimpleChange } from '@angular/core';
 
 import { ShelfMapSvgComponent } from './shelf-map-svg.component';
+import { AWS_CDN_BASE_URL } from '../config/data-source.config';
 
 describe('ShelfMapSvgComponent', () => {
   let fixture: ComponentFixture<ShelfMapSvgComponent>;
@@ -43,6 +44,23 @@ describe('ShelfMapSvgComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('getFallbackSvgPath (shared CDN → bundled mapping)', () => {
+    const fallbackPath = (url: string) =>
+      (component as unknown as {
+        getFallbackSvgPath(url: string): string | null;
+      }).getFallbackSvgPath(url);
+
+    it('maps a CDN floor SVG URL to the lowercase bundled path', () => {
+      expect(fallbackPath(`${AWS_CDN_BASE_URL}/maps/floor_1.svg`)).toBe(
+        'assets/cenlib-map/floor_1.svg'
+      );
+    });
+
+    it('returns null for a non-CDN URL (no bundled equivalent)', () => {
+      expect(fallbackPath('https://example.com/maps/floor_1.svg')).toBeNull();
+    });
   });
 
   describe('Finding 1 — re-highlight when codes change on the same SVG', () => {

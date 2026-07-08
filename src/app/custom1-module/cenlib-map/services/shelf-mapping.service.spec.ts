@@ -1,9 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import {
   HttpClientTestingModule,
+  HttpTestingController,
 } from '@angular/common/http/testing';
 
 import { ShelfMappingService } from './shelf-mapping.service';
+import { DATA_SOURCE_CONFIG } from '../config/data-source.config';
+import { assetBaseUrl } from '../../../state/asset-base.generated';
 
 describe('ShelfMappingService', () => {
   let service: ShelfMappingService;
@@ -141,6 +144,49 @@ describe('ShelfMappingService', () => {
       // Under the producer\'s string method 296.50 > 296.5, so a trailing-zero
       // call number does NOT fall inside a single-point 296.5 range.
       expect(service.isInDeweyRange('296.50', '296.5', '296.5')).toBe(false);
+    });
+  });
+
+  describe('loadMappings CDN → bundled fallback', () => {
+    let httpMock: HttpTestingController;
+
+    const VALID_CSV =
+      'libraryName,libraryNameHe,collectionName,collectionNameHe,rangeStart,rangeEnd,svgCode,description,descriptionHe,floor,shelfLabel,shelfLabelHe,notes,notesHe\n' +
+      'Test Library,,Test Collection,,000,999,X_0,,,0,,,,\n';
+
+    const LOCAL_CSV_URL = `${assetBaseUrl}/assets/cenlib-map/mapping.csv`;
+
+    beforeEach(() => {
+      httpMock = TestBed.inject(HttpTestingController);
+    });
+
+    afterEach(() => httpMock.verify());
+
+    it('parses the bundled mapping.csv when the CDN request fails', (done) => {
+      service.loadMappings().subscribe((mappings) => {
+        expect(mappings.length).toBe(1);
+        expect(mappings[0].libraryName).toBe('Test Library');
+        done();
+      });
+
+      // Simulate a CDN/CORS failure on the primary request…
+      httpMock
+        .expectOne(DATA_SOURCE_CONFIG.shelfMappingsUrl)
+        .error(new ProgressEvent('error'));
+      // …then the same-origin bundled copy answers.
+      httpMock.expectOne(LOCAL_CSV_URL).flush(VALID_CSV);
+    });
+
+    it('returns an empty array when both the CDN and the bundled asset fail', (done) => {
+      service.loadMappings().subscribe((mappings) => {
+        expect(mappings).toEqual([]);
+        done();
+      });
+
+      httpMock
+        .expectOne(DATA_SOURCE_CONFIG.shelfMappingsUrl)
+        .error(new ProgressEvent('error'));
+      httpMock.expectOne(LOCAL_CSV_URL).error(new ProgressEvent('error'));
     });
   });
 });
