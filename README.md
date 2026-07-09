@@ -117,7 +117,7 @@ Each source includes:
 ---
 
 ### 2. CenLib Shelf Map
-**Status:** ✅ Production (integrated via [PR #16](https://github.com/hagaybar/TAU_customModule/pull/16); bootstrap fix in [PR #17](https://github.com/hagaybar/TAU_customModule/pull/17))
+**Status:** ✅ Production (integrated via [PR #16](https://github.com/hagaybar/TAU_customModule/pull/16); bootstrap fix in [PR #17](https://github.com/hagaybar/TAU_customModule/pull/17); same-origin offline fallback in [PR #23](https://github.com/hagaybar/TAU_customModule/pull/23))
 
 Adds an interactive **"Shelf Map"** button (Hebrew: **"מפת מדף"**) to holding locations in the full-record display. Where TAU has shelf data for a *library + collection + call number*, the custom module hides the native ExLibris **"Locate"** button and shows "Shelf Map" instead; clicking it opens a dialog that shows the section, floor, shelf label, and a **highlighted floor-plan SVG** pinpointing where the item sits on the shelf.
 
@@ -125,7 +125,8 @@ Adds an interactive **"Shelf Map"** button (Hebrew: **"מפת מדף"**) to hold
 - ✅ **Location-level button**: replaces the native "Locate" button only where shelf data exists; falls back to "Locate" everywhere else
 - ✅ **Floor-plan dialog**: highlights the matching shelf element(s) on the library's floor SVG
 - ✅ **Multi-Dimensional Mapping (MDM)**: keyed on library + collection + Dewey call-number range; supports overlapping ranges (lists all candidate shelves)
-- ✅ **Data-driven from a companion repo via AWS CloudFront CDN**: the shelf-mapping CSV and floor-plan SVGs are authored in the **Primo Maps** companion repo and published to a CloudFront CDN; the module fetches them at runtime, cached 5 min, fail-safe (button hidden on any load error)
+- ✅ **Data-driven from a companion repo via AWS CloudFront CDN**: the shelf-mapping CSV and floor-plan SVGs are authored in the **Primo Maps** companion repo and published to a CloudFront CDN; the module fetches them at runtime, cached 5 min
+- ✅ **Same-origin offline fallback** ([PR #23](https://github.com/hagaybar/TAU_customModule/pull/23)): a bundled snapshot of the mapping data + floor SVGs ships inside the custom package (`src/assets/cenlib-map/`). If the CDN is unreachable (outage or a CORS regression), the loaders fall back to these same-origin copies so the button and map keep working instead of silently disappearing — only if *both* the CDN **and** the bundle fail is the button hidden. Refresh the snapshot with `npm run sync:map-assets` before a deploy. Bundled as `mapping.txt` (not `.csv` — Alma's custom-package upload rejects `.csv` files)
 - ✅ **Producer-matched call-number matching**: canonical Dewey comparison kept identical to the Primo Maps producer (`NDE_MAPS_MANGER`, issue #100) — cutter stripping, 3-digit zero-padding, `ML`/`MT` natural-number exception
 - ✅ **Floor-scoping guard** (issue #12): a range must not span floors; off-floor matches are dropped and logged instead of highlighted on the wrong SVG
 - ✅ **Bilingual Support**: English and Hebrew, detected from the `lang` URL parameter
@@ -149,6 +150,7 @@ responsibilities and the shared contract in [CenLib Shelf Map](docs/features/map
 - Selector mapping: `nde-location-top`
 - Files: `src/app/custom1-module/cenlib-map/`
 - Requires `HttpClientModule` in the app bootstrap (see PR #17)
+- Offline fallback: `services/map-asset-fallback.ts` (`cdnAssetToLocalPath` + `fetchTextWithFallback`) + bundled `src/assets/cenlib-map/` (`mapping.txt`, `floor_0/1/2.svg`); refresh with `npm run sync:map-assets`
 
 **Documentation:** See [CenLib Shelf Map](docs/features/map_cenlib_shelves/README.md) for the full feature guide (data model, CDN layout, matching rules, the companion Primo Maps repo, and how to extend it to another library).
 
