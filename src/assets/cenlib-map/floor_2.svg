@@ -361,7 +361,7 @@
     </clipPath>
   </defs>
   <g
-     id="cfa_kb1">
+     id="cfa_kb1" data-map-object="shelf" data-shelf-uid="ef1fda04-3c7f-4d0d-adac-9ef264c8f6d7">
     <path
        d="M 376,668.32486 C 376,667.04088 374.95913,666 373.67515,666 H 215.325 c -1.284,0 -2.325,1.04088 -2.325,2.32486 v 29.35024 c 0,1.284 1.041,2.3249 2.325,2.3249 H 373.67515 C 374.95913,700 376,698.9591 376,697.6751 Z"
        fill="url(#pattern1)"
@@ -1582,832 +1582,832 @@
      width="210"
      height="4"
      fill="#b9cde5"
-     id="kb1_1_b" />
+     id="kb1_1_b" data-map-object="shelf"  data-shelf-uid="75b490c8-5e8c-4fc3-bb05-f177aa65e478"/>
   <rect
      x="38"
      y="616.59479"
      width="185"
      height="4"
      fill="#b9cde5"
-     id="kb1_2_a" />
+     id="kb1_2_a" data-map-object="shelf"  data-shelf-uid="91c92ced-696a-4f5b-8f3f-dd7cee176693"/>
   <rect
      x="38"
      y="611.59479"
      width="185"
      height="4"
      fill="#b9cde5"
-     id="kb1_2_b" />
+     id="kb1_2_b" data-map-object="shelf"  data-shelf-uid="0e9c741a-dd82-4a43-b6ea-1b79c07f973d"/>
   <rect
      x="38"
      y="598.55865"
      width="185"
      height="3.6308758"
      fill="#b9cde5"
-     id="kb1_3_a"
-     style="stroke-width:1.10013" />
+     id="kb1_3_a" data-map-object="shelf"
+     style="stroke-width:1.10013"  data-shelf-uid="d9b88d9d-9c67-4714-a432-1ff243f2fea7"/>
   <rect
      x="38"
      y="594.18951"
      width="185"
      height="3.6308758"
      fill="#b9cde5"
-     id="kb1_3_b"
-     style="stroke-width:1.10013" />
+     id="kb1_3_b" data-map-object="shelf"
+     style="stroke-width:1.10013"  data-shelf-uid="e5f6946f-ab6c-459a-8da4-50e6629dd95e"/>
   <rect
      x="38"
      y="562.74823"
      width="160"
      height="4"
      fill="#b9cde5"
-     id="kb1_5_a" />
+     id="kb1_5_a" data-map-object="shelf"  data-shelf-uid="d80362d8-e8f6-4440-ae9b-c39b97e75690"/>
   <rect
      x="38"
      y="557.74823"
      width="160"
      height="4"
      fill="#b9cde5"
-     id="kb1_5_b" />
+     id="kb1_5_b" data-map-object="shelf"  data-shelf-uid="275717d8-5d7b-42a9-a66a-b5225d8887df"/>
   <rect
      x="38"
      y="526.93774"
      width="125"
      height="4"
      fill="#b9cde5"
-     id="kb1_7_a" />
+     id="kb1_7_a" data-map-object="shelf"  data-shelf-uid="1eef2607-ca53-4082-93cb-dd03f71b5b48"/>
   <rect
      x="38"
      y="521.93774"
      width="125"
      height="4"
      fill="#b9cde5"
-     id="kb1_7_b" />
+     id="kb1_7_b" data-map-object="shelf"  data-shelf-uid="b477735e-95ca-450a-9912-e84cfff8e0fc"/>
   <rect
      x="38"
      y="490.12729"
      width="125"
      height="4"
      fill="#b9cde5"
-     id="kb1_9_a" />
+     id="kb1_9_a" data-map-object="shelf"  data-shelf-uid="b265a840-3f47-4fb7-8056-05d2385fef3e"/>
   <rect
      x="38"
      y="486.12729"
      width="125"
      height="3.6308758"
      fill="#b9cde5"
-     id="kb1_9_b"
-     style="stroke-width:1.10013" />
+     id="kb1_9_b" data-map-object="shelf"
+     style="stroke-width:1.10013"  data-shelf-uid="873061c9-0fda-4305-a85e-d41657f3a2ce"/>
   <rect
      x="38"
      y="581.15344"
      width="185"
      height="3.6308758"
      fill="#b9cde5"
-     id="kb1_4_a"
-     style="stroke-width:1.10013" />
+     id="kb1_4_a" data-map-object="shelf"
+     style="stroke-width:1.10013"  data-shelf-uid="3294d0fc-c2a1-4e0e-8b65-58ea80442039"/>
   <rect
      x="38"
      y="576.15344"
      width="185"
      height="4"
      fill="#b9cde5"
-     id="kb1_4_b" />
+     id="kb1_4_b" data-map-object="shelf"  data-shelf-uid="d7784e12-a066-4862-b25d-a4ea2fd275e1"/>
   <rect
      x="38"
      y="544.55438"
      width="185"
      height="3.788595"
      fill="#b9cde5"
-     id="kb1_6_a"
-     style="stroke-width:1.12377" />
+     id="kb1_6_a" data-map-object="shelf"
+     style="stroke-width:1.12377"  data-shelf-uid="b1e57dfe-8280-46fa-88ae-0951f6df1f53"/>
   <rect
      x="38"
      y="540.34296"
      width="185"
      height="3.6308758"
      fill="#b9cde5"
-     id="kb1_6_b"
-     style="stroke-width:1.10013" />
+     id="kb1_6_b" data-map-object="shelf"
+     style="stroke-width:1.10013"  data-shelf-uid="dc82a12a-f4ee-47d4-aa3c-d9b542e61b59"/>
   <rect
      x="38"
      y="508.5325"
      width="125"
      height="4"
      fill="#b9cde5"
-     id="kb1_8_a" />
+     id="kb1_8_a" data-map-object="shelf"  data-shelf-uid="6a674786-3a5a-4d2e-b8af-4a82f5e9d2a3"/>
   <rect
      x="38"
      y="503.5325"
      width="125"
      height="4"
      fill="#b9cde5"
-     id="kb1_8_b" />
+     id="kb1_8_b" data-map-object="shelf"  data-shelf-uid="5bb4232e-2eae-4abb-9cde-c9cfed3cd7ef"/>
   <rect
      x="38"
      y="473.16443"
      width="125"
      height="3.5576208"
      fill="#b9cde5"
-     id="kb1_10_a"
-     style="stroke-width:1.08898" />
+     id="kb1_10_a" data-map-object="shelf"
+     style="stroke-width:1.08898"  data-shelf-uid="361c7305-af17-4e6f-be74-858e128378ef"/>
   <rect
      x="38"
      y="468.72205"
      width="125"
      height="4"
      fill="#b9cde5"
-     id="kb1_10_b" />
+     id="kb1_10_b" data-map-object="shelf"  data-shelf-uid="acab85e2-0df8-45f8-ba77-f2c072453f6e"/>
   <rect
      x="85.315437"
      y="454.84976"
      width="117"
      height="3.8884759"
      fill="#b9cde5"
-     id="kb1_12_a"
-     style="stroke-width:0.985961" />
+     id="kb1_12_a" data-map-object="shelf"
+     style="stroke-width:0.985961"  data-shelf-uid="3ff2f548-4a88-49cc-a958-04e9572f7ae5"/>
   <rect
      x="85.315437"
      y="450.73825"
      width="117"
      height="3.5384862"
      fill="#b9cde5"
-     id="kb1_12_b"
-     style="stroke-width:1.08605" />
+     id="kb1_12_b" data-map-object="shelf"
+     style="stroke-width:1.08605"  data-shelf-uid="3d631839-d3b7-4541-93fa-b5d282aa0d33"/>
   <rect
      x="38"
      y="438.58078"
      width="126"
      height="3.3308551"
      fill="#b9cde5"
-     id="kb1_13_a"
-     style="stroke-width:0.912531" />
+     id="kb1_13_a" data-map-object="shelf"
+     style="stroke-width:0.912531"  data-shelf-uid="e2217c37-4267-468c-9990-02e08a0606ab"/>
   <rect
      x="38"
      y="433.91162"
      width="126"
      height="3.6654274"
      fill="#b9cde5"
-     id="kb1_13_b"
-     style="stroke-width:0.957265" />
+     id="kb1_13_b" data-map-object="shelf"
+     style="stroke-width:0.957265"  data-shelf-uid="62b1b04e-6203-4aa4-be0c-b55aa64f1290"/>
   <rect
      x="38"
      y="421.06027"
      width="126"
      height="3.4460967"
      fill="#b9cde5"
-     id="kb1_14_a"
-     style="stroke-width:1.07177" />
+     id="kb1_14_a" data-map-object="shelf"
+     style="stroke-width:1.07177"  data-shelf-uid="5005af4a-7ebd-490f-bb21-7b44746e052e"/>
   <rect
      x="38"
      y="416.50638"
      width="126"
      height="4"
      fill="#b9cde5"
-     id="kb1_14_b" />
+     id="kb1_14_b" data-map-object="shelf"  data-shelf-uid="b938c0db-a1d5-43af-887d-c80de56a5e14"/>
   <rect
      x="38"
      y="403.10117"
      width="126"
      height="4"
      fill="#b9cde5"
-     id="kb1_15_a" />
+     id="kb1_15_a" data-map-object="shelf"  data-shelf-uid="afa98128-9b6c-436d-bdae-cd301e7cb237"/>
   <rect
      x="38"
      y="399.10117"
      width="126"
      height="3.3345726"
      fill="#b9cde5"
-     id="kb1_15_b"
-     style="stroke-width:1.05429" />
+     id="kb1_15_b" data-map-object="shelf"
+     style="stroke-width:1.05429"  data-shelf-uid="31202589-da9f-4051-a85b-26bc52de2d55"/>
   <rect
      x="38"
      y="367.29071"
      width="45.573849"
      height="4"
      fill="#b9cde5"
-     id="kb1_17_a"
-     style="stroke-width:1.0543" />
+     id="kb1_17_a" data-map-object="shelf"
+     style="stroke-width:1.0543"  data-shelf-uid="bc9c5812-8fea-4d82-96ef-6a0bc4582dd1"/>
   <rect
      x="38"
      y="363.29071"
      width="45.573849"
      height="3.4731569"
      fill="#b9cde5"
-     id="kb1_17_b"
-     style="stroke-width:1.1344" />
+     id="kb1_17_b" data-map-object="shelf"
+     style="stroke-width:1.1344"  data-shelf-uid="40e501f5-72e4-459a-bea5-276d7b4653a3"/>
   <rect
      x="66"
      y="333.03418"
      width="164"
      height="3.4460964"
      fill="#b9cde5"
-     id="kb1_19_a"
-     style="stroke-width:1.07178" />
+     id="kb1_19_a" data-map-object="shelf"
+     style="stroke-width:1.07178"  data-shelf-uid="c50265b5-366d-4876-a8e2-3a5e4e8a997e"/>
   <rect
      x="66"
      y="328.48029"
      width="164"
      height="4"
      fill="#b9cde5"
-     id="kb1_19_b" />
+     id="kb1_19_b" data-map-object="shelf"  data-shelf-uid="a3f29b28-fcf1-448b-b9b7-d9147175946a"/>
   <rect
      x="66"
      y="298.98526"
      width="66"
      height="3"
      fill="#b9cde5"
-     id="kb1_21_a" />
+     id="kb1_21_a" data-map-object="shelf"  data-shelf-uid="d47c197d-99a8-4b77-ac0b-ccf4784c16e3"/>
   <rect
      x="66"
      y="294.98526"
      width="66"
      height="3"
      fill="#b9cde5"
-     id="kb1_21_b" />
+     id="kb1_21_b" data-map-object="shelf"  data-shelf-uid="7637d107-f03a-42bc-8f80-e20b37eae2a8"/>
   <rect
      x="38"
      y="385.69595"
      width="126"
      height="4"
      fill="#b9cde5"
-     id="kb1_16_a" />
+     id="kb1_16_a" data-map-object="shelf"  data-shelf-uid="c263a8c9-e4cc-495b-815a-54362482093a"/>
   <rect
      x="38"
      y="380.69595"
      width="126"
      height="4"
      fill="#b9cde5"
-     id="kb1_16_b" />
+     id="kb1_16_b" data-map-object="shelf"  data-shelf-uid="dc3fa40a-7203-4e9e-a705-3201eb1305b5"/>
   <rect
      x="86"
      y="349.8855"
      width="144"
      height="4"
      fill="#b9cde5"
-     id="kb1_18_a" />
+     id="kb1_18_a" data-map-object="shelf"  data-shelf-uid="5647b887-eb9d-43a9-941b-051d8510b4c1"/>
   <rect
      x="86"
      y="345.8855"
      width="144"
      height="3.4460967"
      fill="#b9cde5"
-     id="kb1_18_b"
-     style="stroke-width:1.07177" />
+     id="kb1_18_b" data-map-object="shelf"
+     style="stroke-width:1.07177"  data-shelf-uid="bc10f49c-d7c4-4a19-8f0f-8518d6b40cfd"/>
   <rect
      x="66"
      y="315.3905"
      width="67"
      height="3.684562"
      fill="#b9cde5"
-     id="kb1_20_a"
-     style="stroke-width:0.959761" />
+     id="kb1_20_a" data-map-object="shelf"
+     style="stroke-width:0.959761"  data-shelf-uid="edcb1524-ceb1-412c-b322-01ee49252821"/>
   <rect
      x="66"
      y="311.3905"
      width="67"
      height="3.3942974"
      fill="#b9cde5"
-     id="kb1_20_b"
-     style="stroke-width:1.06369" />
+     id="kb1_20_b" data-map-object="shelf"
+     style="stroke-width:1.06369"  data-shelf-uid="5b501956-ba1d-48a3-ac6c-2a40c0f25453"/>
   <rect
      x="66"
      y="281.91461"
      width="66"
      height="3.6654274"
      fill="#b9cde5"
-     id="kb1_22_a"
-     style="stroke-width:0.957265" />
+     id="kb1_22_a" data-map-object="shelf"
+     style="stroke-width:0.957265"  data-shelf-uid="b1bbd196-9548-4d07-907d-17a1b7049640"/>
   <rect
      x="66"
      y="277.58005"
      width="66"
      height="3.4423792"
      fill="#b9cde5"
-     id="kb1_22_b"
-     style="stroke-width:0.927682" />
+     id="kb1_22_b" data-map-object="shelf"
+     style="stroke-width:0.927682"  data-shelf-uid="34523267-ebda-4128-8299-6cc45d4ec325"/>
   <rect
      x="66"
      y="265.17484"
      width="66"
      height="3"
      fill="#b9cde5"
-     id="kb1_23_a" />
+     id="kb1_23_a" data-map-object="shelf"  data-shelf-uid="d50440f7-8d6b-4508-ad47-3d9b8bf48bf4"/>
   <rect
      x="66"
      y="261.17484"
      width="66"
      height="3"
      fill="#b9cde5"
-     id="kb1_23_b" />
+     id="kb1_23_b" data-map-object="shelf"  data-shelf-uid="8c240ee6-bd93-4035-8729-b442cb74497b"/>
   <rect
      x="66"
      y="238.29645"
      width="78"
      height="3.4731569"
      fill="#b9cde5"
-     id="kb1_24_a"
-     style="stroke-width:1.07597" />
+     id="kb1_24_a" data-map-object="shelf"
+     style="stroke-width:1.07597"  data-shelf-uid="e2b43fd6-2d73-478c-8d97-abc175655088"/>
   <rect
      x="66"
      y="233.76961"
      width="78"
      height="4"
      fill="#b9cde5"
-     id="kb1_24_b" />
+     id="kb1_24_b" data-map-object="shelf"  data-shelf-uid="0339a898-4dfc-4424-9e29-1d82391a4220"/>
   <rect
      x="38"
      y="207.29372"
      width="192"
      height="3.6654274"
      fill="#b9cde5"
-     id="kb1_26_a"
-     style="stroke-width:0.957265" />
+     id="kb1_26_a" data-map-object="shelf"
+     style="stroke-width:0.957265"  data-shelf-uid="b7e77087-5149-4f86-9fff-c38fa7353654"/>
   <rect
      x="38"
      y="203.40523"
      width="192"
      height="3.3345726"
      fill="#b9cde5"
-     id="kb1_26_b"
-     style="stroke-width:1.05429" />
+     id="kb1_26_b" data-map-object="shelf"
+     style="stroke-width:1.05429"  data-shelf-uid="c8124d75-55a7-4ff1-b3ef-5e5c9def3c99"/>
   <rect
      x="66"
      y="224.91827"
      width="164"
      height="3.4460967"
      fill="#b9cde5"
-     id="kb1_25_a"
-     style="stroke-width:1.07177" />
+     id="kb1_25_a" data-map-object="shelf"
+     style="stroke-width:1.07177"  data-shelf-uid="2855d36f-4951-46be-83ff-5dcbe08367e1"/>
   <rect
      x="66"
      y="220.36436"
      width="164"
      height="4"
      fill="#b9cde5"
-     id="kb1_25_b" />
+     id="kb1_25_b" data-map-object="shelf"  data-shelf-uid="2f41a142-ee50-417f-a9e5-862210d7939b"/>
   <rect
      x="38"
      y="186"
      width="192"
      height="4"
      fill="#b9cde5"
-     id="kb1_27_b" />
+     id="kb1_27_b" data-map-object="shelf"  data-shelf-uid="f727a8a0-8a75-4b49-8d88-a02d4f9bf5cb"/>
   <rect
      x="38"
      y="190.55391"
      width="192"
      height="3.4460967"
      fill="#b9cde5"
-     id="kb1_27_a"
-     style="stroke-width:1.07177" />
+     id="kb1_27_a" data-map-object="shelf"
+     style="stroke-width:1.07177"  data-shelf-uid="b55602c7-16b4-4bf9-8d06-988954513994"/>
   <rect
      x="303"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb2_40_a" />
+     id="kb2_40_a" data-map-object="shelf"  data-shelf-uid="20885807-7a39-4878-9b86-5eff419f6d63"/>
   <rect
      x="309.52686"
      y="24.999901"
      width="4.4731569"
      height="129"
      fill="#b9cde5"
-     id="kb2_40_b"
-     style="stroke-width:1.05749" />
+     id="kb2_40_b" data-map-object="shelf"
+     style="stroke-width:1.05749"  data-shelf-uid="67039909-115e-4183-9aaf-782c6aaa1f5a"/>
   <rect
      x="280"
      y="24.999901"
      width="4"
      height="129"
      fill="#b9cde5"
-     id="kb2_39_a" />
+     id="kb2_39_a" data-map-object="shelf"  data-shelf-uid="599b4705-617b-49f7-9744-cc979e68887f"/>
   <rect
      x="286"
      y="24.999901"
      width="4"
      height="129"
      fill="#b9cde5"
-     id="kb2_39_b" />
+     id="kb2_39_b" data-map-object="shelf"  data-shelf-uid="8717fc54-cf48-45af-a0bb-8511baed0c9a"/>
   <rect
      x="232"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb1_37_a" />
+     id="kb1_37_a" data-map-object="shelf"  data-shelf-uid="12158f49-0240-4a04-a161-23b1c3b29959"/>
   <rect
      x="239"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb2_37_b" />
+     id="kb2_37_b" data-map-object="shelf"  data-shelf-uid="dcaff6ac-43b3-4b7a-9083-ef0333bcbf6e"/>
   <rect
      x="209"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb1_36_a" />
+     id="kb1_36_a" data-map-object="shelf"  data-shelf-uid="276a0737-bb9a-41ec-bc4f-2c5e9e7c60e9"/>
   <rect
      x="215.36913"
      y="24.999901"
      width="4.6308761"
      height="129"
      fill="#b9cde5"
-     id="kb1_36_b"
-     style="stroke-width:1.07597" />
+     id="kb1_36_b" data-map-object="shelf"
+     style="stroke-width:1.07597"  data-shelf-uid="3afcee63-17ac-43e9-9ef8-42c65b90bc57"/>
   <rect
      x="186"
      y="24.999901"
      width="4.9463139"
      height="129"
      fill="#b9cde5"
-     id="kb1_35_a"
-     style="stroke-width:1.11202" />
+     id="kb1_35_a" data-map-object="shelf"
+     style="stroke-width:1.11202"  data-shelf-uid="7bde4a1d-f281-4b8b-b233-93c5f4eea73a"/>
   <rect
      x="192"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb1_35_b" />
+     id="kb1_35_b" data-map-object="shelf"  data-shelf-uid="44df1a00-a81b-418f-a792-a044fd192c21"/>
   <rect
      x="162"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb1_34_a" />
+     id="kb1_34_a" data-map-object="shelf"  data-shelf-uid="0f756a33-99ed-4ebb-9a0d-fdab5ff789bf"/>
   <rect
      x="169"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb1_34_b" />
+     id="kb1_34_b" data-map-object="shelf"  data-shelf-uid="fc1d8964-c169-4140-ba73-81f9c1cf02b6"/>
   <rect
      x="326"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb2_41_a" />
+     id="kb2_41_a" data-map-object="shelf"  data-shelf-uid="2e7acd6d-62d8-4c1a-a683-025aca967168"/>
   <rect
      x="333"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb2_41_b" />
+     id="kb2_41_b" data-map-object="shelf"  data-shelf-uid="a21a0119-b3e4-45df-808c-222e76c666dc"/>
   <rect
      x="139"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb1_33_a" />
+     id="kb1_33_a" data-map-object="shelf"  data-shelf-uid="72e49e0b-2f6b-432a-84e4-60053ebd6052"/>
   <rect
      x="145.13254"
      y="24.999901"
      width="4.8674545"
      height="129"
      fill="#b9cde5"
-     id="kb1_33_b"
-     style="stroke-width:1.10311" />
+     id="kb1_33_b" data-map-object="shelf"
+     style="stroke-width:1.10311"  data-shelf-uid="f35adaeb-8662-4f37-a6cb-18bb3a5f7fa3"/>
   <rect
      x="116"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb1_32_a" />
+     id="kb1_32_a" data-map-object="shelf"  data-shelf-uid="ba5e1e5c-f68b-451b-aa98-0ce662b29102"/>
   <rect
      x="122"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb1_32_b" />
+     id="kb1_32_b" data-map-object="shelf"  data-shelf-uid="ee5b1fc3-a606-4635-a528-7fe0d9d6873a"/>
   <rect
      x="93"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb1_31_a" />
+     id="kb1_31_a" data-map-object="shelf"  data-shelf-uid="ebb50ef8-336f-474c-959a-7fe8165a2fbe"/>
   <rect
      x="99"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb1_31_b" />
+     id="kb1_31_b" data-map-object="shelf"  data-shelf-uid="fe12b337-75f3-409c-986d-b851a87819f2"/>
   <rect
      x="583"
      y="24.999901"
      width="4.557621"
      height="129"
      fill="#b9cde5"
-     id="kb2_52_a"
-     style="stroke-width:1.06743" />
+     id="kb2_52_a" data-map-object="shelf"
+     style="stroke-width:1.06743"  data-shelf-uid="2da5fe0e-6d65-4712-8af3-3e827e33b9b3"/>
   <rect
      x="588.55389"
      y="24.999901"
      width="4.4460964"
      height="129"
      fill="#b9cde5"
-     id="kb2_52_b"
-     style="stroke-width:1.05429" />
+     id="kb2_52_b" data-map-object="shelf"
+     style="stroke-width:1.05429"  data-shelf-uid="0f625e03-3f1e-4fc4-9170-d5937b4b09d2"/>
   <rect
      x="559"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb2_51_a" />
+     id="kb2_51_a" data-map-object="shelf"  data-shelf-uid="6e923057-f881-465f-9e89-818e17204ca1"/>
   <rect
      x="565"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb2_51_b" />
+     id="kb2_51_b" data-map-object="shelf"  data-shelf-uid="622e0bab-68b6-4509-b427-bc7ee347f49f"/>
   <rect
      x="536"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb2_50_a" />
+     id="kb2_50_a" data-map-object="shelf"  data-shelf-uid="c3a021bf-5644-4498-a5af-e96acaced961"/>
   <rect
      x="542"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb2_50_b" />
+     id="kb2_50_b" data-map-object="shelf"  data-shelf-uid="67c59dea-4129-45f9-a002-45d7f2b9ee14"/>
   <rect
      x="513"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb2_49_a" />
+     id="kb2_49_a" data-map-object="shelf"  data-shelf-uid="90164313-e34a-4ff2-ad69-5df0b6cb782f"/>
   <rect
      x="519"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb2_49_b" />
+     id="kb2_49_b" data-map-object="shelf"  data-shelf-uid="39756985-1117-4f93-9792-dc66a3091198"/>
   <rect
      x="489"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb2_48_a" />
+     id="kb2_48_a" data-map-object="shelf"  data-shelf-uid="80ff18db-370b-4eb2-83b7-8899f96f09b7"/>
   <rect
      x="495"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb2_48_b" />
+     id="kb2_48_b" data-map-object="shelf"  data-shelf-uid="0528d94c-10d4-4513-806b-4a55729fe656"/>
   <rect
      x="466"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb2_47_a" />
+     id="kb2_47_a" data-map-object="shelf"  data-shelf-uid="c72d804a-206d-4dd8-baec-c60f44d07258"/>
   <rect
      x="472"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb2_47_b" />
+     id="kb2_47_b" data-map-object="shelf"  data-shelf-uid="6504f48c-58e9-4b3a-a14d-54795c8ca25d"/>
   <rect
      x="606"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb2_53_a" />
+     id="kb2_53_a" data-map-object="shelf"  data-shelf-uid="92f2bc87-cf14-474c-af4d-959c23ae13f9"/>
   <rect
      x="612"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb2_53_b" />
+     id="kb2_53_b" data-map-object="shelf"  data-shelf-uid="2ea62f64-7f3c-4e61-bd68-665d9accd579"/>
   <rect
      x="419"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb2_45_a" />
+     id="kb2_45_a" data-map-object="shelf"  data-shelf-uid="af36d377-dafa-4a34-8c66-7a58bb8cb976"/>
   <rect
      x="425"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="ck_45_b"
-     style="fill:#ffe680" />
+     id="ck_45_b" data-map-object="shelf"
+     style="fill:#ffe680"  data-shelf-uid="ce2dc916-6809-4052-8427-59d42caed7fc"/>
   <rect
      x="396"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb2_44_a" />
+     id="kb2_44_a" data-map-object="shelf"  data-shelf-uid="c8c42388-6976-4d66-b40f-f4f5936be3ec"/>
   <rect
      x="402"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb2_44_b" />
+     id="kb2_44_b" data-map-object="shelf"  data-shelf-uid="739e6928-ffb1-4483-992a-256990cecaa0"/>
   <rect
      x="373"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb2_43_a" />
+     id="kb2_43_a" data-map-object="shelf"  data-shelf-uid="1f8938b2-c862-4a45-91c3-b8a5ceadaac0"/>
   <rect
      x="379"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb2_43_b" />
+     id="kb2_43_b" data-map-object="shelf"  data-shelf-uid="228f2eca-9d29-45d3-bb4e-bfea70def102"/>
   <rect
      x="350"
      y="24.999901"
      width="4.4460964"
      height="129"
      fill="#b9cde5"
-     id="kb2_42_a"
-     style="stroke-width:1.05429" />
+     id="kb2_42_a" data-map-object="shelf"
+     style="stroke-width:1.05429"  data-shelf-uid="86f9df30-c8ee-4636-803b-9514f4b8dedb"/>
   <rect
      x="355.44238"
      y="24.999901"
      width="4.557621"
      height="129"
      fill="#b9cde5"
-     id="kb2_42_b"
-     style="stroke-width:1.06743" />
+     id="kb2_42_b" data-map-object="shelf"
+     style="stroke-width:1.06743"  data-shelf-uid="18027ac8-3bb8-4120-8d6c-3bd9b7849aae"/>
   <rect
      x="653"
      y="24.999901"
      width="4.557621"
      height="129"
      fill="#b9cde5"
-     id="kb2_55_a"
-     style="stroke-width:1.06743" />
+     id="kb2_55_a" data-map-object="shelf"
+     style="stroke-width:1.06743"  data-shelf-uid="17b59a14-9b55-4f03-a358-92076c7c579f"/>
   <rect
      x="658.44238"
      y="24.999901"
      width="4.557621"
      height="129"
      fill="#b9cde5"
-     id="kb2_55_b"
-     style="stroke-width:1.06743" />
+     id="kb2_55_b" data-map-object="shelf"
+     style="stroke-width:1.06743"  data-shelf-uid="d7899d81-a5e7-4ba6-8383-0efdff4ea795"/>
   <rect
      x="676"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb2_56_a" />
+     id="kb2_56_a" data-map-object="shelf"  data-shelf-uid="6bf39627-3554-4693-b34d-fb2bbc588996"/>
   <rect
      x="682"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb2_56_b" />
+     id="kb2_56_b" data-map-object="shelf"  data-shelf-uid="8648e616-b79c-4020-929e-10c55a29e22f"/>
   <rect
      x="793"
      y="24.999901"
      width="4.6691451"
      height="129"
      fill="#b9cde5"
-     id="kb2_61_a"
-     style="stroke-width:1.08041" />
+     id="kb2_61_a" data-map-object="shelf"
+     style="stroke-width:1.08041"  data-shelf-uid="2192342d-3887-48af-a6f5-e27bd98760ee"/>
   <rect
      x="798.66541"
      y="24.999901"
      width="4.3345723"
      height="129"
      fill="#b9cde5"
-     id="kb2_61_b"
-     style="stroke-width:1.04098" />
+     id="kb2_61_b" data-map-object="shelf"
+     style="stroke-width:1.04098"  data-shelf-uid="16861b98-7a56-45a4-b470-de525afdd6ab"/>
   <rect
      x="769"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb2_60_a" />
+     id="kb2_60_a" data-map-object="shelf"  data-shelf-uid="e75af9bc-3b13-4673-848f-28f47b12f7ff"/>
   <rect
      x="775"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb2_60_b" />
+     id="kb2_60_b" data-map-object="shelf"  data-shelf-uid="b85299ed-0fa8-42e0-8758-cbdb13e8b414"/>
   <rect
      x="746"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb2_59_a" />
+     id="kb2_59_a" data-map-object="shelf"  data-shelf-uid="28d32cd7-e298-4ebd-ac33-34aaf5b28a3f"/>
   <rect
      x="752"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb2_59_b" />
+     id="kb2_59_b" data-map-object="shelf"  data-shelf-uid="73426754-f3cb-4b0d-ad3f-407168ba0a88"/>
   <rect
      x="723"
      y="24.999901"
      width="4.4460964"
      height="129"
      fill="#b9cde5"
-     id="kb2_58_a"
-     style="stroke-width:1.05429" />
+     id="kb2_58_a" data-map-object="shelf"
+     style="stroke-width:1.05429"  data-shelf-uid="c72953d8-9833-493b-9c2e-b273d677bd2b"/>
   <rect
      x="728.44238"
      y="24.999901"
      width="4.557621"
      height="129"
      fill="#b9cde5"
-     id="kb2_58_b"
-     style="stroke-width:1.06743" />
+     id="kb2_58_b" data-map-object="shelf"
+     style="stroke-width:1.06743"  data-shelf-uid="da63dc61-16c1-44d0-ac20-f624894c5f1b"/>
   <rect
      x="699"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb2_57_a" />
+     id="kb2_57_a" data-map-object="shelf"  data-shelf-uid="7244a120-f37f-46be-a915-e81e29b8e7b0"/>
   <rect
      x="705"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb2_57_b" />
+     id="kb2_57_b" data-map-object="shelf"  data-shelf-uid="843ab0c6-de71-49af-878d-96b4d1243d01"/>
   <rect
      x="839"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb2_63_a" />
+     id="kb2_63_a" data-map-object="shelf"  data-shelf-uid="85e27b4f-36cb-4384-af6a-ec76b5dbf370"/>
   <rect
      x="845"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb2_63_b" />
+     id="kb2_63_b" data-map-object="shelf"  data-shelf-uid="3039bda1-252b-4700-bb7e-54a9d307d639"/>
   <rect
      x="52"
      y="25"
      width="5"
      height="129"
      fill="#c4bd97"
-     id="cy_29_b" />
+     id="cy_29_b" data-map-object="shelf"  data-shelf-uid="4ff824c0-705c-4ba3-b611-945a4af38e11"/>
   <rect
      x="46"
      y="25"
      width="5"
      height="129"
      fill="#c4bd97"
-     id="cy_29_a" />
+     id="cy_29_a" data-map-object="shelf"  data-shelf-uid="65f20389-afd9-4c75-ac80-3e68ea8db8d7"/>
   <rect
      x="29"
      y="25"
      width="5"
      height="129"
      fill="#c4bd97"
-     id="cy_28_b" />
+     id="cy_28_b" data-map-object="shelf"  data-shelf-uid="80148822-6838-4363-a0cf-f5e40ecfea3a"/>
   <rect
      x="861"
      y="25"
      width="5"
      height="129"
      fill="#b9cde5"
-     id="kb2_64_a" />
+     id="kb2_64_a" data-map-object="shelf"  data-shelf-uid="6141cb36-e529-484d-ad8e-aabfb6183774"/>
   <path
      d="m 207,560.5 c 0,-4.694 3.806,-8.5 8.5,-8.5 4.694,0 8.5,3.806 8.5,8.5 0,4.694 -3.806,8.5 -8.5,8.5 -4.694,0 -8.5,-3.806 -8.5,-8.5 z"
      fill="#f2f2f2"
@@ -2833,53 +2833,53 @@
      width="165"
      height="3.3345726"
      fill="#b9cde5"
-     id="kb2_67_b"
-     style="stroke-width:1.05429" />
+     id="kb2_67_b" data-map-object="shelf"
+     style="stroke-width:1.05429"  data-shelf-uid="07563822-49c7-44c0-882b-d87786de37a3"/>
   <rect
      x="697"
      y="236"
      width="165"
      height="4"
      fill="#b9cde5"
-     id="kb2_67_a" />
+     id="kb2_67_a" data-map-object="shelf"  data-shelf-uid="d3093ae8-3199-4383-a4e4-652da05b0338"/>
   <rect
      x="697"
      y="257"
      width="125"
      height="4"
      fill="#b9cde5"
-     id="kb2_68_b" />
+     id="kb2_68_b" data-map-object="shelf"  data-shelf-uid="86e2f235-02c4-470f-b1ad-7fb8386f471f"/>
   <rect
      x="697"
      y="253"
      width="125"
      height="3.2760081"
      fill="#b9cde5"
-     id="kb2_68_a"
-     style="stroke-width:1.04499" />
+     id="kb2_68_a" data-map-object="shelf"
+     style="stroke-width:1.04499"  data-shelf-uid="e090a2fc-6d5b-43f7-8573-90f3afbde845"/>
   <rect
      x="697"
      y="224.66542"
      width="165"
      height="3.3345726"
      fill="#b9cde5"
-     id="kb2_66_b"
-     style="stroke-width:1.05429" />
+     id="kb2_66_b" data-map-object="shelf"
+     style="stroke-width:1.05429"  data-shelf-uid="9f30b27f-8f2d-41bb-9f73-75668d693855"/>
   <rect
      x="697"
      y="220"
      width="165"
      height="4"
      fill="#b9cde5"
-     id="kb2_66_a" />
+     id="kb2_66_a" data-map-object="shelf"  data-shelf-uid="1e1b0734-1265-4c53-acf1-5fc4f56e3633"/>
   <rect
      x="669"
      y="208.55391"
      width="193"
      height="3.4460967"
      fill="#b9cde5"
-     id="kb2_65_b"
-     style="stroke-width:1.07177" />
+     id="kb2_65_b" data-map-object="shelf"
+     style="stroke-width:1.07177"  data-shelf-uid="e8850fa3-65c0-47b7-98e8-94498408e682"/>
   <rect
      x="669.15771"
      y="203.68456"
@@ -2894,193 +2894,193 @@
      width="68"
      height="4"
      fill="#b9cde5"
-     id="kb2_65_a" />
+     id="kb2_65_a" data-map-object="shelf"  data-shelf-uid="d263064f-3fe8-41e9-9775-72b0095ca034"/>
   <rect
      x="697"
      y="272.64514"
      width="125"
      height="3.3548677"
      fill="#b9cde5"
-     id="kb2_69_b"
-     style="stroke-width:1.05749" />
+     id="kb2_69_b" data-map-object="shelf"
+     style="stroke-width:1.05749"  data-shelf-uid="6a2364b9-8084-4a8d-ade5-6cea02598f64"/>
   <rect
      x="697"
      y="268"
      width="125"
      height="4"
      fill="#b9cde5"
-     id="kb2_69_a" />
+     id="kb2_69_a" data-map-object="shelf"  data-shelf-uid="ddf900b0-df28-4e7f-8651-132b2e5c8a88"/>
   <rect
      x="697"
      y="289"
      width="125"
      height="4"
      fill="#b9cde5"
-     id="kb2_70_b" />
+     id="kb2_70_b" data-map-object="shelf"  data-shelf-uid="ce7ed0e9-1db3-460a-82a6-9419ff0a086e"/>
   <rect
      x="697"
      y="284"
      width="125"
      height="4"
      fill="#b9cde5"
-     id="kb2_70_a" />
+     id="kb2_70_a" data-map-object="shelf"  data-shelf-uid="2ea078bb-fa87-4131-afa0-9c2edd93ba75"/>
   <rect
      x="732"
      y="321.55762"
      width="90"
      height="3.4423792"
      fill="#b9cde5"
-     id="kb2_72_b"
-     style="stroke-width:0.927682" />
+     id="kb2_72_b" data-map-object="shelf"
+     style="stroke-width:0.927682"  data-shelf-uid="6451fcbd-d883-4eff-ae06-54a25b0c4703"/>
   <rect
      x="732"
      y="317"
      width="90"
      height="3.6654274"
      fill="#b9cde5"
-     id="kb2_72_a"
-     style="stroke-width:0.957265" />
+     id="kb2_72_a" data-map-object="shelf"
+     style="stroke-width:0.957265"  data-shelf-uid="a91356f6-5e54-4546-888f-1b0e94beaa2f"/>
   <rect
      x="732"
      y="337.36911"
      width="130"
      height="3.6308758"
      fill="#b9cde5"
-     id="kb2_73_b"
-     style="stroke-width:1.10013" />
+     id="kb2_73_b" data-map-object="shelf"
+     style="stroke-width:1.10013"  data-shelf-uid="5a111cfc-3bc9-452e-99d3-90a932c04872"/>
   <rect
      x="732"
      y="333"
      width="130"
      height="3.4731569"
      fill="#b9cde5"
-     id="kb2_73_a"
-     style="stroke-width:1.07597" />
+     id="kb2_73_a" data-map-object="shelf"
+     style="stroke-width:1.07597"  data-shelf-uid="a88e0f72-1069-4e94-808a-31d9b46cfeca"/>
   <rect
      x="732"
      y="305"
      width="90"
      height="4"
      fill="#b9cde5"
-     id="kb2_71_b" />
+     id="kb2_71_b" data-map-object="shelf"  data-shelf-uid="36d1a806-9710-46c6-9d54-a9add24f38c2"/>
   <rect
      x="732"
      y="300"
      width="90"
      height="4"
      fill="#b9cde5"
-     id="kb2_71_a" />
+     id="kb2_71_a" data-map-object="shelf"  data-shelf-uid="aff73e12-c33c-4491-b82d-e0ca3a5bac6a"/>
   <rect
      x="732"
      y="353.31543"
      width="130"
      height="3.684562"
      fill="#b9cde5"
-     id="kb2_74_b"
-     style="stroke-width:0.959761" />
+     id="kb2_74_b" data-map-object="shelf"
+     style="stroke-width:0.959761"  data-shelf-uid="589926d6-a598-4fa1-995c-12296ab1fb45"/>
   <rect
      x="732"
      y="349"
      width="130"
      height="3.211405"
      fill="#b9cde5"
-     id="kb2_74_a"
-     style="stroke-width:0.89602" />
+     id="kb2_74_a" data-map-object="shelf"
+     style="stroke-width:0.89602"  data-shelf-uid="1121c1e0-ad48-447d-82cb-80747153c89e"/>
   <rect
      x="732"
      y="369.68457"
      width="130"
      height="3.315438"
      fill="#b9cde5"
-     id="kb2_75_b"
-     style="stroke-width:1.05126" />
+     id="kb2_75_b" data-map-object="shelf"
+     style="stroke-width:1.05126"  data-shelf-uid="66b142fd-bbf7-4138-b2ae-ff1d592a5bbc"/>
   <rect
      x="732"
      y="365.47314"
      width="130"
      height="3.5268431"
      fill="#b9cde5"
-     id="kb2_75_a"
-     style="stroke-width:0.938995" />
+     id="kb2_75_a" data-map-object="shelf"
+     style="stroke-width:0.938995"  data-shelf-uid="fe1d22dc-af86-4828-acd1-a49c64c2a127"/>
   <rect
      x="822"
      y="386"
      width="40"
      height="3.6096654"
      fill="#b9cde5"
-     id="kb2_76_b"
-     style="stroke-width:0.949956" />
+     id="kb2_76_b" data-map-object="shelf"
+     style="stroke-width:0.949956"  data-shelf-uid="b320adbc-460c-41b9-b9e5-3551e8123f71"/>
   <rect
      x="822"
      y="382"
      width="40"
      height="3.1672862"
      fill="#b9cde5"
-     id="kb2_76_a"
-     style="stroke-width:1.0275" />
+     id="kb2_76_a" data-map-object="shelf"
+     style="stroke-width:1.0275"  data-shelf-uid="2865adae-188b-43b4-a4d0-06484829cb57"/>
   <rect
      x="822"
      y="401.60968"
      width="40"
      height="3.3903346"
      fill="#b9cde5"
-     id="kb2_77_b"
-     style="stroke-width:1.06307" />
+     id="kb2_77_b" data-map-object="shelf"
+     style="stroke-width:1.06307"  data-shelf-uid="43cd0880-3106-4ada-bf51-eea741ce639c"/>
   <rect
      x="822"
      y="397"
      width="40"
      height="3.5018587"
      fill="#b9cde5"
-     id="kb2_77_a"
-     style="stroke-width:1.08041" />
+     id="kb2_77_a" data-map-object="shelf"
+     style="stroke-width:1.08041"  data-shelf-uid="4c3d8cd6-51e2-460d-86ed-e40fd29b9720"/>
   <rect
      x="822"
      y="417.38663"
      width="40"
      height="3.6133828"
      fill="#b9cde5"
-     id="kb2_78_b"
-     style="stroke-width:1.09748" />
+     id="kb2_78_b" data-map-object="shelf"
+     style="stroke-width:1.09748"  data-shelf-uid="66fe050c-1788-4b58-bcdb-284eccea4f23"/>
   <rect
      x="822"
      y="413"
      width="40"
      height="3.7211895"
      fill="#b9cde5"
-     id="kb2_78_a"
-     style="stroke-width:0.964519" />
+     id="kb2_78_a" data-map-object="shelf"
+     style="stroke-width:0.964519"  data-shelf-uid="f45eb13b-e04a-4fd1-a7b1-1466ecdadf48"/>
   <rect
      x="822"
      y="433.56628"
      width="40"
      height="3.4337273"
      fill="#b9cde5"
-     id="kb2_79_b"
-     style="stroke-width:1.06985" />
+     id="kb2_79_b" data-map-object="shelf"
+     style="stroke-width:1.06985"  data-shelf-uid="5051a63d-5949-4a57-8135-a5d66802a096"/>
   <rect
      x="822"
      y="429.35486"
      width="40"
      height="3.6451323"
      fill="#b9cde5"
-     id="kb2_79_a"
-     style="stroke-width:0.954611" />
+     id="kb2_79_a" data-map-object="shelf"
+     style="stroke-width:0.954611"  data-shelf-uid="38afe169-5eb9-4887-8bdc-13cccb279fbb"/>
   <rect
      x="822"
      y="449.56628"
      width="40"
      height="3.4337273"
      fill="#b9cde5"
-     id="kb2_80_b"
-     style="stroke-width:1.06985" />
+     id="kb2_80_b" data-map-object="shelf"
+     style="stroke-width:1.06985"  data-shelf-uid="35324763-a37c-4af7-9ea5-c841ab81b70e"/>
   <rect
      x="822"
      y="445"
      width="40"
      height="4"
      fill="#b9cde5"
-     id="kb2_80_a" />
+     id="kb2_80_a" data-map-object="shelf"  data-shelf-uid="bcd85153-b787-4133-8608-ea28eb0ce8f1"/>
   <text
      font-family="Arial, Arial_MSFontService, sans-serif"
      font-weight="700"
@@ -3178,15 +3178,15 @@
      width="23"
      height="3.3345723"
      fill="#b9cde5"
-     id="kb1_11_a"
-     style="stroke-width:1.05429" />
+     id="kb1_11_a" data-map-object="shelf"
+     style="stroke-width:1.05429"  data-shelf-uid="b7dd6049-1f9d-47a0-9172-8dc756e1fd1e"/>
   <rect
      x="38.315437"
      y="450.73825"
      width="23"
      height="4"
      fill="#b9cde5"
-     id="kb1_11_b" />
+     id="kb1_11_b" data-map-object="shelf"  data-shelf-uid="82e77d78-bd87-4c95-94c0-02a1292d0660"/>
   <path
      d="m 65,455.23825 c 0,-4.694 3.8056,-8.5 8.5,-8.5 4.6944,0 8.5,3.806 8.5,8.5 0,4.694 -3.8056,8.5 -8.5,8.5 -4.6944,0 -8.5,-3.806 -8.5,-8.5 z"
      fill="#f2f2f2"
@@ -3219,152 +3219,152 @@
      width="165"
      height="3.4731569"
      fill="#b9cde5"
-     id="kb2_81_b"
-     style="stroke-width:1.07597" />
+     id="kb2_81_b" data-map-object="shelf"
+     style="stroke-width:1.07597"  data-shelf-uid="edcbe55e-9006-4faf-90eb-0f02339120e8"/>
   <rect
      x="697"
      y="461.39429"
      width="165"
      height="3.6057026"
      fill="#b9cde5"
-     id="kb2_81_a"
-     style="stroke-width:0.949434" />
+     id="kb2_81_a" data-map-object="shelf"
+     style="stroke-width:0.949434"  data-shelf-uid="a5506d43-bb1f-4705-8fde-674b2e7cfe26"/>
   <rect
      x="697"
      y="482"
      width="165"
      height="4"
      fill="#b9cde5"
-     id="kb2_82_b" />
+     id="kb2_82_b" data-map-object="shelf"  data-shelf-uid="886e80d0-b03b-4cf6-ad17-b21181dc556b"/>
   <rect
      x="697"
      y="477"
      width="165"
      height="4"
      fill="#b9cde5"
-     id="kb2_82_a" />
+     id="kb2_82_a" data-map-object="shelf"  data-shelf-uid="7b17b1d4-d5fc-4b6e-a8f5-fbe5a9c822b9"/>
   <rect
      x="737"
      y="498"
      width="125"
      height="4"
      fill="#b6df89"
-     id="ml_83_b" />
+     id="ml_83_b" data-map-object="shelf"  data-shelf-uid="8208cf64-6745-4021-a560-a97ab58ce5c3"/>
   <rect
      x="697"
      y="493"
      width="165"
      height="4"
      fill="#b9cde5"
-     id="kb2_83_a" />
+     id="kb2_83_a" data-map-object="shelf"  data-shelf-uid="15cc3bcf-e2c4-4248-8d0a-3c16ce0426b1"/>
   <rect
      x="730"
      y="514.448"
      width="111"
      height="3.5520165"
      fill="#b6df89"
-     id="ml_84_b"
-     style="stroke-width:1.08812" />
+     id="ml_84_b" data-map-object="shelf"
+     style="stroke-width:1.08812"  data-shelf-uid="0a69f692-b05e-4da7-b9eb-d40e422adeb0"/>
   <rect
      x="730"
      y="510"
      width="111"
      height="3.6308758"
      fill="#b6df89"
-     id="ml_84_a"
-     style="stroke-width:1.10013" />
+     id="ml_84_a" data-map-object="shelf"
+     style="stroke-width:1.10013"  data-shelf-uid="650c9545-61c7-4cee-a31e-65e5958c4902"/>
   <rect
      x="802"
      y="530.724"
      width="39"
      height="3.2760081"
      fill="#b6df89"
-     id="ml_85_b"
-     style="stroke-width:1.04499" />
+     id="ml_85_b" data-map-object="shelf"
+     style="stroke-width:1.04499"  data-shelf-uid="73131251-1fd6-4613-9294-30579fadff5c"/>
   <rect
      x="802"
      y="526.276"
      width="39"
      height="3.7239919"
      fill="#b6df89"
-     id="ml_85_a"
-     style="stroke-width:0.964882" />
+     id="ml_85_a" data-map-object="shelf"
+     style="stroke-width:0.964882"  data-shelf-uid="cc2a3102-4a20-4bb2-9158-cede11edb82e"/>
   <rect
      x="802"
      y="546.64514"
      width="39"
      height="3.3548677"
      fill="#b6df89"
-     id="ml_86_b"
-     style="stroke-width:1.05749" />
+     id="ml_86_b" data-map-object="shelf"
+     style="stroke-width:1.05749"  data-shelf-uid="2a7af04f-d93f-4893-b62f-052b3ee0a38b"/>
   <rect
      x="802"
      y="542.23657"
      width="39"
      height="3.7634215"
      fill="#b6df89"
-     id="ml_86_a"
-     style="stroke-width:0.969977" />
+     id="ml_86_a" data-map-object="shelf"
+     style="stroke-width:0.969977"  data-shelf-uid="7c0efa86-4c3c-4e7c-b620-162e50bcff58"/>
   <rect
      x="802"
      y="562.64514"
      width="39"
      height="3.3548677"
      fill="#b6df89"
-     id="ml_87_b"
-     style="stroke-width:1.05749" />
+     id="ml_87_b" data-map-object="shelf"
+     style="stroke-width:1.05749"  data-shelf-uid="7c632e43-36c3-4add-818c-10d734ed4a53"/>
   <rect
      x="802"
      y="558"
      width="39"
      height="4"
      fill="#b6df89"
-     id="ml_87_a" />
+     id="ml_87_a" data-map-object="shelf"  data-shelf-uid="dc3820de-2a71-425e-8320-c45d394249a6"/>
   <rect
      x="802"
      y="578.23846"
      width="39"
      height="3.7615347"
      fill="#b6df89"
-     id="ml_88_b"
-     style="stroke-width:1.11975" />
+     id="ml_88_b" data-map-object="shelf"
+     style="stroke-width:1.11975"  data-shelf-uid="a16e9cdb-5a65-40d3-8977-38466774d05f"/>
   <rect
      x="802"
      y="574"
      width="39"
      height="3.6654274"
      fill="#b6df89"
-     id="ml_88_a"
-     style="stroke-width:0.957265" />
+     id="ml_88_a" data-map-object="shelf"
+     style="stroke-width:0.957265"  data-shelf-uid="e04ece13-edb6-4ed4-81e8-c5a25fe82ab7"/>
   <rect
      x="649"
      y="595"
      width="192"
      height="4"
      fill="#ff7979"
-     id="cl2_89_b" />
+     id="cl2_89_b" data-map-object="shelf"  data-shelf-uid="b117cab5-aa7d-4b19-9756-0ce41d4d26a1"/>
   <rect
      x="649"
      y="590"
      width="105"
      height="4"
      fill="#ff7979"
-     id="cl2_89_a" />
+     id="cl2_89_a" data-map-object="shelf"  data-shelf-uid="c5913097-eaf6-4a0e-9a1a-477ae99568bf"/>
   <rect
      x="649"
      y="612"
      width="149"
      height="3"
      fill="#a6a6a6"
-     id="cj_90_b" />
+     id="cj_90_b" data-map-object="shelf"  data-shelf-uid="65f9fc3e-753d-4e27-83db-e5e66da62466"/>
   <rect
      x="649"
      y="607"
      width="94"
      height="3.4460967"
      fill="#a6a6a6"
-     id="cj_90_a"
-     style="stroke-width:1.07177" />
+     id="cj_90_a" data-map-object="shelf"
+     style="stroke-width:1.07177"  data-shelf-uid="446b5109-26ca-4a57-b9da-add11f79b5b7"/>
   <text
      font-family="Arial, Arial_MSFontService, sans-serif"
      font-weight="700"
@@ -3592,7 +3592,7 @@
      stroke-miterlimit="10"
      fill="none"
      fill-rule="evenodd"
-     id="CP_kb2" />
+     id="CP_kb2" data-map-object="shelf"  data-shelf-uid="5e324e96-1d79-405f-bd70-5e70c437f3a3"/>
   <g
      id="g477"
      transform="matrix(1.1476148,0,0,1.1476148,-25.139232,-84.03075)">
@@ -3775,20 +3775,20 @@
      d="M 815,641.96411 C 815,641.43165 814.70151,641 814.33331,641 H 628.667 c -0.369,0 -0.667,0.43165 -0.667,0.96411 v 3.85616 c 0,0.53247 0.298,0.96412 0.667,0.96412 h 185.66631 c 0.3682,0 0.66669,-0.43165 0.66669,-0.96412 z"
      fill="#953735"
      fill-rule="evenodd"
-     id="chi_4_a"
-     style="stroke-width:1.20254" />
+     id="chi_4_a" data-map-object="shelf"
+     style="stroke-width:1.20254"  data-shelf-uid="e23494db-90d4-40e4-9ff4-9f3a8ce00a37"/>
   <path
      d="M 560,641.96417 C 560,641.43167 559.7015,641 559.33327,641 H 431.667 c -0.369,0 -0.667,0.43167 -0.667,0.96417 v 3.85605 c 0,0.53249 0.298,0.96417 0.667,0.96417 h 127.66627 c 0.36823,0 0.66673,-0.43168 0.66673,-0.96417 z"
      fill="#953735"
      fill-rule="evenodd"
-     id="chi_3_a"
-     style="stroke-width:1.20254" />
+     id="chi_3_a" data-map-object="shelf"
+     style="stroke-width:1.20254"  data-shelf-uid="5229a1da-e8fa-418d-a330-b8548a93daf5"/>
   <path
      d="M 271,641.92689 C 271,641.41499 270.70386,641 270.33856,641 H 31.557685 c -0.366109,0 -0.661774,0.41499 -0.661774,0.92689 v 3.70755 c 0,0.51191 0.295665,0.9269 0.661774,0.9269 H 270.33856 c 0.3653,0 0.66144,-0.41499 0.66144,-0.9269 z"
      fill="#953735"
      fill-rule="evenodd"
-     id="chi_2_a"
-     style="stroke-width:1.1745" />
+     id="chi_2_a" data-map-object="shelf"
+     style="stroke-width:1.1745"  data-shelf-uid="28ff91bd-0b54-4e4d-8115-2ab7a3abf6e2"/>
   <path
      d="M 560.386,638.5 364.5,638.5001"
      stroke="#000000"
@@ -3849,14 +3849,14 @@
      d="M 428,641.96407 C 428,641.43163 427.70152,641 427.33333,641 H 364.6667 C 364.2985,641 364,641.43163 364,641.96407 v 3.85625 c 0,0.53244 0.2985,0.96407 0.6667,0.96407 h 62.66663 c 0.36819,0 0.66667,-0.43163 0.66667,-0.96407 z"
      fill="#8064a2"
      fill-rule="evenodd"
-     id="ctw_1_a"
-     style="fill:#ff00ff;stroke-width:1.20254" />
+     id="ctw_1_a" data-map-object="shelf"
+     style="fill:#ff00ff;stroke-width:1.20254"  data-shelf-uid="3574d597-eb0c-4434-a1b7-bae4ff69d56d"/>
   <path
      d="m 739,668.72762 c 0,-0.47192 -0.22387,-0.8545 -0.50002,-0.8545 H 675.5 c -0.2761,0 -0.5,0.38258 -0.5,0.8545 v 3.41786 c 0,0.47193 0.2239,0.85452 0.5,0.85452 h 62.99998 C 738.77613,673 739,672.61741 739,672.14548 Z"
      fill="#953735"
      fill-rule="evenodd"
-     id="chi_5_a"
-     style="stroke-width:1.30727" />
+     id="chi_5_a" data-map-object="shelf"
+     style="stroke-width:1.30727"  data-shelf-uid="a9ae2bbc-bda6-48e7-a2de-46d3b167c0da"/>
   <g
      id="g509">
     <g
@@ -4046,8 +4046,8 @@
      fill-rule="evenodd"
      id="path386" />
   <g
-     id="ck_46_a"
-     style="fill:#ffe680">
+     id="ck_46_a" data-map-object="shelf"
+     style="fill:#ffe680" data-shelf-uid="e0f40296-0ec3-4ea6-8311-d76ee7589e4b">
     <rect
        x="442"
        y="62.999901"
@@ -4066,8 +4066,8 @@
        style="fill:#ffe680" />
   </g>
   <g
-     id="ck_46_b"
-     style="fill:#ffe680">
+     id="ck_46_b" data-map-object="shelf"
+     style="fill:#ffe680" data-shelf-uid="3b70210b-3d8a-424c-a5c7-c4f1e37ae5df">
     <rect
        x="448"
        y="62.999901"
@@ -4096,7 +4096,7 @@
      fill-rule="evenodd"
      id="path390" />
   <g
-     id="kb1_30_a">
+     id="kb1_30_a" data-map-object="shelf" data-shelf-uid="5f4cab23-8b4f-4f7e-8ccc-f20d5483d8ce">
     <rect
        x="70.000099"
        y="62.999901"
@@ -4113,7 +4113,7 @@
        id="rect391" />
   </g>
   <g
-     id="kb1_30_b">
+     id="kb1_30_b" data-map-object="shelf" data-shelf-uid="fd5ee9a0-41b9-43fe-b661-64aeef4b9ece">
     <rect
        x="76.000099"
        y="62.999901"
@@ -4140,7 +4140,7 @@
      fill-rule="evenodd"
      id="path394" />
   <g
-     id="kb2_38_a">
+     id="kb2_38_a" data-map-object="shelf" data-shelf-uid="74f87373-7c83-4b59-b63a-c8b190777142">
     <rect
        x="254"
        y="62.999901"
@@ -4157,7 +4157,7 @@
        id="rect395" />
   </g>
   <g
-     id="kb2_38_b">
+     id="kb2_38_b" data-map-object="shelf" data-shelf-uid="3c6c1157-eb07-4149-a162-e688ea3905fa">
     <rect
        x="261"
        y="62.999901"
@@ -4184,7 +4184,7 @@
      fill-rule="evenodd"
      id="path398" />
   <g
-     id="kb2_54_a">
+     id="kb2_54_a" data-map-object="shelf" data-shelf-uid="c137aab7-1956-4fbc-a1f8-0fb69e97bdd4">
     <rect
        x="629"
        y="62.999901"
@@ -4201,7 +4201,7 @@
        id="rect399" />
   </g>
   <g
-     id="kb2_54_b">
+     id="kb2_54_b" data-map-object="shelf" data-shelf-uid="7c8a6cc4-85a4-4d8b-b354-7e71bd375197">
     <rect
        x="635"
        y="62.999901"
@@ -4228,7 +4228,7 @@
      fill-rule="evenodd"
      id="path402" />
   <g
-     id="kb2_62_a">
+     id="kb2_62_a" data-map-object="shelf" data-shelf-uid="b002b7e0-defc-486d-b0d7-87b6bba6eac2">
     <rect
        x="815"
        y="62.999901"
@@ -4245,7 +4245,7 @@
        id="rect403" />
   </g>
   <g
-     id="kb2_62_b">
+     id="kb2_62_b" data-map-object="shelf" data-shelf-uid="04ec62d5-7f1b-4764-99b2-bac391e06845">
     <rect
        x="821"
        y="62.999901"
@@ -4265,8 +4265,8 @@
      d="m 36.192144,671 c 0.573514,0 1.038439,-0.29848 1.038439,-0.66668 V 648.6667 c 0,-0.3682 -0.464925,-0.6667 -1.038439,-0.6667 h -4.153609 c -0.573516,0 -1.038435,0.2985 -1.038435,0.6667 v 21.66662 c 0,0.3682 0.464919,0.66668 1.038435,0.66668 z"
      fill="#953735"
      fill-rule="evenodd"
-     id="chi_1_a"
-     style="stroke-width:1.24805" />
+     id="chi_1_a" data-map-object="shelf"
+     style="stroke-width:1.24805"  data-shelf-uid="db1b3c7d-0c97-415b-828c-8ac036c6b9e1"/>
   <g
      id="g479"
      transform="matrix(1.2661245,0,0,1.2661245,-208.0109,-109.88047)">
@@ -4457,36 +4457,36 @@
      width="41"
      height="4"
      fill="#b6df89"
-     id="ml_89_a" />
+     id="ml_89_a" data-map-object="shelf"  data-shelf-uid="d3fbbf2c-0db2-46bb-9459-4f66492c714e"/>
   <rect
      x="756"
      y="590"
      width="42"
      height="4"
      fill="#376092"
-     id="cb2_89_a" />
+     id="cb2_89_a" data-map-object="shelf"  data-shelf-uid="518f18fc-bed1-47d6-af9c-aee60d6df5b6"/>
   <rect
      x="745"
      y="607"
      width="96"
      height="3.6691449"
      fill="#ff7979"
-     id="cl2_90_a"
-     style="stroke-width:1.10592" />
+     id="cl2_90_a" data-map-object="shelf"
+     style="stroke-width:1.10592"  data-shelf-uid="aa9f0edf-ee11-404a-ad48-68b688dee4ed"/>
   <rect
      x="800"
      y="612"
      width="41"
      height="3"
      fill="#953735"
-     id="chi_90_b" />
+     id="chi_90_b" data-map-object="shelf"  data-shelf-uid="f3acc271-bbb0-4617-8589-a55b832768ff"/>
   <rect
      x="697"
      y="498"
      width="37"
      height="4"
      fill="#b9cde5"
-     id="kb2_83_b" />
+     id="kb2_83_b" data-map-object="shelf"  data-shelf-uid="7943f6f5-0359-43b8-8339-26608b490b96"/>
   <text
      font-family="Arial, Arial_MSFontService, sans-serif"
      font-weight="700"

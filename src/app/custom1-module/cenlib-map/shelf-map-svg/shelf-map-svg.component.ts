@@ -20,7 +20,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { FLOOR_LAYOUT, FloorData } from '../config/floor-layout.config';
 import { assetBaseUrl } from '../../../state/asset-base.generated';
-import { AWS_CDN_BASE_URL } from '../config/data-source.config';
+import { cdnAssetToLocalPath } from '../services/map-asset-fallback';
 
 /**
  * SVG Shelf Map Component
@@ -96,13 +96,6 @@ export class ShelfMapSvgComponent implements OnChanges, OnDestroy {
 
   /** Subscription cleanup */
   private svgSubscription: Subscription | null = null;
-
-  /** Mapping from floor number to local SVG filename for fallback */
-  private readonly LOCAL_SVG_MAP: Record<string, string> = {
-    '0': 'Floor_0.svg',
-    '1': 'Floor_1.SVG',
-    '2': 'Floor_2.SVG'
-  };
 
   /**
    * Code set currently painted onto the live SVG, or null when none has been
@@ -348,22 +341,12 @@ export class ShelfMapSvgComponent implements OnChanges, OnDestroy {
   }
 
   /**
-   * Extract floor number from CloudFront URL and return fallback local SVG path
+   * Map a CloudFront asset URL to its bundled same-origin fallback path.
+   * Delegates to the shared cdnAssetToLocalPath so the CDN → bundled mapping
+   * lives in one place (also used by ShelfMappingService for the CSV).
    */
   private getFallbackSvgPath(originalUrl: string): string | null {
-    if (!originalUrl.includes(AWS_CDN_BASE_URL)) {
-      return null;
-    }
-    const floorMatch = originalUrl.match(/floor_(\d+)\.svg/i);
-    if (!floorMatch) {
-      return null;
-    }
-    const floorNum = floorMatch[1];
-    const localFile = this.LOCAL_SVG_MAP[floorNum];
-    if (!localFile) {
-      return null;
-    }
-    return `assets/cenlib-map/${localFile}`;
+    return cdnAssetToLocalPath(originalUrl);
   }
 
   /** Select a floor to display (fallback mode) */

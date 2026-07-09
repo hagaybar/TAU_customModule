@@ -1119,926 +1119,926 @@
      width="176"
      height="4"
      fill="#ddd9c3"
-     id="ka1_15_a" />
+     id="ka1_15_a" data-map-object="shelf"  data-shelf-uid="7b73cf13-d5dd-4439-8326-704bb0b01659"/>
   <rect
      x="79"
      y="619"
      width="176"
      height="4"
      fill="#ddd9c3"
-     id="ka1_15_b" />
+     id="ka1_15_b" data-map-object="shelf"  data-shelf-uid="304881eb-bd77-4117-9b3d-904acd3c92cd"/>
   <rect
      x="79"
      y="604"
      width="176"
      height="3"
      fill="#ddd9c3"
-     id="ka1_16_a" />
+     id="ka1_16_a" data-map-object="shelf"  data-shelf-uid="92dce278-4ce1-4659-99c0-0db4fce8aa2f"/>
   <rect
      x="79"
      y="599"
      width="176"
      height="4"
      fill="#ddd9c3"
-     id="ka1_16_b" />
+     id="ka1_16_b" data-map-object="shelf"  data-shelf-uid="003a8b73-0650-4921-8378-1bb18223d176"/>
   <rect
      x="60.000099"
      y="607"
      width="4"
      height="61"
      fill="#ddd9c3"
-     id="ka1_12_b" />
+     id="ka1_12_b" data-map-object="shelf"  data-shelf-uid="bd74a0e0-adf4-4ca3-a683-242f6ec565dd"/>
   <rect
      x="55.000099"
      y="607"
      width="4"
      height="61"
      fill="#ddd9c3"
-     id="ka1_12_a" />
+     id="ka1_12_a" data-map-object="shelf"  data-shelf-uid="3d27238a-2087-4209-b40f-4f14717183fb"/>
   <rect
      x="79"
      y="584"
      width="176"
      height="3"
      fill="#ddd9c3"
-     id="ka1_17_a" />
+     id="ka1_17_a" data-map-object="shelf"  data-shelf-uid="ad0bd5ae-f6a0-4fa4-ac79-6b6bc36e151a"/>
   <rect
      x="79"
      y="579"
      width="176"
      height="4"
      fill="#ddd9c3"
-     id="ka1_17_b" />
+     id="ka1_17_b" data-map-object="shelf"  data-shelf-uid="710a4703-1565-4cee-ab60-f7820266578c"/>
   <rect
      x="104"
      y="564"
      width="151"
      height="3"
      fill="#ddd9c3"
-     id="ka1_18_a" />
+     id="ka1_18_a" data-map-object="shelf"  data-shelf-uid="29499fa0-5bf1-43e9-a4ec-a56febf65ae8"/>
   <rect
      x="104"
      y="559"
      width="151"
      height="4"
      fill="#ddd9c3"
-     id="ka1_18_b" />
+     id="ka1_18_b" data-map-object="shelf"  data-shelf-uid="f5d18024-949a-4d7e-b0f2-ecbae6c29303"/>
   <rect
      x="79"
      y="523"
      width="132"
      height="4"
      fill="#ddd9c3"
-     id="ka1_21_a" />
+     id="ka1_21_a" data-map-object="shelf"  data-shelf-uid="ad5f9c3e-f87b-4377-ae04-69095ffbc343"/>
   <rect
      x="79"
      y="518"
      width="132"
      height="4"
      fill="#ddd9c3"
-     id="ka1_21_b" />
+     id="ka1_21_b" data-map-object="shelf"  data-shelf-uid="fb4c96b2-70c1-488d-9501-b3947728a377"/>
   <rect
      x="79"
      y="503"
      width="132"
      height="4"
      fill="#ddd9c3"
-     id="ka1_22_a" />
+     id="ka1_22_a" data-map-object="shelf"  data-shelf-uid="c892289b-e2d1-4929-8701-b0653f7d0a03"/>
   <rect
      x="79"
      y="499"
      width="132"
      height="3"
      fill="#ddd9c3"
-     id="ka1_22_b" />
+     id="ka1_22_b" data-map-object="shelf"  data-shelf-uid="2a1caa02-98dd-42f6-bcfd-cb025aea1231"/>
   <rect
      x="671"
      y="535"
      width="192"
      height="3.684562"
      fill="#ddd9c3"
-     id="ka2_95_b"
-     style="stroke-width:0.959761" />
+     id="ka2_95_b" data-map-object="shelf"
+     style="stroke-width:0.959761"  data-shelf-uid="0f860536-9584-41b6-9470-b6caa4e2b8ea"/>
   <rect
      x="671"
      y="531"
      width="192"
      height="3.3691242"
      fill="#ddd9c3"
-     id="ka2_95_a"
-     style="stroke-width:0.917759" />
+     id="ka2_95_a" data-map-object="shelf"
+     style="stroke-width:0.917759"  data-shelf-uid="de8f66db-da9e-4492-a817-0f3d63ade8a2"/>
   <rect
      x="671"
      y="521"
      width="192"
      height="3.211405"
      fill="#ddd9c3"
-     id="ka2_94_b"
-     style="stroke-width:0.89602" />
+     id="ka2_94_b" data-map-object="shelf"
+     style="stroke-width:0.89602"  data-shelf-uid="8c205908-1a8a-423e-a04f-7a44aeef12ff"/>
   <rect
      x="671"
      y="517"
      width="192"
      height="3.0536861"
      fill="#ddd9c3"
-     id="ka2_94_a"
-     style="stroke-width:0.87374" />
+     id="ka2_94_a" data-map-object="shelf"
+     style="stroke-width:0.87374"  data-shelf-uid="5d053c55-d0f8-4d28-8afa-01f2636fe6c3"/>
   <rect
      x="671"
      y="507"
      width="192"
      height="3.3691242"
      fill="#ddd9c3"
-     id="ka2_93_b"
-     style="stroke-width:0.917759" />
+     id="ka2_93_b" data-map-object="shelf"
+     style="stroke-width:0.917759"  data-shelf-uid="da4c2941-0c7b-4245-a647-8f0b3f5bf185"/>
   <rect
      x="671"
      y="503"
      width="192"
      height="3"
      fill="#ddd9c3"
-     id="ka2_93_a" />
+     id="ka2_93_a" data-map-object="shelf"  data-shelf-uid="9fd281c7-6afe-4034-b686-fb9f971fb84d"/>
   <rect
      x="671"
      y="493"
      width="192"
      height="3.3691242"
      fill="#ddd9c3"
-     id="ka2_92_b"
-     style="stroke-width:0.917759" />
+     id="ka2_92_b" data-map-object="shelf"
+     style="stroke-width:0.917759"  data-shelf-uid="47774c1f-6009-4448-982d-6a05ec7e3d09"/>
   <rect
      x="671"
      y="489"
      width="192"
      height="3"
      fill="#ddd9c3"
-     id="ka2_92_a" />
+     id="ka2_92_a" data-map-object="shelf"  data-shelf-uid="c5e4ee96-9369-4e90-b038-c32b440b557c"/>
   <rect
      x="671"
      y="479"
      width="192"
      height="3.211405"
      fill="#ddd9c3"
-     id="ka2_91_b"
-     style="stroke-width:0.89602" />
+     id="ka2_91_b" data-map-object="shelf"
+     style="stroke-width:0.89602"  data-shelf-uid="9b9eb4c1-fa4a-4e38-8164-8cd2954e4bd4"/>
   <rect
      x="671"
      y="475"
      width="192"
      height="3"
      fill="#ddd9c3"
-     id="ka2_91_a" />
+     id="ka2_91_a" data-map-object="shelf"  data-shelf-uid="dc34d132-e7e1-4887-9faa-2de94dae3ba7"/>
   <rect
      x="671"
      y="465"
      width="192"
      height="3.3691242"
      fill="#ddd9c3"
-     id="ka2_90_b"
-     style="stroke-width:0.917759" />
+     id="ka2_90_b" data-map-object="shelf"
+     style="stroke-width:0.917759"  data-shelf-uid="9c4bfaa8-f03a-4b2f-9266-a151547ca8c9"/>
   <rect
      x="671"
      y="461"
      width="192"
      height="3"
      fill="#ddd9c3"
-     id="ka2_90_a" />
+     id="ka2_90_a" data-map-object="shelf"  data-shelf-uid="06232d84-c034-453f-8e72-cadcc9ae74ef"/>
   <rect
      x="783"
      y="451"
      width="80"
      height="3.3691242"
      fill="#ddd9c3"
-     id="ka2_89_b"
-     style="stroke-width:0.917759" />
+     id="ka2_89_b" data-map-object="shelf"
+     style="stroke-width:0.917759"  data-shelf-uid="a14b5b33-9f0b-41f1-b81c-58e543814f06"/>
   <rect
      x="783"
      y="447"
      width="80"
      height="3"
      fill="#ddd9c3"
-     id="ka2_89_a" />
+     id="ka2_89_a" data-map-object="shelf"  data-shelf-uid="e622ef43-0dbc-4c0a-ba91-77d7c6da6c07"/>
   <rect
      x="783"
      y="437"
      width="80"
      height="3"
      fill="#ddd9c3"
-     id="ka2_88_b" />
+     id="ka2_88_b" data-map-object="shelf"  data-shelf-uid="1b235a01-1ea1-4de8-a02b-defa669d7925"/>
   <rect
      x="783"
      y="433"
      width="80"
      height="3"
      fill="#ddd9c3"
-     id="ka2_88_a" />
+     id="ka2_88_a" data-map-object="shelf"  data-shelf-uid="594cf77e-6d2a-4d01-8b85-b6288e52ead2"/>
   <rect
      x="783"
      y="423"
      width="80"
      height="3.211405"
      fill="#ddd9c3"
-     id="ka2_87_b"
-     style="stroke-width:0.89602" />
+     id="ka2_87_b" data-map-object="shelf"
+     style="stroke-width:0.89602"  data-shelf-uid="e52a99d3-56ce-47c3-9a32-e6b51e3d59f0"/>
   <rect
      x="783"
      y="419"
      width="80"
      height="3"
      fill="#ddd9c3"
-     id="ka2_87_a" />
+     id="ka2_87_a" data-map-object="shelf"  data-shelf-uid="0c57d07f-5836-4185-87cc-f94629516748"/>
   <rect
      x="783"
      y="409.7886"
      width="80"
      height="3.211405"
      fill="#ddd9c3"
-     id="ka2_86_b"
-     style="stroke-width:0.89602" />
+     id="ka2_86_b" data-map-object="shelf"
+     style="stroke-width:0.89602"  data-shelf-uid="d87d6fd9-d5ec-404c-b32f-972627718ae9"/>
   <rect
      x="783.15771"
      y="405.7886"
      width="80"
      height="3"
      fill="#ddd9c3"
-     id="ka2_86_a" />
+     id="ka2_86_a" data-map-object="shelf"  data-shelf-uid="b296cbe8-02aa-47c2-b78a-d760a1ac6b5b"/>
   <rect
      x="783"
      y="395.63089"
      width="80"
      height="2.7382483"
      fill="#ddd9c3"
-     id="ka2_85_b"
-     style="stroke-width:0.827383" />
+     id="ka2_85_b" data-map-object="shelf"
+     style="stroke-width:0.827383"  data-shelf-uid="2f063f4b-8b0f-44ca-b644-bb8d917172a5"/>
   <rect
      x="783"
      y="391.63089"
      width="80"
      height="3"
      fill="#ddd9c3"
-     id="ka2_85_a" />
+     id="ka2_85_a" data-map-object="shelf"  data-shelf-uid="491ddfc9-cf53-41c6-9146-da0f4bf2bca5"/>
   <rect
      x="310"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka1_49_a" />
+     id="ka1_49_a" data-map-object="shelf"  data-shelf-uid="6cc684cd-9a94-40d2-a84b-738314f8dcc7"/>
   <rect
      x="317"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka1_49_b" />
+     id="ka1_49_b" data-map-object="shelf"  data-shelf-uid="b691e0b5-387c-4353-bfd1-3a530a405ea5"/>
   <rect
      x="288"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka1_48_a" />
+     id="ka1_48_a" data-map-object="shelf"  data-shelf-uid="9b2c3d20-e331-4e14-ad42-1fbfb86ca4e5"/>
   <rect
      x="295"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka1_48_b" />
+     id="ka1_48_b" data-map-object="shelf"  data-shelf-uid="6fd61b94-b61d-4d98-adf6-45d3bb7554c5"/>
   <rect
      x="267"
      y="62"
      width="5"
      height="113"
      fill="#ddd9c3"
-     id="ka1_47_a" />
+     id="ka1_47_a" data-map-object="shelf"  data-shelf-uid="215df701-d952-404e-ad2f-d02f3e21b03b"/>
   <rect
      x="273"
      y="62"
      width="5"
      height="113"
      fill="#ddd9c3"
-     id="ka1_47_b" />
+     id="ka1_47_b" data-map-object="shelf"  data-shelf-uid="677330bc-5090-4439-833e-ee57728612f3"/>
   <rect
      x="245"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka1_46_a" />
+     id="ka1_46_a" data-map-object="shelf"  data-shelf-uid="7b5261f8-ee2d-4a5b-ae3b-223c30395532"/>
   <rect
      x="252"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka1_46_b" />
+     id="ka1_46_b" data-map-object="shelf"  data-shelf-uid="335345c2-325a-4305-a780-f8b0cad23d1c"/>
   <rect
      x="224"
      y="41"
      width="4"
      height="154"
      fill="#ddd9c3"
-     id="ka1_45_a" />
+     id="ka1_45_a" data-map-object="shelf"  data-shelf-uid="ba24c248-6505-496b-90b5-81c2fa486229"/>
   <rect
      x="230"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka1_45_b" />
+     id="ka1_45_b" data-map-object="shelf"  data-shelf-uid="070fa735-2182-43e3-8733-f767efd4cd23"/>
   <rect
      x="202"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka1_44_a" />
+     id="ka1_44_a" data-map-object="shelf"  data-shelf-uid="9edc3833-ad2b-49e8-afe6-36ba137dfaee"/>
   <rect
      x="209"
      y="41"
      width="4"
      height="154"
      fill="#ddd9c3"
-     id="ka1_44_b" />
+     id="ka1_44_b" data-map-object="shelf"  data-shelf-uid="73d2196f-e345-46c1-9700-5cdf750937d5"/>
   <rect
      x="180"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka1_43_a" />
+     id="ka1_43_a" data-map-object="shelf"  data-shelf-uid="4d9384e1-e97d-44a7-ad40-b93530956902"/>
   <rect
      x="187"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka1_43_b" />
+     id="ka1_43_b" data-map-object="shelf"  data-shelf-uid="b90d1432-c257-4334-b77f-d7b8bfb19392"/>
   <rect
      x="159"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka1_42_a" />
+     id="ka1_42_a" data-map-object="shelf"  data-shelf-uid="5a71fc5d-5aaa-42cd-b733-5c6da2976798"/>
   <rect
      x="165"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka1_42_b" />
+     id="ka1_42_b" data-map-object="shelf"  data-shelf-uid="17375a05-c969-4975-b8e7-76f2e41c7fdf"/>
   <rect
      x="332"
      y="41"
      width="4"
      height="154"
      fill="#ddd9c3"
-     id="ka1_50_a" />
+     id="ka1_50_a" data-map-object="shelf"  data-shelf-uid="6aedb288-7ff2-453b-bd3c-64e541a9e3ea"/>
   <rect
      x="338"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka1_50_b" />
+     id="ka1_50_b" data-map-object="shelf"  data-shelf-uid="ff87a467-e6fa-4882-9cff-d76a585b3691"/>
   <rect
      x="137"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka1_41_a" />
+     id="ka1_41_a" data-map-object="shelf"  data-shelf-uid="3e3fd6c0-8971-4416-b81b-a8d3943a59c7"/>
   <rect
      x="144"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka1_41_b" />
+     id="ka1_41_b" data-map-object="shelf"  data-shelf-uid="4884ab81-b2d4-4033-9191-66c2a2199145"/>
   <rect
      x="114.73825"
      y="41"
      width="5.2617517"
      height="154"
      fill="#ddd9c3"
-     id="ka1_40_a"
-     style="stroke-width:1.14693" />
+     id="ka1_40_a" data-map-object="shelf"
+     style="stroke-width:1.14693"  data-shelf-uid="f3bb08f5-081b-42e0-bbfe-28d48bdbed75"/>
   <rect
      x="122"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka1_40_b" />
+     id="ka1_40_b" data-map-object="shelf"  data-shelf-uid="29b2a9de-f58a-43bf-b889-8bb8683deb3e"/>
   <rect
      x="94.000099"
      y="60.999901"
      width="5"
      height="110"
      fill="#ddd9c3"
-     id="ka1_39_a" />
+     id="ka1_39_a" data-map-object="shelf"  data-shelf-uid="8d908092-55bb-477a-b4e1-8ec728eaf358"/>
   <rect
      x="101"
      y="61"
      width="4"
      height="110"
      fill="#ddd9c3"
-     id="ka1_39_b" />
+     id="ka1_39_b" data-map-object="shelf"  data-shelf-uid="a570434c-bd57-4415-aaf1-e4172769466b"/>
   <rect
      x="591"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka2_62_a" />
+     id="ka2_62_a" data-map-object="shelf"  data-shelf-uid="696d4277-4a75-4a75-a521-25aac545d004"/>
   <rect
      x="597.21143"
      y="41"
      width="4.7885947"
      height="154"
      fill="#ddd9c3"
-     id="ka2_62_b"
-     style="stroke-width:1.09414" />
+     id="ka2_62_b" data-map-object="shelf"
+     style="stroke-width:1.09414"  data-shelf-uid="734640fa-7699-412b-815d-fa0e8eca9c78"/>
   <rect
      x="569"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka1_61_a" />
+     id="ka1_61_a" data-map-object="shelf"  data-shelf-uid="f156d80c-9d24-4491-8646-e338eb811657"/>
   <rect
      x="576"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka1_61_b" />
+     id="ka1_61_b" data-map-object="shelf"  data-shelf-uid="2ae8c762-eca2-47b4-8736-bf70021d481a"/>
   <rect
      x="548"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka1_60_a" />
+     id="ka1_60_a" data-map-object="shelf"  data-shelf-uid="68d4fe36-9b30-4bc9-9fb6-71e3d7a3ab38"/>
   <rect
      x="554"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka1_60_b" />
+     id="ka1_60_b" data-map-object="shelf"  data-shelf-uid="ac6ca23c-c13e-47cd-8d4d-868ed38b8f73"/>
   <rect
      x="526"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka1_59_a" />
+     id="ka1_59_a" data-map-object="shelf"  data-shelf-uid="ab7e3c80-b8b6-438d-b2ba-2f2e20e14879"/>
   <rect
      x="533"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka1_59_b" />
+     id="ka1_59_b" data-map-object="shelf"  data-shelf-uid="d291daa2-7e81-4190-9144-dc060906543c"/>
   <rect
      x="505"
      y="41"
      width="4.7885947"
      height="154"
      fill="#ddd9c3"
-     id="ka1_58_a"
-     style="stroke-width:1.09414" />
+     id="ka1_58_a" data-map-object="shelf"
+     style="stroke-width:1.09414"  data-shelf-uid="c6b1b085-42d0-465c-9df4-c4269049a4b3"/>
   <rect
      x="511"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka1_58_b" />
+     id="ka1_58_b" data-map-object="shelf"  data-shelf-uid="10b98a89-8b62-4c90-8c08-c7cf9a65511f"/>
   <rect
      x="483"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka1_57_a" />
+     id="ka1_57_a" data-map-object="shelf"  data-shelf-uid="ec89fd5d-9430-4883-ad9f-3d7a3c78c0a1"/>
   <rect
      x="490"
      y="41"
      width="4"
      height="154"
      fill="#ddd9c3"
-     id="ka1_57_b" />
+     id="ka1_57_b" data-map-object="shelf"  data-shelf-uid="b9b574a1-aac7-4b77-8b76-a8b9bfe54d79"/>
   <rect
      x="440"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka1_55_a" />
+     id="ka1_55_a" data-map-object="shelf"  data-shelf-uid="ea2d694d-c577-42b1-a7c9-acfca78e9dd6"/>
   <rect
      x="446"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka1_55_b" />
+     id="ka1_55_b" data-map-object="shelf"  data-shelf-uid="ff16eb2a-37a0-410c-a19a-e0a1c7ccfcba"/>
   <rect
      x="613"
      y="41"
      width="4"
      height="154"
      fill="#ddd9c3"
-     id="ka2_63_a" />
+     id="ka2_63_a" data-map-object="shelf"  data-shelf-uid="26df7efc-155e-423c-bf50-8a72504f631d"/>
   <rect
      x="619"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka2_63_b" />
+     id="ka2_63_b" data-map-object="shelf"  data-shelf-uid="17f143b6-78a6-4a04-b275-ed2bb50c59a2"/>
   <rect
      x="418"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka1_54_a" />
+     id="ka1_54_a" data-map-object="shelf"  data-shelf-uid="5b5e10e4-f3d0-4462-9a6f-2efce11ed96c"/>
   <rect
      x="425"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka1_54_b" />
+     id="ka1_54_b" data-map-object="shelf"  data-shelf-uid="05af0945-112f-42ab-be3d-7b9607ab5086"/>
   <rect
      x="396.31543"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka1_53_a" />
+     id="ka1_53_a" data-map-object="shelf"  data-shelf-uid="da32b18e-2e0b-47ae-a85c-42f92ee27e59"/>
   <rect
      x="403"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka1_53_b" />
+     id="ka1_53_b" data-map-object="shelf"  data-shelf-uid="d2323e40-bdc4-45ff-94fe-1b1a2ac32e79"/>
   <rect
      x="375"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka1_52_a" />
+     id="ka1_52_a" data-map-object="shelf"  data-shelf-uid="667541c9-8931-464a-b1d9-7359989e35d4"/>
   <rect
      x="381.05368"
      y="41"
      width="4.9463139"
      height="154"
      fill="#ddd9c3"
-     id="ka1_52_b"
-     style="stroke-width:1.11202" />
+     id="ka1_52_b" data-map-object="shelf"
+     style="stroke-width:1.11202"  data-shelf-uid="c1cc469d-297f-47ec-a23c-4a7d0813203f"/>
   <rect
      x="353"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka1_51_a" />
+     id="ka1_51_a" data-map-object="shelf"  data-shelf-uid="7d066bc6-98e8-43e0-a86e-6ecbc2e20724"/>
   <rect
      x="359"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka1_51_b" />
+     id="ka1_51_b" data-map-object="shelf"  data-shelf-uid="b312bbe8-b882-4acd-9a04-9da5e293bf0a"/>
   <rect
      x="677"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka2_66_a" />
+     id="ka2_66_a" data-map-object="shelf"  data-shelf-uid="e44075d4-888d-48ae-b9de-0e0e83882574"/>
   <rect
      x="684"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka2_66_b" />
+     id="ka2_66_b" data-map-object="shelf"  data-shelf-uid="05a5f5fb-2566-4e8d-a60d-0e84e678d1ca"/>
   <rect
      x="634"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka2_64_a" />
+     id="ka2_64_a" data-map-object="shelf"  data-shelf-uid="e7e6f66d-6424-47d2-a6b9-96d8bc01b7be"/>
   <rect
      x="641"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka2_64_b" />
+     id="ka2_64_b" data-map-object="shelf"  data-shelf-uid="30d832c7-cd7e-455a-aaf1-8a63ba4ddb82"/>
   <rect
      x="699"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka2_67_a" />
+     id="ka2_67_a" data-map-object="shelf"  data-shelf-uid="ddca0f04-6eb6-4540-8d30-98cc411a8ca5"/>
   <rect
      x="705.21143"
      y="41"
      width="4.7885947"
      height="154"
      fill="#ddd9c3"
-     id="ka2_67_b"
-     style="stroke-width:1.09414" />
+     id="ka2_67_b" data-map-object="shelf"
+     style="stroke-width:1.09414"  data-shelf-uid="70c60098-4325-42fc-b1d6-d72c7144035f"/>
   <rect
      x="807"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka2_72_a" />
+     id="ka2_72_a" data-map-object="shelf"  data-shelf-uid="ac45574b-036e-4d99-9554-fe73a69c5a81"/>
   <rect
      x="813"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka2_72_b" />
+     id="ka2_72_b" data-map-object="shelf"  data-shelf-uid="ecd2a4df-b600-490c-bcd6-c26208021122"/>
   <rect
      x="786"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka2_71_a" />
+     id="ka2_71_a" data-map-object="shelf"  data-shelf-uid="9dfc6fec-153e-4de0-b06c-5306f4ce5881"/>
   <rect
      x="792"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka2_71_b" />
+     id="ka2_71_b" data-map-object="shelf"  data-shelf-uid="3a098ce7-e665-4c9c-b5ec-d0d0f5ed7c40"/>
   <rect
      x="764"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka2_70_a" />
+     id="ka2_70_a" data-map-object="shelf"  data-shelf-uid="0053907f-cb28-4b73-b5a1-f0f85176c224"/>
   <rect
      x="770"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka2_70_b" />
+     id="ka2_70_b" data-map-object="shelf"  data-shelf-uid="1ae1461b-4a54-47fb-adc4-dac9468ddc7b"/>
   <rect
      x="742"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka2_69_a" />
+     id="ka2_69_a" data-map-object="shelf"  data-shelf-uid="4fa26b80-f467-42a4-b7ee-0ccc70daa414"/>
   <rect
      x="749"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka2_69_b" />
+     id="ka2_69_b" data-map-object="shelf"  data-shelf-uid="8e08405d-53fe-47b8-9186-32a935b44fd6"/>
   <rect
      x="721"
      y="41"
      width="4"
      height="154"
      fill="#ddd9c3"
-     id="ka2_68_a" />
+     id="ka2_68_a" data-map-object="shelf"  data-shelf-uid="348405ea-b90e-42cc-9262-f2238f84028d"/>
   <rect
      x="727"
      y="40.999901"
      width="5"
      height="154"
      fill="#ddd9c3"
-     id="ka2_68_b" />
+     id="ka2_68_b" data-map-object="shelf"  data-shelf-uid="8dd267d5-4eea-43dc-b7ef-5302713b9f2a"/>
   <rect
      x="79"
      y="483"
      width="132"
      height="4"
      fill="#ddd9c3"
-     id="ka1_23_a" />
+     id="ka1_23_a" data-map-object="shelf"  data-shelf-uid="f6deaf0b-933e-44a7-9633-2868aef96ea7"/>
   <rect
      x="79"
      y="479"
      width="132"
      height="3"
      fill="#ddd9c3"
-     id="ka1_23_b" />
+     id="ka1_23_b" data-map-object="shelf"  data-shelf-uid="ba2e0e72-b0b6-45f7-80d7-59bf8a1c5f09"/>
   <rect
      x="79"
      y="463"
      width="132"
      height="4"
      fill="#ddd9c3"
-     id="ka1_24_a" />
+     id="ka1_24_a" data-map-object="shelf"  data-shelf-uid="5258679a-21c4-4e92-9e7e-a2ae553626ff"/>
   <rect
      x="79"
      y="459"
      width="132"
      height="3"
      fill="#ddd9c3"
-     id="ka1_24_b" />
+     id="ka1_24_b" data-map-object="shelf"  data-shelf-uid="607b59c7-3af2-49e7-9171-91e3c4404ed2"/>
   <rect
      x="79"
      y="443"
      width="192"
      height="4"
      fill="#ddd9c3"
-     id="ka1_25_a" />
+     id="ka1_25_a" data-map-object="shelf"  data-shelf-uid="98efa66b-481e-4df6-8cf0-1bacc510fac7"/>
   <rect
      x="79"
      y="438"
      width="192"
      height="4"
      fill="#ddd9c3"
-     id="ka1_25_b" />
+     id="ka1_25_b" data-map-object="shelf"  data-shelf-uid="07a3a1f5-7dd7-49d1-9f2f-af870b02f410"/>
   <rect
      x="79"
      y="423"
      width="192"
      height="4"
      fill="#ddd9c3"
-     id="ka1_26_a" />
+     id="ka1_26_a" data-map-object="shelf"  data-shelf-uid="24a26f54-3f84-481c-83e7-6ef5556ed69f"/>
   <rect
      x="79"
      y="418"
      width="192"
      height="3.788595"
      fill="#ddd9c3"
-     id="ka1_26_b"
-     style="stroke-width:1.12377" />
+     id="ka1_26_b" data-map-object="shelf"
+     style="stroke-width:1.12377"  data-shelf-uid="cddd47d0-9657-4700-9074-1dbbb8a672b4"/>
   <rect
      x="79"
      y="402.36911"
      width="192"
      height="3.6308758"
      fill="#ddd9c3"
-     id="ka1_27_a"
-     style="stroke-width:1.10013" />
+     id="ka1_27_a" data-map-object="shelf"
+     style="stroke-width:1.10013"  data-shelf-uid="4fe7d658-2b6a-4d67-9008-96c127acf1fe"/>
   <rect
      x="79"
      y="398"
      width="192"
      height="3.4731569"
      fill="#ddd9c3"
-     id="ka1_27_b"
-     style="stroke-width:1.07597" />
+     id="ka1_27_b" data-map-object="shelf"
+     style="stroke-width:1.07597"  data-shelf-uid="bd6ad6b7-efd8-4b80-bedd-37fae2fe6894"/>
   <rect
      x="79"
      y="362.77695"
      width="182"
      height="3.5576208"
      fill="#ddd9c3"
-     id="ka1_29_a"
-     style="stroke-width:1.08898" />
+     id="ka1_29_a" data-map-object="shelf"
+     style="stroke-width:1.08898"  data-shelf-uid="68306098-8d2d-4c40-a5eb-6c0f8e4d9d8c"/>
   <rect
      x="79"
      y="358"
      width="182"
      height="3.7769518"
      fill="#ddd9c3"
-     id="ka1_29_b"
-     style="stroke-width:0.971719" />
+     id="ka1_29_b" data-map-object="shelf"
+     style="stroke-width:0.971719"  data-shelf-uid="49e2f0a3-303d-4fa7-bf5f-c348d0ad5023"/>
   <rect
      x="79"
      y="322"
      width="170"
      height="3.1078067"
      fill="#ddd9c3"
-     id="ka1_31_a"
-     style="stroke-width:0.881449" />
+     id="ka1_31_a" data-map-object="shelf"
+     style="stroke-width:0.881449"  data-shelf-uid="47b8ea3f-9b68-426d-b533-67ed78b384b5"/>
   <rect
      x="79"
      y="318"
      width="170"
      height="3"
      fill="#ddd9c3"
-     id="ka1_31_b" />
+     id="ka1_31_b" data-map-object="shelf"  data-shelf-uid="32440b77-c1f2-42b7-94ef-9dbb8a74aed4"/>
   <rect
      x="79"
      y="282"
      width="170"
      height="3.7769518"
      fill="#ddd9c3"
-     id="ka1_33_a"
-     style="stroke-width:0.971719" />
+     id="ka1_33_a" data-map-object="shelf"
+     style="stroke-width:0.971719"  data-shelf-uid="ed7f04c4-d9d6-4bbe-80f5-f1ecc0967471"/>
   <rect
      x="79"
      y="277.10782"
      width="170"
      height="3.8921933"
      fill="#ddd9c3"
-     id="ka1_33_b"
-     style="stroke-width:1.13903" />
+     id="ka1_33_b" data-map-object="shelf"
+     style="stroke-width:1.13903"  data-shelf-uid="034920a5-8d42-432e-b433-de5037e7f4a7"/>
   <rect
      x="79"
      y="383"
      width="189"
      height="3.788595"
      fill="#ddd9c3"
-     id="ka1_28_a"
-     style="stroke-width:1.12377" />
+     id="ka1_28_a" data-map-object="shelf"
+     style="stroke-width:1.12377"  data-shelf-uid="eb34a392-d9d3-4a69-8f80-3aa1fdd56815"/>
   <rect
      x="79"
      y="378"
      width="189"
      height="4"
      fill="#ddd9c3"
-     id="ka1_28_b" />
+     id="ka1_28_b" data-map-object="shelf"  data-shelf-uid="944ceedb-a191-4ed5-9268-6a21c980312a"/>
   <rect
      x="79"
      y="342"
      width="182"
      height="3.3308551"
      fill="#ddd9c3"
-     id="ka1_30_a"
-     style="stroke-width:0.912531" />
+     id="ka1_30_a" data-map-object="shelf"
+     style="stroke-width:0.912531"  data-shelf-uid="a3df2efe-59f8-485c-aedb-293ef47bf0ae"/>
   <rect
      x="79"
      y="338"
      width="182"
      height="3"
      fill="#ddd9c3"
-     id="ka1_30_b" />
+     id="ka1_30_b" data-map-object="shelf"  data-shelf-uid="62b56573-c944-406d-9f39-c5cfdcb457e2"/>
   <rect
      x="79"
      y="302"
      width="170"
      height="4"
      fill="#ddd9c3"
-     id="ka1_32_a" />
+     id="ka1_32_a" data-map-object="shelf"  data-shelf-uid="0bae3c8b-6d86-484c-a51d-0e09605d317d"/>
   <rect
      x="79"
      y="297"
      width="170"
      height="4"
      fill="#ddd9c3"
-     id="ka1_32_b" />
+     id="ka1_32_b" data-map-object="shelf"  data-shelf-uid="f356471f-b604-4d9e-8ac3-16de1fb4bb1d"/>
   <rect
      x="79"
      y="242"
      width="192"
      height="3"
      fill="#ddd9c3"
-     id="ka1_35_a" />
+     id="ka1_35_a" data-map-object="shelf"  data-shelf-uid="79798d9f-a534-4fae-8948-11d6336e288b"/>
   <rect
      x="79"
      y="237.66914"
      width="192"
      height="3.3308551"
      fill="#ddd9c3"
-     id="ka1_35_b"
-     style="stroke-width:0.912531" />
+     id="ka1_35_b" data-map-object="shelf"
+     style="stroke-width:0.912531"  data-shelf-uid="dea20a47-b96a-433f-8fc8-01246706798a"/>
   <rect
      x="79"
      y="664"
      width="176"
      height="4"
      fill="#ddd9c3"
-     id="ka1_13_a" />
+     id="ka1_13_a" data-map-object="shelf"  data-shelf-uid="f7831cbd-0ac1-46b5-9770-c04e712ade72"/>
   <rect
      x="79"
      y="660"
      width="176"
      height="3.3942974"
      fill="#ddd9c3"
-     id="ka1_13_b"
-     style="stroke-width:1.06369" />
+     id="ka1_13_b" data-map-object="shelf"
+     style="stroke-width:1.06369"  data-shelf-uid="2f83119e-a6ef-45be-a136-4237ac8d4bac"/>
   <rect
      x="79"
      y="644"
      width="176"
      height="4"
      fill="#ddd9c3"
-     id="ka1_14_a" />
+     id="ka1_14_a" data-map-object="shelf"  data-shelf-uid="258e823d-262e-430f-920a-7967097f7e07"/>
   <rect
      x="79"
      y="639"
      width="176"
      height="3.6308761"
      fill="#ddd9c3"
-     id="ka1_14_b"
-     style="stroke-width:1.10013" />
+     id="ka1_14_b" data-map-object="shelf"
+     style="stroke-width:1.10013"  data-shelf-uid="6c263e72-fd40-4e8c-b8f3-103a4c6b4fa7"/>
   <rect
      x="55.000099"
      y="376"
@@ -2229,14 +2229,14 @@
      width="75"
      height="3"
      fill="#ddd9c3"
-     id="ka1_20_a" />
+     id="ka1_20_a" data-map-object="shelf"  data-shelf-uid="724d7800-b9aa-4c2a-b839-0e338d0cadcc"/>
   <rect
      x="180"
      y="540"
      width="75"
      height="3"
      fill="#ddd9c3"
-     id="ka1_20_b" />
+     id="ka1_20_b" data-map-object="shelf"  data-shelf-uid="244d87fb-bd4f-4975-a950-967a1b00ad05"/>
   <text
      font-family="Arial, Arial_MSFontService, sans-serif"
      font-weight="700"
@@ -2250,14 +2250,14 @@
      width="77"
      height="3"
      fill="#ddd9c3"
-     id="ka1_19_a" />
+     id="ka1_19_a" data-map-object="shelf"  data-shelf-uid="5147ce1f-8734-457c-8e77-47b5968ca798"/>
   <rect
      x="79"
      y="539"
      width="77"
      height="4"
      fill="#ddd9c3"
-     id="ka1_19_b" />
+     id="ka1_19_b" data-map-object="shelf"  data-shelf-uid="60b7c1b0-239c-4e85-8d21-00b2e3e9ad80"/>
   <text
      font-family="Arial, Arial_MSFontService, sans-serif"
      font-weight="700"
@@ -2285,21 +2285,21 @@
      width="8"
      height="177"
      fill="#ddd9c3"
-     id="ka1_36_b" />
+     id="ka1_36_b" data-map-object="shelf"  data-shelf-uid="dae51d57-1d9c-49a4-8beb-13fece52fcb5"/>
   <rect
      x="761"
      y="11"
      width="113"
      height="5"
      fill="#8eb4e3"
-     id="CC_35-46" />
+     id="CC_35-46" data-map-object="shelf"  data-shelf-uid="17e443c3-482d-4485-b70f-d110dd6fa10f"/>
   <rect
      x="870"
      y="21"
      width="5"
      height="117"
      fill="#8eb4e3"
-     id="CC_35-46_2" />
+     id="CC_35-46_2" data-map-object="shelf"  data-shelf-uid="9bed3fa8-5c86-4bff-9fd5-975b37562a5b"/>
   <g
      id="g15">
     <text
@@ -2325,7 +2325,7 @@
      width="79"
      height="5"
      fill="#ddd9c3"
-     id="ka1_37_b" />
+     id="ka1_37_b" data-map-object="shelf"  data-shelf-uid="faf3f7c6-bd65-46cc-92f0-0b30f522e42f"/>
   <text
      font-family="Arial, Arial_MSFontService, sans-serif"
      font-weight="700"
@@ -2381,157 +2381,157 @@
      width="5"
      height="86"
      fill="#ddd9c3"
-     id="ka2_99_b" />
+     id="ka2_99_b" data-map-object="shelf"  data-shelf-uid="dc4fe7ed-4aeb-4636-a963-7adc600225bb"/>
   <rect
      x="843"
      y="594"
      width="5"
      height="86"
      fill="#ddd9c3"
-     id="ka2_99_a" />
+     id="ka2_99_a" data-map-object="shelf"  data-shelf-uid="f60e9d30-db6e-4626-a437-f88c2db5dd87"/>
   <rect
      x="855"
      y="594"
      width="5"
      height="86"
      fill="#ddd9c3"
-     id="ka2_98_b" />
+     id="ka2_98_b" data-map-object="shelf"  data-shelf-uid="0c8e7f0e-5b1f-4629-8664-dbaf96d47e30"/>
   <rect
      x="861"
      y="594"
      width="5"
      height="86"
      fill="#ddd9c3"
-     id="ka2_98_a" />
+     id="ka2_98_a" data-map-object="shelf"  data-shelf-uid="8b9773dc-8698-4c38-bbdd-0ad7ec95d508"/>
   <rect
      x="799"
      y="594"
      width="5"
      height="86"
      fill="#ddd9c3"
-     id="ka2_101_b" />
+     id="ka2_101_b" data-map-object="shelf"  data-shelf-uid="840d79e1-3d36-41de-9b96-6697cb374b76"/>
   <rect
      x="805"
      y="594"
      width="5"
      height="86"
      fill="#ddd9c3"
-     id="ka2_101_a" />
+     id="ka2_101_a" data-map-object="shelf"  data-shelf-uid="9bc0308b-ad94-413b-9925-774e8904ced4"/>
   <rect
      x="818"
      y="594"
      width="5"
      height="86"
      fill="#ddd9c3"
-     id="ka2_100_b" />
+     id="ka2_100_b" data-map-object="shelf"  data-shelf-uid="46c3104f-93ea-44e2-9bc3-eb6a5ae6db35"/>
   <rect
      x="824"
      y="594"
      width="5"
      height="86"
      fill="#ddd9c3"
-     id="ka2_100_a" />
+     id="ka2_100_a" data-map-object="shelf"  data-shelf-uid="df6db16b-a9c5-41dc-b042-9458875f27e5"/>
   <rect
      x="762"
      y="594"
      width="5"
      height="86"
      fill="#ddd9c3"
-     id="ka2_103_b" />
+     id="ka2_103_b" data-map-object="shelf"  data-shelf-uid="f8a58bda-1b34-4b9e-8c7d-0cd70a0d5145"/>
   <rect
      x="768"
      y="594"
      width="5"
      height="86"
      fill="#ddd9c3"
-     id="ka2_103_a" />
+     id="ka2_103_a" data-map-object="shelf"  data-shelf-uid="52ebaef8-25d7-449f-88a7-bb097b26367b"/>
   <rect
      x="781"
      y="594"
      width="5"
      height="86"
      fill="#ddd9c3"
-     id="ka2_102_b" />
+     id="ka2_102_b" data-map-object="shelf"  data-shelf-uid="5ed8513f-1feb-4fb6-b7dc-4175ce936a0d"/>
   <rect
      x="787"
      y="594"
      width="5"
      height="86"
      fill="#ddd9c3"
-     id="ka2_102_a" />
+     id="ka2_102_a" data-map-object="shelf"  data-shelf-uid="9ebf053c-35d3-4daa-9ad0-097bb601ebc8"/>
   <rect
      x="725"
      y="594"
      width="5"
      height="86"
      fill="#ddd9c3"
-     id="ka2_105_b" />
+     id="ka2_105_b" data-map-object="shelf"  data-shelf-uid="ca137232-8473-4b64-b056-100531651eb4"/>
   <rect
      x="731"
      y="594"
      width="5"
      height="86"
      fill="#ddd9c3"
-     id="ka2_105_a" />
+     id="ka2_105_a" data-map-object="shelf"  data-shelf-uid="0568057c-9c6a-4fee-9559-4d37d267c52a"/>
   <rect
      x="744"
      y="594"
      width="4"
      height="86"
      fill="#ddd9c3"
-     id="ka2_104_b" />
+     id="ka2_104_b" data-map-object="shelf"  data-shelf-uid="796bc7fc-1e3b-43b4-938d-32dada9b9319"/>
   <rect
      x="749"
      y="594"
      width="4.2114053"
      height="86"
      fill="#ddd9c3"
-     id="ka2_104_a"
-     style="stroke-width:0.917759" />
+     id="ka2_104_a" data-map-object="shelf"
+     style="stroke-width:0.917759"  data-shelf-uid="d4b942c8-53ad-434a-94fc-98537282d447"/>
   <rect
      x="688.57715"
      y="594"
      width="4.2114053"
      height="86"
      fill="#ff7979"
-     id="cl_107_b"
-     style="stroke-width:0.917759" />
+     id="cl1_107_b" data-map-object="shelf"
+     style="stroke-width:0.917759"  data-shelf-uid="ceacfa1c-440c-4094-a4f1-7c2fc25cafe0"/>
   <rect
      x="694"
      y="594"
      width="4"
      height="86"
      fill="#ff7979"
-     id="cl_107_a" />
+     id="cl1_107_a" data-map-object="shelf"  data-shelf-uid="489fcebb-e563-4071-ab5f-2eb28d06a9ca"/>
   <rect
      x="706.78857"
      y="594"
      width="4"
      height="86"
      fill="#ff7979"
-     id="cl_106_b" />
+     id="cl1_106_b" data-map-object="shelf"  data-shelf-uid="1e2f751e-3290-433a-8593-6afd5e7dd427"/>
   <rect
      x="712"
      y="594"
      width="4.3691239"
      height="86"
      fill="#ff7979"
-     id="cl_106_a"
-     style="stroke-width:0.934786" />
+     id="cl1_106_a" data-map-object="shelf"
+     style="stroke-width:0.934786"  data-shelf-uid="23aa2f07-7c18-4154-9ff5-9edc5fbf4083"/>
   <rect
      x="668.78857"
      y="594"
      width="5"
      height="86"
      fill="#376092"
-     id="cb1_108_b" />
+     id="cb1_108_b" data-map-object="shelf"  data-shelf-uid="4af9265a-9dc4-46df-8cf1-87daf77d9079"/>
   <rect
      x="675"
      y="594"
      width="5"
      height="86"
      fill="#ff7979"
-     id="cl_108_a" />
+     id="cl1_108_a" data-map-object="shelf"  data-shelf-uid="346ef86d-6bfa-4ca1-96d6-289f064aebbe"/>
   <text
      font-family="Arial, Arial_MSFontService, sans-serif"
      font-weight="700"
@@ -2592,14 +2592,14 @@
      width="5"
      height="110"
      fill="#ddd9c3"
-     id="ka1_38_a" />
+     id="ka1_38_a" data-map-object="shelf"  data-shelf-uid="114ed0b3-789f-4290-b913-ac795498852a"/>
   <rect
      x="80.000099"
      y="60.999901"
      width="5"
      height="110"
      fill="#ddd9c3"
-     id="ka1_38_b" />
+     id="ka1_38_b" data-map-object="shelf"  data-shelf-uid="eca9d63f-2c3b-4526-b62b-e0d53b374b69"/>
   <path
      d="m 79,185.5 c 0,-4.694 3.8056,-8.5 8.5,-8.5 4.6944,0 8.5,3.806 8.5,8.5 0,4.694 -3.8056,8.5 -8.5,8.5 -4.6944,0 -8.5,-3.806 -8.5,-8.5 z"
      fill="#f2f2f2"
@@ -2692,49 +2692,49 @@
      width="114"
      height="4"
      fill="#8eb4e3"
-     id="CC_27-34" />
+     id="CC_27-34" data-map-object="shelf"  data-shelf-uid="554ae112-e560-42b3-bcf3-33fdbc1b9044"/>
   <rect
      x="512"
      y="11"
      width="113"
      height="4"
      fill="#8eb4e3"
-     id="CC_17-26" />
+     id="CC_17-26" data-map-object="shelf"  data-shelf-uid="65f012d7-2cfe-4a89-8717-70f0a82b7427"/>
   <rect
      x="387"
      y="11"
      width="113"
      height="4"
      fill="#8eb4e3"
-     id="CC_13-16" />
+     id="CC_13-16" data-map-object="shelf"  data-shelf-uid="5e389a25-410e-4969-94c8-3e7116b82a55"/>
   <rect
      x="262"
      y="11"
      width="113"
      height="4"
      fill="#8eb4e3"
-     id="CC_5-12" />
+     id="CC_5-12" data-map-object="shelf"  data-shelf-uid="25238aa8-20d9-46ea-bbf4-49324beaf9f8"/>
   <rect
      x="137"
      y="11"
      width="114"
      height="4"
      fill="#8eb4e3"
-     id="CC_1-4" />
+     id="CC_1-4" data-map-object="shelf"  data-shelf-uid="23712620-1389-4b33-b622-f37c40b3a97a"/>
   <rect
      x="79"
      y="262"
      width="182"
      height="4"
      fill="#ddd9c3"
-     id="ka1_34_a" />
+     id="ka1_34_a" data-map-object="shelf"  data-shelf-uid="40ae3cdf-50f3-4600-8ca9-347444fb526d"/>
   <rect
      x="79"
      y="257"
      width="134"
      height="4"
      fill="#ddd9c3"
-     id="ka1_34_b" />
+     id="ka1_34_b" data-map-object="shelf"  data-shelf-uid="d42053e0-7706-47ef-8f70-e2ed95971366"/>
   <rect
      x="215"
      y="257"
@@ -2748,21 +2748,21 @@
      width="117"
      height="3"
      fill="#ddd9c3"
-     id="ka2_75_b" />
+     id="ka2_75_b" data-map-object="shelf"  data-shelf-uid="33bc9a4b-6f46-4f75-8a8b-7e1aa03a5f32"/>
   <rect
      x="671"
      y="231"
      width="192"
      height="3"
      fill="#ddd9c3"
-     id="ka2_75_a" />
+     id="ka2_75_a" data-map-object="shelf"  data-shelf-uid="4bf72378-6d71-4917-934a-b5ecc345a0d5"/>
   <rect
      x="671"
      y="236"
      width="72"
      height="3"
      fill="#f2f2f2"
-     id="TP_ka2" />
+     id="TP_ka2" data-map-object="shelf"  data-shelf-uid="b49868fa-bcd3-4aec-9f7a-8829a6afccec"/>
   <rect
      x="587.5"
      y="508.5"
@@ -3192,9 +3192,9 @@
      stroke-miterlimit="10"
      fill="none"
      fill-rule="evenodd"
-     id="CP_ka1" />
+     id="CP_ka1" data-map-object="shelf"  data-shelf-uid="a526a810-1c22-4b6b-8ce1-79a43b2583d0"/>
   <g
-     id="ka2_84_b">
+     id="ka2_84_b" data-map-object="shelf" data-shelf-uid="d2bd6b95-8be3-46c6-b5d9-616a023bb1e5">
     <rect
        x="731"
        y="367"
@@ -3211,7 +3211,7 @@
        id="rect338" />
   </g>
   <g
-     id="cs_84_a">
+     id="cs_84_a" data-map-object="shelf" data-shelf-uid="11783fea-cc26-43df-8457-97fbe795310d">
     <rect
        x="731"
        y="362"
@@ -3228,7 +3228,7 @@
        id="rect339" />
   </g>
   <g
-     id="cs_83_b">
+     id="cs_83_b" data-map-object="shelf" data-shelf-uid="3679425d-aaa8-45d2-a273-607cac72437b">
     <rect
        x="731"
        y="352.77695"
@@ -3246,7 +3246,7 @@
        id="rect340" />
   </g>
   <g
-     id="cs_83_a">
+     id="cs_83_a" data-map-object="shelf" data-shelf-uid="f9e56bd7-88bd-4059-9a2c-67e3aeb448b3">
     <rect
        x="731"
        y="348"
@@ -3263,7 +3263,7 @@
        id="rect341" />
   </g>
   <g
-     id="cs_82_b">
+     id="cs_82_b" data-map-object="shelf" data-shelf-uid="e0b56c76-232a-401d-87e3-4113dcdda497">
     <rect
        x="731"
        y="338.74908"
@@ -3282,7 +3282,7 @@
        style="stroke-width:1.03651" />
   </g>
   <g
-     id="ka2_82_a">
+     id="ka2_82_a" data-map-object="shelf" data-shelf-uid="f7b3f707-b1a2-4914-bfd5-a367f8242b46">
     <rect
        x="731"
        y="334"
@@ -3299,7 +3299,7 @@
        id="rect343" />
   </g>
   <g
-     id="ka2_81_b">
+     id="ka2_81_b" data-map-object="shelf" data-shelf-uid="87f4f234-4bd7-4ff5-a903-a239bbbe85ab">
     <rect
        x="731"
        y="325"
@@ -3316,7 +3316,7 @@
        id="rect344" />
   </g>
   <g
-     id="ka2_81_a">
+     id="ka2_81_a" data-map-object="shelf" data-shelf-uid="b5a050d2-6890-4d75-9ff4-eadb0aa7de46">
     <rect
        x="731"
        y="320"
@@ -3338,16 +3338,16 @@
      width="64"
      height="4"
      fill="#ddd9c3"
-     id="ka2_80_b" />
+     id="ka2_80_b" data-map-object="shelf"  data-shelf-uid="11a09ae0-3ef5-429c-9730-8ea8c6878cf2"/>
   <rect
      x="731"
      y="306"
      width="64"
      height="4"
      fill="#ddd9c3"
-     id="ka2_80_a" />
+     id="ka2_80_a" data-map-object="shelf"  data-shelf-uid="0801e966-f622-4b85-b891-54b3fe06bc3e"/>
   <g
-     id="ka2_79_b">
+     id="ka2_79_b" data-map-object="shelf" data-shelf-uid="801c6750-cc5c-4e01-af2a-98d8c3d2932e">
     <rect
        x="731"
        y="296.60571"
@@ -3366,7 +3366,7 @@
        style="stroke-width:1.05126" />
   </g>
   <g
-     id="ka2_79_a">
+     id="ka2_79_a" data-map-object="shelf" data-shelf-uid="6a71c016-e20d-49b6-951d-aa7fad9a3448">
     <rect
        x="731"
        y="292"
@@ -3383,7 +3383,7 @@
        id="rect349" />
   </g>
   <g
-     id="ka2_78_b">
+     id="ka2_78_b" data-map-object="shelf" data-shelf-uid="d4c7ba2e-aa36-4f72-bc21-6794eac6c93b">
     <rect
        x="731"
        y="282.60968"
@@ -3402,7 +3402,7 @@
        style="stroke-width:1.07177" />
   </g>
   <g
-     id="ka2_78_a">
+     id="ka2_78_a" data-map-object="shelf" data-shelf-uid="f217cc4d-689c-4bae-a796-98294db0108d">
     <rect
        x="731"
        y="278"
@@ -3419,7 +3419,7 @@
        id="rect351" />
   </g>
   <g
-     id="ka2_77_b">
+     id="ka2_77_b" data-map-object="shelf" data-shelf-uid="432004e7-e57d-4136-9115-e400d74f581b">
     <rect
        x="731"
        y="268.60968"
@@ -3438,7 +3438,7 @@
        style="stroke-width:1.08898" />
   </g>
   <g
-     id="ka2_77_a">
+     id="ka2_77_a" data-map-object="shelf" data-shelf-uid="23c5172b-ee0a-4c7f-844a-f0cb9180c020">
     <g
        id="g445">
       <rect
@@ -3460,8 +3460,8 @@
     </g>
   </g>
   <g
-     id="ka2_76_b"
-     transform="matrix(1,0,0,0.8915682,-0.03942975,27.334672)">
+     id="ka2_76_b" data-map-object="shelf"
+     transform="matrix(1,0,0,0.8915682,-0.03942975,27.334672)" data-shelf-uid="c403ff87-9bc1-4b25-842b-2d41c92f05e4">
     <rect
        x="731"
        y="255"
@@ -3478,7 +3478,7 @@
        id="rect354" />
   </g>
   <g
-     id="ka2_76_a">
+     id="ka2_76_a" data-map-object="shelf" data-shelf-uid="883d0e6f-58b8-460c-b252-191316ec9c14">
     <rect
        x="731"
        y="251"
@@ -3900,15 +3900,15 @@
      width="5.5771899"
      height="114"
      fill="#ddd9c3"
-     id="ka1_56_a"
-     style="stroke-width:1.1808" />
+     id="ka1_56_a" data-map-object="shelf"
+     style="stroke-width:1.1808"  data-shelf-uid="2195bb0a-375b-441b-a109-e0ad27322c11"/>
   <rect
      x="468"
      y="62.999901"
      width="5"
      height="114"
      fill="#ddd9c3"
-     id="ka1_56_b" />
+     id="ka1_56_b" data-map-object="shelf"  data-shelf-uid="6a2691e9-4f20-41fc-b3e5-94e1da78be78"/>
   <path
      d="m 458,187.5 c 0,-4.694 3.806,-8.5 8.5,-8.5 4.694,0 8.5,3.806 8.5,8.5 0,4.694 -3.806,8.5 -8.5,8.5 -4.694,0 -8.5,-3.806 -8.5,-8.5 z"
      fill="#f2f2f2"
@@ -3925,14 +3925,14 @@
      width="4"
      height="113"
      fill="#ddd9c3"
-     id="ka2_65_a" />
+     id="ka2_65_a" data-map-object="shelf"  data-shelf-uid="583214d7-4f3f-4050-ab1d-6bcfc7599dd3"/>
   <rect
      x="662"
      y="63"
      width="5"
      height="113"
      fill="#ddd9c3"
-     id="ka2_65_b" />
+     id="ka2_65_b" data-map-object="shelf"  data-shelf-uid="8c5c3ee8-2160-4275-a3e6-6fe83a4b5d2f"/>
   <path
      d="m 652,186.5 c 0,-4.694 3.806,-8.5 8.5,-8.5 4.694,0 8.5,3.806 8.5,8.5 0,4.694 -3.806,8.5 -8.5,8.5 -4.694,0 -8.5,-3.806 -8.5,-8.5 z"
      fill="#f2f2f2"
@@ -3949,29 +3949,29 @@
      width="4.6308761"
      height="110"
      fill="#ddd9c3"
-     id="ka2_74_a"
-     style="stroke-width:1.07597" />
+     id="ka2_74_a" data-map-object="shelf"
+     style="stroke-width:1.07597"  data-shelf-uid="6a4fbfe1-de7b-420f-b223-1973ee8a04f1"/>
   <rect
      x="855"
      y="62.999901"
      width="5"
      height="110"
      fill="#ddd9c3"
-     id="ka2_74_b" />
+     id="ka2_74_b" data-map-object="shelf"  data-shelf-uid="5171f856-2aa4-4e25-9591-8ab45314feb7"/>
   <rect
      x="828"
      y="62.999901"
      width="5"
      height="110"
      fill="#ddd9c3"
-     id="ka2_73_a" />
+     id="ka2_73_a" data-map-object="shelf"  data-shelf-uid="bd9ae9e5-209b-4e69-82bc-101f24749777"/>
   <rect
      x="834"
      y="62.999901"
      width="5"
      height="110"
      fill="#ddd9c3"
-     id="ka2_73_b" />
+     id="ka2_73_b" data-map-object="shelf"  data-shelf-uid="94ce1610-af31-4a25-a28d-9eaa1dd06b3b"/>
   <path
      d="m 834.66915,187.38848 c 0,-4.694 3.806,-8.5 8.5,-8.5 4.694,0 8.5,3.806 8.5,8.5 0,4.694 -3.806,8.5 -8.5,8.5 -4.694,0 -8.5,-3.806 -8.5,-8.5 z"
      fill="#f2f2f2"
@@ -3993,7 +3993,7 @@
      width="5"
      height="53"
      fill="#8eb4e3"
-     id="CCG_ka2" />
+     id="CCG_ka2" data-map-object="shelf"  data-shelf-uid="4db0169c-8ed9-4472-a973-1e0593fb6370"/>
   <path
      d="m 681,346.795 10e-5,-37.7953"
      stroke="#fcd5b5"
@@ -4002,23 +4002,23 @@
      stroke-miterlimit="10"
      fill="none"
      fill-rule="evenodd"
-     id="CP_ka2" />
+     id="CP_ka2" data-map-object="shelf"  data-shelf-uid="265aa879-18cb-4077-b203-e4fcb768ac35"/>
   <rect
      x="671"
      y="549"
      width="192"
      height="3.211405"
      fill="#ddd9c3"
-     id="ka2_96_b"
-     style="stroke-width:0.89602" />
+     id="ka2_96_b" data-map-object="shelf"
+     style="stroke-width:0.89602"  data-shelf-uid="d89ecb05-f472-442d-8d23-ed126e5e3558"/>
   <rect
      x="671"
      y="545"
      width="192"
      height="3.211405"
      fill="#ddd9c3"
-     id="ka2_96_a"
-     style="stroke-width:0.89602" />
+     id="ka2_96_a" data-map-object="shelf"
+     style="stroke-width:0.89602"  data-shelf-uid="df826d9e-1c55-4255-89b7-bcfe963caf2f"/>
   <path
      d="m 948.811,138.485 h 3.316 v 14.824 h -3.316 z m 39.875,-6.071 h 4.008 l 4.219,6.809 c 0.554,-0.789 0.902,-1.953 1.043,-3.492 l 0.281,-3.305 h 3.543 l -0.25,2.789 c -0.12,1.328 -0.3,2.316 -0.55,2.965 -0.13,0.336 -0.28,0.715 -0.47,1.137 -0.37,0.82 -0.976,1.586 -1.804,2.296 l 3.014,3.856 v 2.062 h -12.917 v -2.73 h 5.836 l 2.672,0.164 v -0.047 l -3.293,-4.101 z m -18.887,0 h 3.574 v 15.117 h -3.574 z m -21,0 h 12.762 v 2.157 l -2.543,6.902 c -0.812,2.203 -1.219,4.09 -1.219,5.66 v 0.398 h -3.551 v -0.398 c 0,-0.633 0.102,-1.506 0.305,-2.619 0.203,-1.113 0.453,-2.08 0.75,-2.901 l 2.344,-6.468 h -8.848 z m -19.679,0 h 3.421 l 0.633,7.571 c 0.094,0.007 0.211,0.011 0.352,0.011 0.617,0 1.076,-0.164 1.377,-0.492 0.301,-0.328 0.482,-0.875 0.545,-1.641 l 0.445,-5.449 h 3.398 l -0.433,5.414 c -0.242,3.071 -1.844,4.606 -4.805,4.606 -0.164,0 -0.387,-0.008 -0.668,-0.024 l 0.199,2.391 h 3.821 c 1.304,0 2.308,-0.508 3.011,-1.523 0.704,-1.016 1.129,-2.415 1.278,-4.196 l 0.562,-6.668 h 3.422 l -0.562,6.574 c -0.125,1.422 -0.325,2.563 -0.598,3.422 -1.07,3.414 -3.496,5.121 -7.277,5.121 h -6.844 z m 50.193,-0.234 c 1.129,0 2.021,0.055 2.678,0.164 0.656,0.109 1.207,0.277 1.652,0.504 0.445,0.226 0.811,0.486 1.096,0.779 0.285,0.293 0.506,0.658 0.662,1.096 0.156,0.437 0.262,0.881 0.316,1.33 0.055,0.449 0.082,0.982 0.082,1.6 v 9.878 h -3.586 v -9.89 c 0,-1.805 -0.992,-2.707 -2.976,-2.707 -1,0 -2.27,0.082 -3.809,0.246 v -2.754 c 1.461,-0.164 2.756,-0.246 3.885,-0.246 z m -60,0 c 1.129,0 2.021,0.055 2.678,0.164 0.656,0.109 1.207,0.277 1.652,0.504 0.445,0.226 0.811,0.486 1.096,0.779 0.285,0.293 0.506,0.658 0.662,1.096 0.156,0.437 0.262,0.881 0.316,1.33 0.055,0.449 0.082,0.982 0.082,1.6 v 9.878 h -3.586 v -9.89 c 0,-1.805 -0.992,-2.707 -2.976,-2.707 -1,0 -2.27,0.082 -3.809,0.246 v -2.754 c 1.461,-0.164 2.756,-0.246 3.885,-0.246 z"
      stroke="#000000"

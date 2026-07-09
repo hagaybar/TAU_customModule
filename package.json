@@ -8,6 +8,7 @@
     "start:no-prebundle": "ng serve --prebundle=false",
     "start:proxy": "ng serve --proxy-config ./proxy/proxy.conf.mjs",
     "build": "ng build",
+    "sync:map-assets": "node scripts/sync-map-assets.mjs",
     "watch": "ng build --watch --configuration development",
     "test:upstream-sync": "node --test scripts/upstream-sync/__tests__/",
     "test": "ng test",
