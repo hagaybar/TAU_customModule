@@ -23,7 +23,9 @@ const FLOORS = [0, 1, 2];
 // CDN path -> local filename (under src/assets/cenlib-map/). Lowercase to match
 // the CDN naming and cdnAssetToLocalPath() in the addon.
 const ASSETS = [
-  { url: `${AWS_CDN_BASE_URL}/data/mapping.csv`, file: 'mapping.csv' },
+  // Written as .txt (not .csv): Alma's custom-package upload rejects .csv files.
+  // Content stays CSV; the addon reads it as text and parses it.
+  { url: `${AWS_CDN_BASE_URL}/data/mapping.csv`, file: 'mapping.txt' },
   ...FLOORS.map((n) => ({
     url: `${AWS_CDN_BASE_URL}/maps/floor_${n}.svg`,
     file: `floor_${n}.svg`,

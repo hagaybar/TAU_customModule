@@ -23,7 +23,9 @@ export function cdnAssetToLocalPath(url: string): string | null {
     return null;
   }
   if (/\/data\/mapping\.csv(\?|$)/i.test(url)) {
-    return `${LOCAL_ASSET_DIR}/mapping.csv`;
+    // Bundled as .txt (not .csv): Alma's custom-package upload rejects .csv
+    // files. Content is still CSV — the loaders read it as text and parse it.
+    return `${LOCAL_ASSET_DIR}/mapping.txt`;
   }
   const floor = url.match(/\/maps\/floor_(\d+)\.svg(\?|$)/i);
   if (floor) {

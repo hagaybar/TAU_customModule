@@ -65,9 +65,15 @@ intentionally left as-is — no churn on code that already works.)*
 
 ### 4. Bundled assets
 
-- Add `src/assets/cenlib-map/mapping.csv` (initial snapshot from CloudFront).
+- Add `src/assets/cenlib-map/mapping.txt` (initial snapshot from CloudFront).
+  **Bundled as `.txt`, not `.csv`:** Alma's custom-package upload rejects `.csv`
+  files ("File type csv is not allowed in the zip file"). The content is still
+  CSV — loaders read it with `responseType: 'text'` and Papa-parse it, so the
+  extension is irrelevant to the code. `.txt` is confirmed allowed (Angular's
+  `3rdpartylicenses.txt` already ships in the package). The CloudFront copy
+  stays `mapping.csv`; only the bundled fallback is `.txt`.
 - `git mv` the three SVGs to lowercase `floor_0.svg`, `floor_1.svg`, `floor_2.svg`
-  to match the CDN and the new pure mapping.
+  to match the CDN and the new pure mapping. (SVG is allowed by Alma.)
 
 ### 5. Sync script
 

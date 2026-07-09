@@ -154,7 +154,7 @@ describe('ShelfMappingService', () => {
       'libraryName,libraryNameHe,collectionName,collectionNameHe,rangeStart,rangeEnd,svgCode,description,descriptionHe,floor,shelfLabel,shelfLabelHe,notes,notesHe\n' +
       'Test Library,,Test Collection,,000,999,X_0,,,0,,,,\n';
 
-    const LOCAL_CSV_URL = `${assetBaseUrl}/assets/cenlib-map/mapping.csv`;
+    const LOCAL_CSV_URL = `${assetBaseUrl}/assets/cenlib-map/mapping.txt`;
 
     beforeEach(() => {
       httpMock = TestBed.inject(HttpTestingController);

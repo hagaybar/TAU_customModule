@@ -5,9 +5,9 @@ import { assetBaseUrl } from '../../../state/asset-base.generated';
 import { cdnAssetToLocalPath, fetchTextWithFallback } from './map-asset-fallback';
 
 describe('cdnAssetToLocalPath', () => {
-  it('maps the CDN mapping.csv URL to the bundled same-origin path', () => {
+  it('maps the CDN mapping.csv URL to the bundled .txt path (Alma rejects .csv)', () => {
     expect(cdnAssetToLocalPath(`${AWS_CDN_BASE_URL}/data/mapping.csv`)).toBe(
-      'assets/cenlib-map/mapping.csv'
+      'assets/cenlib-map/mapping.txt'
     );
   });
 
@@ -37,7 +37,7 @@ describe('cdnAssetToLocalPath', () => {
 
 describe('fetchTextWithFallback', () => {
   const cdnUrl = `${AWS_CDN_BASE_URL}/data/mapping.csv`;
-  const expectedLocalUrl = `${assetBaseUrl}/assets/cenlib-map/mapping.csv`;
+  const expectedLocalUrl = `${assetBaseUrl}/assets/cenlib-map/mapping.txt`;
 
   function httpSpy(): jasmine.SpyObj<HttpClient> {
     return jasmine.createSpyObj<HttpClient>('HttpClient', ['get']);
