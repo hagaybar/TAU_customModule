@@ -66,7 +66,8 @@ ShelfMappingService  ──HTTP──►  AWS CloudFront CDN
 | `cenlib-map-button.component.ts` | Location-level button. Extracts DOM data, checks for a mapping, hides/restores the native "Locate" button, opens the dialog. |
 | `cenlib-map-dialog/cenlib-map-dialog.component.ts` | Modal dialog. Resolves all matching mappings, scopes them to a single floor, and drives the SVG view. |
 | `shelf-map-svg/shelf-map-svg.component.ts` | Loads the floor-plan SVG and highlights the matched `svgCode` element(s). |
-| `services/shelf-mapping.service.ts` | Loads/caches the CSV from the CDN, builds a fast lookup index, and performs Dewey call-number range matching. |
+| `services/shelf-mapping.service.ts` | Loads/caches the CSV from the CDN (with a same-origin bundled fallback), builds a fast lookup index, and performs Dewey call-number range matching. |
+| `services/map-asset-fallback.ts` | Shared CDN→bundled-fallback policy: `cdnAssetToLocalPath()` maps a CDN asset URL to its `src/assets/cenlib-map/` copy; `fetchTextWithFallback()` fetches the CDN URL and retries the bundled same-origin copy on any error. Used by both the CSV and SVG loaders. |
 
 ### Configuration files (`cenlib-map/config/`)
 
@@ -120,21 +121,48 @@ authoritative implementation.
 
 ---
 
-## Data source (AWS CloudFront CDN)
+## Data source (AWS CloudFront CDN) — with same-origin fallback
 
-Both the mapping data and the floor drawings are served from CloudFront (CORS is configured
-for `tau.primo.exlibrisgroup.com` and `localhost`):
+Both the mapping data and the floor drawings are served from CloudFront:
 
 - **CSV:** `https://d3h8i7y9p8lyw7.cloudfront.net/data/mapping.csv`
 - **SVGs:** `https://d3h8i7y9p8lyw7.cloudfront.net/maps/floor_{n}.svg` (floors 0, 1, 2)
 
-The service caches the parsed CSV for **5 minutes**. On any fetch/parse error it caches an
-empty result, so the button simply stays hidden (fail-safe — no broken UI).
+> **CORS:** CloudFront serves `Access-Control-Allow-Origin: *` for these public assets. The S3
+> bucket has **no** CORS of its own — it was removed after a cache-poisoning outage where
+> CloudFront (`CachingOptimized`, no `Origin` in the cache key) froze one origin's
+> `Access-Control-Allow-Origin` and served it to every requester, blocking the addon. See the
+> producer repo's `AWS-INFRASTRUCTURE.md`; **do not re-add S3 CORS.**
 
-> **Note:** the SVG files under `src/assets/cenlib-map/` and
-> `docs/features/map_cenlib_shelves/` (`Floor_0.svg`, `Floor_1.SVG`, `Floor_2.SVG`, plus the
-> Dewey spreadsheet) are the **authoring/source copies**. At runtime the app loads the
-> published copies from the CDN.
+The service caches the parsed CSV for **5 minutes**.
+
+### Offline fallback ([PR #23](https://github.com/hagaybar/TAU_customModule/pull/23))
+
+If a CDN fetch fails (outage, CORS regression, network), the loaders retry a **bundled
+same-origin copy** shipped inside the custom package under `src/assets/cenlib-map/` instead of
+giving up. The shared `services/map-asset-fallback.ts` owns this policy — `cdnAssetToLocalPath()`
+maps a CDN asset URL to its bundled path, and `fetchTextWithFallback()` does *CDN → bundled
+retry → propagate if both fail*:
+
+- **CDN healthy** → loads from CloudFront (unchanged).
+- **CDN down, bundle present** → loads the last-synced bundled copy; the button and map keep
+  working (one gated `dwarn`).
+- **Both fail** → the CSV resolves to an empty result and the button stays hidden (the original
+  fail-safe — no broken UI).
+
+**Bundled runtime files** (`src/assets/cenlib-map/`): `mapping.txt`, `floor_0.svg`,
+`floor_1.svg`, `floor_2.svg`. The mapping is bundled as **`.txt`, not `.csv`** — Alma's
+custom-package upload rejects `.csv` files; the content is still CSV, read as text and parsed.
+Refresh the whole snapshot from CloudFront before a deploy:
+
+```bash
+npm run sync:map-assets
+```
+
+> **Authoring/source copies** live separately under `docs/features/map_cenlib_shelves/`
+> (`Floor_0.svg`, `Floor_1.SVG`, `Floor_2.SVG`, `Gallary.SVG`, and the `Shelf No._Dewey.xlsx`
+> spreadsheet). Those are the human-authored sources; the CloudFront bundle and the
+> `src/assets/cenlib-map/` runtime fallback are what the app actually uses.
 
 ---
 
@@ -185,6 +213,8 @@ the application bootstrap (`src/app/app.module.ts`). Without it the button never
    CDN CSV.
 5. Validate that every `svgCode` in the CSV exists as an element ID in the SVG (see the
    validation report below).
+6. Refresh the bundled offline fallback so it includes the new library/floors: run
+   `npm run sync:map-assets`, then commit the updated `src/assets/cenlib-map/` files.
 
 ---
 
