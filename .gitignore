@@ -57,3 +57,6 @@ helper_files/
 # Exception: babysitter run history under .a5c/ is tracked intentionally (see above).
 *.log
 !.a5c/**/*.log
+
+# Ex Libris case evidence (screen recordings) — large binaries, kept locally only
+docs/troubleshooting/evidence-search-bar-flash/

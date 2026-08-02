@@ -77,8 +77,18 @@ load 1:  search box visible 2058→2500ms (442ms), disappears, visible again fro
 
 ## Attachments
 
-Screen recordings of the loads measured above, one folder per institution
-(`.webm`, 1280×720):
+**Where these files are:** `docs/troubleshooting/evidence-search-bar-flash/` in the TAU
+customModule working copy. The folder is **gitignored** (21 MB of video), so it exists on the
+local machine only and is not on GitHub. A ready-to-attach archive of everything is at
+`docs/troubleshooting/evidence-search-bar-flash/exlibris-case-evidence.zip` (7.1 MB).
+
+**Still image — start here.** `TAU_before_after_972TAU_INST-NDE.png` is a labelled two-frame
+comparison taken from the recording of a single `972TAU_INST:NDE` load: the search box at
+t = 2.1 s (y=81, top of a blank page) beside t = 3.2 s (landing page rendered, y=288). This is
+usually enough on its own and needs no video player.
+
+**Screen recordings** of the loads measured above, one folder per institution
+(`.webm`, 1280×720, ~10 s each):
 
 ```
 TAU/      TAU_972TAU_INST-NDE_load1..3.webm
@@ -87,6 +97,9 @@ BROWARD/  BROWARD_01FALSC_BRC-NDE_BRC_run1..3.webm
 EFSC/     EFSC_01FALSC_EFSC-NDE_EFSC_run1..3.webm
 HUD/      CONTROL_HUD_44HUD_INST-HUD_load1..3.webm   (control — effect not present)
 ```
+
+The recordings cover the loads in the measurement table, including the two EFSC loads where the
+effect did **not** occur — they are included unedited rather than only the ones that reproduce.
 
 ## Impact
 
