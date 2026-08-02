@@ -182,3 +182,39 @@ nde-landing-about .help-sign-in-container ul {
   display: none !important;
 }
 /* 18.06.26 hide stray checkmark bullets end */
+
+/* 02.08.26 resource-type pill chip (NDE brief results) — issue #31 */
+/* Host renders the resource type and the indications as PLAIN TEXT: */
+/*   span.record-type      inside <nde-record-type>            ("Article", "Book", "ספר") */
+/*   span.record-indication inside div.display-inline           ("Peer Reviewed", "Open Access") */
+/* Both compute to rgb(67,71,78) on transparent, 12px/500, display:inline. This turns them */
+/* into chips, the same way 44HUD_INST:HUD does it — entirely in this file, no component. */
+/* Verified live on 972TAU_INST:NDE (EN + HE) 02.08.26. */
+/*                                                                                        */
+/* Colours come from the view's own theme tokens, NOT hardcoded hex, so the pills follow   */
+/* automatically if the primary is ever lightened (issue #29). Contrast at 12px (AA 4.5:1):*/
+/*   type:       --sys-on-primary #fff on --sys-primary #3f608a          = 6.46:1 PASS     */
+/*   indication: --sys-primary #3f608a on --sys-primary-container #d3e3ff = 4.98:1 PASS    */
+/* NOTE for #29: lightening --sys-primary past ~#4a70a0 drops the white-on-primary type    */
+/* pill below 4.5:1. Re-check this block against any new primary.                          */
+/*                                                                                        */
+/* Logical padding (padding-inline/-block) per the repo BiDi convention, so the chip is    */
+/* symmetric in Hebrew RTL. The indication's sibling <mat-icon> is left OUTSIDE the chip   */
+/* (it is a sibling of the span, not a child) — same as the HUD reference.                 */
+nde-record-type span.record-type,
+span.record-indication {
+  display: inline-block !important;
+  padding-block: 0.15rem !important;
+  padding-inline: 0.55rem !important;
+  border-radius: 999px !important;
+  line-height: 1.4 !important;
+}
+nde-record-type span.record-type {
+  background-color: var(--sys-primary) !important;
+  color: var(--sys-on-primary) !important;
+}
+span.record-indication {
+  background-color: var(--sys-primary-container) !important;
+  color: var(--sys-primary) !important;
+}
+/* 02.08.26 resource-type pill chip end */
