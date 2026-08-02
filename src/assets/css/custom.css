@@ -270,9 +270,13 @@ nde-record-type span.record-type {
 /* does NOT lower the bar), so the full 4.5:1 threshold applies to both.                        */
 /*   white on #487797 (chosen)  = 4.82:1   PASS                                                 */
 /*   white on #4B7C9D (rejected)= 4.4977:1 fails AA by 0.002                                    */
-/* #4B7C9D was the originally requested shade and is visually indistinguishable from #487797,   */
-/* but it lands just under the line, and TAU publishes an accessibility statement linked from   */
-/* our own footer — an automated audit would flag it on this element. Swapped 02.08.26.         */
+/* #4B7C9D was the originally requested shade; it lands just under the line, and TAU publishes  */
+/* an accessibility statement linked from our own footer, so an automated audit comparing the   */
+/* exact value would flag this element. Swapped 02.08.26.                                       */
+/* How different are they? CIEDE2000 dE = 1.93 (#487797 is 1.9 L* darker). That is "perceptible */
+/* only on close side-by-side inspection" — NOT identical. Nobody comparing against a memory or */
+/* a screenshot will spot it, but held against each other on a large flat band a sharp eye can. */
+/* If the exact requested shade ever matters more than the 0.002 AA margin, this is the knob.   */
 /* The dropdown chevrons are non-text (3:1 required) and pass comfortably either way.           */
 /* The colour appears ONCE, in --tau-search-band-bg below — change it there and nowhere else.   */
 /*                                                                                             */
