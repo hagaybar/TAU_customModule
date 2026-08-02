@@ -182,3 +182,48 @@ nde-landing-about .help-sign-in-container ul {
   display: none !important;
 }
 /* 18.06.26 hide stray checkmark bullets end */
+
+/* 02.08.26 suppress the results search bar flashing on the landing page (NDE) */
+/*                                                                                         */
+/* SYMPTOM: on every /nde/home load, the RESULTS-page search bar appears for ~200-500ms    */
+/* and then vanishes as the landing page takes over — a visible flash plus layout jump.    */
+/*                                                                                         */
+/* CAUSE (Ex Libris host defect, NOT ours). The app boots into the results-page structure  */
+/* and only then tears it down and builds the landing page. Measured live 02.08.26:        */
+/*   ~430-630ms  <nde-top-bar> created as a DIRECT CHILD of div.search-container,          */
+/*               WITHOUT .top-bar-not-sticky, i.e. rendered in results mode                */
+/*               chain: div.search-container < main.sub-container < section.container      */
+/*   ~630-1110ms still showing (window varies with connection speed)                       */
+/*   then        the bar gains .top-bar-not-sticky and MOVES into                          */
+/*               div.custom-search-bar-container < div.landing-search-background-image     */
+/* Reproduced on production 972TAU_INST:NDE (which carries none of our code) and on a      */
+/* different tenant entirely — 01FALSC_EFSC:NDE_EFSC — so it is a product-level defect.     */
+/* An Ex Libris case should carry the real fix; this is a cosmetic suppression only.       */
+/*                                                                                         */
+/* WHY THIS SELECTOR. During the flash the DOM is byte-for-byte the results layout, so     */
+/* neither the top bar's own classes nor its ancestors can tell the two routes apart, and  */
+/* JS is useless here — assets/js/custom.js loads at ~1184ms, after the flash has ended.   */
+/* Only custom.css is in play. Diffing the live DOM at flash time between the two routes   */
+/* surfaced <nde-landing-page-config>, which sits in a SIBLING subtree of the same          */
+/* .search-container:                                                                       */
+/*     div.search-container                                                                 */
+/*     ├── nde-top-bar                 <- the spurious bar                                  */
+/*     └── div.search-content                                                               */
+/*         └── nde-landing-page-config <- landing route only                                */
+/* Measured across 3 landing loads it is present for 100% of the flash window, and across  */
+/* 2 results loads it never appears at all. It comes AFTER the bar in document order, so   */
+/* :has() is required — CSS has no preceding-sibling combinator.                            */
+/*                                                                                          */
+/* SAFETY: :not(.top-bar-not-sticky) leaves the settled landing bar alone, and the          */
+/* :has() clause cannot match on the results page. On a browser without :has() support the  */
+/* whole rule is dropped and behaviour is simply today's flash — it can never hide the real */
+/* results search bar. display:none (not visibility:hidden) so no space is reserved and     */
+/* there is no layout jump.                                                                 */
+/*                                                                                          */
+/* VERIFIED live on 972TAU_INST:NDE_TEST by injecting this rule before page scripts:        */
+/*   landing — spurious bar NEVER rendered; the real landing bar still appears (h=74)        */
+/*   results — search bar visible from 361ms and unaffected (h=74)                           */
+.search-container:has(nde-landing-page-config) > nde-top-bar:not(.top-bar-not-sticky) {
+  display: none !important;
+}
+/* 02.08.26 suppress the results search bar flashing on the landing page end */
