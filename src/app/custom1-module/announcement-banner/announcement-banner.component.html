@@ -1,0 +1,18 @@
+<div
+  class="tau-announcement"
+  *ngIf="!dismissed"
+  role="status"
+  [attr.aria-label]="regionLabel"
+  [attr.dir]="textDirection"
+>
+  <p class="tau-announcement__text">{{ message }}</p>
+
+  <button
+    type="button"
+    class="tau-announcement__dismiss"
+    [attr.aria-label]="dismissLabel"
+    (click)="dismiss()"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
