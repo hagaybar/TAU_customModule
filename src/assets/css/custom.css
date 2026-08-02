@@ -227,3 +227,32 @@ nde-landing-about .help-sign-in-container ul {
   display: none !important;
 }
 /* 02.08.26 suppress the results search bar flashing on the landing page end */
+
+/* 02.08.26 resource-type pill chip (NDE results) — issue #31 */
+/* Host renders the resource type as PLAIN TEXT: <span class="record-type text-uppercase">   */
+/* inside <nde-record-type> ("Journal", "Article", "Book", "ספר", "כתב עת"). Computed default */
+/* is rgb(67,71,78) on transparent, 12px/500, display:inline. This turns it into a filled     */
+/* chip, matching the requested design and the 44HUD_INST:HUD reference view.                 */
+/*                                                                                            */
+/* SCOPE: the resource TYPE only. The sibling indications ("Peer Reviewed", "Open Access",    */
+/* span.record-indication) are deliberately LEFT AS PLAIN TEXT — the approved screenshot      */
+/* shows "Journal" as a pill with "Peer" beside it unstyled. An earlier attempt chipped both; */
+/* that is not what was asked for.                                                            */
+/*                                                                                            */
+/* Colours come from the view's theme tokens rather than hardcoded hex, so the chip follows   */
+/* automatically if the primary is ever changed. Contrast at the 12px label size (AA 4.5:1):  */
+/*   --sys-on-primary #ffffff on --sys-primary #3f608a = 6.46:1 PASS                          */
+/* If --sys-primary is ever lightened past ~#4a70a0 this drops below 4.5:1 — re-check then.   */
+/*                                                                                            */
+/* Logical padding (padding-inline/-block) per the repo BiDi convention, so the chip stays    */
+/* symmetric in Hebrew RTL. text-uppercase is a no-op in Hebrew, which is expected.           */
+nde-record-type span.record-type {
+  display: inline-block !important;
+  padding-block: 0.15rem !important;
+  padding-inline: 0.55rem !important;
+  border-radius: 999px !important;
+  line-height: 1.4 !important;
+  background-color: var(--sys-primary) !important;
+  color: var(--sys-on-primary) !important;
+}
+/* 02.08.26 resource-type pill chip end */
