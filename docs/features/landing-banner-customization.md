@@ -42,6 +42,8 @@ Font files: `src/assets/fonts/assistant/assistant-{hebrew,latin-ext,latin}.woff2
      - Heading rules must be **tag-agnostic** → `:is(h1, h2)`. Never hard-code `h2`.
      - Rules scoped to `.landing-search-background-image` (e.g. the search-bar width) **work on
        production but not on the local proxy**. That's expected — see #2.
+     - The two layouts differ **once settled**. During the landing page's first ~0.5 s they are
+       the *same* — see #6, which is the trap that actually breaks things.
 
 2. **The local proxy does NOT reproduce the production banner.** Because the proxy renders the
    top-bar layout, `.landing-search-background-image`-scoped rules and the landing background image
@@ -60,6 +62,37 @@ Font files: `src/assets/fonts/assistant/assistant-{hebrew,latin-ext,latin}.woff2
 5. **Two `<h2>`s in the container.** Besides the visible heading there's a screen-reader-only
    `<h2 class="visually-hidden">Search bar</h2>` (nested in `nde-top-bar`). The `> :is(h1,h2)`
    direct-child match plus `:not(.visually-hidden)` excludes it — keep both guards.
+
+6. **⚠ During boot, the landing page IS the results layout — and `.search-container` exists on
+   BOTH pages.** This is the one that bites. Verified live 02.08.26 on `972TAU_INST:NDE`:
+
+   | Phase | What `<nde-top-bar>` looks like |
+   |---|---|
+   | ~430–1100 ms | **direct child of `div.search-container`**, *without* `.top-bar-not-sticky` — i.e. indistinguishable from the results page. Chain: `div.search-container < main.sub-container < section.container < nde-app-layout` |
+   | after | gains `.top-bar-not-sticky` and **moves** into `div.custom-search-bar-container < div.landing-search-background-image` |
+
+   So a rule you scope "to the results page" with `.search-container …` will **also fire on the
+   landing page for half a second on every single load**, painting whatever you styled across the
+   banner. Gotcha #1 describes the *settled* DOM and will mislead you here.
+
+   **The guards that actually work** (all three, in this order):
+   ```css
+   .search-container:not(:has(nde-landing-page-config))   /* landing-only marker, present for   */
+                                                          /* 100% of the boot window            */
+     > nde-top-bar                                        /* direct child: landing's settled bar */
+                                                          /* lives under .custom-search-bar-…    */
+     :not(.top-bar-not-sticky)                            /* excludes the settled landing bar    */
+   ```
+   `nde-landing-page-config` sits in a sibling subtree of the same `.search-container` and never
+   appears on the results page (measured: present in 3/3 landing loads, 0/2 results loads).
+   It follows the bar in document order, so `:has()` is required — CSS has no
+   preceding-sibling combinator.
+
+   **You cannot catch this on the proxy** (it renders no landing search bar at all) and you cannot
+   catch it by loading the settled page. Verify by injecting the candidate rule *before* page
+   scripts on a live view — see "Verify live" below. Related: the boot double-render is an
+   Ex Libris defect in its own right; see
+   [landing-page-search-bar-flash.md](../troubleshooting/landing-page-search-bar-flash.md).
 
 ---
 
@@ -194,6 +227,35 @@ proxy renders a different layout — gotcha #2).
 - **Screenshot the element, not via scroll:** screenshotting a small element (e.g. `nde-top-bar`)
   can scroll it under the sticky page header and capture the wrong thing. Screenshot the larger
   `.landing-search-background-image` instead.
+- **To catch BOOT-time faults (gotcha #6), injecting into the loaded page is not enough** — by the
+  time you can run `evaluate`, the ~0.5 s window has closed. Inject *before* page scripts with
+  `addInitScript` and sample from t=0:
+
+  ```js
+  await page.addInitScript((rule) => {
+    const st = document.createElement('style');
+    st.textContent = rule;
+    (document.head || document.documentElement).appendChild(st);   // may be null at t=0 — guard it
+    window.__s = []; const t0 = Date.now();
+    const iv = setInterval(() => {
+      const tb = document.querySelector('nde-top-bar');
+      if (tb) window.__s.push({ t: Date.now()-t0, bg: getComputedStyle(tb).backgroundColor,
+                                sticky: tb.classList.contains('top-bar-not-sticky') });
+    }, 20);
+    setTimeout(() => clearInterval(iv), 9000);
+  }, CANDIDATE_RULE);
+  await page.goto(LANDING_URL, { waitUntil: 'load' });
+  await page.waitForTimeout(9200);
+  // then assert your styling NEVER appears on the landing page across all samples
+  ```
+
+  Test the candidate rule **on its own**, without the rest of `custom.css`, so you learn whether
+  its guards work independently rather than being masked by another rule.
+
+  Two traps in the harness itself: `addInitScript` **accumulates** across calls on the same
+  context — use a fresh `browser.newContext()` per measurement or a previous injection will
+  silently still be active. And `document.head` can be `null` at t=0, so guard the `appendChild`
+  or the whole init script aborts and you get zero samples.
 
 ---
 
