@@ -218,3 +218,68 @@ span.record-indication {
   color: var(--sys-primary) !important;
 }
 /* 02.08.26 resource-type pill chip end */
+
+/* 02.08.26 search box background colour (NDE results page) — issue #28 */
+/* Requested colour: #4B7C9D.                                                             */
+/* ⚠ ACCESSIBILITY: white on #4B7C9D measures 4.4977:1 — it misses WCAG AA (4.5:1) by     */
+/* 0.002. It is a hairline miss, invisible to the eye, but it is a miss, and TAU publishes */
+/* an accessibility statement linked from our own footer. #487797 is visually              */
+/* near-identical and gives 4.82:1. To swap, change --tau-search-box-bg below — nothing    */
+/* else in this block hardcodes the colour.                                                */
+/*                                                                                         */
+/* SCOPING — read before editing. `.search-container` is present on BOTH the results page  */
+/* AND the landing page, so a descendant selector would also paint the landing search box  */
+/* and break the bilingual banner blocks above. What actually separates them (verified     */
+/* live 02.08.26): on results, <nde-top-bar> is a DIRECT child of .search-container; on    */
+/* the landing page it carries .top-bar-not-sticky and sits under                          */
+/* .custom-search-bar-container. Both discriminators are applied below.                    */
+/* See docs/features/landing-banner-customization.md.                                      */
+.search-container > nde-top-bar:not(.top-bar-not-sticky) .search-bar-wrapper {
+  --tau-search-box-bg: #4B7C9D;
+  background-color: var(--tau-search-box-bg) !important;
+  border-color: var(--tau-search-box-bg) !important;
+}
+/* Host paints the query text rgb(46,46,39) (3.80:1 on the blue — fails) and the search/  */
+/* mic icons --sys-primary (fails badly), so everything inside the box goes white.        */
+.search-container > nde-top-bar:not(.top-bar-not-sticky) .search-bar-wrapper,
+.search-container > nde-top-bar:not(.top-bar-not-sticky) .search-bar-wrapper input,
+.search-container > nde-top-bar:not(.top-bar-not-sticky) .search-bar-wrapper button,
+.search-container > nde-top-bar:not(.top-bar-not-sticky) .search-bar-wrapper mat-icon,
+.search-container > nde-top-bar:not(.top-bar-not-sticky) .search-bar-wrapper mat-icon svg,
+.search-container > nde-top-bar:not(.top-bar-not-sticky) .search-bar-wrapper mat-icon path {
+  color: #ffffff !important;
+  fill: currentColor !important;
+}
+/* Placeholder kept at full white rather than the browser default ~54% alpha, which would */
+/* land near 2:1 on this blue. */
+.search-container > nde-top-bar:not(.top-bar-not-sticky) .search-bar-wrapper input::placeholder {
+  color: #ffffff !important;
+  opacity: 0.9 !important;
+}
+/* 02.08.26 search box background colour end */
+
+/* 02.08.26 lighten non-text toolbar accents (NDE results) — issue #29 */
+/* Decision: lighten FILLS and BORDERS only; primary-coloured TEXT stays #3f608a.          */
+/* Why the text is untouched — measured 02.08.26: #3f608a is 6.46:1 on white and 5.69:1 on */
+/* the #f1f0f4 chip. The lightest primary that still clears the AA 4.5:1 text threshold is */
+/* ~#4a70a0 (5.10:1 / 4.50:1), which is barely distinguishable from today. So lightening   */
+/* the token app-wide was rejected: it either changes nothing visible or breaks AA.        */
+/* Non-text elements only need 3:1, which leaves real headroom — hence this narrower rule. */
+/*                                                                                         */
+/* Most of what looks blue in the results toolbar (sort value, Save & Export, Expand       */
+/* Results Options) is TEXT on a transparent background and is therefore deliberately      */
+/* NOT changed here. Verified live: the only genuine primary FILL is the slide-toggle      */
+/* track, and the quick-filter pills carry a grey #73777f border.                          */
+:root {
+  --tau-accent-light: #5580b5; /* 4.08:1 on white — clears the 3:1 non-text floor */
+}
+/* Slide-toggle track (on state) — the one real primary fill in the toolbar. */
+mat-slide-toggle .mdc-switch__track::after {
+  background-color: var(--tau-accent-light) !important;
+}
+/* Quick-filter pills — host border is grey #73777f; a lighter blue reads softer and ties */
+/* them to the rest of the toolbar without touching their label colour. */
+nde-quick-filters button.quick-filter-btn {
+  border-color: var(--tau-accent-light) !important;
+}
+/* 02.08.26 lighten non-text toolbar accents end */
