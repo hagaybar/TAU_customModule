@@ -264,14 +264,17 @@ nde-record-type span.record-type {
 /* (verified live: their nde-top-bar is rgb(0,85,150) with white bar text, while their box    */
 /* stays rgb(251,248,255) with rgb(27,27,32) text).                                            */
 /*                                                                                             */
-/* ⚠ ACCESSIBILITY. Two text items sit ON the band and must go white: the search-scope label   */
-/* ("TAU", 14px/400) and the Advanced Search link (14px/700). Neither qualifies as WCAG        */
-/* "large text" (that needs 18.66px bold / 24px regular), so the 4.5:1 threshold applies.      */
-/* White on #4B7C9D measures 4.4977:1 — it misses AA by 0.002. Invisible to the eye, but a     */
-/* miss, and TAU publishes an accessibility statement linked from our own footer.              */
-/* #487797 is visually near-identical and gives 4.82:1. Change --tau-search-band-bg below —    */
-/* nothing else in this block repeats the colour.                                              */
-/* The dropdown chevrons are non-text (3:1 required) and pass comfortably either way.          */
+/* ACCESSIBILITY — why this exact blue. Two text items sit ON the band and are set white: the  */
+/* search-scope label ("TAU", 14px/400) and the Advanced Search link (14px/700). Neither        */
+/* qualifies as WCAG "large text" (that needs 24px regular / 18.66px bold — note bolding alone  */
+/* does NOT lower the bar), so the full 4.5:1 threshold applies to both.                        */
+/*   white on #487797 (chosen)  = 4.82:1   PASS                                                 */
+/*   white on #4B7C9D (rejected)= 4.4977:1 fails AA by 0.002                                    */
+/* #4B7C9D was the originally requested shade and is visually indistinguishable from #487797,   */
+/* but it lands just under the line, and TAU publishes an accessibility statement linked from   */
+/* our own footer — an automated audit would flag it on this element. Swapped 02.08.26.         */
+/* The dropdown chevrons are non-text (3:1 required) and pass comfortably either way.           */
+/* The colour appears ONCE, in --tau-search-band-bg below — change it there and nowhere else.   */
 /*                                                                                             */
 /* SCOPING — three guards, all necessary:                                                      */
 /*   .search-container > …          the LANDING nde-top-bar lives under                        */
@@ -285,7 +288,7 @@ nde-record-type span.record-type {
 /*                                  exactly that fault. See the flash block above and          */
 /*                                  docs/troubleshooting/landing-page-search-bar-flash.md.     */
 .search-container:not(:has(nde-landing-page-config)) > nde-top-bar:not(.top-bar-not-sticky) {
-  --tau-search-band-bg: #4B7C9D;
+  --tau-search-band-bg: #487797;
   background-color: var(--tau-search-band-bg) !important;
 }
 /* Text/icons that sit on the band. Targeted individually rather than by inheritance, because  */
