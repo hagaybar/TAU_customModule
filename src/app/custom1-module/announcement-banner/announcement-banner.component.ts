@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, ElementRef, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { dlog } from '../../services/debug.util';
 
@@ -29,10 +36,12 @@ import { dlog } from '../../services/debug.util';
   styleUrls: ['./announcement-banner.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AnnouncementBannerComponent implements OnInit {
+export class AnnouncementBannerComponent implements OnInit, OnDestroy {
   currentLanguage: 'en' | 'he' = 'en';
 
   dismissed = false;
+
+  private langObserver?: MutationObserver;
 
   /**
    * Bumping this retires a previous dismissal, so a new announcement resurfaces
@@ -40,7 +49,10 @@ export class AnnouncementBannerComponent implements OnInit {
    */
   private static readonly DISMISS_KEY = 'tauAnnouncementDismissed:v1';
 
-  constructor(private elementRef: ElementRef<HTMLElement>) {}
+  constructor(
+    private elementRef: ElementRef<HTMLElement>,
+    private changeDetectorRef: ChangeDetectorRef
+  ) {}
 
   get textDirection(): 'ltr' | 'rtl' {
     return this.currentLanguage === 'he' ? 'rtl' : 'ltr';
@@ -68,18 +80,73 @@ export class AnnouncementBannerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Matches SearchQueryService.getCurrentLanguage() — NDE carries the UI
-    // language in the `lang` URL parameter, not on <html lang>, at mount time.
-    const lang = new URLSearchParams(window.location.search).get('lang');
-    this.currentLanguage = lang === 'he' || lang === 'he_IL' ? 'he' : 'en';
-
+    this.currentLanguage = this.readLanguage();
     this.dismissed = this.readDismissed();
+    this.watchLanguage();
 
     // Host tag is '<slot>-from-remote-<n>', so this names the slot that mounted us.
     dlog(
       '[AnnouncementBanner] mounted in slot:',
       this.elementRef.nativeElement.tagName.toLowerCase()
     );
+  }
+
+  ngOnDestroy(): void {
+    this.langObserver?.disconnect();
+  }
+
+  /**
+   * Keeps the banner in step with an in-app language switch.
+   *
+   * This banner mounts at `nde-header-before`, *outside* the router outlet, so
+   * unlike our other components it is never destroyed while the user browses —
+   * `ngOnInit` runs once, at first paint. Reading the language only there left
+   * the text frozen in whatever language the page first loaded in, until a
+   * manual refresh.
+   *
+   * Verified live on 2026-08-02 during that bug: on a language switch the host
+   * rewrites `<html lang>` and `<html dir>` (en→he, ltr→rtl) while the component
+   * node itself survives untouched. `popstate` does *not* fire — the host router
+   * navigates with pushState — so the attribute mutation is the only reliable
+   * signal available to us without reaching into the host's NgRx store.
+   */
+  private watchLanguage(): void {
+    this.langObserver = new MutationObserver(() => {
+      const next = this.readLanguage();
+      if (next === this.currentLanguage) {
+        return;
+      }
+      this.currentLanguage = next;
+      // OnPush: writing the field is not enough to repaint, and the mutation
+      // originates outside this component's own change-detection path.
+      this.changeDetectorRef.markForCheck();
+    });
+
+    this.langObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['lang', 'dir'],
+    });
+  }
+
+  /**
+   * Resolves the UI language, preferring the signal that actually tracks in-app
+   * switches. Priority mirrors the bilingual rules in custom.css
+   * (`html[lang="he"]`, then `html:not([lang])[dir="rtl"]`), with the URL kept
+   * as a middle fallback for the first paint, before the host has stamped
+   * `<html lang>`.
+   */
+  private readLanguage(): 'en' | 'he' {
+    const htmlLang = document.documentElement.getAttribute('lang');
+    if (htmlLang) {
+      return htmlLang.toLowerCase().startsWith('he') ? 'he' : 'en';
+    }
+
+    const urlLang = new URLSearchParams(window.location.search).get('lang');
+    if (urlLang) {
+      return urlLang.toLowerCase().startsWith('he') ? 'he' : 'en';
+    }
+
+    return document.documentElement.getAttribute('dir') === 'rtl' ? 'he' : 'en';
   }
 
   dismiss(): void {

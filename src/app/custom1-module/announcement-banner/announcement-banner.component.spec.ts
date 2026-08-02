@@ -12,8 +12,18 @@ describe('AnnouncementBannerComponent', () => {
     fixture.detectChanges();
   };
 
+  // The component reads <html lang>/<dir> first, so tests must control them
+  // rather than inherit whatever the Karma page happens to carry.
+  let originalLang: string | null;
+  let originalDir: string | null;
+
   beforeEach(async () => {
     localStorage.removeItem('tauAnnouncementDismissed:v1');
+    originalLang = document.documentElement.getAttribute('lang');
+    originalDir = document.documentElement.getAttribute('dir');
+    document.documentElement.removeAttribute('lang');
+    document.documentElement.removeAttribute('dir');
+
     await TestBed.configureTestingModule({
       imports: [AnnouncementBannerComponent],
     }).compileComponents();
@@ -21,6 +31,12 @@ describe('AnnouncementBannerComponent', () => {
 
   afterEach(() => {
     localStorage.removeItem('tauAnnouncementDismissed:v1');
+    const restore = (attr: string, value: string | null) =>
+      value === null
+        ? document.documentElement.removeAttribute(attr)
+        : document.documentElement.setAttribute(attr, value);
+    restore('lang', originalLang);
+    restore('dir', originalDir);
   });
 
   it('should create', () => {
@@ -90,6 +106,85 @@ describe('AnnouncementBannerComponent', () => {
       expect(banner.getAttribute('dir')).toBe('rtl');
       expect(banner.textContent).toContain('ברוכים הבאים');
       expect(banner.textContent).toContain('דעת"א');
+    });
+  });
+
+  describe('in-app language switch', () => {
+    // The banner mounts at nde-header-before — OUTSIDE the router outlet — so it
+    // is never destroyed when the user switches language in-app. ngOnInit runs
+    // once, at first paint. Verified live: the host rewrites <html lang>/<dir>
+    // on every switch, but does NOT fire popstate (the router uses pushState),
+    // and the component node survives the switch untouched.
+    //
+    // These tests deliberately never re-create the fixture — re-creating it
+    // would hide the bug, because a fresh mount re-reads the language.
+
+    /** MutationObserver callbacks are async; let the microtask queue drain. */
+    const flush = () => new Promise<void>(resolve => setTimeout(resolve));
+
+    it('follows a switch from English to Hebrew without being re-created', async () => {
+      createComponent();
+      expect(component.currentLanguage).toBe('en');
+
+      document.documentElement.setAttribute('lang', 'he');
+      document.documentElement.setAttribute('dir', 'rtl');
+      await flush();
+      fixture.detectChanges();
+
+      expect(component.currentLanguage).toBe('he');
+      const banner: HTMLElement = fixture.nativeElement.querySelector('.tau-announcement');
+      expect(banner.getAttribute('dir')).toBe('rtl');
+      expect(banner.textContent).toContain('ברוכים הבאים');
+    });
+
+    it('follows a switch back from Hebrew to English', async () => {
+      document.documentElement.setAttribute('lang', 'he');
+      createComponent();
+      expect(component.currentLanguage).toBe('he');
+
+      document.documentElement.setAttribute('lang', 'en');
+      document.documentElement.setAttribute('dir', 'ltr');
+      await flush();
+      fixture.detectChanges();
+
+      expect(component.currentLanguage).toBe('en');
+      const banner: HTMLElement = fixture.nativeElement.querySelector('.tau-announcement');
+      expect(banner.getAttribute('dir')).toBe('ltr');
+      expect(banner.textContent).toContain('DaTA');
+    });
+
+    it('stops observing once destroyed', async () => {
+      createComponent();
+      fixture.destroy();
+
+      document.documentElement.setAttribute('lang', 'he');
+      await flush();
+
+      // No throw, and no state change after teardown.
+      expect(component.currentLanguage).toBe('en');
+    });
+  });
+
+  describe('language source precedence', () => {
+    it('prefers <html lang> over the URL parameter', () => {
+      // Once the host has stamped <html lang>, it is authoritative — it is the
+      // attribute that actually tracks in-app switches.
+      document.documentElement.setAttribute('lang', 'he');
+      createComponent();
+      expect(component.currentLanguage).toBe('he');
+    });
+
+    it('treats he_IL as Hebrew', () => {
+      document.documentElement.setAttribute('lang', 'he_IL');
+      createComponent();
+      expect(component.currentLanguage).toBe('he');
+    });
+
+    it('falls back to dir=rtl when no lang is set anywhere', () => {
+      // Mirrors custom.css's html:not([lang])[dir="rtl"] fallback.
+      document.documentElement.setAttribute('dir', 'rtl');
+      createComponent();
+      expect(component.currentLanguage).toBe('he');
     });
   });
 
