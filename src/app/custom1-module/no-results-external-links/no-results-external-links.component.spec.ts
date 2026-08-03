@@ -158,6 +158,15 @@ describe('NoResultsExternalLinksComponent', () => {
     });
 
     it('should encode special characters in search terms', () => {
+      // A '&' typed by the patron must be percent-encoded so it stays part of
+      // the search term instead of splitting the URL into an extra parameter.
+      //
+      // The original assertion here was `expect(url).not.toContain('&')`, which
+      // no correctly-formed URL can satisfy: ULI's mapping appends four more
+      // parameters (tab, search_scope, vid, offset), and those separators are
+      // '&' by definition. It failed on working code. What actually needs
+      // guarding is the term, not the whole string — so parse the URL and check
+      // the query parameter round-trips.
       component.searchData = {
         queries: ['any,contains,test & special,AND'],
         filters: [],
@@ -167,8 +176,20 @@ describe('NoResultsExternalLinksComponent', () => {
       const source = component.externalSources[0];
       const url = component.buildExternalUrl(source);
 
-      expect(url).not.toContain('&');
-      expect(url).toContain('%');
+      expect(url).toContain('%26');
+
+      const parsed = new URL(url);
+      // Survives decoding intact — this is what breaks if encodeURIComponent
+      // is ever dropped from buildSearchQuery().
+      expect(parsed.searchParams.get('query')).toBe('any,contains,test & special');
+      // And the '&' created no spurious sixth parameter.
+      expect([...parsed.searchParams.keys()]).toEqual([
+        'query',
+        'tab',
+        'search_scope',
+        'vid',
+        'offset'
+      ]);
     });
   });
 
