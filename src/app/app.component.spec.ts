@@ -20,10 +20,16 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('custom-module');
   });
 
-  it('should render title', () => {
+  it('should render the title into the template', () => {
+    // Asserts against app.component.html as it actually is:
+    //   <p> Custom module test {{getTitle()}}</p>
+    // The original assertion here was left over from `ng new` scaffolding — it
+    // looked for '.content span' and 'custom-module app is running!', neither of
+    // which has existed since the starter template was replaced. It could never
+    // pass, so it told us nothing about this component.
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('custom-module app is running!');
+    expect(compiled.querySelector('p')?.textContent).toContain('Custom module test custom-module');
   });
 });
