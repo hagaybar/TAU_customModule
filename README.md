@@ -18,6 +18,7 @@ lightweight CSS/asset overrides.
 |---------|--------|-------------|
 | **External Search Integration** | ✅ Production | Search-links panel (filter sidebar) + external links on the no-results page — components with query mapping and bilingual RTL support |
 | **CenLib Shelf Map** | ✅ Production | Interactive "Shelf Map" button + floor-plan dialog that pinpoints an item on the shelf. Data-driven from a companion **Primo Maps** repo (`NDE_MAPS_MANGER`) via an AWS CloudFront CDN |
+| **Announcement Banner** | ✅ Production | Dismissible bilingual strip above the NDE header, announcing the refreshed look |
 
 ### 🎨 CSS & styling tweaks (lightweight overrides)
 
@@ -32,6 +33,9 @@ lightweight CSS/asset overrides.
 | **Landing Page Banner Override** | CSS | ✅ Production | Repaint the native landing-page image overlay (added by Ex Libris) per-language so the custom banner isn't hidden |
 | **Advanced Search Link Bold** | CSS | ✅ Production | Bold the "Advanced search" link (EN + HE) |
 | **Landing "About" Bullet Fix** | CSS | ✅ Production | Hide stray empty checkmark bullets in the landing "About" box |
+| **Resource-Type Pill Chip** | CSS | ✅ Production | Render the results-page resource type ("Journal", "ספר") as a filled pill instead of plain text |
+| **Search-Bar Band** | CSS | ✅ Production | Solid blue band behind the results-page search bar so the near-white search box reads as its own element |
+| **Landing Search-Bar Flash Suppression** | CSS | ✅ Production | Hide the spurious results search bar that the host flashes on every landing-page load (Ex Libris defect) |
 | **Custom Loading Animation** | Asset (Lottie) | ✅ Production | Blue four-dot page-load animation replacing the default purple |
 
 **Key Technologies:**
@@ -153,6 +157,62 @@ responsibilities and the shared contract in [CenLib Shelf Map](docs/features/map
 - Offline fallback: `services/map-asset-fallback.ts` (`cdnAssetToLocalPath` + `fetchTextWithFallback`) + bundled `src/assets/cenlib-map/` (`mapping.txt`, `floor_0/1/2.svg`); refresh with `npm run sync:map-assets`
 
 **Documentation:** See [CenLib Shelf Map](docs/features/map_cenlib_shelves/README.md) for the full feature guide (data model, CDN layout, matching rules, the companion Primo Maps repo, and how to extend it to another library).
+
+---
+
+### 3. Announcement Banner
+**Status:** ✅ Production (issue [#30](https://github.com/hagaybar/TAU_customModule/issues/30))
+**Date Implemented:** 02.08.26 · **Production wording approved:** 03.08.26
+
+A full-width, dismissible announcement strip mounted **above** the NDE header, in the style of the
+Eastern Florida State College view. It currently carries the "refreshed look" launch message,
+reassuring patrons that this is the familiar DaTA / דעת״א service in a new interface rather than a
+different system.
+
+**Current text (hard-coded — see the caveat below):**
+
+| Language | Text |
+|----------|------|
+| English | Welcome to DaTA’s refreshed look, with the same familiar search experience from Tel Aviv University Libraries |
+| Hebrew | ברוכים הבאים לדעת״א במראה רענן, עם אותה חוויית חיפוש מוכרת של ספריות אוניברסיטת תל אביב |
+
+> The copy uses a real gershayim (`״`, U+05F4) in **דעת״א** and a curly apostrophe (`’`, U+2019) in
+> **DaTA’s**, not their ASCII lookalikes. A unit test asserts both strings byte-for-byte, so re-typing
+> either with a straight quote fails the build rather than silently shipping a typographic regression.
+
+**Implemented Features:**
+- ✅ **Bilingual, RTL-aware**: English/Hebrew text and `dir` chosen from `<html lang>`, falling back to the `lang` URL parameter and then `dir="rtl"` — the same priority the bilingual CSS rules use
+- ✅ **Follows in-app language switches**: the banner mounts *outside* the router outlet, so it is never destroyed while browsing and `ngOnInit` runs only at first paint. A `MutationObserver` on `<html lang>`/`<html dir>` keeps the text in step. (The host router navigates with `pushState`, so `popstate` never fires — the attribute mutation is the only reliable signal without reaching into the host's NgRx store)
+- ✅ **Dismissible, and it stays dismissed**: the ✕ button records `tauAnnouncementDismissed:v2` in `localStorage`. Bumping that version suffix retires previous dismissals, so a new announcement resurfaces for everyone
+- ✅ **Accessible**: `role="status"` so screen readers announce it, a named dismiss button, and a visible keyboard focus ring (the host theme resets outlines in places). Body text is `#1f2933` on `#fdf3d0` — 13.8:1, well clear of WCAG AA
+- ✅ **Logical CSS properties throughout** (`padding-inline`, `inset-inline-end`, `border-block-end`), so the strip and its dismiss button flip correctly in Hebrew without a second rule set
+
+**Location in NDE:** the `nde-header-before` extension slot — above everything, including the top bar.
+All four header slots were mounted live through the dev proxy to confirm the stacking order:
+
+| Slot | Position | Placement |
+|------|----------|-----------|
+| **`nde-header-before`** | y=0 | sibling of `<nde-header>` — **chosen**, the only one above everything |
+| `nde-header-top` | y=44 | inside `<nde-header>` |
+| `nde-header-bottom` | y=89 | inside `<nde-header>` |
+| `nde-header-after` | y=133 | sibling of `<nde-header>`, still above the nav bar |
+
+> NDE registers these as `<slot>-from-remote-<n>`, not the bare slot name, so
+> `customElements.get('nde-header-before')` is `false` at runtime **by design** — not a mounting failure.
+
+**⚠️ The text is hard-coded.** Every wording change costs a rebuild **and** a manual Back Office
+package upload. That is acceptable for a standing launch message; it is **not** acceptable if library
+staff need to edit announcements themselves. Whether the banner must be dynamic is still an open
+question at source (`docs/research/"need to add those features for test env.docx"`, סוגייה 3). If the
+answer is "dynamic", only the source of `message` has to move — to Back Office labels or a
+same-origin JSON fetch. The slot, styling, RTL handling, dismissal, and a11y all stay as they are.
+
+**Technical Details:**
+- Component: `AnnouncementBannerComponent` (standalone, `OnPush`)
+- Selector mapping: `nde-header-before`
+- Files: `src/app/custom1-module/announcement-banner/`
+- Colour knobs: `--tau-announcement-bg` / `--tau-announcement-fg` / `--tau-announcement-accent` in the component SCSS
+- Tests: `announcement-banner.component.spec.ts` — language precedence, in-app switching, dismissal persistence, a11y attributes, and exact wording
 
 ---
 
@@ -308,6 +368,133 @@ This restores per-language control of the homepage banner from the custom packag
 
 **Documentation:** See [Landing Banner Customization](docs/features/landing-banner-customization.md) for the full banner/CSS playbook.
 
+#### Landing Search-Bar Flash Suppression
+**Date Implemented:** 02.08.26
+
+Hides the **results-page** search bar that the NDE host briefly renders on every landing-page load.
+
+**Problem Solved:** on every `/nde/home` load — including a plain refresh — the results search bar
+appears for roughly 200–500 ms and then vanishes as the landing page takes over. Patrons see a search
+box pop in and disappear, plus the layout jump that goes with it.
+
+**This is an Ex Libris host defect, not ours.** The app boots into the results-page structure and only
+then tears it down and builds the landing page. Measured live on `NDE_TEST`: at ~430–630 ms
+`<nde-top-bar>` exists as a **direct child** of `div.search-container` *without* `.top-bar-not-sticky`
+(i.e. results mode); it later gains that class and **moves** into
+`div.custom-search-bar-container`. Reproduced on production `972TAU_INST:NDE`, which carries none of
+this repository's code, and on an unrelated tenant (`01FALSC_EFSC:NDE_EFSC`) — so it is product-level.
+The rule below is a **cosmetic suppression**; the real fix belongs to Ex Libris.
+
+**Why this selector:** during the flash the DOM is byte-for-byte the results layout, so neither the top
+bar's own classes nor its ancestors can distinguish the two routes. JS is no help either —
+`assets/js/custom.js` loads at ~1184 ms, after the flash has ended, so only `custom.css` is in play.
+Diffing the live DOM at flash time surfaced `<nde-landing-page-config>` in a *sibling* subtree of the
+same `.search-container`, present for 100% of the flash window on landing loads and never on results
+loads. It comes **after** the bar in document order, so `:has()` is required — CSS has no
+preceding-sibling combinator.
+
+```css
+.search-container:has(nde-landing-page-config) > nde-top-bar:not(.top-bar-not-sticky) {
+  display: none !important;
+}
+```
+
+**Safety:** `:not(.top-bar-not-sticky)` leaves the settled landing bar alone, and the `:has()` clause
+cannot match on the results page — the rule can never hide the real results search bar. On a browser
+without `:has()` support the whole rule is dropped and the behaviour is simply today's flash.
+`display: none` (not `visibility: hidden`) so no space is reserved and there is no layout jump.
+
+**Documentation:** See [Landing-page search-bar flash](docs/troubleshooting/landing-page-search-bar-flash.md)
+for the full investigation, and [Ex Libris case draft](docs/troubleshooting/exlibris-case-search-bar-flash.md)
+for the evidence-only write-up to file with support.
+
+#### Resource-Type Pill Chip
+**Date Implemented:** 02.08.26 · **Issue:** [#31](https://github.com/hagaybar/TAU_customModule/issues/31)
+
+Renders the resource type on results cards ("Journal", "Article", "Book", "ספר", "כתב עת") as a filled
+pill chip instead of plain text, matching the requested design and the `44HUD_INST:HUD` reference view.
+
+**Host default:** `<span class="record-type text-uppercase">` inside `<nde-record-type>` — computed
+`rgb(67,71,78)` on transparent, 12px/500, `display: inline`.
+
+**Target:** `nde-record-type span.record-type`
+
+```css
+nde-record-type span.record-type {
+  display: inline-block !important;
+  padding-block: 0.15rem !important;
+  padding-inline: 0.55rem !important;
+  border-radius: 999px !important;
+  line-height: 1.4 !important;
+  background-color: var(--sys-primary) !important;
+  color: var(--sys-on-primary) !important;
+}
+```
+
+**Scope — the resource *type* only.** The sibling indications ("Peer Reviewed", "Open Access",
+`span.record-indication`) are deliberately left as plain text: the approved screenshot shows "Journal"
+as a pill with "Peer" beside it unstyled.
+
+**Colours come from the view's theme tokens**, not hardcoded hex, so the chip follows automatically if
+the primary is ever changed. Contrast at the 12px label size (AA needs 4.5:1):
+`--sys-on-primary` `#ffffff` on `--sys-primary` `#3f608a` = **6.46:1 PASS**. If `--sys-primary` is ever
+lightened past roughly `#4a70a0` this drops below 4.5:1 — re-check then.
+
+Padding uses logical properties per the repo BiDi convention, so the chip stays symmetric in Hebrew RTL
+(`text-uppercase` is a no-op in Hebrew, which is expected).
+
+#### Search-Bar Band
+**Date Implemented:** 02.08.26 · **Issue:** [#28](https://github.com/hagaybar/TAU_customModule/issues/28)
+
+Puts a solid colour band behind the **results-page** search bar so the near-white search box (`#faf9fd`)
+reads as a distinct element instead of white-on-white. Mirrors `01FALSC_BRC:NDE_BRC` (verified live:
+their `nde-top-bar` is `rgb(0,85,150)` with white bar text, while their box stays `rgb(251,248,255)`
+with `rgb(27,27,32)` text).
+
+**The search box itself is not touched** — it keeps its host fill and its dark query text. Only the band
+and the two text items sitting on it change.
+
+```css
+.search-container:not(:has(nde-landing-page-config)) > nde-top-bar:not(.top-bar-not-sticky) {
+  --tau-search-band-bg: #487797;
+  background-color: var(--tau-search-band-bg) !important;
+}
+/* …plus a white colour on .search-dropdown-container-button-text / -icon,
+   .advanced-search-button and its .mdc-button__label */
+```
+
+**Accessibility — why this exact blue.** Two text items sit on the band and are set white: the
+search-scope label ("TAU", 14px/400) and the Advanced Search link (14px/700). Neither qualifies as WCAG
+"large text" (that needs 24px regular / 18.66px bold — **bolding alone does not lower the bar**), so the
+full 4.5:1 threshold applies to both:
+
+| Colour | White-on-band contrast | Verdict |
+|--------|------------------------|---------|
+| `#487797` (shipped) | 4.82:1 | **PASS** |
+| `#4B7C9D` (originally requested) | 4.4977:1 | fails AA by 0.002 |
+
+`#4B7C9D` was the originally requested shade; it lands just under the line, and TAU publishes an
+accessibility statement linked from our own footer, so an automated audit comparing the exact value
+would flag this element. How different are they? **CIEDE2000 ΔE = 1.93** (`#487797` is 1.9 L\* darker) —
+perceptible only on close side-by-side inspection, not identical. Nobody comparing against a memory or a
+screenshot will spot it, but held against each other on a large flat band a sharp eye can. If the exact
+requested shade ever matters more than the 0.002 AA margin, that is the knob. The dropdown chevrons are
+non-text (3:1 required) and pass comfortably either way.
+
+**The colour appears exactly once**, in `--tau-search-band-bg` — change it there and nowhere else.
+
+**Scoping — three guards, all necessary:**
+
+| Guard | Why |
+|-------|-----|
+| `.search-container > …` | the **landing** `nde-top-bar` lives under `.custom-search-bar-container`, not as a direct child here |
+| `:not(.top-bar-not-sticky)` | the landing bar carries that class once settled |
+| `:not(:has(nde-landing-page-config))` | during landing-page **boot** the host briefly renders the results layout — same container, same classes — so without this guard the band would flash blue across the landing page on every load. An earlier attempt at this rule had exactly that fault |
+
+That third guard is the same host-boot behaviour documented under
+[Landing Search-Bar Flash Suppression](#landing-search-bar-flash-suppression) above; the two rules are
+two sides of one host quirk and must be kept in step.
+
 ### Custom Loading Animation
 **Date Implemented:** 17.06.26
 
@@ -342,6 +529,8 @@ Comprehensive documentation is organized in the [`docs/`](docs/) folder:
 - **[Bug Fix History](docs/troubleshooting/BUGFIX_HISTORY.md)** - Bug fixes and resolutions
 - **[Asset Path Fix](docs/troubleshooting/ASSET_PATH_FIX.md)** - Asset path resolution in NDE context
 - **[Loading Animation Color (Ex Libris Case 10665359)](docs/troubleshooting/loading-animation-color-not-themed.md)** - Why the view theme can't recolor the default dots, and how to replace the animation
+- **[Landing-page search-bar flash](docs/troubleshooting/landing-page-search-bar-flash.md)** - Host boots into the results layout before building the landing page; measurements, selector rationale, and the CSS suppression
+- **[Ex Libris case draft: search-bar flash](docs/troubleshooting/exlibris-case-search-bar-flash.md)** - Evidence-only write-up to file with Ex Libris support
 
 ### Reference & Styling
 - **[Landing Banner & Search-Bar Customization](docs/features/landing-banner-customization.md)** - Banner font/color/overlay/search-bar playbook + full `custom.css` rule inventory
