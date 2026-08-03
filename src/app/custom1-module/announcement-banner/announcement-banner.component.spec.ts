@@ -18,7 +18,7 @@ describe('AnnouncementBannerComponent', () => {
   let originalDir: string | null;
 
   beforeEach(async () => {
-    localStorage.removeItem('tauAnnouncementDismissed:v1');
+    localStorage.removeItem('tauAnnouncementDismissed:v2');
     originalLang = document.documentElement.getAttribute('lang');
     originalDir = document.documentElement.getAttribute('dir');
     document.documentElement.removeAttribute('lang');
@@ -30,7 +30,7 @@ describe('AnnouncementBannerComponent', () => {
   });
 
   afterEach(() => {
-    localStorage.removeItem('tauAnnouncementDismissed:v1');
+    localStorage.removeItem('tauAnnouncementDismissed:v2');
     const restore = (attr: string, value: string | null) =>
       value === null
         ? document.documentElement.removeAttribute(attr)
@@ -105,7 +105,7 @@ describe('AnnouncementBannerComponent', () => {
       const banner: HTMLElement = fixture.nativeElement.querySelector('.tau-announcement');
       expect(banner.getAttribute('dir')).toBe('rtl');
       expect(banner.textContent).toContain('ברוכים הבאים');
-      expect(banner.textContent).toContain('דעת"א');
+      expect(banner.textContent).toContain('דעת״א');
     });
   });
 
@@ -189,12 +189,27 @@ describe('AnnouncementBannerComponent', () => {
   });
 
   it('names the service in both languages so patrons recognise it', () => {
-    // The whole point of the demo message is continuity — a patron must see the
-    // name they already know, not just "welcome to our new site".
+    // The whole point of the message is continuity — a patron must see the name
+    // they already know, not just "welcome to our new site".
     createComponent();
     expect(component.message).toContain('DaTA');
 
     component.currentLanguage = 'he';
-    expect(component.message).toContain('דעת"א');
+    expect(component.message).toContain('דעת״א');
+  });
+
+  it('keeps the approved wording byte-for-byte, curly punctuation included', () => {
+    // The approved copy uses a real gershayim (U+05F4) and a curly apostrophe
+    // (U+2019). Re-typing either as its ASCII lookalike (" / ') is a silent
+    // typographic regression that no other assertion here would catch.
+    createComponent();
+    expect(component.message).toBe(
+      'Welcome to DaTA’s refreshed look, with the same familiar search experience from Tel Aviv University Libraries'
+    );
+
+    component.currentLanguage = 'he';
+    expect(component.message).toBe(
+      'ברוכים הבאים לדעת״א במראה רענן, עם אותה חוויית חיפוש מוכרת של ספריות אוניברסיטת תל אביב'
+    );
   });
 });
