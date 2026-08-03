@@ -16,17 +16,18 @@ import { dlog } from '../../services/debug.util';
  * extension slot so it sits above the NDE header. Slot placement was verified
  * live through the dev proxy — see the note in customComponentMappings.ts.
  *
- * CONTENT IS TEMPORARY — a bilingual "welcome to the new view" message written to
- * demonstrate the banner on NDE_TEST. The permanent wording is still undecided at
- * source (docs/research/"need to add those features for test env.docx", סוגייה 3,
- * asks *what* the banner contains and whether the text is dynamic).
+ * CONTENT is the bilingual "refreshed look" wording approved for the production
+ * NDE view (03.08.26). It supersedes the demo text this component shipped with on
+ * NDE_TEST.
  *
  * The text is hard-coded, so every wording change costs a rebuild *and* a manual
- * Back Office upload. That is acceptable for a one-off demo message; it is not
- * acceptable if library staff need to edit announcements themselves. If the answer
- * to "dynamic or hard-coded?" comes back as dynamic, the source of `message` has to
- * move to Back Office labels or a same-origin JSON fetch — the rest of the
- * component (slot, styling, RTL, dismissal, a11y) stays as-is.
+ * Back Office upload. That is acceptable for a standing launch message; it is not
+ * acceptable if library staff need to edit announcements themselves. The open
+ * question at source (docs/research/"need to add those features for test env.docx",
+ * סוגייה 3) is whether the banner has to be dynamic. If the answer comes back as
+ * dynamic, the source of `message` has to move to Back Office labels or a
+ * same-origin JSON fetch — the rest of the component (slot, styling, RTL,
+ * dismissal, a11y) stays as-is.
  */
 @Component({
   selector: 'tau-announcement-banner',
@@ -46,8 +47,13 @@ export class AnnouncementBannerComponent implements OnInit, OnDestroy {
   /**
    * Bumping this retires a previous dismissal, so a new announcement resurfaces
    * for users who dismissed the last one.
+   *
+   * v1 → v2 on 03.08.26 with the approved production wording. NDE_TEST and NDE
+   * share the origin tau.primo.exlibrisgroup.com, and localStorage is per-origin,
+   * so without the bump anyone who dismissed the demo banner on NDE_TEST would
+   * never see the production one.
    */
-  private static readonly DISMISS_KEY = 'tauAnnouncementDismissed:v1';
+  private static readonly DISMISS_KEY = 'tauAnnouncementDismissed:v2';
 
   constructor(
     private elementRef: ElementRef<HTMLElement>,
@@ -59,16 +65,19 @@ export class AnnouncementBannerComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * TEMPORARY demo wording (issue #30) — reassures patrons that this is the
-   * familiar DaTA / דעת"א service in a new interface, not a different system.
-   * Replace once the requester specifies the permanent text.
+   * Approved production wording (issue #30, supplied 03.08.26) — reassures patrons
+   * that this is the familiar DaTA / דעת״א service in a new interface, not a
+   * different system.
    *
-   * Single-quoted so the gershayim in דעת"א needs no escaping.
+   * Typography is deliberate and must be preserved verbatim if this is ever
+   * re-typed: the Hebrew uses a real gershayim (U+05F4) in דעת״א, and the English
+   * a curly apostrophe (U+2019) in DaTA’s — not their ASCII lookalikes. Both
+   * strings are single-quoted, so neither needs escaping.
    */
   get message(): string {
     return this.currentLanguage === 'he'
-      ? 'ברוכים הבאים לדעת"א בעיצוב חדש — מערכת החיפוש המוכרת של ספריות אוניברסיטת תל אביב, במראה מחודש.'
-      : 'Welcome to the new look of DaTA — the Tel Aviv University Libraries search service you already know, in a refreshed interface.';
+      ? 'ברוכים הבאים לדעת״א במראה רענן, עם אותה חוויית חיפוש מוכרת של ספריות אוניברסיטת תל אביב'
+      : 'Welcome to DaTA’s refreshed look, with the same familiar search experience from Tel Aviv University Libraries';
   }
 
   get dismissLabel(): string {
