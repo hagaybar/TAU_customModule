@@ -34,7 +34,7 @@ lightweight CSS/asset overrides.
 | **Advanced Search Link Bold** | CSS | ✅ Production | Bold the "Advanced search" link (EN + HE) |
 | **Landing "About" Bullet Fix** | CSS | ✅ Production | Hide stray empty checkmark bullets in the landing "About" box |
 | **Resource-Type Pill Chip** | CSS | ✅ Production | Render the results-page resource type ("Journal", "ספר") as a filled pill instead of plain text |
-| **Search-Bar Band** | CSS | ✅ Production | Solid blue band behind the results-page search bar so the near-white search box reads as its own element |
+| **Search-Bar Band** | CSS | ✅ Production | Solid blue band behind the search bar on the results and full-record pages, so the near-white search box reads as its own element |
 | **Landing Search-Bar Flash Suppression** | CSS | ✅ Production | Hide the spurious results search bar that the host flashes on every landing-page load (Ex Libris defect) |
 | **Custom Loading Animation** | Asset (Lottie) | ✅ Production | Blue four-dot page-load animation replacing the default purple |
 
@@ -444,18 +444,21 @@ Padding uses logical properties per the repo BiDi convention, so the chip stays 
 (`text-uppercase` is a no-op in Hebrew, which is expected).
 
 #### Search-Bar Band
-**Date Implemented:** 02.08.26 · **Issue:** [#28](https://github.com/hagaybar/TAU_customModule/issues/28)
+**Date Implemented:** 02.08.26 · **Scope corrected:** 04.08.26 ·
+**Issues:** [#28](https://github.com/hagaybar/TAU_customModule/issues/28),
+[#36](https://github.com/hagaybar/TAU_customModule/issues/36)
 
-Puts a solid colour band behind the **results-page** search bar so the near-white search box (`#faf9fd`)
-reads as a distinct element instead of white-on-white. Mirrors `01FALSC_BRC:NDE_BRC` (verified live:
-their `nde-top-bar` is `rgb(0,85,150)` with white bar text, while their box stays `rgb(251,248,255)`
-with `rgb(27,27,32)` text).
+Puts a solid colour band behind the search bar on the **results** and **full-record** pages, so the
+near-white search box (`#faf9fd`) reads as a distinct element instead of white-on-white. Mirrors
+`01FALSC_BRC:NDE_BRC` (verified live: their `nde-top-bar` is `rgb(0,85,150)` with white bar text, while
+their box stays `rgb(251,248,255)` with `rgb(27,27,32)` text).
 
 **The search box itself is not touched** — it keeps its host fill and its dark query text. Only the band
-and the two text items sitting on it change.
+and the text items sitting on it change. The full-record page renders the Advanced Search link but no
+search-scope label, so there the rule simply has one less item to recolour.
 
 ```css
-.search-container:not(:has(nde-landing-page-config)) > nde-top-bar:not(.top-bar-not-sticky) {
+.search-container:not(:has(nde-landing-page-config)) > nde-top-bar {
   --tau-search-band-bg: #487797;
   background-color: var(--tau-search-band-bg) !important;
 }
@@ -483,17 +486,34 @@ non-text (3:1 required) and pass comfortably either way.
 
 **The colour appears exactly once**, in `--tau-search-band-bg` — change it there and nowhere else.
 
-**Scoping — three guards, all necessary:**
+**Scoping — two guards, and only two:**
 
 | Guard | Why |
 |-------|-----|
 | `.search-container > …` | the **landing** `nde-top-bar` lives under `.custom-search-bar-container`, not as a direct child here |
-| `:not(.top-bar-not-sticky)` | the landing bar carries that class once settled |
 | `:not(:has(nde-landing-page-config))` | during landing-page **boot** the host briefly renders the results layout — same container, same classes — so without this guard the band would flash blue across the landing page on every load. An earlier attempt at this rule had exactly that fault |
 
-That third guard is the same host-boot behaviour documented under
+The second guard is the same host-boot behaviour documented under
 [Landing Search-Bar Flash Suppression](#landing-search-bar-flash-suppression) above; the two rules are
 two sides of one host quirk and must be kept in step.
+
+> **Do not add `:not(.top-bar-not-sticky)` to this rule** — that was [#36](https://github.com/hagaybar/TAU_customModule/issues/36).
+> It shipped with #28 on the reading that the class marks the landing bar. It does not: it means *this
+> bar does not stick*, and the host applies it on the **full-record** route as well, so the band silently
+> disappeared on `/nde/fulldisplay` while looking correct on `/nde/search`. Measured live on
+> `972TAU_INST:NDE`:
+>
+> | Route | `nde-top-bar` parent | `.top-bar-not-sticky` | Effect of the old guard |
+> |-------|----------------------|-----------------------|-------------------------|
+> | `/nde/search` | `div.search-container` (direct child) | no | band shown |
+> | `/nde/fulldisplay` | `div.search-container` (direct child) | **yes** | **band wrongly suppressed** |
+> | `/nde/home` | nested under `.custom-search-bar-container` | yes | already excluded by guard 1 |
+>
+> It was redundant as well as wrong: the settled landing bar is excluded by the direct-child combinator,
+> and during the landing boot window the spurious bar carries no `.top-bar-not-sticky` at all — so it
+> never guarded the flash either. The same class **is** load-bearing in the flash-suppression rule above,
+> where it is what distinguishes the spurious boot bar from the settled landing bar. The two rules are
+> not interchangeable.
 
 ### Custom Loading Animation
 **Date Implemented:** 17.06.26
