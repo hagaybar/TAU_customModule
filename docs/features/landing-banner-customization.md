@@ -75,18 +75,38 @@ Font files: `src/assets/fonts/assistant/assistant-{hebrew,latin-ext,latin}.woff2
    landing page for half a second on every single load**, painting whatever you styled across the
    banner. Gotcha #1 describes the *settled* DOM and will mislead you here.
 
-   **The guards that actually work** (all three, in this order):
+   **The guards that actually work** — two, and only two:
    ```css
    .search-container:not(:has(nde-landing-page-config))   /* landing-only marker, present for   */
                                                           /* 100% of the boot window            */
      > nde-top-bar                                        /* direct child: landing's settled bar */
                                                           /* lives under .custom-search-bar-…    */
-     :not(.top-bar-not-sticky)                            /* excludes the settled landing bar    */
    ```
    `nde-landing-page-config` sits in a sibling subtree of the same `.search-container` and never
    appears on the results page (measured: present in 3/3 landing loads, 0/2 results loads).
    It follows the bar in document order, so `:has()` is required — CSS has no
    preceding-sibling combinator.
+
+   **Do NOT add `:not(.top-bar-not-sticky)` as a third guard** — that was [#36](https://github.com/hagaybar/TAU_customModule/issues/36),
+   and it cost a live regression. The class does **not** mean "landing bar"; it means *this bar does
+   not stick to the viewport*, and the host applies it on the **full-record** route as well. A rule
+   guarded that way looks correct on `/nde/search` and is silently dead on `/nde/fulldisplay`:
+
+   | Route | `nde-top-bar` parent | `.top-bar-not-sticky` | Effect of the extra guard |
+   |---|---|---|---|
+   | `/nde/search` | `div.search-container` (direct child) | no | rule applies |
+   | `/nde/fulldisplay` | `div.search-container` (direct child) | **yes** | **rule wrongly suppressed** |
+   | `/nde/home` (settled) | nested under `.custom-search-bar-container` | yes | already excluded by the direct-child guard |
+
+   It is redundant as well as wrong: the settled landing bar is excluded by the direct-child
+   combinator, and during the boot window the spurious bar carries no `.top-bar-not-sticky` at all —
+   so it never guarded the flash either.
+
+   **The one place the class IS correct** is the flash-*suppression* rule
+   (`.search-container:has(nde-landing-page-config) > nde-top-bar:not(.top-bar-not-sticky)`), whose
+   job is the opposite: it matches *inside* the landing subtree and needs to tell the spurious boot
+   bar apart from the settled landing bar. Styling rules and that suppression rule are not
+   interchangeable — check which one you are writing before copying a selector.
 
    **You cannot catch this on the proxy** (it renders no landing search bar at all) and you cannot
    catch it by loading the settled page. Verify by injecting the candidate rule *before* page
