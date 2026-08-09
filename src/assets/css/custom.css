@@ -257,15 +257,17 @@ nde-record-type span.record-type {
 }
 /* 02.08.26 resource-type pill chip end */
 
-/* 02.08.26 search-bar band colour (NDE results page) — issue #28 */
-/* Puts a solid colour band behind the results-page search bar so the near-white search box   */
+/* 02.08.26 search-bar band colour (NDE results + full-record pages) — issues #28, #36 */
+/* Puts a solid colour band behind the search bar so the near-white search box                */
 /* (#faf9fd) reads as a distinct element instead of white-on-white. The BOX ITSELF IS NOT     */
 /* TOUCHED — it keeps its host fill and its dark query text. This mirrors 01FALSC_BRC:NDE_BRC */
 /* (verified live: their nde-top-bar is rgb(0,85,150) with white bar text, while their box    */
 /* stays rgb(251,248,255) with rgb(27,27,32) text).                                            */
 /*                                                                                             */
 /* ACCESSIBILITY — why this exact blue. Two text items sit ON the band and are set white: the  */
-/* search-scope label ("TAU", 14px/400) and the Advanced Search link (14px/700). Neither        */
+/* search-scope label ("TAU", 14px/400) and the Advanced Search link (14px/700) — the           */
+/* full-record route renders only the second of those, so there the rule has nothing else to    */
+/* recolour. Neither                                                                            */
 /* qualifies as WCAG "large text" (that needs 24px regular / 18.66px bold — note bolding alone  */
 /* does NOT lower the bar), so the full 4.5:1 threshold applies to both.                        */
 /*   white on #487797 (chosen)  = 4.82:1   PASS                                                 */
@@ -280,10 +282,9 @@ nde-record-type span.record-type {
 /* The dropdown chevrons are non-text (3:1 required) and pass comfortably either way.           */
 /* The colour appears ONCE, in --tau-search-band-bg below — change it there and nowhere else.   */
 /*                                                                                             */
-/* SCOPING — three guards, all necessary:                                                      */
+/* SCOPING — two guards, and that is deliberate:                                               */
 /*   .search-container > …          the LANDING nde-top-bar lives under                        */
 /*                                  .custom-search-bar-container, not as a direct child here.  */
-/*   :not(.top-bar-not-sticky)      the landing bar carries that class once settled.           */
 /*   :not(:has(nde-landing-page-config))                                                       */
 /*                                  during landing-page BOOT the host briefly renders the      */
 /*                                  results layout — same container, same classes — so without */
@@ -291,17 +292,30 @@ nde-record-type span.record-type {
 /*                                  page on every load. An earlier attempt at this rule had    */
 /*                                  exactly that fault. See the flash block above and          */
 /*                                  docs/troubleshooting/landing-page-search-bar-flash.md.     */
-.search-container:not(:has(nde-landing-page-config)) > nde-top-bar:not(.top-bar-not-sticky) {
+/*                                                                                             */
+/* DO NOT ADD :not(.top-bar-not-sticky) HERE — issue #36. It shipped with #28 on the reading   */
+/* that the class marks the landing bar. It does not: it means "this bar does not stick", and  */
+/* the host applies it on the FULL-RECORD route too, so the band silently vanished on          */
+/* /nde/fulldisplay. Measured live on 972TAU_INST:NDE 04.08.26:                                 */
+/*   /nde/search      direct child of .search-container, NO  .top-bar-not-sticky → band shown  */
+/*   /nde/fulldisplay direct child of .search-container, HAS .top-bar-not-sticky → was blocked */
+/*   /nde/home        nested under .custom-search-bar-container, HAS the class → guard 1 wins  */
+/* It was also redundant: the settled landing bar is already excluded by the direct-child       */
+/* combinator, and during the landing BOOT window the spurious bar carries no                   */
+/* .top-bar-not-sticky at all — so it never guarded the flash either; guard 2 does that.        */
+/* The class IS load-bearing in the flash-suppression rule above, where it is what tells the    */
+/* spurious boot bar apart from the settled landing bar. The two rules are not interchangeable. */
+.search-container:not(:has(nde-landing-page-config)) > nde-top-bar {
   --tau-search-band-bg: #487797;
   background-color: var(--tau-search-band-bg) !important;
 }
 /* Text/icons that sit on the band. Targeted individually rather than by inheritance, because  */
 /* a blanket colour on nde-top-bar would also reach inside the white search box (the box IS a  */
 /* descendant of the bar) and wash out the placeholder. */
-.search-container:not(:has(nde-landing-page-config)) > nde-top-bar:not(.top-bar-not-sticky) .search-dropdown-container-button-text,
-.search-container:not(:has(nde-landing-page-config)) > nde-top-bar:not(.top-bar-not-sticky) .search-dropdown-container-button-icon,
-.search-container:not(:has(nde-landing-page-config)) > nde-top-bar:not(.top-bar-not-sticky) .advanced-search-button,
-.search-container:not(:has(nde-landing-page-config)) > nde-top-bar:not(.top-bar-not-sticky) .advanced-search-button .mdc-button__label {
+.search-container:not(:has(nde-landing-page-config)) > nde-top-bar .search-dropdown-container-button-text,
+.search-container:not(:has(nde-landing-page-config)) > nde-top-bar .search-dropdown-container-button-icon,
+.search-container:not(:has(nde-landing-page-config)) > nde-top-bar .advanced-search-button,
+.search-container:not(:has(nde-landing-page-config)) > nde-top-bar .advanced-search-button .mdc-button__label {
   color: #ffffff !important;
 }
 /* 02.08.26 search-bar band colour end */
