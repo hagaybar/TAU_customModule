@@ -21,6 +21,7 @@ import { Subscription } from 'rxjs';
 import { FLOOR_LAYOUT, FloorData } from '../config/floor-layout.config';
 import { assetBaseUrl } from '../../../state/asset-base.generated';
 import { cdnAssetToLocalPath } from '../services/map-asset-fallback';
+import { dlog, dwarn } from '../../../services/debug.util';
 
 /**
  * SVG Shelf Map Component
@@ -160,7 +161,7 @@ export class ShelfMapSvgComponent implements OnChanges, OnDestroy {
     // Use absolute URL directly if provided, otherwise construct from asset base URL
     const isAbsoluteUrl = this.svgPath.startsWith('http://') || this.svgPath.startsWith('https://');
     const fullPath = isAbsoluteUrl ? this.svgPath : `${assetBaseUrl}/${this.svgPath}`;
-    console.log(`[ShelfMapSvg] Loading SVG from: ${fullPath}`);
+    dlog(`[ShelfMapSvg] Loading SVG from: ${fullPath}`);
 
     this.svgSubscription?.unsubscribe();
     this.svgSubscription = this.http
@@ -171,7 +172,7 @@ export class ShelfMapSvgComponent implements OnChanges, OnDestroy {
           const fixedSvgContent = this.fixSvgForScaling(svgContent);
 
           // Sanitize and store SVG content
-          console.log(`[ShelfMapSvg] SVG loaded successfully (${svgContent.length} bytes)`);
+          dlog(`[ShelfMapSvg] SVG loaded successfully (${svgContent.length} bytes)`);
           this.externalSvgContent = this.sanitizer.bypassSecurityTrustHtml(fixedSvgContent);
           this.isLoading = false;
           this.cdr.detectChanges();
@@ -185,7 +186,7 @@ export class ShelfMapSvgComponent implements OnChanges, OnDestroy {
           // Try fallback for CloudFront URLs
           const fallbackPath = this.getFallbackSvgPath(fullPath);
           if (fallbackPath) {
-            console.log('[ShelfMapSvg] Trying fallback local SVG:', fallbackPath);
+            dlog('[ShelfMapSvg] Trying fallback local SVG:', fallbackPath);
             const fallbackUrl = `${assetBaseUrl}/${fallbackPath}`;
             this.loadSvgFromUrl(fallbackUrl, true);
             return;
@@ -209,7 +210,7 @@ export class ShelfMapSvgComponent implements OnChanges, OnDestroy {
       .subscribe({
         next: (svgContent) => {
           const fixedSvgContent = this.fixSvgForScaling(svgContent);
-          console.log(`[ShelfMapSvg] SVG loaded successfully${isFallback ? ' (fallback)' : ''} (${svgContent.length} bytes)`);
+          dlog(`[ShelfMapSvg] SVG loaded successfully${isFallback ? ' (fallback)' : ''} (${svgContent.length} bytes)`);
           this.externalSvgContent = this.sanitizer.bypassSecurityTrustHtml(fixedSvgContent);
           this.isLoading = false;
           this.cdr.detectChanges();
@@ -245,7 +246,7 @@ export class ShelfMapSvgComponent implements OnChanges, OnDestroy {
           /<svg([^>]*)>/i,
           `<svg$1 viewBox="0 0 ${width} ${height}">`
         );
-        console.log(`[ShelfMapSvg] Added viewBox="0 0 ${width} ${height}" to SVG`);
+        dlog(`[ShelfMapSvg] Added viewBox="0 0 ${width} ${height}" to SVG`);
       }
     }
 
@@ -292,7 +293,7 @@ export class ShelfMapSvgComponent implements OnChanges, OnDestroy {
       .filter(id => /^[a-z]{2,3}[0-9]?_/i.test(id) || id.startsWith('shelf_'))
       .slice(0, 20); // Limit to first 20 for brevity
     if (shelfIds.length > 0) {
-      console.log(`[ShelfMapSvg] Sample shelf-like IDs in SVG:`, shelfIds);
+      dlog(`[ShelfMapSvg] Sample shelf-like IDs in SVG:`, shelfIds);
     }
 
     // Reset all previously highlighted elements (broader selector)
@@ -323,10 +324,10 @@ export class ShelfMapSvgComponent implements OnChanges, OnDestroy {
 
     // Log once with summary
     if (highlightedShelves.length > 0) {
-      console.log(`[ShelfMapSvg] Highlighted ${highlightedShelves.length} shelf(s):`, highlightedShelves);
+      dlog(`[ShelfMapSvg] Highlighted ${highlightedShelves.length} shelf(s):`, highlightedShelves);
     }
     if (missingShelves.length > 0) {
-      console.warn(`[ShelfMapSvg] Shelf(s) not found (no matching ID in SVG):`, missingShelves);
+      dwarn(`[ShelfMapSvg] Shelf(s) not found (no matching ID in SVG):`, missingShelves);
     }
 
     this.appliedHighlightCodes = [...codes];
