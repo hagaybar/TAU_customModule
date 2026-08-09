@@ -51,6 +51,19 @@ dwarn('FilterAssistPanel: container not found; using fallback');
 console.error('Error building URL', e);
 ```
 
+## The guard — `npm run check:debug-logging`
+
+`scripts/check-debug-logging.mjs` scans every non-spec `.ts` file under `src/app` and fails
+(exit 1) on any `console.log` / `console.warn` / `console.info`, listing file and line.
+`console.error` is allowed and is never reported; `src/app/services/debug.util.ts` is exempt
+because it *is* the logger.
+
+Run it before opening a PR that touches components. It exists because the rule was silently
+broken once already: the CenLib Shelf Map feature merged on 2026-06-21, six days after the
+audit in #10 established the rule, carrying 27 raw `console.log` calls that shipped to
+production — including patrons' library names and call numbers. Nothing caught it for seven
+weeks. A grep is cheaper than another audit.
+
 ## The dev proxy
 
 `proxy/proxy.conf.mjs` runs at `logLevel: 'info'` (not `'debug'`). At `'debug'`,

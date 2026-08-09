@@ -11,6 +11,7 @@ import {
 import { DATA_SOURCE_CONFIG } from '../config/data-source.config';
 import { LocationContext } from '../models/location-context.model';
 import { fetchTextWithFallback } from './map-asset-fallback';
+import { dlog, dwarn } from '../../../services/debug.util';
 
 /** Raw row from CSV parsing (MDM format with library/collection names) */
 interface CsvRow {
@@ -73,7 +74,7 @@ export class ShelfMappingService {
     const cacheAge = now - this.cacheTimestamp;
 
     if (this.cachedMappings && cacheAge < DATA_SOURCE_CONFIG.cacheDurationMs) {
-      console.log('[ShelfMappingService] Using cached mappings');
+      dlog('[ShelfMappingService] Using cached mappings');
       return of(this.cachedMappings);
     }
 
@@ -82,7 +83,7 @@ export class ShelfMappingService {
       !DATA_SOURCE_CONFIG.shelfMappingsUrl ||
       DATA_SOURCE_CONFIG.shelfMappingsUrl === 'YOUR_PUBLISHED_CSV_URL_HERE'
     ) {
-      console.log(
+      dlog(
         '[ShelfMappingService] Data source URL not configured, no mappings available'
       );
       // For MDM, we cannot use legacy mappings as they don't have libraryName/locationName
@@ -96,7 +97,7 @@ export class ShelfMappingService {
 
     // Fetch from AWS CDN
     this.loadingSubject.next(true);
-    console.log('[ShelfMappingService] Fetching mappings from AWS CDN');
+    dlog('[ShelfMappingService] Fetching mappings from AWS CDN');
 
     return fetchTextWithFallback(this.http, DATA_SOURCE_CONFIG.shelfMappingsUrl)
       .pipe(
@@ -107,7 +108,7 @@ export class ShelfMappingService {
           this.cacheTimestamp = Date.now();
           this.initialized = true;
           this.loadingSubject.next(false);
-          console.log(
+          dlog(
             `[ShelfMappingService] Loaded ${mappings.length} mappings from AWS CDN`
           );
         }),
@@ -142,7 +143,7 @@ export class ShelfMappingService {
     });
 
     if (result.errors.length > 0) {
-      console.warn('[ShelfMappingService] CSV parsing warnings:', result.errors);
+      dwarn('[ShelfMappingService] CSV parsing warnings:', result.errors);
     }
 
     return result.data
@@ -451,7 +452,7 @@ export class ShelfMappingService {
       }
     }
 
-    console.log(
+    dlog(
       `[ShelfMappingService] Built mapping index with ${this.mappingIndex.size} libraries`
     );
   }
@@ -482,7 +483,7 @@ export class ShelfMappingService {
    */
   findAllMappings(context: LocationContext): ShelfMapping[] {
     if (!this.mappingIndex) {
-      console.warn('[ShelfMappingService] Mapping index not built yet');
+      dwarn('[ShelfMappingService] Mapping index not built yet');
       return [];
     }
 
@@ -491,13 +492,13 @@ export class ShelfMappingService {
 
     const libMap = this.mappingIndex.get(libKey);
     if (!libMap) {
-      console.log(`[ShelfMappingService] No mappings for library: ${context.libraryName}`);
+      dlog(`[ShelfMappingService] No mappings for library: ${context.libraryName}`);
       return [];
     }
 
     const mappings = libMap.get(colKey);
     if (!mappings) {
-      console.log(
+      dlog(
         `[ShelfMappingService] No mappings for collection: ${context.collectionName} in library: ${context.libraryName}`
       );
       return [];

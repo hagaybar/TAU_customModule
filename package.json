@@ -11,6 +11,7 @@
     "sync:map-assets": "node scripts/sync-map-assets.mjs",
     "watch": "ng build --watch --configuration development",
     "test:upstream-sync": "node --test scripts/upstream-sync/__tests__/",
+    "check:debug-logging": "node scripts/check-debug-logging.mjs",
     "test": "ng test",
     "postbuild": "node postbuild.js",
     "prebuild": "node prebuild.js",

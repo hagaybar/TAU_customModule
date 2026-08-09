@@ -19,6 +19,7 @@ import {
   LibraryConfig,
   LocationConfig,
 } from './config/library.config';
+import { dlog } from '../../services/debug.util';
 
 /**
  * Attribute set on the <nde-location> element to record which button instance
@@ -150,7 +151,7 @@ export class CenlibMapButtonComponent implements AfterViewInit, OnDestroy {
 
     const ndeLocation = this.elementRef.nativeElement.closest('nde-location');
     if (!ndeLocation) {
-      console.log('[CenlibMapButton] Could not find nde-location parent');
+      dlog('[CenlibMapButton] Could not find nde-location parent');
       return false;
     }
 
@@ -179,7 +180,7 @@ export class CenlibMapButtonComponent implements AfterViewInit, OnDestroy {
 
     // Check if we have all required data
     if (!this.libraryName || !this.collectionName || !this.callNumber) {
-      console.log('[CenlibMapButton] Missing data:', {
+      dlog('[CenlibMapButton] Missing data:', {
         libraryName: this.libraryName,
         collectionName: this.collectionName,
         callNumber: this.callNumber,
@@ -228,7 +229,7 @@ export class CenlibMapButtonComponent implements AfterViewInit, OnDestroy {
     // Step 1: Check if library is configured
     this.libraryConfig = findLibraryConfig(this.libraryName);
     if (!this.libraryConfig) {
-      console.log(`[CenlibMapButton] Library not configured: "${this.libraryName}"`);
+      dlog(`[CenlibMapButton] Library not configured: "${this.libraryName}"`);
       this.shouldShow = false;
       this.cdr.detectChanges();
       return;
@@ -237,7 +238,7 @@ export class CenlibMapButtonComponent implements AfterViewInit, OnDestroy {
     // Step 2: Check if collection is configured for this library
     this.locationConfig = findLocationConfig(this.libraryConfig, this.collectionName);
     if (!this.locationConfig) {
-      console.log(
+      dlog(
         `[CenlibMapButton] Collection not configured: "${this.collectionName}" in library "${this.libraryName}"`
       );
       this.shouldShow = false;
@@ -251,7 +252,7 @@ export class CenlibMapButtonComponent implements AfterViewInit, OnDestroy {
       .subscribe({
         next: (hasMapping) => {
           if (hasMapping) {
-            console.log(
+            dlog(
               `[CenlibMapButton] Found valid mapping for: ${this.libraryName} / ${this.collectionName} / ${this.callNumber}`
             );
             // Only one instance per location may show the button and hide the
@@ -261,13 +262,13 @@ export class CenlibMapButtonComponent implements AfterViewInit, OnDestroy {
             // no Shelf Map button in its place.
             this.shouldShow = this.claimLocation();
             if (!this.shouldShow) {
-              console.log(
+              dlog(
                 '[CenlibMapButton] Another instance already owns this location; deferring'
               );
             }
           } else {
             this.shouldShow = false;
-            console.log(
+            dlog(
               `[CenlibMapButton] No mapping for: ${this.libraryName} / ${this.collectionName} / ${this.callNumber}`
             );
           }
@@ -337,13 +338,13 @@ export class CenlibMapButtonComponent implements AfterViewInit, OnDestroy {
         this.originalNextSibling = hostElement.nextSibling;
       }
       locateButtonParent.insertBefore(hostElement, locateButton);
-      console.log('[CenlibMapButton] Moved to Locate button position');
+      dlog('[CenlibMapButton] Moved to Locate button position');
     }
 
     if (locateButton.style.display !== 'none') {
       this.hiddenLocateButton = locateButton;
       locateButton.style.display = 'none';
-      console.log('[CenlibMapButton] Hidden original Locate button');
+      dlog('[CenlibMapButton] Hidden original Locate button');
     }
   }
 
@@ -388,7 +389,7 @@ export class CenlibMapButtonComponent implements AfterViewInit, OnDestroy {
       const locate = this.hiddenLocateButton;
       if (locate && locate.isConnected && !otherButton) {
         locate.style.display = '';
-        console.log(
+        dlog(
           '[CenlibMapButton] Restored original Locate button (no shelf-map button remains)'
         );
       }

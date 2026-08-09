@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SearchQuery } from '../models/search-target.model';
+import { dwarn } from '../../../services/debug.util';
 
 /**
  * Service to extract and parse search parameters from the URL
@@ -107,7 +108,7 @@ export class SearchQueryService {
 
       return firstQuery; // Fallback to full query if parsing fails
     } catch (e) {
-      console.warn('Error parsing search term:', e);
+      dwarn('Error parsing search term:', e);
       return '';
     }
   }
