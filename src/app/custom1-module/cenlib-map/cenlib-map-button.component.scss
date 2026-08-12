@@ -1,35 +1,59 @@
-// Location-level shelf map button
-// Replaces the original Locate button with similar styling and positioning
+// Location-level shelf map button.
+//
+// At runtime this button moves itself into the native Locate button's slot and
+// hides the original, so it sits among Ex Libris's own Get It controls and is
+// judged against them rather than on its own. Design decided in issue #41
+// (option B, "Pin it"): a filled tonal pill built from the host's theme tokens.
+// The mockups of all four candidates live in
+// docs/features/map_cenlib_shelves/shelf-map-button-options.html
+//
+// Every colour comes from a --sys-* token so the button follows the host theme,
+// including the pending recolour in issue #29. The literal fallbacks are the
+// current values of those tokens, and only apply if a token goes missing.
 
 :host {
   display: inline-block;
-  // Match the Locate button's margin/spacing within the location card
   margin: 0;
 }
 
 .cenlib-map-button {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+
+  // Match the geometry of the native "View Items" button beside it: a 40px
+  // pill, not the 36px 4px-radius rectangle this button used to be.
+  height: 40px;
+  min-height: 40px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 9999px;
+
   font-size: 0.875rem;
-  padding: 6px 16px;
-  min-height: 36px;
-  border-radius: 4px;
+  line-height: 24px;
 
-  // Match the styling of the Locate button (getit-locate-button)
-  &.mat-mdc-outlined-button {
-    border-color: #1976d2;
-    color: #1976d2;
+  // Tonal fill. Material 3's device for a single emphasised action among plain
+  // text buttons — louder than its neighbours without introducing a colour or a
+  // shape that belongs to nothing else on the page.
+  //
+  // The previous button hard-coded #1976d2, which measures 4.15:1 against the
+  // location card's #f3f3f3 ground and fails WCAG AA for normal text.
+  // --sys-primary on --sys-primary-container measures 4.98:1 and passes.
+  &.mat-mdc-unelevated-button {
+    --mdc-filled-button-container-color: var(--sys-primary-container, #d3e3ff);
+    --mdc-filled-button-label-text-color: var(--sys-primary, #3f608a);
+    --mat-filled-button-state-layer-color: var(--sys-primary, #3f608a);
 
-    &:hover {
-      background-color: rgba(25, 118, 210, 0.04);
-    }
+    background-color: var(--sys-primary-container, #d3e3ff);
+    color: var(--sys-primary, #3f608a);
   }
 
   mat-icon {
     font-size: 20px;
     width: 20px;
     height: 20px;
+    // The button is a flex row, so the icon box must not also try to be one.
+    flex: 0 0 20px;
   }
 
   .button-text {
@@ -38,9 +62,11 @@
   }
 }
 
-// RTL support
-:host-context([dir='rtl']) {
-  .cenlib-map-button {
-    flex-direction: row-reverse;
-  }
-}
+// No RTL override on purpose.
+//
+// The browser already reverses a flex row under RTL, so the icon leads in both
+// languages with no help. The `flex-direction: row-reverse` rule that used to
+// live here reversed it a second time, which put the icon *after* the label in
+// Hebrew while it led in English (measured on the live page: glyph at x 25-45px
+// against label at 43-101px). `location_on` is radially symmetrical and must not
+// mirror, so nothing here is direction-dependent.
