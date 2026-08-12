@@ -20,6 +20,7 @@ import {
   LocationConfig,
 } from './config/library.config';
 import { dlog } from '../../services/debug.util';
+import { readUiLanguage, UiLanguage, watchUiLanguage } from '../../services/ui-language';
 
 /**
  * Attribute set on the <nde-location> element to record which button instance
@@ -55,7 +56,10 @@ export class CenlibMapButtonComponent implements AfterViewInit, OnDestroy {
   private shelfMappingService = inject(ShelfMappingService);
 
   /** Current UI language */
-  currentLanguage: 'en' | 'he' = 'en';
+  currentLanguage: UiLanguage = 'en';
+
+  /** Watches <html lang>/<dir> so the label follows in-app language switches */
+  private langObserver: MutationObserver | null = null;
 
   /** Whether to show the button (based on MDM lookup) */
   shouldShow: boolean = false;
@@ -103,7 +107,8 @@ export class CenlibMapButtonComponent implements AfterViewInit, OnDestroy {
   private ownedLocation: HTMLElement | null = null;
 
   constructor(private dialog: MatDialog) {
-    this.detectLanguage();
+    this.currentLanguage = this.resolveLanguage();
+    this.watchLanguage();
   }
 
   ngAfterViewInit(): void {
@@ -121,6 +126,8 @@ export class CenlibMapButtonComponent implements AfterViewInit, OnDestroy {
       this.observer.disconnect();
       this.observer = null;
     }
+    this.langObserver?.disconnect();
+    this.langObserver = null;
     // Release our claim on this location and restore the Locate button only if
     // nothing replaces us (see releaseLocation).
     this.releaseLocation();
@@ -131,15 +138,35 @@ export class CenlibMapButtonComponent implements AfterViewInit, OnDestroy {
     return this.currentLanguage === 'he' ? 'מפת מדף' : 'Shelf Map';
   }
 
-  /** Detect current language from URL */
-  private detectLanguage(): void {
-    const params = new URLSearchParams(window.location.search);
-    const lang = params.get('lang');
-    if (lang === 'he' || lang === 'he_IL') {
-      this.currentLanguage = 'he';
-    } else {
-      this.currentLanguage = 'en';
-    }
+  /**
+   * Resolves the UI language. Exposed (not private) so it can be tested against
+   * the <html lang> / URL / dir precedence chain directly.
+   */
+  resolveLanguage(): UiLanguage {
+    return readUiLanguage();
+  }
+
+  /**
+   * Keeps the label in step with an in-app language switch.
+   *
+   * This button does not get destroyed on a switch. It relocates itself into the
+   * native Locate button's slot inside the Get It panel, and the host does not
+   * tear that subtree down when the language changes — verified on NDE_TEST on
+   * 2026-08-12 by stamping the button node, switching language, and finding the
+   * same stamped node still in place. So reading the language once at
+   * construction froze the label in whatever language the page first loaded in,
+   * while the host's own controls beside it switched correctly.
+   */
+  private watchLanguage(): void {
+    this.langObserver = watchUiLanguage(
+      () => this.currentLanguage,
+      language => {
+        this.currentLanguage = language;
+        // OnPush: assigning the field is not enough to repaint, and the mutation
+        // originates outside this component's change-detection path.
+        this.cdr.markForCheck();
+      }
+    );
   }
 
   /**

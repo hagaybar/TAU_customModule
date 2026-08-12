@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { dlog } from '../../services/debug.util';
+import { readUiLanguage, UiLanguage, watchUiLanguage } from '../../services/ui-language';
 
 /**
  * Announcement Banner (issue #30).
@@ -38,7 +39,7 @@ import { dlog } from '../../services/debug.util';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AnnouncementBannerComponent implements OnInit, OnDestroy {
-  currentLanguage: 'en' | 'he' = 'en';
+  currentLanguage: UiLanguage = 'en';
 
   dismissed = false;
 
@@ -120,42 +121,20 @@ export class AnnouncementBannerComponent implements OnInit, OnDestroy {
    * signal available to us without reaching into the host's NgRx store.
    */
   private watchLanguage(): void {
-    this.langObserver = new MutationObserver(() => {
-      const next = this.readLanguage();
-      if (next === this.currentLanguage) {
-        return;
+    this.langObserver = watchUiLanguage(
+      () => this.currentLanguage,
+      language => {
+        this.currentLanguage = language;
+        // OnPush: writing the field is not enough to repaint, and the mutation
+        // originates outside this component's own change-detection path.
+        this.changeDetectorRef.markForCheck();
       }
-      this.currentLanguage = next;
-      // OnPush: writing the field is not enough to repaint, and the mutation
-      // originates outside this component's own change-detection path.
-      this.changeDetectorRef.markForCheck();
-    });
-
-    this.langObserver.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['lang', 'dir'],
-    });
+    );
   }
 
-  /**
-   * Resolves the UI language, preferring the signal that actually tracks in-app
-   * switches. Priority mirrors the bilingual rules in custom.css
-   * (`html[lang="he"]`, then `html:not([lang])[dir="rtl"]`), with the URL kept
-   * as a middle fallback for the first paint, before the host has stamped
-   * `<html lang>`.
-   */
-  private readLanguage(): 'en' | 'he' {
-    const htmlLang = document.documentElement.getAttribute('lang');
-    if (htmlLang) {
-      return htmlLang.toLowerCase().startsWith('he') ? 'he' : 'en';
-    }
-
-    const urlLang = new URLSearchParams(window.location.search).get('lang');
-    if (urlLang) {
-      return urlLang.toLowerCase().startsWith('he') ? 'he' : 'en';
-    }
-
-    return document.documentElement.getAttribute('dir') === 'rtl' ? 'he' : 'en';
+  /** @see readUiLanguage — shared with every other bilingual TAU component. */
+  private readLanguage(): UiLanguage {
+    return readUiLanguage();
   }
 
   dismiss(): void {

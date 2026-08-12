@@ -31,7 +31,17 @@ describe('CenlibMapButtonComponent', () => {
     return button as HTMLButtonElement;
   }
 
+  // The component resolves language from <html lang> first, so tests must own
+  // those attributes rather than inherit whatever the Karma page carries.
+  let originalLang: string | null;
+  let originalDir: string | null;
+
   beforeEach(() => {
+    originalLang = document.documentElement.getAttribute('lang');
+    originalDir = document.documentElement.getAttribute('dir');
+    document.documentElement.removeAttribute('lang');
+    document.documentElement.removeAttribute('dir');
+
     TestBed.configureTestingModule({
       imports: [CenlibMapButtonComponent, HttpClientTestingModule],
       providers: [{ provide: MatDialog, useValue: { open: () => ({ afterClosed: () => ({ subscribe: () => {} }) }) } }],
@@ -45,6 +55,15 @@ describe('CenlibMapButtonComponent', () => {
     fixture = TestBed.createComponent(CenlibMapButtonComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  });
+
+  afterEach(() => {
+    const restore = (attr: string, value: string | null) =>
+      value === null
+        ? document.documentElement.removeAttribute(attr)
+        : document.documentElement.setAttribute(attr, value);
+    restore('lang', originalLang);
+    restore('dir', originalDir);
   });
 
   it('creates', () => {
@@ -95,6 +114,88 @@ describe('CenlibMapButtonComponent', () => {
     it('keeps an aria-label in both languages, so the glyph never carries the meaning alone', () => {
       expect(showButton('en').getAttribute('aria-label')).toBe('Show shelf map');
       expect(showButton('he').getAttribute('aria-label')).toBe('הצג מפת מדף');
+    });
+  });
+
+  describe('in-app language switch', () => {
+    // Reproduced live on NDE_TEST, 12 Aug 2026: switching language in the app
+    // left this button in the language the page first loaded in, while the host's
+    // own controls beside it switched correctly.
+    //
+    // Root cause, proved rather than inferred — the button was stamped with a
+    // data attribute, the language was switched, and the stamp was still on the
+    // same DOM node afterwards. The component is moved into the native Locate
+    // button's slot and the host does not tear that subtree down on a switch, so
+    // the instance survives and a constructor-time read of the language is frozen
+    // for the rest of the session. Same shape as the announcement banner bug
+    // fixed in #30, for a different reason: that one lives outside the router
+    // outlet, this one is relocated out of its own mount point.
+    //
+    // These tests deliberately never re-create the fixture. Re-creating it would
+    // hide the bug, because a fresh mount re-reads the language.
+
+    /** MutationObserver callbacks are async; let the microtask queue drain. */
+    const flush = () => new Promise<void>(resolve => setTimeout(resolve));
+
+    /** Switch language the way the host does: rewrite <html lang> and <html dir>. */
+    async function switchTo(language: 'en' | 'he') {
+      document.documentElement.setAttribute('lang', language);
+      document.documentElement.setAttribute('dir', language === 'he' ? 'rtl' : 'ltr');
+      await flush();
+      fixture.detectChanges();
+    }
+
+    it('follows a switch from Hebrew to English', async () => {
+      await switchTo('he');
+      component.shouldShow = true;
+      fixture.detectChanges();
+      expect(component.currentLanguage).toBe('he');
+
+      await switchTo('en');
+
+      expect(component.currentLanguage).toBe('en');
+      const button = fixture.nativeElement.querySelector('button.cenlib-map-button');
+      expect(button.querySelector('.button-text').textContent.trim()).toBe('Shelf Map');
+      expect(button.getAttribute('aria-label')).toBe('Show shelf map');
+    });
+
+    it('follows a switch from English to Hebrew', async () => {
+      await switchTo('en');
+      component.shouldShow = true;
+      fixture.detectChanges();
+      expect(component.currentLanguage).toBe('en');
+
+      await switchTo('he');
+
+      expect(component.currentLanguage).toBe('he');
+      const button = fixture.nativeElement.querySelector('button.cenlib-map-button');
+      expect(button.querySelector('.button-text').textContent.trim()).toBe('מפת מדף');
+      expect(button.getAttribute('aria-label')).toBe('הצג מפת מדף');
+    });
+
+    it('stops watching once destroyed', async () => {
+      await switchTo('en');
+      fixture.destroy();
+
+      document.documentElement.setAttribute('lang', 'he');
+      await flush();
+
+      expect(component.currentLanguage).toBe('en');
+    });
+
+    it('falls back to the URL, then dir, when <html lang> is absent', () => {
+      // First paint can land before the host stamps <html lang>. he_IL and any
+      // other he-* tag have to resolve to Hebrew, which an equality check missed.
+      expect(component.resolveLanguage()).toBe('en');
+
+      document.documentElement.setAttribute('dir', 'rtl');
+      expect(component.resolveLanguage()).toBe('he');
+
+      document.documentElement.setAttribute('lang', 'he_IL');
+      expect(component.resolveLanguage()).toBe('he');
+
+      document.documentElement.setAttribute('lang', 'en');
+      expect(component.resolveLanguage()).toBe('en');
     });
   });
 
