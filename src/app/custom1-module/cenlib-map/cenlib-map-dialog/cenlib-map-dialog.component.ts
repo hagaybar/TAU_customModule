@@ -6,6 +6,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ShelfMappingService } from '../services/shelf-mapping.service';
 import { ShelfMapping } from '../config/shelf-mapping.config';
 import { ShelfMapSvgComponent } from '../shelf-map-svg/shelf-map-svg.component';
+import { readUiLanguage, UiLanguage } from '../../../services/ui-language';
 
 /**
  * Dialog data interface (MDM format)
@@ -49,7 +50,7 @@ export interface CenlibMapDialogData {
 })
 export class CenlibMapDialogComponent implements OnInit {
   /** Current UI language */
-  currentLanguage: 'en' | 'he' = 'en';
+  currentLanguage: UiLanguage = 'en';
 
   /** All matching shelf mappings (MDM supports overlapping ranges) */
   mappings: ShelfMapping[] = [];
@@ -355,13 +356,20 @@ export class CenlibMapDialogComponent implements OnInit {
   }
 
   /** Detect current language from URL */
+  /**
+   * Resolves the UI language once, at open.
+   *
+   * No language observer here, unlike the button that opens this dialog: the
+   * dialog is constructed fresh on every open, so it always reads the current
+   * language, and the host's language selector sits behind the modal overlay
+   * and cannot be reached while the dialog is up.
+   *
+   * It does need the shared resolver, though. Reading only the URL missed the
+   * case where the host has stamped `<html lang>` but the URL carries no `lang`
+   * parameter, and the old equality check treated any `he-*` tag other than the
+   * literal `he_IL` as English.
+   */
   private detectLanguage(): void {
-    const params = new URLSearchParams(window.location.search);
-    const lang = params.get('lang');
-    if (lang === 'he' || lang === 'he_IL') {
-      this.currentLanguage = 'he';
-    } else {
-      this.currentLanguage = 'en';
-    }
+    this.currentLanguage = readUiLanguage();
   }
 }
