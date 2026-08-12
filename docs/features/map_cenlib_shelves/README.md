@@ -4,6 +4,20 @@
 **Code:** `src/app/custom1-module/cenlib-map/`
 **Mount point:** `nde-location-top` → `CenlibMapButtonComponent`
 
+> **Button design — decided 12 Aug 2026: option B, "Pin it"** ([issue #41](https://github.com/hagaybar/TAU_customModule/issues/41)).
+> The button is now a **filled tonal pill** — `--sys-primary-container` fill,
+> `--sys-primary` text, `location_on` glyph — matching the geometry of the native
+> *View Items* button beside it. All four candidates are mocked up at 1:1 in both
+> languages in [`shelf-map-button-options.html`](./shelf-map-button-options.html)
+> (open it in a browser); it is kept as the record of what was weighed.
+>
+> The change also fixed three defects measured on the live production button:
+> the hard-coded `#1976d2` measured **4.15:1** against the location card's `#f3f3f3`
+> and failed WCAG AA for normal text (the theme colour measures **5.82:1**); the
+> button was a 4px-radius outlined rectangle among borderless pills; and a
+> `flex-direction: row-reverse` rule under RTL put the icon *after* the label in
+> Hebrew while it led in English.
+
 ---
 
 ## Overview
