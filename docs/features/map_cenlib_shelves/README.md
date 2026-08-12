@@ -4,6 +4,15 @@
 **Code:** `src/app/custom1-module/cenlib-map/`
 **Mount point:** `nde-location-top` → `CenlibMapButtonComponent`
 
+> **Button design — decision pending.** Four treatments for the button's icon, shape and
+> colour are mocked up at 1:1 in both languages in
+> [`shelf-map-button-options.html`](./shelf-map-button-options.html) (open it in a browser).
+> See [issue #41](https://github.com/hagaybar/TAU_customModule/issues/41). The page also
+> records three defects measured on the live production button: the hard-coded
+> `#1976d2` fails WCAG AA against the location card, the button's shape belongs to no
+> other control on the page, and an RTL rule puts the icon after the label in Hebrew but
+> before it in English.
+
 ---
 
 ## Overview
