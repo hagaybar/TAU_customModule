@@ -53,6 +53,13 @@ helper_files/
 # Playwright MCP session artifacts (snapshots, console logs, screenshots from agent browser sessions)
 .playwright-mcp/
 
+# Claude Code git worktrees. These are working copies of this repo checked out
+# inside it, so leaving them untracked put a permanent `.claude/worktrees/` entry
+# in every `git status` — and an accidental `git add .` would have committed a
+# whole second copy of the tree. Everything else under .claude/ (skills, agents,
+# settings) stays tracked.
+.claude/worktrees/
+
 # Stray log exports — never commit captured terminal/browser/host output (issue #10).
 # Exception: babysitter run history under .a5c/ is tracked intentionally (see above).
 *.log
