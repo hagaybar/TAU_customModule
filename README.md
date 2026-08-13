@@ -203,9 +203,13 @@ All four header slots were mounted live through the dev proxy to confirm the sta
 **⚠️ The text is hard-coded.** Every wording change costs a rebuild **and** a manual Back Office
 package upload. That is acceptable for a standing launch message; it is **not** acceptable if library
 staff need to edit announcements themselves. Whether the banner must be dynamic is still an open
-question at source (`docs/research/"need to add those features for test env.docx"`, סוגייה 3). If the
-answer is "dynamic", only the source of `message` has to move — to Back Office labels or a
-same-origin JSON fetch. The slot, styling, RTL handling, dismissal, and a11y all stay as they are.
+question, and it was open in the original request: the library's NDE feature-request document raised
+the banner as "סוגייה 3" and explicitly deferred it — *"לברר האם זה טקסט דינאמי שמשתנה, או ש-hard
+coded"* (establish whether the text is dynamic or hard-coded). That document is held by the library
+and is deliberately **not** in this repo, which is public — ask the library for it rather than looking
+for a path here. Its other items became issues #28, #29 and #31. If the answer is "dynamic", only the
+source of `message` has to move — to Back Office labels or a same-origin JSON fetch. The slot,
+styling, RTL handling, dismissal, and a11y all stay as they are.
 
 **Technical Details:**
 - Component: `AnnouncementBannerComponent` (standalone, `OnPush`)
