@@ -103,6 +103,11 @@ This directory contains all project documentation organized by topic.
 ### `/reference/`
 **Reference Materials**
 
+- **[sb-refresh-playbook.md](reference/sb-refresh-playbook.md)** - Alma SB/PSB refresh playbook (NDE era)
+  - What to re-apply after each February/August sandbox refresh
+  - Alma green scheme, CDI key, NDE colour theme
+  - Known SB differences + legacy Primo VE appendix
+
 - **[external_sources_feature.txt](reference/external_sources_feature.txt)** - Original AngularJS implementation
   - Source code for migration reference
   - Legacy Primo UI customization

@@ -6,6 +6,25 @@ This directory contains reference materials and source files used during develop
 
 ## Files
 
+### `sb-refresh-playbook.md`
+**Alma SB / PSB refresh playbook, updated for the NDE era.**
+
+- **Source**: rewrite of `SB_PSB_Refresh_Playbook_Alma_PrimoVE_v2 (1).docx` (pre-NDE, 2026-06-11)
+- **Purpose**: the operational checklist to run after each sandbox refresh (February and August,
+  usually the first Sunday)
+- **Contains**:
+  - Alma SB green colour scheme (unchanged from the pre-NDE version)
+  - CDI key revert to `972TAU.TAU.PSTG` + publish job (unchanged)
+  - NDE colour-theme re-application in the Back Office (replaces the old CSS/JS package steps)
+  - Known SB differences, including the Shelf Map / CloudFront CORS absence
+  - Appendix A preserving the legacy Primo VE steps for the classic view
+
+**Note**: This is the only file in this directory that is a live procedure rather than historical
+reference material. Long term it is expected to move to the HQ folder; it is Markdown so it stays
+diffable and converts to `.docx` on demand.
+
+---
+
 ### `external_sources_feature.txt`
 **Original AngularJS implementation** of the external search sources feature.
 
@@ -60,4 +79,4 @@ These files should be **kept in version control** as they provide:
 
 ---
 
-**Last Updated**: 2025-11-10
+**Last Updated**: 2026-08-16
