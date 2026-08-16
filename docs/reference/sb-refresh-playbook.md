@@ -196,6 +196,37 @@ Then upload `dist/972TAU_INST-NDE.zip` via **Manage Customization Package**.
 > After any package upload the browser will serve the **cached** `custom.css`. Hard-refresh before
 > concluding a change didn't land.
 
+### Why the legacy logo-link fix has no NDE equivalent
+
+In the classic VE view the logo link must be repointed to SB after every refresh
+([Appendix A.2](#a2-logo-click-through--point-to-psb-not-prod-eg-jscustomjs)). That is not needed in
+NDE, for two reasons — both verified:
+
+**1. The logo is no longer ours.** In VE, TAU's `custom.js` *replaced* the host's logo with a
+`prmLogoAfter` component whose `getLogoLink()` built the URL itself. Owning the component meant
+owning the URL. In NDE the logo is the host's own `<nde-logo>` element; this custom module contains
+no logo code at all — it only repaints the `<img>` for Hebrew via a CSS `content:` rule in
+`src/assets/css/custom.css`.
+
+**2. The host's href is root-relative, so it names no environment.** Verified live on
+`972TAU_INST:NDE`, 2026-08-16 — the rendered markup is:
+
+```html
+<nde-logo class="grid-item logo margin-left-huge">
+  <a href="/nde/home?lang=en&vid=972TAU_INST%3ANDE">
+    <img height="35" alt="DaTA new search" src="custom/972TAU_INST-NDE/assets/images/library-logo.png">
+  </a>
+</nde-logo>
+```
+
+Neither the `href` nor the `src` carries a hostname, so both resolve against whatever origin served
+the page: `tau.primo.exlibrisgroup.com` in PROD, `tau-psb.primo.exlibrisgroup.com` in SB. The vid is
+identical in both environments, so the query string needs no change either.
+
+The VE breakage came from a **hardcoded absolute** `PSB_BASE` string travelling inside the package
+during the refresh. NDE has no such string to travel. A one-off spot-check is still in
+[section 5a](#5a-confirmed-checks), but there is no fix to re-apply.
+
 ---
 
 ## 5. Post-refresh checks
@@ -211,6 +242,8 @@ Run these every time; each maps to a step above.
 - [ ] The `972TAU_INST:NDE` view's colour theme is the non-blue SB preset, and the SB front end shows
       it.
 - [ ] A customization package is present on the SB `NDE` view and TAU customizations render.
+- [ ] Clicking the logo in SB stays on `tau-psb...` (check both `he` and `en`). Expected to pass with
+      no action — see [why the legacy logo-link fix has no NDE equivalent](#why-the-legacy-logo-link-fix-has-no-nde-equivalent).
 - [ ] After the CDI window, PSB-only activations (e.g. Unpaywall) are reflected in search.
 
 ### 5b. Known differences in SB (expected, not regressions)
@@ -232,12 +265,6 @@ Run these every time; each maps to a step above.
 These have **not** been observed on a post-NDE sandbox refresh. Check them on the next one and
 promote whatever proves to be a real, repeating task into the checklist above.
 
-- [ ] **Logo click-through target.** In the old VE view the logo href was hardcoded to PROD and had
-      to be patched in `custom.js` after every refresh (see
-      [Appendix A](#appendix-a--legacy-primo-ve-view)). In NDE the logo renders as
-      `<nde-logo><a><img alt="Library Logo">` and the href is host-generated. Click it in SB, in both
-      `he` and `en`, and confirm it stays on `tau-psb...` and does not jump to PROD. If it jumps,
-      find the Back Office field that holds it and add it to step 3.
 - [ ] **NDE remains the default UI in SB.** SB is an image of PROD and PROD is NDE-default, so this
       should survive — confirm rather than assume.
 - [ ] **`972TAU_INST:NDE_TEST` came across from PROD.** If it did, decide whether SB testing should
@@ -361,7 +388,7 @@ prm-topbar .top-nav-bar {
 | §1 Alma SB green colour scheme | **Unchanged** — [section 1](#1-alma-sb--set-a-distinct-green-colour-scheme) |
 | §2 CDI key revert + publish job | **Unchanged** — [section 2](#2-ensure-psb-uses-the-correct-cdi-key) |
 | §3A CSS green palette via customization package | **Replaced** by the Back Office colour theme — [section 3](#3-nde--re-apply-a-non-blue-colour-theme-to-the-sb-view). Moved to [Appendix A.1](#a1-css--sb-green-palette-eg-csscustom1css) for the legacy VE view. |
-| §3B `custom.js` logo controller | **Removed for NDE** — the AngularJS component does not exist there. Moved to [Appendix A.2](#a2-logo-click-through--point-to-psb-not-prod-eg-jscustomjs); an NDE equivalent check is in [section 5c](#5c-verify-at-the-next-refresh-not-yet-confirmed). |
+| §3B `custom.js` logo controller | **Not needed in NDE** — the logo is the host's `<nde-logo>` and its href is root-relative, so it follows whatever origin serves the page. Verified live 2026-08-16; explained in [section 4](#why-the-legacy-logo-link-fix-has-no-nde-equivalent). Preserved for the VE view in [Appendix A.2](#a2-logo-click-through--point-to-psb-not-prod-eg-jscustomjs). |
 | "Re-apply your PSB customization package" | **Replaced** by a verification step — same vid means PROD's package is already correct in SB. [Section 4](#4-nde-customization-package--verify-do-not-rebuild) |
 | "Store your PSB package ZIP" | **Removed** — the package is reproducible from GitHub. [Section 6](#6-what-to-store-outside-alma) |
 | — | **New:** [known differences in SB](#5b-known-differences-in-sb-expected-not-regressions) (Shelf Map / CloudFront CORS, boot animation, CDI lag) |
