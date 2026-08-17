@@ -93,6 +93,14 @@
     max-height: 380px;
     display: block;
     margin: 0 auto;
+    // Issue #49: the map is a drawing, not prose. Its labels are separate
+    // absolutely-positioned <text x="…"> nodes with no text-anchor, and
+    // `text-anchor: start` resolves against the inline base direction — so
+    // inheriting dir="rtl" from the Hebrew dialog anchors every label on its
+    // RIGHT edge and slides it left by its own width ("1-4" reads as "1 4").
+    // Hebrew labels inside the floor files declare their own direction="rtl"
+    // and are unaffected.
+    direction: ltr;
   }
 
   // Highlighted shelf styling (applied via JS)
@@ -117,6 +125,7 @@
     max-height: 500px;
     display: block;
     margin: 0 auto;
+    direction: ltr; // see issue #49 note on .map-content above
   }
 
   // Highlighted shelf styling (applied via JS)
@@ -278,20 +287,11 @@
 }
 
 // RTL support
-:host-context([dir='rtl']) {
-  .floor-tabs {
-    flex-direction: row-reverse;
-  }
-
-  .legend {
-    flex-direction: row-reverse;
-  }
-
-  .map-controls {
-    flex-direction: row-reverse;
-
-    button {
-      flex-direction: row-reverse;
-    }
-  }
-}
+//
+// Deliberately empty: `dir="rtl"` already reverses the main axis of a flex `row`,
+// so the `flex-direction: row-reverse` overrides this block used to carry were a
+// second flip that cancelled the mirroring — in Hebrew the zoom controls, the
+// legend and the floor tabs all came out in English order, with each button's
+// icon still to the left of its label (issue #49). The map SVG itself is pinned
+// to `direction: ltr` in .map-content above, because its labels are anchored by
+// coordinate rather than laid out as text.

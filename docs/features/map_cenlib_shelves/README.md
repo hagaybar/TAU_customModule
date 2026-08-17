@@ -207,6 +207,33 @@ that can never highlight them.
 
 ---
 
+## Hebrew UI / RTL (issue #49)
+
+The floor SVGs are **drawings, not prose**: every label is its own absolutely-positioned
+`<text x="…">` and none of them sets `text-anchor`. The default `text-anchor: start` resolves
+against the *inline base direction*, so an SVG that inherits `direction: rtl` from the Hebrew
+dialog gets anchored on each label's **right** edge — every label slides left by its own
+advance width. In the Hebrew UI that turned `1-4` into `1 4`, collapsed `5-12` into an
+overlapping blob, split `CL1` into `CL 1`, and detached the geresh from `אולם קריאה א'`.
+
+Two rules keep it correct:
+
+- **`direction: ltr` on the injected `<svg>`** (`.map-content ::ng-deep svg` in
+  `shelf-map-svg.component.scss`). Safe because every Hebrew label inside the floor files
+  carries its own `direction="rtl"` presentation attribute and keeps it.
+- **No `flex-direction: row-reverse` for RTL.** `dir="rtl"` already reverses a flex `row`;
+  the component's old `:host-context([dir='rtl'])` overrides were a second flip that cancelled
+  the mirroring, so the zoom controls, legend and floor tabs came out in English order.
+
+Both are guarded by `shelf-map-svg.rtl-layout.spec.ts`. Those are *layout* assertions — they
+need the real layout engine of the Karma/Chrome target (`npm test`) and would silently pass
+under jsdom.
+
+**When adding a new floor SVG:** do not rely on the producer emitting `direction`/`text-anchor`.
+Assume labels are coordinate-anchored and let the consumer pin the direction, as above.
+
+---
+
 ## Runtime dependency (issue / PR #17)
 
 The service uses Angular's `HttpClient` to fetch the CSV. `HttpClientModule` is provided in
