@@ -213,6 +213,7 @@ drift). Banner/landing rows are detailed in the sections above.
 | `Fix two-button group alignment in RTL` | `html[dir="rtl"] .dropdown-group` | `flex-direction:row-reverse` |
 | `Fallback … browzine button` | `.ti-browzine-button-container .ti-custom-button-text custom-svg-icon / .icon` | `margin-inline-start:0.2rem` (icon/text gap) |
 | `Add space between PDF button text and icon` | `.mdc-button__label .quicklink-button-text` | `margin-inline-end:0.2rem` |
+| `main-menu "more options" bold` | `html[lang="he"] .main-menu-container .show-more-btn .mdc-button__label` | `font-weight:700` — HE only. The other main-menu items are bolded through the Alma label table (`mainmenu.label.*` values ship literal `<b>`), but the host's overflow button is text-interpolated, so HTML in its label would render literally; CSS is the only route (issue #51). No `!important` needed — verified live even with the sheet loaded first. |
 
 > Most rules use `!important` to beat host CSS, and RTL/spacing rules use **logical** properties
 > (`margin-inline-*`, `flex-direction:row-reverse` under `[dir="rtl"]`) so they work in HE and EN.
