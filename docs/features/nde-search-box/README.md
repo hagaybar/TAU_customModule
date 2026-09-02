@@ -76,12 +76,41 @@ literal string. The search box then displays `any,contains,shakespeare` and the 
 title becomes `DaTA- any,contains,shakespeare`.
 
 There is **no error page**. A patron sees a plausible but much shorter result list.
-That is the reason not to leave the current form in place and trust the VE→NDE
-redirect: if the redirect passes `query` through unchanged, the degradation is silent
-and nobody reports it.
 
 `mode=advanced` is what makes the triple parse. Ex Libris's own documented NDE deep-link
 example (`query=any,contains,peace&mode=advanced`) carries it for that reason.
+
+**This only bites URLs sent straight to `/nde/`** — see the next section. The one thing
+you must not do is "modernise" the Drupal form by swapping `/discovery/` for `/nde/`
+while keeping the `any,contains,` prefix. That combination is exactly the 211 case.
+
+## The VE→NDE redirect does translate the query — verified
+
+Tested 2026-09-02 against **FSU / FLVC**, live on NDE since 2026-07-13, using TAU's
+full legacy parameter set:
+
+```
+in   /discovery/search?vid=01FALSC_FSU:MUSIC&lang=en&tab=Everything&mode=Basic
+       &search_scope=MyInst_and_CI&displayMode=full&bulkSize=10&highlight=true
+       &dum=true&query=any,contains,dogs&displayField=all
+
+out  /nde/search?vid=01FALSC_FSU:NDE_FSMUS&mode=Basic&bulkSize=10&highlight=true
+       &tab=Everything&query=dogs&displayField=all&lang=en
+       &search_scope=MyInst_and_CI&dum=true&displayMode=full
+```
+
+The redirect:
+
+* rewrites `query=any,contains,dogs` → `query=dogs` — the search box shows `dogs`, and
+  the result count is the full native one (4,201,243), not a mis-parsed subset;
+* **remaps the vid** — `01FALSC_FSU:MUSIC` → `01FALSC_FSU:NDE_FSMUS`. The NDE view code
+  does not have to match the old one, and external links do not have to know it;
+* carries `mode=Basic` and the rest of the legacy parameters through, inert. `mode=Basic`
+  does not block the translation, because the rewrite happens before NDE parses anything.
+
+So an unchanged Drupal search box **will** keep working after cutover. Replacing it is
+worth doing — it drops a redirect hop and is what Ex Libris recommends eventually — but
+it is not the emergency it looked like before this test.
 
 ## Legacy parameters
 
@@ -106,5 +135,7 @@ redirect at all. It works **today** against the live NDE view — which also mea
 if it goes on the public site before cutover, patrons land in NDE early. Test it on a
 staging page, then flip the production form at go-live.
 
-Confirm the post-cutover `vid` with Ex Libris before hardcoding it. The Go-NDE FAQ says
-traffic is redirected "to your NDE view", implying `972TAU_INST:NDE` stays correct.
+Confirm the post-cutover `vid` before hardcoding it. `972TAU_INST:NDE` is the live NDE
+view today and works, but the FSU test above shows the redirect maps an old view code to
+a *differently named* NDE one — so whatever the redirect resolves to at TAU's cutover is
+the authoritative value.
