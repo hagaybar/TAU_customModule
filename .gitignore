@@ -67,3 +67,6 @@ helper_files/
 
 # Ex Libris case evidence (screen recordings) — large binaries, kept locally only
 docs/troubleshooting/evidence-search-bar-flash/
+
+# Word/Office lock files
+~$*
