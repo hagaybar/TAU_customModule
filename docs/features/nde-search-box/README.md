@@ -8,7 +8,39 @@ Files:
 | File | What it is |
 |---|---|
 | `nde-search-box.html` | The copy-paste snippet — Hebrew and English forms |
+| `devtools-snippet.js` | Paste into the DevTools console on a live library page — swaps the real search block for the NDE one |
 | `test-page.html` | Standalone harness: native vs legacy syntax side by side, live URL preview |
+
+## Testing on a live page
+
+Open a library site (e.g. `https://cenlib.tau.ac.il/`), open DevTools → Console,
+paste the whole of `devtools-snippet.js`, Enter. Chrome blocks the first console
+paste — type `allow pasting` + Enter once.
+
+The existing Drupal block is **hidden, not destroyed**, and the NDE box takes its
+place with a live preview of the exact URL it will emit. Searching opens NDE in a
+new tab. To put the page back without reloading:
+
+```js
+__ndeBox.restore()
+```
+
+Change `VID` at the top of the snippet to `972TAU_INST:NDE_TEST` to aim at the test
+view. The snippet picks `lang` from `<html lang>`, so it works unchanged on the
+English sites.
+
+Verified 2026-09-02 on the live `cenlib.tau.ac.il` home page: block replaced,
+`ספרות עברית` → `/nde/search?vid=972TAU_INST:NDE&tab=TAU&search_scope=TAU&lang=he&query=%D7%A1%D7%A4%D7%A8%D7%95%D7%AA%20%D7%A2%D7%91%D7%A8%D7%99%D7%AA`,
+14,599 results, `__ndeBox.restore()` restores the original form.
+
+### What the live block does today
+
+`#block-libraries-search-block-libraries-search-block` holds a Drupal antibot form
+that **POSTs to `/antibot`**, not to Primo — the visible field is `searchForm`, and
+the `query` field is the literal placeholder `primoQuery`, which Drupal rewrites
+server-side into `any,contains,<term>` before redirecting. That is why the emitted
+URL cannot be read off the page source, and why the fix belongs in the Drupal module
+rather than in the markup.
 
 Related: Ex Libris case **10765355** (`docs/troubleshooting/case_10765355/`).
 
