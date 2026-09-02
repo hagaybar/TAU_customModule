@@ -1,0 +1,66 @@
+<!-- ===========================================================================
+     TAU NDE search box — DevTools "Edit as HTML" snippet
+     ===========================================================================
+     How to use on a live page (e.g. https://cenlib.tau.ac.il/):
+
+       1. DevTools → Elements
+       2. Find  <div id="block-libraries-search-block-libraries-search-block">
+       3. Right-click it → "Edit as HTML"
+       4. Select all, paste ONE of the blocks below, click outside to apply
+       5. Type a term, press the button
+
+     The final URL is whatever lands in the new tab's address bar. Nothing is
+     saved — reload the page to get the original box back.
+
+     Pure HTML. No JavaScript, no page reload needed.
+
+     To aim at the test view instead, change vid to 972TAU_INST:NDE_TEST.
+     To stay in the same tab, change target="_blank" to target="_self".
+     =========================================================================== -->
+
+
+<!-- ==========  HEBREW SITES  (cenlib.tau.ac.il, libraries.tau.ac.il)  ========== -->
+
+<div id="block-libraries-search-block-libraries-search-block" class="library-search-block">
+  <form action="https://tau.primo.exlibrisgroup.com/nde/search" method="get" target="_blank" accept-charset="UTF-8" role="search" dir="rtl" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;width:100%;padding:12px;border:2px dashed #a33a2f;border-radius:8px;background:#fff;box-sizing:border-box;">
+    <input type="hidden" name="vid" value="972TAU_INST:NDE">
+    <input type="hidden" name="tab" value="TAU">
+    <input type="hidden" name="search_scope" value="TAU">
+    <input type="hidden" name="lang" value="he">
+    <input type="text" name="query" dir="auto" required autocomplete="off" aria-label="חיפוש בקטלוג" placeholder="חיפוש ספרים, מאמרים ומקורות נוספים" style="flex:1 1 260px;min-width:180px;padding:10px;font:16px/1.5 inherit;color:#000;background:#fff;border:1px solid #bbb;border-radius:6px;box-sizing:border-box;">
+    <button type="submit" style="padding:10px 22px;font:600 16px/1.5 inherit;color:#fff;background:#3f608a;border:0;border-radius:6px;cursor:pointer;">חיפוש</button>
+  </form>
+</div>
+
+
+<!-- ==========  ENGLISH SITES  (en-libraries.tau.ac.il)  ========== -->
+
+<div id="block-libraries-search-block-libraries-search-block" class="library-search-block">
+  <form action="https://tau.primo.exlibrisgroup.com/nde/search" method="get" target="_blank" accept-charset="UTF-8" role="search" dir="ltr" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;width:100%;padding:12px;border:2px dashed #a33a2f;border-radius:8px;background:#fff;box-sizing:border-box;">
+    <input type="hidden" name="vid" value="972TAU_INST:NDE">
+    <input type="hidden" name="tab" value="TAU">
+    <input type="hidden" name="search_scope" value="TAU">
+    <input type="hidden" name="lang" value="en">
+    <input type="text" name="query" dir="auto" required autocomplete="off" aria-label="Search the catalogue" placeholder="Search books, articles and more" style="flex:1 1 260px;min-width:180px;padding:10px;font:16px/1.5 inherit;color:#000;background:#fff;border:1px solid #bbb;border-radius:6px;box-sizing:border-box;">
+    <button type="submit" style="padding:10px 22px;font:600 16px/1.5 inherit;color:#fff;background:#3f608a;border:0;border-radius:6px;cursor:pointer;">Search</button>
+  </form>
+</div>
+
+
+<!-- ===========================================================================
+     Emitted URL (parameters follow the order of the inputs above):
+
+       https://tau.primo.exlibrisgroup.com/nde/search
+         ?vid=972TAU_INST%3ANDE
+         &tab=TAU
+         &search_scope=TAU
+         &lang=he
+         &query=<the term, URL-encoded by the browser>
+
+     The dashed red border is only there so you can see the swap happened —
+     delete the border/background/padding declarations for the production form.
+
+     Do NOT put "any,contains," in front of the term. In NDE basic mode that
+     string is searched literally: "shakespeare" returns 844,036 results,
+     "any,contains,shakespeare" returns 211, with no error shown. See README.md.
+     =========================================================================== -->

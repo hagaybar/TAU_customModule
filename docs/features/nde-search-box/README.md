@@ -8,30 +8,31 @@ Files:
 | File | What it is |
 |---|---|
 | `nde-search-box.html` | The copy-paste snippet — Hebrew and English forms |
-| `devtools-snippet.js` | Paste into the DevTools console on a live library page — swaps the real search block for the NDE one |
+| `devtools-html-snippet.html` | **Plain HTML.** Paste over the live search block via DevTools → "Edit as HTML" |
+| `devtools-snippet.js` | Console version of the same swap, with a live URL preview and an undo |
 | `test-page.html` | Standalone harness: native vs legacy syntax side by side, live URL preview |
 
 ## Testing on a live page
 
-Open a library site (e.g. `https://cenlib.tau.ac.il/`), open DevTools → Console,
-paste the whole of `devtools-snippet.js`, Enter. Chrome blocks the first console
-paste — type `allow pasting` + Enter once.
+**HTML way (`devtools-html-snippet.html`).** DevTools → Elements → find
+`<div id="block-libraries-search-block-libraries-search-block">` → right-click →
+*Edit as HTML* → select all → paste the Hebrew or English block → click outside.
+Type a term and press the button; the emitted URL is what appears in the new tab's
+address bar. Reload the page to undo.
 
-The existing Drupal block is **hidden, not destroyed**, and the NDE box takes its
-place with a live preview of the exact URL it will emit. Searching opens NDE in a
-new tab. To put the page back without reloading:
+Verified 2026-09-02 on the live `cenlib.tau.ac.il` home page: `ספרות עברית` →
+`?vid=972TAU_INST%3ANDE&tab=TAU&search_scope=TAU&lang=he&query=%D7%A1%D7%A4%D7%A8%D7%95%D7%AA+%D7%A2%D7%91%D7%A8%D7%99%D7%AA`
+→ 14,599 results, term intact in the NDE search box.
 
-```js
-__ndeBox.restore()
-```
+**Console way (`devtools-snippet.js`).** Same swap, but it previews the URL live as
+you type and can be undone without reloading. Open DevTools → Console, paste the
+whole file, Enter. Chrome blocks the first console paste — type `allow pasting` +
+Enter once. It hides the Drupal block rather than destroying it, so `__ndeBox.restore()`
+puts the page back without a reload. It also picks `lang` from `<html lang>`, so it
+works unchanged on the English sites.
 
-Change `VID` at the top of the snippet to `972TAU_INST:NDE_TEST` to aim at the test
-view. The snippet picks `lang` from `<html lang>`, so it works unchanged on the
-English sites.
-
-Verified 2026-09-02 on the live `cenlib.tau.ac.il` home page: block replaced,
-`ספרות עברית` → `/nde/search?vid=972TAU_INST:NDE&tab=TAU&search_scope=TAU&lang=he&query=%D7%A1%D7%A4%D7%A8%D7%95%D7%AA%20%D7%A2%D7%91%D7%A8%D7%99%D7%AA`,
-14,599 results, `__ndeBox.restore()` restores the original form.
+Both variants default to `vid=972TAU_INST:NDE`; change it to `972TAU_INST:NDE_TEST`
+to aim at the test view.
 
 ### What the live block does today
 
