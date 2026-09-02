@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TAU NDE search-box test harness</title>
+<style>
+  :root {
+    --bg: #f7f7f5;
+    --card: #ffffff;
+    --ink: #1c1c1a;
+    --muted: #62625c;
+    --line: #dedcd6;
+    --accent: #3f608a;
+    --bad: #a33a2f;
+    --good: #2f6a4a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 2rem 1.25rem 4rem;
+    background: var(--bg);
+    color: var(--ink);
+    font: 15px/1.5 system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  }
+  main { max-width: 52rem; margin-inline: auto; }
+  h1 { font-size: 1.4rem; margin: 0 0 .25rem; }
+  .lede { color: var(--muted); margin: 0 0 2rem; }
+  fieldset {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 1.25rem;
+    margin: 0 0 1.25rem;
+  }
+  legend { font-weight: 600; padding-inline: .4rem; }
+  legend .tag {
+    font-weight: 400; font-size: .8rem;
+    padding: .1rem .45rem; border-radius: 4px; margin-inline-start: .4rem;
+  }
+  .tag.good { background: #e2efe8; color: var(--good); }
+  .tag.bad  { background: #f6e3e0; color: var(--bad); }
+  label { display: block; font-size: .85rem; color: var(--muted); margin-block-end: .35rem; }
+  .row { display: flex; gap: .5rem; flex-wrap: wrap; align-items: stretch; }
+  input[type=text] {
+    flex: 1 1 18rem;
+    padding: .6rem .7rem;
+    font: inherit;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: #fff; color: inherit;
+  }
+  input[type=text]:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  button {
+    padding: .6rem 1.1rem;
+    font: inherit; font-weight: 600;
+    border: 0; border-radius: 6px;
+    background: var(--accent); color: #fff; cursor: pointer;
+  }
+  button.ghost { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
+  .url {
+    margin-block-start: .85rem;
+    padding: .6rem .7rem;
+    background: #f2f1ed;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: .8rem;
+    word-break: break-all;
+    color: var(--muted);
+  }
+  .note { font-size: .85rem; color: var(--muted); margin-block-start: .8rem; }
+  .langswitch { margin-block-end: 1.5rem; }
+  .langswitch button { background: transparent; color: var(--muted); border: 1px solid var(--line); font-weight: 500; }
+  .langswitch button[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: var(--accent); }
+  code { background: #f2f1ed; padding: .1rem .3rem; border-radius: 3px; font-size: .9em; }
+</style>
+</head>
+<body>
+<main>
+
+  <h1>TAU NDE search-box test harness</h1>
+  <p class="lede">
+    Type the same term into both boxes and compare the result counts on the NDE side.
+    Try <code>shakespeare</code>.
+  </p>
+
+  <div class="langswitch">
+    <label>Send patrons to NDE in:</label>
+    <button type="button" id="lang-he" aria-pressed="true">עברית (he)</button>
+    <button type="button" id="lang-en" aria-pressed="false">English (en)</button>
+  </div>
+
+  <!-- ============ RECOMMENDED ============ -->
+  <form id="native" action="https://tau.primo.exlibrisgroup.com/nde/search"
+        method="get" target="_blank" accept-charset="UTF-8" role="search">
+    <fieldset>
+      <legend>Recommended — native NDE <span class="tag good">correct</span></legend>
+
+      <input type="hidden" name="vid"          value="972TAU_INST:NDE">
+      <input type="hidden" name="tab"          value="TAU">
+      <input type="hidden" name="search_scope" value="TAU">
+      <input type="hidden" name="lang"         id="native-lang" value="he">
+
+      <label for="native-q">query = the bare term</label>
+      <div class="row">
+        <input type="text" id="native-q" name="query" dir="auto" autocomplete="off"
+               required placeholder="search term / מונח חיפוש">
+        <button type="submit">Search NDE</button>
+      </div>
+      <div class="url" id="native-url" dir="ltr"></div>
+      <p class="note">This is byte-for-byte what NDE's own search box emits.</p>
+    </fieldset>
+  </form>
+
+  <!-- ============ LEGACY (for comparison only) ============ -->
+  <form id="legacy" action="https://tau.primo.exlibrisgroup.com/nde/search"
+        method="get" target="_blank" accept-charset="UTF-8" role="search">
+    <fieldset>
+      <legend>Current Drupal form, pointed at NDE <span class="tag bad">wrong results</span></legend>
+
+      <input type="hidden" name="vid"          value="972TAU_INST:NDE">
+      <input type="hidden" name="tab"          value="TAU">
+      <input type="hidden" name="mode"         value="Basic">
+      <input type="hidden" name="search_scope" value="TAU">
+      <input type="hidden" name="displayMode"  value="full">
+      <input type="hidden" name="bulkSize"     value="10">
+      <input type="hidden" name="highlight"    value="true">
+      <input type="hidden" name="dum"          value="true">
+      <input type="hidden" name="displayField" value="all">
+      <input type="hidden" name="lang"         id="legacy-lang" value="he">
+      <input type="hidden" name="query"        id="legacy-query">
+
+      <label for="legacy-q">query = <code>any,contains,&lt;term&gt;</code></label>
+      <div class="row">
+        <input type="text" id="legacy-q" dir="auto" autocomplete="off"
+               required placeholder="same term as above">
+        <button type="submit" class="ghost">Search NDE (legacy syntax)</button>
+      </div>
+      <div class="url" id="legacy-url" dir="ltr"></div>
+      <p class="note">
+        No error page — it just returns a different, much smaller result set,
+        and the NDE search box displays the raw <code>any,contains,…</code> string.
+      </p>
+    </fieldset>
+  </form>
+
+  <p class="note">
+    Measured 2026-09-02 on the live <code>972TAU_INST:NDE</code> view:
+    <strong>shakespeare</strong> → 844,036 results (native) vs <strong>211</strong> (legacy syntax).
+    Adding <code>mode=advanced</code> to the legacy form restores 844,036 — that parameter is what
+    makes NDE parse the triple.
+  </p>
+
+</main>
+
+<script>
+(function () {
+  var HOST = 'https://tau.primo.exlibrisgroup.com/nde/search';
+  var lang = 'he';
+
+  var nativeQ = document.getElementById('native-q');
+  var legacyQ = document.getElementById('legacy-q');
+  var legacyHidden = document.getElementById('legacy-query');
+
+  function render() {
+    document.getElementById('native-lang').value = lang;
+    document.getElementById('legacy-lang').value = lang;
+
+    var term = nativeQ.value || '<term>';
+    document.getElementById('native-url').textContent =
+      HOST + '?query=' + encodeURIComponent(term) +
+      '&tab=TAU&search_scope=TAU&vid=972TAU_INST%3ANDE&lang=' + lang;
+
+    var lterm = legacyQ.value || '<term>';
+    document.getElementById('legacy-url').textContent =
+      HOST + '?vid=972TAU_INST%3ANDE&lang=' + lang +
+      '&tab=TAU&mode=Basic&search_scope=TAU&displayMode=full&bulkSize=10' +
+      '&highlight=true&dum=true&query=' + encodeURIComponent('any,contains,' + lterm) +
+      '&displayField=all';
+  }
+
+  nativeQ.addEventListener('input', render);
+  legacyQ.addEventListener('input', render);
+
+  // The legacy form has to build the any,contains, triple at submit time.
+  document.getElementById('legacy').addEventListener('submit', function () {
+    legacyHidden.value = 'any,contains,' + legacyQ.value;
+  });
+
+  function setLang(next) {
+    lang = next;
+    document.getElementById('lang-he').setAttribute('aria-pressed', String(next === 'he'));
+    document.getElementById('lang-en').setAttribute('aria-pressed', String(next === 'en'));
+    render();
+  }
+  document.getElementById('lang-he').addEventListener('click', function () { setLang('he'); });
+  document.getElementById('lang-en').addEventListener('click', function () { setLang('en'); });
+
+  render();
+})();
+</script>
+</body>
+</html>

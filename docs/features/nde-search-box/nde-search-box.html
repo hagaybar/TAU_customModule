@@ -1,0 +1,74 @@
+<!--
+  TAU NDE embedded search box — copy-paste snippet
+  ------------------------------------------------
+  Emits exactly what Primo NDE's own search box emits:
+      /nde/search?query=<term>&tab=TAU&search_scope=TAU&vid=972TAU_INST:NDE&lang=<he|en>
+
+  Do NOT prefix the term with "any,contains," — in NDE basic mode that string is
+  searched literally and silently returns the wrong result set.
+  See README.md in this folder for the measured evidence.
+
+  Plain GET form. No JavaScript required.
+-->
+
+
+<!-- ============================================================
+     HEBREW SITE  (libraries.tau.ac.il)
+     ============================================================ -->
+<form action="https://tau.primo.exlibrisgroup.com/nde/search"
+      method="get" target="_self"
+      accept-charset="UTF-8"
+      class="tau-nde-search" dir="rtl" lang="he"
+      role="search" aria-label="חיפוש בקטלוג DaTA">
+
+  <input type="hidden" name="vid"          value="972TAU_INST:NDE">
+  <input type="hidden" name="tab"          value="TAU">
+  <input type="hidden" name="search_scope" value="TAU">
+  <input type="hidden" name="lang"         value="he">
+
+  <label for="tau-nde-q-he">חיפוש בקטלוג</label>
+  <input type="text" id="tau-nde-q-he" name="query"
+         dir="auto" autocomplete="off" required
+         placeholder="חיפוש בקטלוג הספרייה">
+
+  <button type="submit">חיפוש</button>
+</form>
+
+
+<!-- ============================================================
+     ENGLISH SITE  (en-libraries.tau.ac.il)
+     ============================================================ -->
+<form action="https://tau.primo.exlibrisgroup.com/nde/search"
+      method="get" target="_self"
+      accept-charset="UTF-8"
+      class="tau-nde-search" dir="ltr" lang="en"
+      role="search" aria-label="Search the DaTA catalogue">
+
+  <input type="hidden" name="vid"          value="972TAU_INST:NDE">
+  <input type="hidden" name="tab"          value="TAU">
+  <input type="hidden" name="search_scope" value="TAU">
+  <input type="hidden" name="lang"         value="en">
+
+  <label for="tau-nde-q-en">Search the catalogue</label>
+  <input type="text" id="tau-nde-q-en" name="query"
+         dir="auto" autocomplete="off" required
+         placeholder="Search the library catalogue">
+
+  <button type="submit">Search</button>
+</form>
+
+
+<!--
+  Notes
+  -----
+  * name="query" carries the bare term. Nothing else.
+  * dir="auto" lets the input follow whatever the patron types (Hebrew or Latin).
+    Do not hardcode dir="rtl" on the input — it mangles Latin queries.
+  * The browser URL-encodes the term for you, Hebrew included (UTF-8).
+  * Commas typed by a patron are fine: "shakespeare, william" behaves normally.
+  * Drop the legacy params entirely: mode, displayMode, bulkSize, highlight,
+    dum, displayField. They are inert in NDE.
+  * Keep Drupal internals (form_build_id, form_id, antibot_key) out of the
+    outbound URL if the module allows it — harmless, but they leak into the
+    Primo address bar.
+-->
