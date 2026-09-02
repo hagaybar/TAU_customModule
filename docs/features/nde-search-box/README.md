@@ -8,7 +8,8 @@ Files:
 | File | What it is |
 |---|---|
 | `nde-search-box.html` | The copy-paste snippet — Hebrew and English forms |
-| `devtools-html-snippet.html` | **Plain HTML.** Paste over the live search block via DevTools → "Edit as HTML" |
+| `handoff-for-web-team.html` | **Send this one to the website maintainers.** Production markup that keeps the theme styling, plus the decisions they have to make |
+| `devtools-html-snippet.html` | Throwaway test markup for DevTools → "Edit as HTML" (debug border, no logo) |
 | `devtools-snippet.js` | Console version of the same swap, with a live URL preview and an undo |
 | `test-page.html` | Standalone harness: native vs legacy syntax side by side, live URL preview |
 
@@ -40,8 +41,14 @@ to aim at the test view.
 that **POSTs to `/antibot`**, not to Primo — the visible field is `searchForm`, and
 the `query` field is the literal placeholder `primoQuery`, which Drupal rewrites
 server-side into `any,contains,<term>` before redirecting. That is why the emitted
-URL cannot be read off the page source, and why the fix belongs in the Drupal module
-rather than in the markup.
+URL cannot be read off the page source.
+
+**The form id is load-bearing.** `drupalSettings.antibot.forms["library-search-form"]`
+targets the form by id and rewrites its `action`. A replacement that keeps
+`id="library-search-form"` gets its action overwritten with `/` and submits back to
+the library website instead of Primo — reproduced on the live page. The handoff
+markup uses `id="library-search-form-nde"`; no theme CSS keys on that id (it all
+keys on `form.library-search-form` and the inner classes), so renaming costs nothing.
 
 Related: Ex Libris case **10765355** (`docs/troubleshooting/case_10765355/`).
 

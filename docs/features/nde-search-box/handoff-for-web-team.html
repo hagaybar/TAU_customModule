@@ -1,0 +1,133 @@
+<!-- ===========================================================================
+     TAU NDE search box — production markup for the website maintainers
+     ===========================================================================
+
+     This replaces the search block currently rendered as
+         <div id="block-libraries-search-block-libraries-search-block">
+     on cenlib.tau.ac.il / libraries.tau.ac.il.
+
+     It keeps the classes the current block uses, so the existing theme CSS
+     still applies and the box looks the same. There are no inline styles
+     beyond the one the current form already carries.
+
+     ONE THING YOU MUST NOT KEEP: the form id.
+     ------------------------------------------
+     The current form is id="library-search-form", and the antibot module
+     targets it by that exact id:
+
+         drupalSettings.antibot.forms["library-search-form"] = {action: "/", …}
+
+     antibot.js overwrites the form's action attribute. If the replacement form
+     keeps that id, antibot rewrites action to "/" and the search submits back
+     to the library website instead of Primo — tested and reproduced. The form
+     below is therefore id="library-search-form-nde".
+
+     None of the theme CSS keys on that id (it all keys on
+     form.library-search-form and the inner classes), so renaming it costs
+     nothing visually. Verified against the live stylesheet.
+
+     WHAT ACTUALLY CHANGES
+     ---------------------
+       action   /antibot (POST)          ->  https://tau.primo.exlibrisgroup.com/nde/search (GET)
+       term     name="searchForm"        ->  name="query"
+       query    hidden "primoQuery",     ->  gone; the visible field IS the query
+                rewritten server-side
+                into any,contains,<term>
+       vid      972TAU_INST:TAU          ->  972TAU_INST:NDE
+       removed  mode, displayMode, bulkSize, highlight, dum, displayField,
+                form_build_id, form_id, antibot_key
+
+     TWO DECISIONS FOR THE WEB TEAM — please read before deploying
+     -------------------------------------------------------------
+     1. ANTIBOT. The current form posts to Drupal's antibot handler, which then
+        redirects to Primo. The markup below goes straight to Primo, so antibot
+        no longer protects it. If that protection is wanted, keep the antibot
+        form and instead change the module so it builds
+            query=<term>
+        instead of
+            query=any,contains,<term>
+        and points at /nde/search with vid=972TAU_INST:NDE. That is a smaller,
+        server-side change and it preserves everything else.
+
+     2. TIMING. This form targets the NDE view directly, so it starts sending
+        patrons to NDE the moment it goes live — before the official cutover if
+        deployed early. Coordinate the deploy with the library's go-live date.
+
+     Note: leaving the current box untouched is also safe. The VE->NDE redirect
+     rewrites any,contains,<term> into the NDE form at cutover (verified against
+     FSU/FLVC, live on NDE). Changing it removes a redirect hop; it is not a fix
+     for a breakage.
+
+     TESTED 2026-09-02 on the live cenlib.tau.ac.il home page, by replacing the
+     block in DevTools and submitting:
+       * Enter and the button both reach
+         /nde/search?query=philosophy&vid=972TAU_INST%3ANDE&lang=he&tab=TAU&search_scope=TAU
+         -> 5,474,939 results, term clean in the NDE search box
+       * layout identical to the current box: input 736x34, submit 60x32 in the
+         same blue, DaTA logo in place
+       * action attribute survives page JS (it does not, if the id is kept)
+     =========================================================================== -->
+
+<div id="block-libraries-search-block-libraries-search-block" class="library-search-block">
+  <form target="_blank"
+        enctype="application/x-www-form-urlencoded"
+        accept-charset="UTF-8"
+        class="library-search-form"
+        action="https://tau.primo.exlibrisgroup.com/nde/search"
+        method="get"
+        id="library-search-form-nde"
+        role="search"
+        style="width:100% !important">
+    <div>
+
+      <div id="leading_datasearch_image">
+        <a href="https://tau.primo.exlibrisgroup.com/nde/home?vid=972TAU_INST:NDE&amp;lang=he"
+           target="_blank"
+           title="הספרייה המרכזית ע&quot;ש סוראסקי  פתח בחלון חדש"
+           aria-label="הספרייה המרכזית ע&quot;ש סוראסקי  פתח בחלון חדש">
+          <img src="/sites/all/themes/tau/images/data-logo-title2.png" alt="">
+          <h2></h2>
+        </a>
+      </div>
+
+      <div class="form-item form-type-textfield form-item-searchForm">
+        <input placeholder="חיפוש ספרים, מאמרים ומקורות נוספים"
+               type="text"
+               id="edit-searchform"
+               name="query"
+               dir="auto"
+               value=""
+               size="60"
+               maxlength="128"
+               class="form-text">
+      </div>
+
+      <input type="hidden" name="vid"          value="972TAU_INST:NDE">
+      <input type="hidden" name="lang"         value="he">
+      <input type="hidden" name="tab"          value="TAU">
+      <input type="hidden" name="search_scope" value="TAU">
+
+      <input type="submit" id="edit-submit" name="op" value="חיפוש" class="form-submit">
+
+    </div>
+  </form>
+</div>
+
+<!-- ===========================================================================
+     English sites: change lang to "en", the placeholder and the submit value,
+     and point the logo link at &lang=en. Everything else is identical.
+
+     Emitted URL:
+       https://tau.primo.exlibrisgroup.com/nde/search
+         ?vid=972TAU_INST%3ANDE&lang=he&tab=TAU&search_scope=TAU
+         &query=<term>&op=%D7%97%D7%99%D7%A4%D7%95%D7%A9
+
+     `op` is the submit button's own name, carried over from the Drupal form so
+     the theme CSS still matches it. Primo ignores it. Drop name="op" if you
+     would rather it not appear in the URL.
+
+     Do NOT put "any,contains," in front of the term when posting straight to
+     /nde/. Sent that way it is searched as a literal string: on this view
+     "shakespeare" returns 844,036 results and "any,contains,shakespeare"
+     returns 211, with no error shown.
+     =========================================================================== -->
