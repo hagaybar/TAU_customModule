@@ -9,7 +9,7 @@ import {TranslateModule} from "@ngx-translate/core";
 import { CommonModule } from '@angular/common';
 import { AutoAssetSrcDirective } from './services/auto-asset-src.directive';
 import {SHELL_ROUTER} from "./injection-tokens";
-import { dlog } from './services/debug.util';
+import { dlog, ingestDebugQueryParam, logBootBanner } from './services/debug.util';
 
 
 
@@ -40,6 +40,11 @@ export const AppModule = ({providers, shellRouter}: {providers:any, shellRouter:
     }
 
     ngDoBootstrap(appRef: ApplicationRef) {
+      // Order matters: a ?tauDebug= parameter has to land in storage before anything
+      // reads the flag, so the banner reports the state the rest of this boot will see.
+      ingestDebugQueryParam();
+      logBootBanner();
+
       dlog('🟢 TAU Custom Module: ngDoBootstrap started - Registering components...');
       dlog('🟢 TAU Custom Module: Total components to register:', selectorComponentMap.size);
 
