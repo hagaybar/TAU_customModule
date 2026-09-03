@@ -32,15 +32,18 @@ const MANIFEST_HEADER = 'built_utc\tview\tcommit\tdirty\tbytes\tfile\n';
 const VIEW_SELECTION_FILES = ['build-settings.env', 'src/app/state/asset-base.generated.ts'];
 
 function gitInfo() {
+  // Deliberately NOT trimmed: porcelain lines start with a two-character status field that
+  // is often ' M', and trimming the whole output eats the leading space of the first line
+  // only, so a positional parse then mangles exactly one path and silently misses it.
   const run = (args) =>
-    execFileSync('git', args, { cwd: __dirname, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+    execFileSync('git', args, { cwd: __dirname, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] });
   try {
     const changed = run(['status', '--porcelain'])
       .split('\n')
       .filter((line) => line.trim() !== '')
-      .map((line) => line.slice(3).trim())
+      .map((line) => line.replace(/^\s*\S{1,2}\s+/, '').trim())
       .filter((file) => !VIEW_SELECTION_FILES.includes(file));
-    return { commit: run(['rev-parse', '--short', 'HEAD']), dirty: changed.length > 0 };
+    return { commit: run(['rev-parse', '--short', 'HEAD']).trim(), dirty: changed.length > 0 };
   } catch {
     // Not a git checkout, or git unavailable — archive anyway, just unattributed.
     return { commit: 'nogit', dirty: false };
