@@ -23,12 +23,19 @@ import { readUiLanguage, UiLanguage, watchUiLanguage } from '../../services/ui-l
  *
  * The text is hard-coded, so every wording change costs a rebuild *and* a manual
  * Back Office upload. That is acceptable for a standing launch message; it is not
- * acceptable if library staff need to edit announcements themselves. The open
- * question at source (docs/research/"need to add those features for test env.docx",
- * סוגייה 3) is whether the banner has to be dynamic. If the answer comes back as
- * dynamic, the source of `message` has to move to Back Office labels or a
- * same-origin JSON fetch — the rest of the component (slot, styling, RTL,
- * dismissal, a11y) stays as-is.
+ * acceptable if library staff need to edit announcements themselves.
+ *
+ * That question is still open, and it was open in the request this banner came
+ * from: the library's NDE feature-request document raised the banner as
+ * "סוגייה 3" and explicitly deferred it — "לברר האם זה טקסט דינאמי שמשתנה, או
+ * ש-hard coded" (establish whether the text is dynamic or hard-coded). Nobody has
+ * answered it since. That document is held by the library and is deliberately not
+ * in this repo, which is public; ask the library for it rather than looking for a
+ * path here. Its other items became issues #28, #29 and #31.
+ *
+ * If the answer comes back as dynamic, the source of `message` has to move to
+ * Back Office labels or a same-origin JSON fetch — the rest of the component
+ * (slot, styling, RTL, dismissal, a11y) stays as-is.
  */
 @Component({
   selector: 'tau-announcement-banner',
