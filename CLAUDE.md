@@ -102,15 +102,23 @@ The custom module loads into Primo in every user's browser, so diagnostic loggin
 otherwise dump host/DOM objects and patron form data to the production console (see issue #10).
 
 - **Use the gated logger** `dlog()` / `dwarn()` from `src/app/services/debug.util.ts` for all
-  diagnostic logging. It is **OFF by default** (production console stays clean).
+  diagnostic logging. It is **OFF by default in production** (`NDE`); **ON by default in `NDE_TEST`**.
+  Any other view fails closed to silent.
 - **`console.error` is allowed** for genuine, always-visible error reporting (e.g. catch blocks).
 - **Never log raw host components, DOM nodes, or patron/request-form data** — not even via `dlog`.
-- **Activate at runtime (no rebuild)** — in the browser console on any NDE page:
+- **One line always prints**, in every view: `[TAU] custom module · <package> · debug logging ON/OFF`.
+  This is the *only* sanctioned ungated `console.log`, it lives in `debug.util.ts` (already the
+  guard's exemption), and it must stay a static string plus build-time constants — no runtime
+  values. Do not add a second one, and do not remove this one: it is what makes an empty console
+  distinguishable from a module that never loaded.
+- **Activate at runtime (no rebuild)** — three switches, later ones win:
   ```js
-  localStorage.setItem('tauDebug', '1');   // then reload — TAU debug logs appear
-  localStorage.removeItem('tauDebug');      // turn it back off
+  ?tauDebug=1                              // in the URL — persists itself; a link you can send
+  localStorage.setItem('tauDebug', '1');   // then reload — persists; '0' is an explicit OFF
+  window.__TAU_DEBUG__ = true;             // this session only; beats both
   ```
-  One-session alternative: `window.__TAU_DEBUG__ = true`. Full guide: `docs/development/debug-logging.md`.
+  `setItem('tauDebug','0')` silences even `NDE_TEST`; `removeItem` falls back to the view default.
+  Full guide: `docs/development/debug-logging.md`. Design: `docs/superpowers/specs/2026-08-09-debug-logging-activation-design.md`.
 - The **dev proxy** (`proxy/proxy.conf.mjs`) runs at `logLevel: 'info'`, not `'debug'`, to avoid
   printing the live host's cookies/auth headers to the terminal. Raise to `'debug'` only temporarily.
 

@@ -566,6 +566,54 @@ to us, and the verification runs.
 
 ---
 
+## 🔎 Debug Logging Activation
+
+The module loads into Primo in **every patron's browser**, so diagnostic logging is gated behind
+`dlog()` / `dwarn()` and is silent in production. Full rules and rationale:
+**[Debug Logging](docs/development/debug-logging.md)**.
+
+### The boot banner
+
+Every page load prints exactly one line, in every view, whether or not logging is on:
+
+```
+[TAU] custom module · 972TAU_INST-NDE · debug logging OFF (view default)
+      enable: localStorage.setItem('tauDebug','1') then reload — or add ?tauDebug=1 to the URL
+```
+
+Read it first when something looks wrong. It separates three states an empty console cannot:
+
+| What you see | What it means |
+|---|---|
+| No `[TAU]` line at all | The module never loaded. The problem is deployment, not your component. |
+| `debug logging OFF` | The module is fine — you just have not turned logging on. |
+| `debug logging ON`, still nothing | Module fine, logging on. The silence is real. |
+
+Because the line names the **package** it was built for, a mis-deployed upload (an `NDE_TEST`
+package sitting on `NDE`) is visible on the first page load rather than after an afternoon of
+confusion. This is the only ungated `console.log` in the codebase — a static string plus one
+build-time constant, no runtime values and no patron data.
+
+### Turning logging on
+
+`NDE_TEST` logs **by default**; `NDE` and any future view are silent unless asked. Three switches,
+each beating the one above it:
+
+| Switch | Scope | Use it when |
+|---|---|---|
+| `?tauDebug=1` in the URL | Persists (writes to `localStorage`) | You need someone else's console. Send the link — no devtools instructions. `?tauDebug=0` turns it off the same way. |
+| `localStorage.setItem('tauDebug','1')` | Persists across reloads | You are debugging yourself. Catches early bootstrap logs. |
+| `window.__TAU_DEBUG__ = true` | This session only | A one-off look without leaving the flag behind. |
+
+`setItem('tauDebug','0')` is a real **off** — it silences even `NDE_TEST`. `removeItem('tauDebug')`
+is different: it stops overriding and falls back to the view default.
+
+The flag is a **runtime** switch, never a build flag. That is what lets you turn logging on against
+live production with no rebuild and no package upload — worth preserving in any change here.
+Design rationale: **[spec](docs/superpowers/specs/2026-08-09-debug-logging-activation-design.md)**.
+
+---
+
 ## 📚 Documentation
 
 Comprehensive documentation is organized in the [`docs/`](docs/) folder:
@@ -598,7 +646,8 @@ Comprehensive documentation is organized in the [`docs/`](docs/) folder:
 ### Research & Development
 - **[NDE Integration Research](docs/research/NDE_INTEGRATION_RESEARCH.md)** - NDE integration research
 - **[Development Guidelines](docs/development/AGENTS.md)** - Repository development guidelines
-- **[Debug Logging](docs/development/debug-logging.md)** - Gated `dlog()`/`dwarn()` logging (off by default; issue #10)
+- **[Debug Logging](docs/development/debug-logging.md)** - Gated `dlog()`/`dwarn()` logging: the always-on boot banner, the `NDE_TEST` default, and the three activation switches (issue #10)
+- **[Debug-Logging Activation Design](docs/superpowers/specs/2026-08-09-debug-logging-activation-design.md)** - Why the default is bound to the view but the manual override is never lost (issue #40)
 
 ### Technical Specifications
 - **[SPECS.md](SPECS.md)** - Detailed technical specifications
@@ -1026,6 +1075,8 @@ To ensure smooth development, debugging, and code management, we recommend setti
 
 - Use **Chrome Developer Tools** for runtime inspection.
 - Install **Augury Extension** (Angular DevTools) for inspecting Angular components.
+- **TAU debug logging** — see [Debug Logging Activation](#-debug-logging-activation) above for the
+  boot banner and the three ways to switch diagnostic output on.
 
 ---
 
