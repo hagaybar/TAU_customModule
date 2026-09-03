@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Shelf-Map · Second-Library Work Assessment</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#151b23; --panel-2:#1b222c; --border:#2a323d;
+    --ink:#e6edf3; --muted:#9aa7b4; --faint:#6b7684;
+    --accent:#6ea8fe; --accent-soft:rgba(110,168,254,.14);
+    --green:#3fb950; --green-soft:rgba(63,185,80,.13);
+    --amber:#d29922; --amber-soft:rgba(210,153,34,.14);
+    --red:#f85149; --red-soft:rgba(248,81,73,.13);
+    --purple:#bc8cff;
+    --shadow:0 1px 0 rgba(255,255,255,.02), 0 8px 24px rgba(0,0,0,.35);
+    --radius:14px; --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  @media (prefers-color-scheme: light){
+    :root{
+      --bg:#f5f7fa; --panel:#ffffff; --panel-2:#f0f3f7; --border:#dce1e8;
+      --ink:#1a2029; --muted:#5a6673; --faint:#8792a0;
+      --accent:#2563eb; --accent-soft:rgba(37,99,235,.09);
+      --green:#1a7f37; --green-soft:rgba(26,127,55,.10);
+      --amber:#9a6700; --amber-soft:rgba(154,103,0,.10);
+      --red:#cf222e; --red-soft:rgba(207,34,46,.09);
+      --purple:#8250df;
+      --shadow:0 1px 2px rgba(0,0,0,.04), 0 8px 24px rgba(20,30,50,.06);
+    }
+  }
+  :root[data-theme="light"]{
+      --bg:#f5f7fa; --panel:#ffffff; --panel-2:#f0f3f7; --border:#dce1e8;
+      --ink:#1a2029; --muted:#5a6673; --faint:#8792a0;
+      --accent:#2563eb; --accent-soft:rgba(37,99,235,.09);
+      --green:#1a7f37; --green-soft:rgba(26,127,55,.10);
+      --amber:#9a6700; --amber-soft:rgba(154,103,0,.10);
+      --red:#cf222e; --red-soft:rgba(207,34,46,.09);
+      --purple:#8250df;
+      --shadow:0 1px 2px rgba(0,0,0,.04), 0 8px 24px rgba(20,30,50,.06);
+  }
+  :root[data-theme="dark"]{
+    --bg:#0d1117; --panel:#151b23; --panel-2:#1b222c; --border:#2a323d;
+    --ink:#e6edf3; --muted:#9aa7b4; --faint:#6b7684;
+    --accent:#6ea8fe; --accent-soft:rgba(110,168,254,.14);
+    --green:#3fb950; --green-soft:rgba(63,185,80,.13);
+    --amber:#d29922; --amber-soft:rgba(210,153,34,.14);
+    --red:#f85149; --red-soft:rgba(248,81,73,.13);
+    --purple:#bc8cff;
+    --shadow:0 1px 0 rgba(255,255,255,.02), 0 8px 24px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+    line-height:1.55;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1080px;margin:0 auto;padding:32px 20px 96px}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+  code,.mono{font-family:var(--mono);font-size:.88em}
+  code{background:var(--panel-2);border:1px solid var(--border);border-radius:6px;
+    padding:.08em .38em;color:var(--ink);white-space:nowrap}
+  h1,h2,h3{line-height:1.2;margin:0}
+  .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent);font-weight:700;margin-bottom:10px}
+  header.top h1{font-size:clamp(26px,4.4vw,40px);font-weight:800;letter-spacing:-.02em}
+  header.top .sub{color:var(--muted);font-size:16px;margin-top:12px;max-width:70ch}
+  .meta-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+  .chip{font-size:12.5px;color:var(--muted);background:var(--panel);
+    border:1px solid var(--border);border-radius:999px;padding:5px 12px;font-weight:600}
+  .chip b{color:var(--ink)}
+
+  section{margin-top:44px}
+  .sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+  .sec-head h2{font-size:21px;font-weight:750;letter-spacing:-.01em}
+  .sec-head .n{font-family:var(--mono);font-size:13px;color:var(--faint);font-weight:700}
+  .sec-head .tag{margin-left:auto;font-size:12px;color:var(--muted)}
+
+  .panel{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);
+    box-shadow:var(--shadow)}
+  .pad{padding:20px 22px}
+
+  /* verdict banner */
+  .verdict{border-left:4px solid var(--accent);padding:22px 24px}
+  .verdict .lead{font-size:17.5px;font-weight:650;letter-spacing:-.01em}
+  .verdict p{color:var(--muted);margin:.6em 0 0}
+  .verdict strong{color:var(--ink)}
+
+  /* asymmetry two-column */
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .lane{border-radius:var(--radius);border:1px solid var(--border);padding:18px 20px;background:var(--panel)}
+  .lane.ok{border-color:color-mix(in srgb,var(--green) 45%,var(--border));background:linear-gradient(180deg,var(--green-soft),transparent 60%)}
+  .lane.work{border-color:color-mix(in srgb,var(--amber) 45%,var(--border));background:linear-gradient(180deg,var(--amber-soft),transparent 60%)}
+  .lane h3{font-size:15px;display:flex;align-items:center;gap:9px}
+  .lane .dot{width:9px;height:9px;border-radius:50%}
+  .ok .dot{background:var(--green)} .work .dot{background:var(--amber)}
+  .lane .verd{font-size:12px;font-weight:700;margin-left:auto;padding:3px 9px;border-radius:999px}
+  .ok .verd{color:var(--green);background:var(--green-soft)}
+  .work .verd{color:var(--amber);background:var(--amber-soft)}
+  .lane ul{margin:14px 0 0;padding-left:18px;color:var(--muted);font-size:13.5px}
+  .lane li{margin:6px 0}
+  .lane li b{color:var(--ink);font-weight:650}
+
+  /* effort cards */
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .ecard{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px 16px;position:relative;overflow:hidden}
+  .ecard .area{font-size:13px;color:var(--muted);font-weight:600}
+  .ecard .size{font-size:30px;font-weight:820;letter-spacing:-.02em;margin-top:6px;line-height:1}
+  .ecard .kind{font-size:12px;color:var(--faint);margin-top:8px}
+  .size.L{color:var(--red)} .size.M{color:var(--amber)} .size.S{color:var(--green)}
+  .ecard::after{content:"";position:absolute;left:0;bottom:0;height:4px;width:100%}
+  .ecard.L::after{background:var(--red)} .ecard.M::after{background:var(--amber)} .ecard.S::after{background:var(--green)}
+
+  /* generic table */
+  .tblwrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius)}
+  table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:520px}
+  th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--border);vertical-align:top}
+  thead th{background:var(--panel-2);font-size:12px;letter-spacing:.03em;text-transform:uppercase;color:var(--muted);font-weight:700;position:sticky;top:0}
+  tbody tr:last-child td{border-bottom:none}
+  td b{color:var(--ink)}
+  .yes{color:var(--green);font-weight:700}
+  .no{color:var(--red);font-weight:700}
+  .warn{color:var(--amber);font-weight:700}
+  .rec{outline:2px solid color-mix(in srgb,var(--accent) 55%,transparent);outline-offset:-2px}
+  .pill{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.03em;padding:2px 8px;border-radius:999px}
+  .pill.rec{background:var(--accent-soft);color:var(--accent);outline:none}
+
+  /* breakdown cards */
+  .bd{display:grid;gap:14px}
+  .bdcard{border:1px solid var(--border);border-radius:var(--radius);background:var(--panel);overflow:hidden}
+  .bdcard .hd{display:flex;align-items:center;gap:12px;padding:15px 20px;background:var(--panel-2);border-bottom:1px solid var(--border)}
+  .bdcard .hd .t{font-weight:720;font-size:15px}
+  .bdcard .hd .repo{font-size:12px;color:var(--faint);font-family:var(--mono)}
+  .bdcard .hd .sz{margin-left:auto;font-size:12px;font-weight:800;padding:4px 11px;border-radius:999px}
+  .sz.L{background:var(--red-soft);color:var(--red)}
+  .sz.S{background:var(--green-soft);color:var(--green)}
+  .bdcard .bd-body{padding:16px 20px}
+  .bdcard ol,.bdcard ul{margin:0;padding-left:20px}
+  .bdcard li{margin:8px 0;color:var(--muted);font-size:13.5px}
+  .bdcard li b{color:var(--ink);font-weight:650}
+  .note{font-size:12.5px;color:var(--faint);margin-top:12px;padding-top:12px;border-top:1px dashed var(--border)}
+
+  /* metrics tiles */
+  .grid-m{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+  .mtile{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px}
+  .mtile .v{font-size:26px;font-weight:800;letter-spacing:-.02em;color:var(--ink)}
+  .mtile .v small{font-size:14px;font-weight:700;color:var(--muted)}
+  .mtile .l{font-size:12.5px;color:var(--muted);margin-top:4px}
+  .mtile.flag .v{color:var(--amber)}
+
+  /* risks */
+  .risk{display:flex;gap:13px;padding:14px 0;border-bottom:1px solid var(--border)}
+  .risk:last-child{border-bottom:none}
+  .risk .ic{flex:0 0 auto;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-size:14px;background:var(--red-soft)}
+  .risk .rt{font-weight:680;font-size:14px}
+  .risk .rd{font-size:13px;color:var(--muted);margin-top:3px}
+
+  /* questions */
+  .q{display:flex;gap:14px;align-items:flex-start;padding:15px 0;border-bottom:1px solid var(--border)}
+  .q:last-child{border-bottom:none}
+  .q .num{flex:0 0 auto;width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);
+    font-weight:800;display:grid;place-items:center;font-size:14px}
+  .q .qt{font-weight:650;font-size:14.5px}
+  .q .qd{font-size:13px;color:var(--muted);margin-top:3px}
+
+  /* decision callout */
+  .callout{background:var(--accent-soft);border:1px solid color-mix(in srgb,var(--accent) 35%,var(--border));
+    border-radius:12px;padding:14px 18px;font-size:14px;margin-top:16px}
+  .callout b{color:var(--ink)}
+
+  footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--border);color:var(--faint);font-size:12.5px}
+
+  @media (max-width:760px){
+    .grid4{grid-template-columns:repeat(2,1fr)}
+    .split{grid-template-columns:1fr}
+  }
+  @media (max-width:460px){
+    .grid4{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <div class="eyebrow">CenLib Shelf-Map · Scoping Assessment</div>
+    <h1>Adding a second TAU library to the Shelf-Map feature</h1>
+    <p class="sub">How much work it takes to onboard a second physical library (its own building,
+      its own CSV rows, its own floor plans) — across the Primo custom module (consumer),
+      the Primo-Maps admin (producer), and the CloudFront data pipeline.</p>
+    <div class="meta-row">
+      <span class="chip">Repos: <b>TAU_customModule</b> + <b>NDE_MAPS_MANGER</b></span>
+      <span class="chip">Currently live for: <b>1 library</b> (Sourasky Central)</span>
+      <span class="chip">Assessment date: <b>2026-07-13</b></span>
+      <span class="chip">Basis: <b>source read + 3 code sweeps</b></span>
+    </div>
+  </header>
+
+  <!-- ================= VERDICT ================= -->
+  <section id="verdict">
+    <div class="panel verdict">
+      <div class="lead">Not a data-entry task. It's a small engineering project on the producer side
+        plus a large map/data-authoring effort — <strong>weeks-scale, not a config tweak.</strong></div>
+      <p>The feature's <strong>data format</strong> carries a <code>libraryName</code> on every row, so the
+        <strong>consumer add-on already looks up any number of libraries</strong> with no rearchitecting. But
+        <strong>every system around that format is shaped for one building</strong>: the admin app, its Lambdas, and
+        its validation are hardcoded to "Sourasky" and a fixed 3-floor set, and even the consumer's
+        <em>asset paths</em> (<code>/maps/floor_{n}.svg</code>) have no library dimension — so a second building's
+        floors collide with Sourasky's. "The architecture is multi-library" is true of the <em>data shape</em> only.</p>
+    </div>
+  </section>
+
+  <!-- ================= ASYMMETRY ================= -->
+  <section id="asymmetry">
+    <div class="sec-head"><span class="n">01</span><h2>The core finding: a one-sided readiness</h2></div>
+    <div class="split">
+      <div class="lane ok">
+        <h3><span class="dot"></span> Consumer — the Primo add-on <span class="verd">READY</span></h3>
+        <ul>
+          <li><b>Lookup is multi-library ("MDM").</b> Matches on <em>(library + collection + Dewey range) → shelf</em>.</li>
+          <li><b>Adding a library = 1 config entry</b> in <code>library.config.ts</code> (+ exact DOM strings).</li>
+          <li><b>Bilingual index, overlapping ranges, multi-shelf dialog</b> all already handled.</li>
+          <li>No rearchitecting needed to <em>find</em> a second library.</li>
+        </ul>
+      </div>
+      <div class="lane work">
+        <h3><span class="dot"></span> Producer + asset paths <span class="verd">SINGLE-BUILDING</span></h3>
+        <ul>
+          <li><b>Admin app hardcodes</b> <code>SINGLE_LIBRARY = "Sourasky"</code>; no library selector exists.</li>
+          <li><b>Floor set pinned to {0,1,2}</b> in 6+ files (validation + staging + upload).</li>
+          <li><b>SVG paths are flat:</b> <code>maps/floor_{n}.svg</code> — building 2 would <em>overwrite</em> building 1.</li>
+          <li><b>Validation keys shelves by floor only</b> — two buildings on floor "1" get conflated.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= EFFORT AT A GLANCE ================= -->
+  <section id="effort">
+    <div class="sec-head"><span class="n">02</span><h2>Effort at a glance</h2>
+      <span class="tag">T-shirt sizes — relative, not calendar dates</span></div>
+    <div class="grid4">
+      <div class="ecard L"><div class="area">Producer retrofit</div><div class="size L">L</div>
+        <div class="kind">New code · the bulk of engineering</div></div>
+      <div class="ecard L"><div class="area">Map &amp; data authoring</div><div class="size L">L</div>
+        <div class="kind">Mostly librarian/design · longest pole</div></div>
+      <div class="ecard S"><div class="area">Consumer changes</div><div class="size S">S</div>
+        <div class="kind">1 config + ~3 small edits</div></div>
+      <div class="ecard S"><div class="area">Deploy &amp; ops</div><div class="size S">S</div>
+        <div class="kind">Two-sided, coordinated</div></div>
+    </div>
+    <div class="callout">Dominated by the <b>producer retrofit</b> (code) and the <b>map/data authoring</b>
+      (human). If you only need a <b>one-time, non-self-service</b> load, most of the producer work can be
+      skipped — at the cost of the admin becoming unsafe to use for either library.</div>
+  </section>
+
+  <!-- ================= KEY DECISION ================= -->
+  <section id="decision">
+    <div class="sec-head"><span class="n">03</span><h2>The decision that drives most of the work</h2></div>
+    <p style="color:var(--muted);font-size:14px;margin:0 0 14px">
+      Sourasky owns <code>floor_0/1/2.svg</code> and one shared <code>mapping.csv</code>. A second building needs
+      its own floor plans — how you lay them out cascades through both repos.</p>
+    <div class="tblwrap">
+      <table>
+        <thead><tr>
+          <th style="width:26%">Concern</th>
+          <th>Option A — Namespace per library <span class="pill rec">RECOMMENDED</span><br><code>maps/&lt;lib&gt;/floor_n.svg</code></th>
+          <th>Option B — Unique global floor numbers<br><code>floor_10.svg</code>, <code>floor_11.svg</code>…</th>
+        </tr></thead>
+        <tbody>
+          <tr><td><b>Producer SVG storage</b></td><td>New subpath across upload/staging/list/delete/version Lambdas</td><td>Reuses flat namespace (no path change)</td></tr>
+          <tr><td><b>Floor whitelist {0,1,2}</b></td><td class="warn">Must become library-aware anyway</td><td class="warn">Must be widened anyway</td></tr>
+          <tr><td><b>Consumer code</b></td><td>3 small edits (fallback resolver, sync script, bundled layout)</td><td>Config + sync array only</td></tr>
+          <tr><td><b>Patron-facing floor label</b></td><td class="yes">Correct — shows "Floor 1"</td><td class="no">Broken — shows "Floor 10" (label = CSV floor value)</td></tr>
+          <tr><td><b>Scales to N libraries</b></td><td class="yes">Yes, clean</td><td class="no">No — namespace pollution</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout"><b>Option B is a false economy.</b> The expensive producer work (library scoping,
+      the <code>SINGLE_LIBRARY</code> auto-fill, the floor whitelist, library-aware validation) has to happen
+      <em>either way</em>. B only saves SVG-path namespacing — and buys a broken floor label in return.
+      Recommend <b>A</b> unless the second library is tiny/temporary.</div>
+    <div class="callout" style="margin-top:10px"><b>Two related sub-decisions:</b>
+      &nbsp;(1) keep <b>one shared CSV</b> + add a library filter to the editor (recommended, lowest consumer blast radius)
+      vs. one CSV per library; &nbsp;(2) does the new building reuse floor numbering <b>0/1/2</b> or have different floors?</div>
+  </section>
+
+  <!-- ================= WORK BREAKDOWN ================= -->
+  <section id="breakdown">
+    <div class="sec-head"><span class="n">04</span><h2>Work breakdown by area</h2></div>
+    <div class="bd">
+
+      <div class="bdcard">
+        <div class="hd"><span class="t">A · Producer retrofit</span>
+          <span class="repo">primo_maps / NDE_MAPS_MANGER</span><span class="sz L">LARGE</span></div>
+        <div class="bd-body">
+          <p style="margin:0 0 10px;color:var(--muted);font-size:13.5px">Vanilla-JS admin SPA on S3/CloudFront (Cognito auth,
+            admin/editor roles) + ~25 Lambdas + a staging→promote publish flow. To genuinely handle a 2nd library:</p>
+          <ol>
+            <li><b>Library dimension in the admin UI</b> — today the edit dialog auto-fills <code>SINGLE_LIBRARY</code> and
+              renders no library field; new rows default to Sourasky. Needs a selector + per-library scoping so building 2
+              isn't edited blind (or mislabeled).</li>
+            <li><b>Namespace SVG storage per library</b> (Option A) across <code>uploadSvg</code>, <code>uploadStagingSvg</code>,
+              <code>listSvg</code>, <code>deleteSvg</code>, versioning, and <code>svg-loader.js</code>.</li>
+            <li><b>Make the floor set configurable</b> — remove/parameterize the <code>{0,1,2}</code> / <code>FLOOR_VALUES</code>
+              hardcodes in <code>validateBundle.mjs</code>, <code>range-validation.mjs</code>, <code>fetch-floor-svgs.mjs</code>,
+              <code>validateStaging.mjs</code>, <code>data-model.js</code>, <code>uploadStagingSvg.mjs</code>.</li>
+            <li><b>Make validation library-aware</b> — the bundle check keys shelf-sets by floor alone; two buildings sharing
+              floor numbers would conflate. Key by <em>(library, floor)</em>.</li>
+            <li><b>Add an "onboard a library" runbook</b> — none exists in that repo today.</li>
+          </ol>
+          <div class="note">There is <b>no supported end-to-end path today</b> — a librarian cannot "add a library"
+            through the UI as it stands. This is the dominant code effort.</div>
+        </div>
+      </div>
+
+      <div class="bdcard">
+        <div class="hd"><span class="t">B · Consumer changes</span>
+          <span class="repo">TAU_customModule</span><span class="sz S">SMALL</span></div>
+        <div class="bd-body">
+          <ol>
+            <li><b>Add one <code>LibraryConfig</code></b> to <code>library.config.ts</code>: exact Hebrew <code>nameHe</code>
+              (must byte-match Primo's <code>.getit-library-title</code>), English name, <code>svgPath</code>, and every
+              sub-location's exact <code>nameHe</code>. <b>Requires field-capture</b> of the live DOM strings.</li>
+            <li><b>Under Option A, 3 small edits:</b> the offline-fallback regex in <code>map-asset-fallback.ts</code>
+              (only matches <code>/maps/floor_(\d+).svg</code>), the hardcoded <code>FLOORS=[0,1,2]</code> in
+              <code>scripts/sync-map-assets.mjs</code>, and the bundled-asset layout under <code>src/assets/cenlib-map/</code>.</li>
+            <li><b>Refresh the offline fallback</b> (<code>npm run sync:map-assets</code>) and commit.</li>
+          </ol>
+          <div class="note">Ignore <code>location-filter.config.ts</code> — it looks relevant but is imported nowhere (dead code).
+            Gating is <code>LIBRARY_CONFIG</code> + the CDN CSV only.</div>
+        </div>
+      </div>
+
+      <div class="bdcard">
+        <div class="hd"><span class="t">C · Map &amp; data authoring</span>
+          <span class="repo">librarian + design</span><span class="sz L">LARGE · likely the long pole</span></div>
+        <div class="bd-body">
+          <ul>
+            <li><b>Draw accurate floor-plan SVG(s)</b> with a stable element <code>id</code> per shelf (the long pole).</li>
+            <li><b>Author the call-number-range → shelf rows</b> for every collection.</li>
+            <li><b>Budget a QA/validation loop</b> — see the scale snapshot below; even the current data isn't fully clean.</li>
+          </ul>
+          <div class="grid-m" style="margin-top:14px">
+            <div class="mtile"><div class="v">421</div><div class="l">mapping rows (current lib)</div></div>
+            <div class="mtile"><div class="v">19</div><div class="l">collections</div></div>
+            <div class="mtile"><div class="v">3</div><div class="l">hand-drawn floor SVGs</div></div>
+            <div class="mtile"><div class="v">370–670</div><div class="l">shelf elements / floor</div></div>
+            <div class="mtile flag"><div class="v">40<small> / 386</small></div><div class="l">svgCodes not matching their SVG (existing data)</div></div>
+          </div>
+          <div class="note">The new building is a comparable effort. Every shelf's SVG <code>id</code> must exactly equal a
+            CSV <code>svgCode</code>; exact-match surfaces drift as visible "Shelf not found" warnings, so drive the new
+            data to a clean validation pass.</div>
+        </div>
+      </div>
+
+      <div class="bdcard">
+        <div class="hd"><span class="t">D · Deploy &amp; ops</span>
+          <span class="repo">both repos</span><span class="sz S">SMALL · coordinated</span></div>
+        <div class="bd-body">
+          <ul>
+            <li><b>Producer:</b> publish the new bundle via the staging→promote flow + CloudFront invalidation.</li>
+            <li><b>Consumer:</b> build <code>VIEW_ID=NDE</code> and upload the package to Ex Libris — remember
+              <b>push ≠ deploy</b>, and expect the CSS-cache / package-chunk propagation lag.</li>
+            <li><b>Do not re-add S3 CORS</b> (cache-poisoning history); public assets under CloudFront's <code>ACAO: *</code> are fine.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= RISKS ================= -->
+  <section id="risks">
+    <div class="sec-head"><span class="n">05</span><h2>Risks &amp; constraints to hold</h2></div>
+    <div class="panel pad">
+      <div class="risk"><div class="ic">🔗</div><div>
+        <div class="rt">Producer↔consumer parity contract (issue #100)</div>
+        <div class="rd">Any change to the producer's range/validation logic must stay behaviorally identical to the consumer's
+          <code>compareDeweyNumbers()</code> / <code>isInDeweyRange()</code>. Don't weaken the parity fixtures/tests the
+          producer's <code>WORKFLOW.md</code> protects.</div></div></div>
+      <div class="risk"><div class="ic">🏢</div><div>
+        <div class="rt">Floor-set hardcode {0,1,2}</div>
+        <div class="rd">If the new building's floors aren't 0/1/2 (a basement <code>-1</code>, floors 0–4, …), more spots need
+          widening on both sides.</div></div></div>
+      <div class="risk"><div class="ic">🗃️</div><div>
+        <div class="rt">Shared CSV without UI scoping is unsafe to edit</div>
+        <div class="rd">Until the admin is made library-aware, a librarian editing building 2 sees building 1's rows intermixed,
+          and saves re-stamp them "Sourasky". This is why a one-time hand-load is not maintainable.</div></div></div>
+      <div class="risk"><div class="ic">🧪</div><div>
+        <div class="rt">Existing data isn't fully clean</div>
+        <div class="rd">40 of 386 <code>svgCode</code>s already mismatch their SVG IDs. Onboard the new library to a clean pass
+          rather than inheriting that debt.</div></div></div>
+    </div>
+  </section>
+
+  <!-- ================= OPEN QUESTIONS ================= -->
+  <section id="questions">
+    <div class="sec-head"><span class="n">06</span><h2>What I need from you to tighten this</h2></div>
+    <div class="panel pad">
+      <div class="q"><div class="num">1</div><div>
+        <div class="qt">Which library — and does its data exist yet?</div>
+        <div class="qd">Floor plans + shelf→range mapping. This sizes the long pole (area C).</div></div></div>
+      <div class="q"><div class="num">2</div><div>
+        <div class="qt">Self-service or one-time?</div>
+        <div class="qd">Should librarians manage building 2 through the admin going forward (→ full producer retrofit),
+          or is a one-time load acceptable?</div></div></div>
+      <div class="q"><div class="num">3</div><div>
+        <div class="qt">Option A vs B, and shared vs per-library CSV?</div>
+        <div class="qd">Drives the SVG-path and validation work. My recommendation: A + one shared CSV with a library filter.</div></div></div>
+      <div class="q"><div class="num">4</div><div>
+        <div class="qt">Floor numbering of the new building?</div>
+        <div class="qd">Is it 0/1/2, or different? Determines how much of the hardcoded floor set must change.</div></div></div>
+    </div>
+    <div class="callout" style="margin-top:16px">Once 1–4 are settled I can turn this into a <b>phased implementation plan</b>
+      with the producer and consumer PRs sequenced.</div>
+  </section>
+
+  <footer>
+    Assessment produced from a direct read of both repositories (TAU_customModule + primo_maps) and three targeted code
+    sweeps. Infrastructure identifiers omitted by design. T-shirt sizes are relative effort, not calendar commitments.
+  </footer>
+
+</div>
+</body>
+</html>
