@@ -37,6 +37,7 @@ lightweight CSS/asset overrides.
 | **Search-Bar Band** | CSS | ✅ Production | Solid blue band behind the search bar on the results and full-record pages, so the near-white search box reads as its own element |
 | **Landing Search-Bar Flash Suppression** | CSS | ✅ Production | Hide the spurious results search bar that the host flashes on every landing-page load (Ex Libris defect) |
 | **Custom Loading Animation** | Asset (Lottie) | ✅ Production | Blue four-dot page-load animation replacing the default purple |
+| **Quick Links Open in New Tab** | JS | ✅ Production | Landing-page quick-link "cubes" pointing off-site open in a new tab, so the landing page is not lost |
 
 **Key Technologies:**
 - Angular 18 standalone components
@@ -554,6 +555,7 @@ Comprehensive documentation is organized in the [`docs/`](docs/) folder:
 
 ### Reference & Styling
 - **[Landing Banner & Search-Bar Customization](docs/features/landing-banner-customization.md)** - Banner font/color/overlay/search-bar playbook + full `custom.css` rule inventory
+- **[Landing Quick Links: Open in New Tab](docs/features/landing-quick-links-new-tab.md)** - Why the Back Office cannot set `openInNewTab`, and the `custom.js` workaround
 - **[NDE Theme Customization](docs/development/NDE_THEME_CUSTOMIZATION.md)** - Branding NDE colors/typography via Material SCSS
 
 ### Research & Development
