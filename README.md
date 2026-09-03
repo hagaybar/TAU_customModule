@@ -630,6 +630,8 @@ Comprehensive documentation is organized in the [`docs/`](docs/) folder:
 
 ### Reference Documentation
 - **[Call Number Directionality Fix](docs/reference/call_number_directionality_fix.md)** - CSS fixes for call number display (VE & NDE)
+- **[Finding Label Codes in Primo NDE](docs/reference/finding_label_codes.md)** - Add `debugLabels=true` to any NDE URL to read label codes straight off the screen, instead of guessing which code drives a piece of text
+- **[Debug Scripts](docs/debug/README.md)** - Browser-console inspectors for NDE translation internals (the manual fallback when `debugLabels` isn't enough)
 
 ### Troubleshooting
 - **[Bug Fix History](docs/troubleshooting/BUGFIX_HISTORY.md)** - Bug fixes and resolutions
@@ -700,6 +702,12 @@ Output: `dist/972TAU_INST-NDE_TEST.zip`
 ## Prerequisites
 
 ### Node.js and npm (Node Package Manager)
+
+> **`.nvmrc` pins Node 18.20.8.** With `nvm` installed, run `nvm use` in the repo root to switch
+> to it. That version is the reference for this Angular 18 build; the full suite and `npm run build`
+> have also been run cleanly on Node 20.20.0 (2026-09-03), so the pin is a known-good floor rather
+> than a hard ceiling.
+
 1. **Verify Node.js and npm Installation:**
     - Open a terminal.
     - Run the following commands to check if Node.js and npm are installed:
