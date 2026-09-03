@@ -628,6 +628,9 @@ Comprehensive documentation is organized in the [`docs/`](docs/) folder:
 #### CenLib Shelf Map
 - **[CenLib Shelf Map](docs/features/map_cenlib_shelves/README.md)** - Interactive shelf-location map (data model, CDN layout, call-number matching, extension guide)
 
+#### NDE Embedded Search Box (library websites)
+- **[NDE Search Box](docs/features/nde-search-box/README.md)** - Embeddable search box for TAU library websites. Not part of this package; materials are held internally
+
 ### Reference Documentation
 - **[Call Number Directionality Fix](docs/reference/call_number_directionality_fix.md)** - CSS fixes for call number display (VE & NDE)
 - **[Finding Label Codes in Primo NDE](docs/reference/finding_label_codes.md)** - Add `debugLabels=true` to any NDE URL to read label codes straight off the screen, instead of guessing which code drives a piece of text
