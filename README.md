@@ -37,7 +37,7 @@ lightweight CSS/asset overrides.
 | **Search-Bar Band** | CSS | ✅ Production | Solid blue band behind the search bar on the results and full-record pages, so the near-white search box reads as its own element |
 | **Landing Search-Bar Flash Suppression** | CSS | ✅ Production | Hide the spurious results search bar that the host flashes on every landing-page load (Ex Libris defect) |
 | **Custom Loading Animation** | Asset (Lottie) | ✅ Production | Blue four-dot page-load animation replacing the default purple |
-| **Quick Links Open in New Tab** | JS | ✅ Production | Landing-page quick-link "cubes" pointing off-site open in a new tab, so the landing page is not lost |
+| **Quick Links Open in New Tab** | JS | ⚠️ Workaround | Landing-page quick-link "cubes" pointing off-site open in a new tab. Stands in for the `openInNewTab` flag Alma's Back Office does not expose — **[remove when Ex Libris fixes it](#landing-quick-links--new-tab-customjs)** |
 
 **Key Technologies:**
 - Angular 18 standalone components
@@ -526,6 +526,39 @@ Replaces the Primo NDE page-load animation (the default "four purple dots") with
 **File:** `src/assets/images/loadingAnimations/LoadingAnimationJson.json` — the Ex Libris default Lottie, hue-rotated from violet to azure (`#003b7e → #0052b3 → #538bcc → #b0c9e7`), keeping the original motion. Colors are baked into the JSON; the boot animation does **not** follow the `--sys-primary` theme token.
 
 **Documentation:** See [Loading Animation Color (Ex Libris Case 10665359)](docs/troubleshooting/loading-animation-color-not-themed.md) for the full investigation — why the view theme can't recolor the default dots and how the replacement works.
+
+### Landing Quick Links → New Tab (`custom.js`)
+**Date Implemented:** 03.09.26 · **⚠️ Workaround — has a removal condition, see below**
+
+The landing-page quick links ("the cubes") that point **off-site** open in a new tab, so the landing
+page isn't lost. In-app Primo routes (the library-card link) deliberately stay in the same tab.
+
+**Why it isn't a Back Office setting.** The native landing page renders its quick links from the
+per-view Back Office file `assets/landingpage/landingpage.json`. Each link there carries an
+`openInNewTab` flag and the host component `nde-landing-quick-links` honours it
+(`target="_blank" rel="noopener noreferrer"` + the "(Opens in a new tab)" aria suffix) — but Alma's
+Landing Page tab only exposes **Label / URL / Icon**, so a library can't set the flag. We can't ship
+a corrected file either: `assets/landingpage/` is injected per view by Ex Libris and is **not** part
+of this package.
+
+**How it works:** `src/assets/js/custom.js` is a plain script the host loads from the package. It
+lets the host render the page normally, then sets `target` / `rel` / aria on the external quick-link
+anchors — exactly what the renderer would have done if the flag were set. It re-applies after an
+in-app language switch.
+
+**File:** `src/assets/js/custom.js` (previously an empty placeholder — this is the only logic in it).
+
+> **🗑️ Remove this when it's no longer needed.** This is a workaround for a Back Office gap, not a
+> TAU design decision. Delete the logic in `custom.js` (restoring it to an empty placeholder) once
+> **either** Ex Libris exposes `openInNewTab` in the Landing Page tab and the flag is set on the
+> view, **or** Ex Libris support sets `openInNewTab: true` directly on the view's
+> `landingpage.json`. To check whether that has happened, look at
+> `/nde/custom/972TAU_INST-NDE/assets/landingpage/landingpage.json` — if the links already say
+> `"openInNewTab": true`, this script is redundant and should go.
+
+**Documentation:** See [Landing Quick Links: Open in New Tab](docs/features/landing-quick-links-new-tab.md)
+for the evidence, why the four reference views (British Library, 3M, Angelo State, RMIT) don't apply
+to us, and the verification runs.
 
 ---
 
