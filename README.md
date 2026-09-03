@@ -1108,10 +1108,10 @@ To ensure smooth development, debugging, and code management, we recommend setti
 
 2. After a successful build, the compiled code will be in the `dist/` directory.
 
-> **Every build is also archived to `~/tau-packages/`,** stamped with the commit it came from —
-> e.g. `972TAU_INST-NDE_20260903T081135Z_11841f8.zip` — plus a row in `MANIFEST.tsv`. `dist/` is
-> overwritten by the next build, so this is the only record of which source produced a package
-> you uploaded. **Never copy packages anywhere else.**
+> **Every build is also archived to `~/tau-packages/<date>/`,** stamped with the commit it came
+> from — e.g. `2026-09-03/972TAU_INST-NDE_20260903T081135Z_06cca6e.zip` — plus a row in
+> `MANIFEST.tsv`. `dist/` is overwritten by the next build, so this is the only record of which
+> source produced a package you uploaded. **Never copy packages anywhere else.**
 >
 > A `-dirty` suffix means the tree had uncommitted changes and the package cannot be rebuilt
 > exactly — **don't upload those**; commit, rebuild, upload that. Changing `build-settings.env`

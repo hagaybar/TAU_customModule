@@ -22,7 +22,9 @@ const zipPath = path.join(__dirname, 'dist', `${process.env.INST_ID}-${process.e
  */
 const ARCHIVE_DIR = path.join(os.homedir(), 'tau-packages');
 const MANIFEST = path.join(ARCHIVE_DIR, 'MANIFEST.tsv');
-const MANIFEST_HEADER = 'built_utc\tview\tcommit\tdirty\tbytes\tfile\n';
+// `note` is written empty and filled in by hand — a build is not a deploy, and postbuild
+// cannot know which packages were actually uploaded to Alma. Record that there.
+const MANIFEST_HEADER = 'built_utc\tview\tcommit\tdirty\tbytes\tfile\tnote\n';
 
 /**
  * Selecting a view means editing these two files, so they are not evidence that the
@@ -53,20 +55,23 @@ function gitInfo() {
 function archiveBuild() {
   try {
     const { commit, dirty } = gitInfo();
+    const now = new Date();
     // 2026-09-03T08:11:35.899Z -> 20260903T081135Z, so filenames sort chronologically.
-    const stamp = new Date().toISOString().replace(/[:-]/g, '').replace(/\.\d+Z$/, 'Z');
+    const stamp = now.toISOString().replace(/[:-]/g, '').replace(/\.\d+Z$/, 'Z');
+    const day = now.toISOString().slice(0, 10); // UTC date, matching the stamp
     const view = `${process.env.INST_ID}-${process.env.VIEW_ID}`;
     const name = `${view}_${stamp}_${commit}${dirty ? '-dirty' : ''}.zip`;
-    const dest = path.join(ARCHIVE_DIR, name);
+    const relative = `${day}/${name}`;
+    const dest = path.join(ARCHIVE_DIR, day, name);
 
-    fs.mkdirSync(ARCHIVE_DIR, { recursive: true });
+    fs.mkdirSync(path.join(ARCHIVE_DIR, day), { recursive: true });
     fs.copyFileSync(zipPath, dest);
 
     const bytes = fs.statSync(dest).size;
     if (!fs.existsSync(MANIFEST)) fs.writeFileSync(MANIFEST, MANIFEST_HEADER);
     fs.appendFileSync(
       MANIFEST,
-      `${new Date().toISOString()}\t${process.env.VIEW_ID}\t${commit}\t${dirty ? 'yes' : 'no'}\t${bytes}\t${name}\n`
+      `${now.toISOString().replace(/\.\d+Z$/, 'Z')}\t${process.env.VIEW_ID}\t${commit}\t${dirty ? 'yes' : 'no'}\t${bytes}\t${relative}\t\n`
     );
 
     console.log(`Archived to ${dest}`);

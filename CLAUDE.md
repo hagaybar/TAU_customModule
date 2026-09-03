@@ -95,8 +95,9 @@ does it. **Never copy a package anywhere else**; one location with a history is 
 and ad-hoc copies are how it stops being answerable which source produced a live package.
 
 ```
-~/tau-packages/972TAU_INST-NDE_20260903T081135Z_11841f8.zip
-~/tau-packages/MANIFEST.tsv          # built_utc, view, commit, dirty, bytes, file
+~/tau-packages/2026-09-03/972TAU_INST-NDE_20260903T081135Z_06cca6e.zip
+~/tau-packages/MANIFEST.tsv     # built_utc, view, commit, dirty, bytes, file, note
+~/tau-packages/README.md        # how to read a filename; what unknown/-dirty mean
 ```
 
 - **The commit in the filename is the point.** It maps an uploaded package back to reproducible
@@ -106,6 +107,10 @@ and ad-hoc copies are how it stops being answerable which source produced a live
 - Selecting a view (`build-settings.env`, `asset-base.generated.ts`) does **not** count as dirty
   — that edit is how you choose a view, not a source change.
 - Archiving never fails a build; if it cannot write, it warns and the zip in `dist/` is unaffected.
+- **A build is not a deploy.** The `note` column is written empty; fill it in by hand when you
+  actually upload one, because nothing else records which package went live.
+- Packages named `_unknown` predate this archive (imported 2026-09-03 from four scattered
+  locations). Their manifest notes carry an *inferred* commit, explicitly marked NOT verified.
 
 Deploy is still manual: upload the zip to Alma Back Office. Pushing to `main` deploys nothing.
 After uploading, confirm the right package went live by the boot banner in the browser console —
