@@ -88,6 +88,29 @@ npm run build
 3. After switching between production/test views
 4. Before committing changes to `build-settings.env`
 
+## Where built packages go (RULE)
+
+**Every `npm run build` archives its zip to `~/tau-packages/` automatically** — `postbuild.js`
+does it. **Never copy a package anywhere else**; one location with a history is the whole point,
+and ad-hoc copies are how it stops being answerable which source produced a live package.
+
+```
+~/tau-packages/972TAU_INST-NDE_20260903T081135Z_11841f8.zip
+~/tau-packages/MANIFEST.tsv          # built_utc, view, commit, dirty, bytes, file
+```
+
+- **The commit in the filename is the point.** It maps an uploaded package back to reproducible
+  source months later. `dist/` is overwritten by the next build and answers nothing.
+- **`-dirty` means the tree had uncommitted changes**, so the package cannot be rebuilt exactly.
+  **Do not upload a `-dirty` package.** Commit first, rebuild, upload that.
+- Selecting a view (`build-settings.env`, `asset-base.generated.ts`) does **not** count as dirty
+  — that edit is how you choose a view, not a source change.
+- Archiving never fails a build; if it cannot write, it warns and the zip in `dist/` is unaffected.
+
+Deploy is still manual: upload the zip to Alma Back Office. Pushing to `main` deploys nothing.
+After uploading, confirm the right package went live by the boot banner in the browser console —
+it names the package it was built for.
+
 ## Important Notes
 
 - The custom module loads as web components into Primo's host application

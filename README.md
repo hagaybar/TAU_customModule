@@ -1108,6 +1108,15 @@ To ensure smooth development, debugging, and code management, we recommend setti
 
 2. After a successful build, the compiled code will be in the `dist/` directory.
 
+> **Every build is also archived to `~/tau-packages/`,** stamped with the commit it came from —
+> e.g. `972TAU_INST-NDE_20260903T081135Z_11841f8.zip` — plus a row in `MANIFEST.tsv`. `dist/` is
+> overwritten by the next build, so this is the only record of which source produced a package
+> you uploaded. **Never copy packages anywhere else.**
+>
+> A `-dirty` suffix means the tree had uncommitted changes and the package cannot be rebuilt
+> exactly — **don't upload those**; commit, rebuild, upload that. Changing `build-settings.env`
+> to select a view does not count as dirty. Archiving never fails a build.
+
 
 - **Automatic Packaging**:
   - The build process automatically compiles and packages the project into a ZIP file named according to the `INST_ID` and `VIEW_ID` specified in the `build-settings.env` file located at:
