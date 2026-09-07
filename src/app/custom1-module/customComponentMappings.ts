@@ -39,9 +39,10 @@ export const selectorComponentMap = new Map<string, any>([
   // Collection Discovery filter — hides configured collections by ID at every
   // level of /nde/collectionDiscovery, in every language. Renders nothing; it
   // uses the slot only to reach <nde-collection-discovery-gallery> and observe
-  // it. The host applies its custom-slot directive to the gallery (seen in its
-  // bootstrap bundle on 2026-09-07); the slot rendering live is verified in
-  // docs/features/collection-discovery-filter.md.
+  // it. Verified live through the dev proxy on 2026-09-07: NDE mounts it as
+  // the gallery's first child, defined as
+  // 'nde-collection-discovery-gallery-top-from-remote-<n>' inside an
+  // 'ng-component' wrapper. Details in docs/features/collection-discovery-filter.md.
   ['nde-collection-discovery-gallery-top', CollectionDiscoveryFilterComponent],
 
   // Sort Pickup Library options in ILL form - DISABLED (not yet in production)
