@@ -37,6 +37,7 @@ lightweight CSS/asset overrides.
 | **Resource-Type Pill Chip** | CSS | ✅ Production | Render the results-page resource type ("Journal", "ספר") as a filled pill instead of plain text |
 | **Search-Bar Band** | CSS | ✅ Production | Solid blue band behind the search bar on the results and full-record pages, so the near-white search box reads as its own element |
 | **Landing Search-Bar Flash Suppression** | CSS | ✅ Production | Hide the spurious results search bar that the host flashes on every landing-page load (Ex Libris defect) |
+| **"No Request Options" Notice Colour** | CSS | ✅ Production | Repaint the Get It "No available request options" message from the host's error red to cream, so an informational message stops reading as a failure |
 | **Custom Loading Animation** | Asset (Lottie) | ✅ Production | Blue four-dot page-load animation replacing the default purple |
 | **Quick Links Open in New Tab** | JS | ⚠️ Workaround | Landing-page quick-link "cubes" pointing off-site open in a new tab. Stands in for the `openInNewTab` flag Alma's Back Office does not expose — **[remove when Ex Libris fixes it](#landing-quick-links--new-tab-customjs)** |
 
@@ -557,6 +558,77 @@ two sides of one host quirk and must be kept in step.
 > never guarded the flash either. The same class **is** load-bearing in the flash-suppression rule above,
 > where it is what distinguishes the spurious boot bar from the settled landing bar. The two rules are
 > not interchangeable.
+
+#### "No Request Options" Notice Colour
+**Date Implemented:** 07.09.26 · **PR:** [#63](https://github.com/hagaybar/TAU_customModule/pull/63)
+
+The Get It panel shows **"No available request options"** when an authenticated patron has no request
+options on a physical item. Ex Libris paints it with the Material 3 **error** token, so a routine
+informational message reads as a failure the patron caused. This repaints it cream.
+
+**Host default:** `<div class="no-requests" data-qa="nde.request.noRequests">` inside `<nde-requests>`.
+
+```css
+/* host */
+.no-requests[_ngcontent-ng-c3446071939] {
+  background-color: var(--sys-error-container);   /* #ffdad6 on 972TAU_INST:NDE */
+  padding: 1rem 1.5rem; font-weight: 300; font-size: 0.875rem;
+}
+```
+
+**Target:** `nde-requests .no-requests`
+
+```css
+nde-requests .no-requests {
+  --tau-no-requests-bg: #fff8e1;
+  background-color: var(--tau-no-requests-bg) !important;
+}
+```
+
+**Why scoped, not a token change.** `--sys-error-container` is a shared Material 3 system colour.
+Retuning it would also repaint genuine error surfaces, including components that are not loaded on the
+full-record route and therefore cannot be checked from there. The colour appears once, in
+`--tau-no-requests-bg` — change it there and nowhere else.
+
+**Why `!important` — measured, not assumed.** The host selector carries Angular's emulated-encapsulation
+attribute, making it `(0,2,0)`, so both plausible overrides lose on specificity:
+
+| Candidate | Specificity | Computed background |
+|-----------|-------------|---------------------|
+| `.no-requests` | 0,1,0 | `rgb(255,218,214)` — host wins |
+| `nde-requests .no-requests` | 0,1,1 | `rgb(255,218,214)` — host wins |
+| `nde-requests .no-requests` + `!important` | — | override wins |
+
+**Accessibility.** The host rule sets no `color`, so the text inherits `#1a1c1f`. Contrast *improves*:
+`#ffdad6` (host red) = **13.21:1**, `#fff8e1` (cream) = **16.07:1** — both clear AA (4.5:1) at the
+rule's 14px/300. A background colour needs no RTL handling, so EN and HE are the same.
+
+> **Reproducing it without logging in.** The notice only renders for **authenticated** patrons, so
+> loading a record does not show it — but `<nde-requests>` is on the page either way. Paste this into
+> the console on any `/nde/fulldisplay` record; the `_ngcontent` attribute is what makes the host rule
+> apply, and without it any specificity measurement is meaningless:
+>
+> ```js
+> const d = document.createElement('div');
+> d.setAttribute('_ngcontent-ng-c3446071939', '');   // re-check this id after an Ex Libris release
+> d.className = 'no-requests ng-star-inserted';
+> d.textContent = 'No available request options';
+> document.querySelector('nde-requests').appendChild(d);
+> getComputedStyle(d).backgroundColor;               // rgb(255,248,225) once our rule is live
+> ```
+>
+> The `_ngcontent-ng-c…` hash is generated per build by Angular and **will change** on an Ex Libris
+> release. Our rule deliberately does not reference it, so a new release breaks this recipe, never the
+> customization.
+
+**Deploy status.** Built from `eaee6f7` and archived to `~/tau-packages/` for both `NDE` and
+`NDE_TEST`. It goes live only when that package is uploaded in Alma Back Office — **pushing `main`
+deploys nothing**. After uploading, hard-refresh: the browser serves the previously cached
+`custom.css` and "I don't see my change" is usually that, not a selector fault. Confirm which package
+is live from the boot banner in the console.
+
+**Documentation:** [`docs/features/landing-banner-customization.md`](docs/features/landing-banner-customization.md)
+— see the `custom.css` inventory.
 
 ### Custom Loading Animation
 **Date Implemented:** 17.06.26
