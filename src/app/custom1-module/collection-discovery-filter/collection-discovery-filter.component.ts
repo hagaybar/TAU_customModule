@@ -40,7 +40,13 @@ export const GALLERY_SELECTOR = 'nde-collection-discovery-gallery';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CollectionDiscoveryFilterComponent implements AfterViewInit, OnDestroy {
-  private readonly hiddenIds: ReadonlySet<string> = new Set(inject(HIDDEN_COLLECTION_IDS_TOKEN));
+  // The list is hand-edited: trim stray whitespace and drop blank entries so
+  // a copy-paste slip does not silently fail to match any card.
+  private readonly hiddenIds: ReadonlySet<string> = new Set(
+    inject(HIDDEN_COLLECTION_IDS_TOKEN)
+      .map((id) => id.trim())
+      .filter((id) => id.length > 0),
+  );
   private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly ngZone = inject(NgZone);
 
@@ -59,12 +65,13 @@ export class CollectionDiscoveryFilterComponent implements AfterViewInit, OnDest
       return;
     }
 
+    const root = this.root;
     this.ngZone.runOutsideAngular(() => {
       this.applyNow();
       // childList + subtree only: the pass itself changes attributes and
       // styles, and observing those would make every pass schedule another.
       this.observer = new MutationObserver(() => this.scheduleApply());
-      this.observer.observe(this.root!, { childList: true, subtree: true });
+      this.observer.observe(root, { childList: true, subtree: true });
     });
   }
 

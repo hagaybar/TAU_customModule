@@ -17,8 +17,8 @@ import { InjectionToken } from '@angular/core';
  * Changing this list means edit → `npm run build` → upload the package.
  */
 export const HIDDEN_COLLECTION_IDS: readonly string[] = [
-  '81444210450004146',
-  '81429943170004146', // The Reconstructed Trademark Registry of Mandatory Palestine
+  '81444210450004146', // The Reconstructed Patent Registry of Mandate Palestine
+  '81429943170004146', // The Reconstructed Trademark Registry of Mandate Palestine
 ];
 
 /**

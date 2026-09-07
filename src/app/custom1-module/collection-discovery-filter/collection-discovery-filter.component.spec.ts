@@ -120,4 +120,22 @@ describe('CollectionDiscoveryFilterComponent', () => {
 
     expect(grid.children[0].hasAttribute(HIDDEN_MARKER)).toBeFalse();
   });
+
+  it('matches an ID that was pasted with surrounding whitespace', async () => {
+    grid.append(card('7'));
+
+    await mount([' 7 ']);
+
+    expect(grid.children[0].getAttribute(HIDDEN_MARKER)).toBe('7');
+  });
+
+  it('is inert when the list holds only blank entries', async () => {
+    grid.append(card('1'));
+
+    await mount(['', '   ']);
+    grid.append(card('1'));
+    await twoFrames();
+
+    expect(gallery.querySelectorAll(`[${HIDDEN_MARKER}]`).length).toBe(0);
+  });
 });
