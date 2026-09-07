@@ -19,6 +19,7 @@ lightweight CSS/asset overrides.
 | **External Search Integration** | ✅ Production | Search-links panel (filter sidebar) + external links on the no-results page — components with query mapping and bilingual RTL support |
 | **CenLib Shelf Map** | ✅ Production | Interactive "Shelf Map" button + floor-plan dialog that pinpoints an item on the shelf. Data-driven from a companion **Primo Maps** repo (`NDE_MAPS_MANGER`) via an AWS CloudFront CDN |
 | **Announcement Banner** | ✅ Production | Dismissible bilingual strip above the NDE header, announcing the refreshed look |
+| **Collection Discovery Filter** | ✅ Production | Hides chosen digital collections (by collection ID) from the Collection Discovery page at every nesting level, in both languages |
 
 ### 🎨 CSS & styling tweaks (lightweight overrides)
 
@@ -218,6 +219,43 @@ styling, RTL handling, dismissal, and a11y all stay as they are.
 - Files: `src/app/custom1-module/announcement-banner/`
 - Colour knobs: `--tau-announcement-bg` / `--tau-announcement-fg` / `--tau-announcement-accent` in the component SCSS
 - Tests: `announcement-banner.component.spec.ts` — language precedence, in-app switching, dismissal persistence, a11y attributes, and exact wording
+
+---
+
+### 4. Collection Discovery Filter
+**Status:** ✅ Production (deployed to NDE_TEST and NDE 07.09.26)
+**Date Implemented:** 07.09.26
+
+Hides chosen digital collections from the **Collection Discovery** page (`/nde/collectionDiscovery`),
+keyed on the collection ID in each card's link. Works on the lobby and on every sub-collection page,
+at any depth, in Hebrew and English, and follows in-app navigation and language switches without a reload.
+
+**Currently hidden (both views):** The Reconstructed Trademark Registry of Mandate Palestine
+(`81429943170004146`) and The Reconstructed Patent Registry of Mandate Palestine
+(`81444210450004146`). To change the list, edit `hidden-collections.config.ts`, rebuild, and
+upload — see the feature doc.
+
+**Implemented Features:**
+- ✅ **One list of IDs** in `hidden-collections.config.ts`; each entry hides that collection's card wherever it appears
+- ✅ **Any depth, no per-level code**: every level is the same host card component under the same gallery, and the filter re-walks the whole gallery on every DOM change
+- ✅ **Language-independent by construction**: the ID is parsed from the link's `collectionId` query parameter, never from text
+- ✅ **Reversible and idempotent**: hidden cards carry `data-tau-hidden-collection="<id>"`; a marked card whose link no longer matches is restored
+- ✅ **Cheap**: passes are coalesced through `requestAnimationFrame` and run outside the Angular zone; with an empty list the component attaches nothing
+
+**Location in NDE:** the `nde-collection-discovery-gallery-top` extension slot inside `<nde-collection-discovery-gallery>`, verified live through
+the dev proxy on 2026-09-07. The component renders nothing; the slot only gives it a foothold from which to
+find and observe the gallery. Language switching in-app uses the language selector (the HE/EN select) in the header.
+
+**Known limitations:** the host's "Showing N of N results" line on collection pages keeps the host's number
+(accepted in the design); a direct link to a hidden collection still opens it — this is a display filter, not access control.
+
+**Technical Details:**
+- Component: `CollectionDiscoveryFilterComponent` (standalone, `OnPush`, renders nothing)
+- Pure logic: `collection-filter.ts` — `readCollectionId`, `applyCollectionFilter`
+- Selector mapping: `nde-collection-discovery-gallery-top`
+- Files: `src/app/custom1-module/collection-discovery-filter/`
+- Tests: `collection-filter.spec.ts` (hide / restore / depth / parameter order / idempotence), `collection-discovery-filter.component.spec.ts` (mount, late render, grid swap, destroy, inert cases)
+- Docs: [`docs/features/collection-discovery-filter.md`](docs/features/collection-discovery-filter.md) · design spec `docs/superpowers/specs/2026-09-07-collection-discovery-filter-design.md`
 
 ---
 
@@ -630,6 +668,9 @@ Comprehensive documentation is organized in the [`docs/`](docs/) folder:
 
 #### NDE Embedded Search Box (library websites)
 - **[NDE Search Box](docs/features/nde-search-box/README.md)** - Embeddable search box for TAU library websites. Not part of this package; materials are held internally
+
+#### Collection Discovery Filter
+- **[Collection Discovery Filter](docs/features/collection-discovery-filter.md)** - Hide chosen digital collections by ID at every level of the Collection Discovery page; how to add an ID, verification, limitations
 
 ### Reference Documentation
 - **[Call Number Directionality Fix](docs/reference/call_number_directionality_fix.md)** - CSS fixes for call number display (VE & NDE)
