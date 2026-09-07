@@ -621,11 +621,20 @@ rule's 14px/300. A background colour needs no RTL handling, so EN and HE are the
 > release. Our rule deliberately does not reference it, so a new release breaks this recipe, never the
 > customization.
 
-**Deploy status.** Built from `eaee6f7` and archived to `~/tau-packages/` for both `NDE` and
-`NDE_TEST`. It goes live only when that package is uploaded in Alma Back Office — **pushing `main`
-deploys nothing**. After uploading, hard-refresh: the browser serves the previously cached
-`custom.css` and "I don't see my change" is usually that, not a selector fault. Confirm which package
-is live from the boot banner in the console.
+**Deploy status.** ✅ Live. Built from `eaee6f7`, uploaded to both `NDE` and `NDE_TEST` on 07.09.26,
+and verified live on production `NDE` — 20/20 requests to
+`/nde/custom/972TAU_INST-NDE/assets/css/custom.css` returned the rule.
+
+> **An upload lands on some Ex Libris nodes before others.** At the same check `NDE_TEST` answered
+> 7/20 with the new file and 13/20 with the old one — the *same URL* serving two package versions,
+> distinguishable by `ETag`/`Last-Modified`. It does not reliably converge on its own, so measure the
+> ratio (loop the CSS URL and count) before concluding a package is broken; a re-upload is the fix,
+> not a code change.
+
+A package goes live **only** when it is uploaded in Alma Back Office — **pushing `main` deploys
+nothing**. After uploading, hard-refresh: the browser serves the previously cached `custom.css`, and
+"I don't see my change" is usually that, not a selector fault. Confirm which package is live from the
+boot banner in the console.
 
 **Documentation:** [`docs/features/landing-banner-customization.md`](docs/features/landing-banner-customization.md)
 — see the `custom.css` inventory.
