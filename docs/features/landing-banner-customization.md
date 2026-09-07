@@ -193,9 +193,31 @@ drift). Banner/landing rows are detailed in the sections above.
 | `bold the thext fine` | `mat-card-title.mat-mdc-card-title.margin-bottom-medium` | `font-weight:bold` (the fines/fees amount) |
 | `Call Number Directionality Fix - NDE View` | `nde-locations-container [data-qa="location-call-number"]` | `direction:ltr; unicode-bidi:embed; display:inline-block; font-weight:bold` |
 | `Call Number Directionality Fix - …Brief Properties` | `nde-location-item .getit-items-brief-property:nth-child(3) span[ndetooltipifoverflow]` | same LTR fix for the collapsed/brief view |
+| `"no request options" message background` | `nde-requests .no-requests` | `--tau-no-requests-bg: #fff8e1` + `background-color … !important` — repaints the Get It "No available request options" notice from the host's pale red to cream. The host paints it with the Material 3 **error** token (`var(--sys-error-container)` → `#ffdad6`), which makes a routine informational message read as a failure. Scoped to the component rather than retuning the shared token, so genuine error surfaces keep their colour. `!important` is **required**: the host selector carries Angular's encapsulation attribute (`.no-requests[_ngcontent-…]`, specificity 0,2,0) and beats both `.no-requests` and `nde-requests .no-requests`. Only renders for **authenticated** patrons — see the reproduction note below. |
 
 > **BiDi note:** the call-number rules force LTR so e.g. `892.413 מאו` keeps digits on the left
 > regardless of UI language. `nth-child(3)` is the call-number column in the brief 3-column layout.
+
+> **Reproducing the "no request options" notice without logging in.** The element only renders for
+> authenticated patrons, so loading a record does not show it — but `<nde-requests>` is on the page
+> either way. Paste this into the console on any `/nde/fulldisplay` record to get a faithful probe
+> (the `_ngcontent` attribute is what makes the host rule apply, and without it any specificity
+> measurement is meaningless):
+>
+> ```js
+> const d = document.createElement('div');
+> d.setAttribute('_ngcontent-ng-c3446071939', '');   // re-check this id after an Ex Libris release
+> d.className = 'no-requests ng-star-inserted';
+> d.textContent = 'No available request options';
+> document.querySelector('nde-requests').appendChild(d);
+> getComputedStyle(d).backgroundColor;               // rgb(255,248,225) once our rule is live
+> ```
+>
+> The `_ngcontent-ng-c…` hash is generated per build by Angular and **will change** when Ex Libris
+> ships a new NDE version. It is used only by the probe and by the host's own rule — **our** rule
+> deliberately does not reference it, so a changed hash breaks the reproduction recipe, never the
+> customization. To find the current value, run
+> `[...document.styleSheets].flatMap(s => { try { return [...s.cssRules] } catch { return [] } }).filter(r => r.cssText.includes('no-requests'))`.
 
 ### Global typography
 

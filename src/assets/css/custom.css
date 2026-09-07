@@ -334,3 +334,43 @@ html[lang="he"] .main-menu-container .show-more-btn .mdc-button__label {
   font-weight: 700;
 }
 /* 19.08.26 main-menu "more options" bold end */
+
+/* 07.09.26 "no request options" message background (NDE full record)                              */
+/* The Get It panel renders <div class="no-requests" data-qa="nde.request.noRequests"> when an     */
+/* authenticated patron has no request options on a physical item. The host paints it with the     */
+/* Material 3 ERROR token, so a routine informational message reads as a failure:                  */
+/*     .no-requests[_ngcontent-ng-c3446071939] { background-color: var(--sys-error-container); … } */
+/* --sys-error-container resolves to #ffdad6 (pale red) on 972TAU_INST:NDE. "No available request  */
+/* options" is not an error, so TAU repaints it cream — the same notice family as the snackbar     */
+/* rule above (#fffde7).                                                                           */
+/*                                                                                                 */
+/* WHY NOT RETUNE THE TOKEN. --sys-error-container is a shared system colour. Overriding it would  */
+/* also repaint genuine error surfaces, including components that are not loaded on this route and */
+/* so cannot be checked from here. The override is scoped to the one component instead.            */
+/*                                                                                                 */
+/* WHY !important — MEASURED, NOT ASSUMED. The host selector carries Angular's emulated-           */
+/* encapsulation attribute, making it (0,2,0). A bare `.no-requests` is (0,1,0) and                */
+/* `nde-requests .no-requests` is (0,1,1); both LOSE on specificity. Verified live on              */
+/* 972TAU_INST:NDE 07.09.26 against a probe element carrying the real _ngcontent attribute:        */
+/*     .no-requests                        -> rgb(255,218,214)   host wins                         */
+/*     nde-requests .no-requests           -> rgb(255,218,214)   host wins                         */
+/*     nde-requests .no-requests !important-> override wins                                        */
+/*                                                                                                 */
+/* SCOPE. nde-requests is the component host (verified live: it carries _nghost-ng-c3446071939).   */
+/* `.no-requests` appears in exactly one rule in the whole app, so the scope is belt-and-braces    */
+/* rather than load-bearing — keep it anyway so the rule reads as deliberately owned.              */
+/*                                                                                                 */
+/* ACCESSIBILITY. The host rule sets no `color`, so the text inherits #1a1c1f. On #fff8e1 that is  */
+/* 16.07:1 — well past AA (4.5:1) at this rule's 14px/300, and BETTER than the 13.21:1 the host    */
+/* red gave. Language-agnostic: a background colour needs no RTL handling, so EN and HE are the    */
+/* same. The colour appears ONCE, in --tau-no-requests-bg — change it there and nowhere else.      */
+/*                                                                                                 */
+/* NOTE FOR FUTURE VERIFICATION: the message only renders for AUTHENTICATED patrons, so it cannot  */
+/* be seen by simply loading a record. It can be reproduced logged-out by injecting a div with     */
+/* class="no-requests" AND the _ngcontent attribute into <nde-requests> — that is how the          */
+/* specificity table above was measured.                                                           */
+nde-requests .no-requests {
+  --tau-no-requests-bg: #fff8e1;
+  background-color: var(--tau-no-requests-bg) !important;
+}
+/* 07.09.26 "no request options" message background end */
