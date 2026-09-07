@@ -39,6 +39,13 @@
         "src/assets/images/external-sources/**"
       ]
     },
+    "collection-discovery-filter": {
+      "risk": "medium",
+      "description": "Hides configured collections by ID on the Collection Discovery page (observer on the host gallery)",
+      "files": [
+        "src/app/custom1-module/collection-discovery-filter/**"
+      ]
+    },
     "homepage": {
       "risk": "medium",
       "description": "Custom homepage HTML/CSS",

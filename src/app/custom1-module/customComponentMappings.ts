@@ -2,6 +2,7 @@ import { FilterAssistPanelComponent } from './filter-assist-panel/filter-assist-
 import { NoResultsExternalLinksComponent } from './no-results-external-links/no-results-external-links.component';
 import { CenlibMapButtonComponent } from './cenlib-map/cenlib-map-button.component';
 import { AnnouncementBannerComponent } from './announcement-banner/announcement-banner.component';
+import { CollectionDiscoveryFilterComponent } from './collection-discovery-filter/collection-discovery-filter.component';
 // import { IllPickupLibrarySorterComponent } from './ill-sorter/ill-pickup-library-sorter.component';
 
 // Define the map of custom element selectors -> Angular components
@@ -34,6 +35,14 @@ export const selectorComponentMap = new Map<string, any>([
   // Note: NDE defines these as '<slot>-from-remote-<n>', not the bare slot name —
   // customElements.get('nde-header-before') is false at runtime by design.
   ['nde-header-before', AnnouncementBannerComponent],
+
+  // Collection Discovery filter — hides configured collections by ID at every
+  // level of /nde/collectionDiscovery, in every language. Renders nothing; it
+  // uses the slot only to reach <nde-collection-discovery-gallery> and observe
+  // it. The host applies its custom-slot directive to the gallery (seen in its
+  // bootstrap bundle on 2026-09-07); the slot rendering live is verified in
+  // docs/features/collection-discovery-filter.md.
+  ['nde-collection-discovery-gallery-top', CollectionDiscoveryFilterComponent],
 
   // Sort Pickup Library options in ILL form - DISABLED (not yet in production)
   // ['nde-ill-request-top', IllPickupLibrarySorterComponent],
