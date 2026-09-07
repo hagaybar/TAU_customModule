@@ -19,7 +19,7 @@ lightweight CSS/asset overrides.
 | **External Search Integration** | ✅ Production | Search-links panel (filter sidebar) + external links on the no-results page — components with query mapping and bilingual RTL support |
 | **CenLib Shelf Map** | ✅ Production | Interactive "Shelf Map" button + floor-plan dialog that pinpoints an item on the shelf. Data-driven from a companion **Primo Maps** repo (`NDE_MAPS_MANGER`) via an AWS CloudFront CDN |
 | **Announcement Banner** | ✅ Production | Dismissible bilingual strip above the NDE header, announcing the refreshed look |
-| **Collection Discovery Filter** | 🚧 Built — awaiting the ID list and a package upload | Hides chosen digital collections (by collection ID) from the Collection Discovery page at every nesting level, in both languages |
+| **Collection Discovery Filter** | ✅ Production | Hides chosen digital collections (by collection ID) from the Collection Discovery page at every nesting level, in both languages |
 
 ### 🎨 CSS & styling tweaks (lightweight overrides)
 
@@ -223,12 +223,17 @@ styling, RTL handling, dismissal, and a11y all stay as they are.
 ---
 
 ### 4. Collection Discovery Filter
-**Status:** 🚧 Built — ships with an empty list until the library supplies the IDs to hide
+**Status:** ✅ Production (deployed to NDE_TEST and NDE 07.09.26)
 **Date Implemented:** 07.09.26
 
 Hides chosen digital collections from the **Collection Discovery** page (`/nde/collectionDiscovery`),
 keyed on the collection ID in each card's link. Works on the lobby and on every sub-collection page,
 at any depth, in Hebrew and English, and follows in-app navigation and language switches without a reload.
+
+**Currently hidden (both views):** The Reconstructed Trademark Registry of Mandate Palestine
+(`81429943170004146`) and The Reconstructed Patent Registry of Mandate Palestine
+(`81444210450004146`). To change the list, edit `hidden-collections.config.ts`, rebuild, and
+upload — see the feature doc.
 
 **Implemented Features:**
 - ✅ **One list of IDs** in `hidden-collections.config.ts`; each entry hides that collection's card wherever it appears

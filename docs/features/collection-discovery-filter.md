@@ -1,6 +1,6 @@
 # Collection Discovery filter: hide collections by ID
 
-**Status:** built; ships with an empty list until the library supplies the IDs to hide.
+**Status:** ✅ deployed to NDE_TEST and NDE on 2026-09-07. Currently hidden: The Reconstructed Trademark Registry of Mandate Palestine (`81429943170004146`) and The Reconstructed Patent Registry of Mandate Palestine (`81444210450004146`).
 **Design:** [`docs/superpowers/specs/2026-09-07-collection-discovery-filter-design.md`](../superpowers/specs/2026-09-07-collection-discovery-filter-design.md)
 
 ## The request
@@ -60,7 +60,8 @@ parent stays visible, list the sub-collection's own ID.
 With two real IDs in the list — a lobby card and a sub-collection card —
 through `npm run start:proxy`:
 
-1. Lobby: console shows `Total components to register: 5` and
+1. Lobby: console shows `Total components to register:` one more than before
+   this feature (5 at the time of writing) and
    `[CollectionDiscoveryFilter] pass complete; 1 card(s) hidden`;
    `document.querySelector('nde-collection-discovery-gallery-top-from-remote-0').closest('nde-collection-discovery-gallery')`
    is non-null — NDE mounts the slot as `nde-collection-discovery-gallery-top-from-remote-0`
@@ -72,6 +73,10 @@ through `npm run start:proxy`:
 3. Switch language in-app with the language selector (the HE/EN select) in
    the header: still hidden, a new `pass complete` line.
 4. Breadcrumbs back to the lobby: still hidden.
+5. Look at the lobby and a collection page with your eyes: the grid must look
+   exactly as before apart from the missing cards. The host wraps the slot
+   element in an `<ng-component>` we do not style; the DOM checks above cannot
+   see a stray gap.
 
 Unit tests: `npx ng test --watch=false --browsers=ChromeHeadless --include='src/app/custom1-module/collection-discovery-filter/*.spec.ts'`.
 
@@ -82,8 +87,9 @@ Unit tests: `npx ng test --watch=false --browsers=ChromeHeadless --include='src/
   Accepted in the design (D1); patching host text is fragile.
 - **Direct links still work.** A hidden collection is hidden, not
   access-controlled. Removing it from search and facets is an Alma-side change.
-- **Host markup can change.** The two host selectors are constants at the top
-  of `collection-filter.ts` and the component; upstream sync flags the folder
+- **Host markup can change.** The three host selectors (`CARD_SELECTOR`,
+  `CARD_LINK_SELECTOR` in `collection-filter.ts`; `GALLERY_SELECTOR` in the
+  component) are constants; upstream sync flags the folder
   (`.upstream-sync/owned-files.json`, category `collection-discovery-filter`).
 
 ## Turning it off

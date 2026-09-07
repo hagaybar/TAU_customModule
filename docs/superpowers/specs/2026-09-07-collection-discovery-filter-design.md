@@ -1,6 +1,6 @@
 # Collection Discovery hidden-collections filter — design
 
-**Status:** draft for review (2026-09-07)
+**Status:** accepted 2026-09-07; implemented and deployed the same day — see docs/superpowers/plans/2026-09-07-collection-discovery-filter.md and docs/features/collection-discovery-filter.md.
 **Request:** hide chosen digital collections from
 `/nde/collectionDiscovery`, keyed on the collection ID that appears in each
 card's `href`, at every nesting level, in every UI language, as a standalone
@@ -143,6 +143,9 @@ New:
 
 - `src/app/custom1-module/collection-discovery-filter/collection-discovery-filter.component.ts`
 - `src/app/custom1-module/collection-discovery-filter/collection-discovery-filter.component.spec.ts`
+- `src/app/custom1-module/collection-discovery-filter/collection-filter.ts` — the pure DOM logic,
+  split out of the component during planning.
+- `src/app/custom1-module/collection-discovery-filter/collection-filter.spec.ts`
 - `src/app/custom1-module/collection-discovery-filter/hidden-collections.config.ts`
 - `docs/features/collection-discovery-filter.md`
 
@@ -184,6 +187,9 @@ Live through `npm run start:proxy`, with one real ID in the list:
 
 - **The slot might not render at `-top` for this component.** Bundle evidence
   says it should; the proxy is the proof. Fallbacks in §4.1.
+  **Resolved 2026-09-07:** it renders; NDE mounts it as
+  `nde-collection-discovery-gallery-top-from-remote-<n>` inside an
+  `ng-component` wrapper, first child of the gallery.
 - **Host markup can change on an NDE release.** The card selector and the
   gallery selector are two constants at the top of the component; upstream
   sync will flag the folder.
@@ -203,6 +209,7 @@ for `NDE` and upload. Fill in the manifest `note` on upload.
 ## 9. Decisions for review
 
 - **D1** — Accept the stale "Showing N of N results" line on collection pages
-  after hiding? Recommended: yes.
+  after hiding? Recommended: yes. — accepted.
 - **D2** — The list of collection IDs to hide. The feature can be built with
   the example ID and swapped for the real list before the `NDE` build.
+  — resolved: two IDs, see the feature doc.
