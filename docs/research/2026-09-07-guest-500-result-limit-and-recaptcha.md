@@ -132,15 +132,58 @@ anyone promises a date:
   `siteverify` (and therefore Primo) expects. This needs a **Google Cloud project** owned by someone
   at TAU.
 - **The free tier was cut on 2026-04-02**, reportedly from 1,000,000 to **10,000 assessments per
-  month per organisation**, aggregated across all keys and all projects. Above that, billing applies.
-  Because enabling reCaptcha also covers email-export and feedback (§4.2), the monthly assessment
-  count is not just the handful of guests who page past 500.
-  *Verify the current number on Google's own pricing page before relying on it — this figure comes
-  from third-party reporting, not from Google's documentation directly.*
+  month per organisation**, aggregated across all keys and all projects. Because enabling reCaptcha
+  also covers email-export and feedback (§4.2), the monthly assessment count is not just the handful
+  of guests who page past 500.
+  *The 10,000 figure appears in Google's own quota documentation; the "cut from 1,000,000" framing
+  comes from third-party reporting.*
 
 **Domains to register on the key:** `tau.primo.exlibrisgroup.com` and
 `tau-psb.primo.exlibrisgroup.com`. If TAU ever serves Primo from a `tau.ac.il` vanity host, that
 must be on the key too — no such host was found while researching this, so confirm.
+
+### 5.1 Does this cost money? No — and no credit card is needed
+
+Checked against Google's own documentation, because the Cloud console's "Start free" button makes
+this look like a paid signup:
+
+- **A billing account is not required.** Google's *Prepare your environment* page says you do not
+  need to enable billing on the project to create keys and run reCAPTCHA; enabling it is only
+  *recommended*, so that protection survives passing the free allowance.
+- **"Start free" is a different thing** — the Google Cloud **free trial**: $300 of credit for 90
+  days. It *does* ask for a card (a temporary $0–$1 authorisation hold, not a charge) and it does
+  **not** roll into paid billing on its own; you stay unbilled unless someone clicks **Upgrade**.
+  For this task the trial is unnecessary: go straight to the Cloud console, create a project, enable
+  the reCAPTCHA Enterprise API (`recaptchaenterprise.googleapis.com`), and create the key. If the
+  console demands a billing account at any point, stop there rather than working around it.
+- **IAM role needed:** reCAPTCHA Enterprise Admin (`roles/recaptchaenterprise.admin`).
+
+**What actually happens if TAU exceeds 10,000 a month with no billing account** — this is the part
+worth knowing, because Primo verifies through the legacy `siteverify` endpoint, and Google
+documents the two endpoints behaving differently on quota exhaustion:
+
+| Endpoint | Over quota, billing off |
+|---|---|
+| `siteverify` (what Primo uses) | **Fails open** — returns `success: true` with a default score of 0.9, plus a quota error in the response |
+| `CreateAssessment` (modern API) | Fails closed — HTTP 429, no assessment |
+
+So the downside of running out of free quota is that **the captcha quietly stops filtering anyone**
+— not a broken Primo, and not a surprise invoice. That is a mild security regression, not an outage,
+which makes starting without billing a reasonable position.
+
+### 5.2 Who owns the key
+
+There is no TAU Libraries Google account today, so in practice the project would sit under an
+individual's work Google account. TAU production discovery would then depend on a key only one
+person can rotate or repair. Two cheap mitigations, both easiest at creation time:
+
+- Add a second TAU owner on the project in **IAM**, so the key survives one person's absence.
+- Plan to move the project into a TAU Google Workspace organisation later — Cloud projects can be
+  migrated between organisations, but it is far easier to do before anything depends on it.
+
+Worth noting separately: a Google Cloud project running reCAPTCHA processes end-user IP addresses
+and browser signals. Whether that belongs on a personal work account rather than an institutional
+one is a data-protection question for the university, not only a convenience question.
 
 ---
 
@@ -173,8 +216,9 @@ the current guest experience (lose your place, start over) is worse than a check
 the Captcha Keys table until three questions have answers, because the setting cannot be undone
 without a Support case:
 
-1. Who at TAU owns a Google Cloud project that can hold the key, and is billing available if the
-   10,000/month free tier is exceeded?
+1. Who owns the Google Cloud project holding the key, and who is the second owner? (Cost is *not*
+   the blocker — no billing account is required to start, and going over the free allowance degrades
+   the captcha rather than billing anyone. See §5.1–5.2. Continuity is the real question.)
 2. Does the library accept a Google captcha in front of Export-to-Email and Give Us Feedback — and
    do the Privacy and Accessibility statements need updating first?
 3. How many guest sessions actually reach result 500? If the answer is "almost none", Option A is
@@ -196,8 +240,9 @@ production authentication profiles regardless of the captcha decision.
 > (`Activate Captcha = N`, מפתח ריק). ההגדרה עצמה פשוטה (Discovery > Other > Captcha configuration),
 > אבל שלוש נקודות עוצרות אותנו לפני הפעלה: (1) אחרי שמירה **אי אפשר לכבות** בלי פנייה לתמיכה;
 > (2) אותם מפתחות מפעילים captcha גם על שליחת מייל ועל טופס המשוב, לא רק על הדפדוף;
-> (3) גוגל שינתה את מנגנון המפתחות — צריך פרויקט ב-Google Cloud, והמכסה החינמית ירדה ל-10,000
-> אימותים בחודש. אנחנו בודקים את השלושה ונחזור עם המלצה.
+> (3) גוגל שינתה את מנגנון המפתחות — צריך פרויקט ב-Google Cloud. זה **לא כרוך בתשלום** (המכסה
+> החינמית היא 10,000 אימותים בחודש, ואין צורך בחשבון חיוב), אבל צריך להחליט מי הבעלים של החשבון.
+> אנחנו בודקים את השלושה ונחזור עם המלצה.
 
 ---
 
@@ -209,4 +254,7 @@ production authentication profiles regardless of the captcha decision.
 - [Configuring reCaptcha for Primo VE](https://knowledge.exlibrisgroup.com/Primo/Product_Documentation/020Primo_VE/Primo_VE_(English)/120Other_Configurations/Getting_reCaptcha_Site_and_Secret_Keys) — and its linked PDF *How to get reCAPTCHA keys*
 - [Create reCAPTCHA keys for websites (Google Cloud)](https://docs.cloud.google.com/recaptcha/docs/create-key-website)
 - [Map legacy terminology to Google Cloud console](https://docs.cloud.google.com/recaptcha/docs/reconcile-legacy-terminology) — legacy secret key / siteverify
+- [Prepare your environment (Google Cloud)](https://docs.cloud.google.com/recaptcha/docs/prepare-environment) — billing not required; API and IAM role
+- [Quotas and limits (Google Cloud)](https://docs.cloud.google.com/recaptcha/quotas) — 10,000/month free; `siteverify` fails open, `CreateAssessment` fails closed
+- [Google Cloud Free Trial FAQs](https://cloud.google.com/signup-faqs) — the "Start free" $300 / 90-day trial, card hold, manual upgrade
 - [Alma Sandbox Environments](https://knowledge.exlibrisgroup.com/Alma/Product_Documentation/010Alma_Online_Help_(English)/010Getting_Started/040Alma_Sandbox_Environments) — refresh cadence
