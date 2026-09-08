@@ -10,6 +10,28 @@ This document tracks planned enhancements and future work for the TAU CustomModu
 
 ---
 
+## CenLib Shelf-Map — Multi-library support (second library: Neiman)
+
+### ⏸️ Onboard a second library into the Shelf-Map feature
+**Priority:** Medium
+**Status:** ⏸️ On Hold — pending a concrete decision from the Neiman Library (it is **not yet certain they will migrate to the service**).
+**Estimated Effort:** Large (producer retrofit + map/data authoring; see assessment)
+**Tracking:** GitHub issue #27
+
+#### What exists
+A full cross-repo design (producer `primo_maps` + this consumer) is written and committed:
+- **Design spec:** [`docs/superpowers/specs/2026-07-13-primo-maps-multi-library-design.md`](../superpowers/specs/2026-07-13-primo-maps-multi-library-design.md)
+- **Work assessment dashboard:** [`docs/dashboards/add-second-library-assessment.html`](../dashboards/add-second-library-assessment.html)
+- Both landed on **PR #26**.
+
+#### Decision (in the spec)
+**"Separate all the way"** — per-library files end-to-end (per-library CSV + SVGs + versions + staging in the producer; consumer fetches each library's CSV in parallel and merges). No assemble step. Includes a library registry + library-scoped auth + active-library switcher, and a no-outage Sourasky migration.
+
+#### Resume when
+The Neiman Library commits to migrating. Next step is the implementation plan (writing-plans). Open items first: confirm Neiman's floor numbers, capture its exact NDE DOM strings, and author its floor SVGs + CSV rows (see spec §9).
+
+---
+
 ## External Search Integration
 
 ### 📋 Move Configuration to Alma Code Tables
