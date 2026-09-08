@@ -8,6 +8,44 @@ asking TAU to look at guest paging beyond 500 results and at the reCaptcha mecha
 
 ---
 
+## 0. Update, 2026-09-08 — reCaptcha is live in production
+
+Everything below was written while reCaptcha was still switched off. It has since been enabled on
+production. Verified independently the same day:
+
+- `/primaws/rest/pub/configuration/vid/972TAU_INST:NDE` now reports `"Activate Captcha [Y/N]" : "Y"`
+  with a populated `Public Captcha Key` (the site key is public by design and also appears in the
+  page source; the secret key does not appear and never should).
+- Google's `recaptcha/api.js` loads on the results page, with the anchor iframe bound to
+  `tau.primo.exlibrisgroup.com`.
+- A guest paging to result 500 no longer gets "GUEST LIMIT REACHED / Sign in to continue". They now
+  get **VERIFY / Verify you are human** with the "I'm not a robot" checkbox.
+
+![reCaptcha on production, English](../assets/research/recaptcha-verify-prod-en.png)
+
+![reCaptcha on production, Hebrew](../assets/research/recaptcha-verify-prod-he.png)
+
+**Not yet confirmed:** that passing the checkbox actually returns the guest to result 501 rather than
+page 1. That last step needs a person — it is a human-verification control and should not be
+automated.
+
+**New defect found, Ex Libris' to fix.** On the Hebrew interface Primo translates its own dialog
+("אימות" / "אמתו שאתם בני אדם") but requests the Google widget with `hl=en`, so the checkbox reads
+"I'm not a robot" in English on a `lang="he"` `dir="rtl"` page. Google's `api.js` accepts a language
+parameter, so this is Primo not passing the interface language through. The custom module cannot
+reach it. Worth a support case — on a Hebrew-first interface an untranslated verification control is
+a usability and accessibility problem.
+
+**Still open:** whether `tau-psb.primo.exlibrisgroup.com` is registered on the same Google key.
+Production proves the production host is; nobody has checked the sandbox host, and it will matter at
+the next refresh (§6). Until that refresh the sandbox still shows the old sign-in dialog, which is
+expected.
+
+A team-facing handover document covering the whole setup was produced separately (kept outside this
+repository, because it carries a slot for key material).
+
+---
+
 ## 1. The one-paragraph version
 
 Guests are cut off at result 500. That is **already live in TAU production**, not just SB — verified
