@@ -6,6 +6,7 @@
       "files": [
         "prebuild.js",
         "postbuild.js",
+        "scripts/select-view.mjs",
         "webpack.config.js",
         "webpack.prod.config.js",
         "build-settings.env",
@@ -17,10 +18,11 @@
     },
     "module-registration": {
       "risk": "high",
-      "description": "Where TAU components attach into Primo's app",
+      "description": "Where TAU components attach into Primo's app, and which per-view family of components a build selects",
       "files": [
         "src/app/app.module.ts",
-        "src/app/injection-tokens.ts"
+        "src/app/injection-tokens.ts",
+        "src/app/views/**"
       ]
     },
     "proxy-config": {
@@ -50,6 +52,7 @@
       "risk": "medium",
       "description": "Custom homepage HTML/CSS",
       "files": [
+        "src/assets/views/*/homepage/**",
         "src/assets/homepage/**"
       ]
     },
@@ -57,6 +60,7 @@
       "risk": "medium",
       "description": "Custom header and footer for English/Hebrew",
       "files": [
+        "src/assets/views/*/header-footer/**",
         "src/assets/header-footer/**"
       ]
     },
@@ -65,6 +69,8 @@
       "description": "Project-wide style entrypoints",
       "files": [
         "src/styles.scss",
+        "src/assets/views/*/css/**",
+        "src/assets/views/*/js/**",
         "src/assets/css/**"
       ]
     },

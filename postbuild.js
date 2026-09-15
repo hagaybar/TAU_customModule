@@ -27,11 +27,20 @@ const MANIFEST = path.join(ARCHIVE_DIR, 'MANIFEST.tsv');
 const MANIFEST_HEADER = 'built_utc\tview\tcommit\tdirty\tbytes\tfile\tnote\n';
 
 /**
- * Selecting a view means editing these two files, so they are not evidence that the
- * source changed. Counting them would mark every NDE_TEST package dirty and train
- * everyone to ignore the warning.
+ * Selecting a view means editing these files, so they are not evidence that the source
+ * changed. Counting them would mark every NDE_TEST package dirty and train everyone to
+ * ignore the warning.
+ *
+ * view.generated.ts is written by scripts/select-view.mjs and names the selected family.
+ * The per-view assets it also generates (src/assets/css/custom.css and friends) are
+ * gitignored rather than listed here — see the "Per-view generated files" block in
+ * .gitignore for why a tracked copy of those would be a production hazard.
  */
-const VIEW_SELECTION_FILES = ['build-settings.env', 'src/app/state/asset-base.generated.ts'];
+const VIEW_SELECTION_FILES = [
+  'build-settings.env',
+  'src/app/state/asset-base.generated.ts',
+  'src/app/state/view.generated.ts',
+];
 
 function gitInfo() {
   // Deliberately NOT trimmed: porcelain lines start with a two-character status field that

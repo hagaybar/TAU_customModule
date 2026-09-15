@@ -1,0 +1,14 @@
+/*
+ * TMA — host-fetched stylesheet.
+ *
+ * Copied verbatim to src/assets/css/custom.css by scripts/select-view.mjs when
+ * VIEW_ID is TMA_NDE or TMA. Primo fetches that fixed path; this is the file to edit.
+ *
+ * Deliberately empty. TMA's visual design has not been done yet, and starting this as
+ * a copy of NDE's 25 KB stylesheet would mean TMA silently inherits every NDE rule and
+ * then drifts from it without anyone deciding to. An unstyled TMA_NDE test view is the
+ * honest starting state.
+ *
+ * To start from NDE's styling instead:
+ *     cp src/assets/views/nde/css/custom.css src/assets/views/tma/css/custom.css
+ */
