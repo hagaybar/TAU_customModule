@@ -26,10 +26,22 @@
  * host renders `.top-bar-background-image` (a 400px div whose background-image is the SVG);
  * with it on it renders `.landing-search-background-image` instead. Naming only the one we
  * happen to use today means the banner silently reverts if that box is ever ticked.
+ *
+ * `!important` is required here, and only here. The host writes the stock image as an INLINE
+ * style on the element:
+ *
+ *     <div class="top-bar-background-image"
+ *          style="background-image: url('assets/images/homePageImages/search_background.svg')">
+ *
+ * An inline style outranks every selector in every stylesheet, however specific, so the rule
+ * below without `!important` loads, matches, and loses — which is exactly what happened on the
+ * first upload: custom.css was served, the rule was present, and the computed value was still
+ * the bookshelf. Do not copy `!important` to the other rules in this file; it is not a habit,
+ * it is the only tool that beats an inline style.
  */
 .top-bar-background-image,
 .landing-search-background-image {
-  background-image: url('../images/tma-search-background.jpg');
+  background-image: url('../images/tma-search-background.jpg') !important;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
