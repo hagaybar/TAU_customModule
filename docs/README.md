@@ -75,6 +75,12 @@ This directory contains all project documentation organized by topic.
   - Component architecture patterns
   - Best practices discovered
 
+- **[2026-09-07-guest-500-result-limit-and-recaptcha.md](research/2026-09-07-guest-500-result-limit-and-recaptcha.md)** - Guest paging cut off at result 500, and whether to enable reCaptcha
+  - Live verification in PROD and PSB (the limit is already live in production)
+  - What the Ex Libris September 2026 release changes
+  - Back-office configuration path, and why enabling it is a one-way door
+  - The Google Cloud key / free-tier complication the Ex Libris guide predates
+
 ---
 
 ### `/development/`
@@ -196,7 +202,7 @@ When adding new documentation:
 **Total Documents**: 14 files + 7 screenshots
 - Features: 3 documentation files
 - Troubleshooting: 2 documentation files + 7 screenshots
-- Research: 1 file
+- Research: 2 files
 - Development: 1 file
 - Planning: 1 file
 - Reference: 2 files + README
