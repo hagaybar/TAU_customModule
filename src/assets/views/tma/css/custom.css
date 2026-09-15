@@ -109,20 +109,23 @@ header.top-bar nde-user-area {
   text-align: center;
 }
 
-.tma-footer__line {
+/* Two classes, for the same reason every rule in homepage.css carries them: Material's
+ * `.mat-typography p` is (0,1,1) and a lone `.tma-footer__line` would lose the size. */
+.tma-footer .tma-footer__line {
   margin: 0;
   font-size: 0.9375rem;
   line-height: 1.6;
-  color: #6b5c55;
+  letter-spacing: normal;
+  color: var(--sys-primary, #695c55);
 }
 
-.tma-footer__line a {
-  color: #4a3d36;
+.tma-footer .tma-footer__line a {
+  color: var(--sys-on-surface-variant, #4e4541);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
 
-.tma-footer__line a:hover,
-.tma-footer__line a:focus-visible {
-  color: #2f2622;
+.tma-footer .tma-footer__line a:hover,
+.tma-footer .tma-footer__line a:focus-visible {
+  color: var(--sys-on-surface, #1d1b1b);
 }

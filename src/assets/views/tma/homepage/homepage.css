@@ -4,36 +4,60 @@
  * Primo requests this alongside homepage_<lang>.html whenever the legacy homepage path is
  * in use, which is what the otherwise-unexplained src/assets/homepage/homepage.css.tmpl in
  * this repository is a template for. Keeping the cards' styling here rather than in
- * custom.css means it loads only on the page that has cards on it, and that custom.css
- * stays about the parts of the view we do not own.
+ * custom.css means it loads only on the page that has cards on it.
  *
  * Copied verbatim to src/assets/homepage/homepage.css by scripts/select-view.mjs. Edit
  * this file, not that one.
+ *
+ * ── Why every selector starts with .tma-home ──────────────────────────────────────────
+ *
+ * Owning the HTML gives us the structure, not the cascade. The page still renders inside
+ * the host's stylesheets, and Angular Material's typography sits on an ancestor as
+ * `.mat-typography`, styling bare elements: `.mat-typography h2`, `.mat-typography ul`.
+ * That is specificity (0,1,1). A single class like `.tma-card__title` is (0,1,0) and loses.
+ *
+ * It loses *silently and partially*, which is what makes it worth a paragraph. The first
+ * version of this file set the title to 1rem and it rendered at 45px — while the colour
+ * from that very same rule applied correctly, because Material sets size through a `font:`
+ * shorthand token and does not set colour. A scripted scan of every stylesheet on the page
+ * reported exactly one matching rule, saying 1rem.
+ *
+ * Prefixing with .tma-home makes every rule here (0,2,x) and it all works with no
+ * !important anywhere. If something in this file mysteriously does not apply, check this
+ * first, and reach for another class rather than a bigger hammer.
+ *
+ * ── Colour ────────────────────────────────────────────────────────────────────────────
+ *
+ * Colours come from the host's own theme tokens, so the cards follow whatever colour theme
+ * is set in the Back Office instead of freezing today's:
+ *   --sys-on-surface-variant  #4e4541  warm dark brown — headings
+ *   --sys-primary             #695c55  the theme brown — accents
+ * The hex fallbacks are what the current brown theme resolves to.
  */
 
 .tma-home {
-  max-width: 76rem;
+  max-width: 72rem;
   margin: 0 auto;
-  padding-block: 2.5rem 3.5rem;
+  padding-block: 2rem 2.5rem;
   padding-inline: 1.5rem;
 }
 
-/* A list, because that is what two of the same thing are, and it tells a screen reader
- * how many there are before it starts reading them. */
-.tma-cards {
+/* A list, because that is what two of the same thing are, and it tells a screen reader how
+ * many there are before it starts reading them. */
+.tma-home .tma-cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-  gap: 2rem;
+  gap: 1.75rem;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.tma-card {
+.tma-home .tma-card {
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 1.75rem 1.75rem 1.5rem;
+  padding: 1.5rem;
   background: #ffffff;
   border: 1px solid #e2ddd4;
   border-radius: 10px;
@@ -43,32 +67,31 @@
   transition: box-shadow 160ms ease, transform 160ms ease, border-color 160ms ease;
 }
 
-.tma-card:hover,
-.tma-card:focus-visible {
+.tma-home .tma-card:hover,
+.tma-home .tma-card:focus-visible {
   border-color: #c9bda8;
   box-shadow: 0 6px 18px rgba(61, 53, 49, 0.14);
   transform: translateY(-2px);
 }
 
-/* The card is one link, so the focus ring belongs on the card, not on the image inside it. */
-.tma-card:focus-visible {
-  outline: 3px solid #4a5568;
+/* The card is one link, so the focus ring belongs on the card, not on anything inside it. */
+.tma-home .tma-card:focus-visible {
+  outline: 3px solid var(--sys-primary, #695c55);
   outline-offset: 3px;
 }
 
-/* Sized and coloured against the classic view, which sets these at 15px / weight 400 in a
- * near-neutral #3a3a3a. 1rem rather than 15px because NDE's base font is larger, and brown
- * rather than neutral so the cards belong to this view's palette instead of importing the
- * old design's. #5a4b43 is a deepened version of the theme's own brown (#695c55) — dark
- * enough to read as a heading at 8.1:1 on white, warm enough not to look like black. */
-.tma-card__title {
-  margin: 0 0 1.25rem;
+/* The classic view sets these at 15px / weight 400. 1rem rather than 15px because NDE's
+ * base font is larger; weight 600 because this is the link's accessible name and the only
+ * text on the card. letter-spacing is reset because Material's display tokens add some. */
+.tma-home .tma-card__title {
+  margin: 0 0 1rem;
   font-size: 1rem;
-  line-height: 1.45;
+  line-height: 1.4;
   font-weight: 600;
+  letter-spacing: normal;
   text-align: center;
   text-decoration: none;
-  color: #5a4b43;
+  color: var(--sys-on-surface-variant, #4e4541);
 }
 
 /* Backgrounds rather than <img>, because a relative src in the injected homepage HTML
@@ -76,10 +99,12 @@
  * resolves ../images/ against itself, which is the whole reason this works.
  *
  * aspect-ratio matches the source files (1157x609) so the card reserves its space before
- * the image arrives and nothing jumps. */
-.tma-card__image {
+ * the image arrives and nothing jumps. margin-top:auto pins the image to the bottom, so
+ * two cards whose titles wrap to different line counts still line their images up. */
+.tma-home .tma-card__image {
   display: block;
   width: 100%;
+  margin-top: auto;
   aspect-ratio: 1157 / 609;
   border-radius: 6px;
   background-position: center;
@@ -87,35 +112,22 @@
   background-size: cover;
 }
 
-.tma-card__image--trademarks {
+.tma-home .tma-card__image--trademarks {
   background-image: url('../images/tma-trademarks-grid.jpg');
 }
 
-.tma-card__image--patents {
+.tma-home .tma-card__image--patents {
   background-image: url('../images/tma-patents.jpg');
-}
-
-.tma-card__cue {
-  margin-top: 1.25rem;
-  text-align: center;
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #6b5c55;
-}
-
-.tma-card:hover .tma-card__cue,
-.tma-card:focus-visible .tma-card__cue {
-  text-decoration: underline;
 }
 
 /* Hover lift is decoration; motion under a pointer is the first thing to drop for anyone
  * who has asked the system for less of it. */
 @media (prefers-reduced-motion: reduce) {
-  .tma-card {
+  .tma-home .tma-card {
     transition: none;
   }
-  .tma-card:hover,
-  .tma-card:focus-visible {
+  .tma-home .tma-card:hover,
+  .tma-home .tma-card:focus-visible {
     transform: none;
   }
 }
