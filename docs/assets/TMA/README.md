@@ -44,6 +44,27 @@ The recolour replaces the RGB channels and leaves alpha untouched rather than in
 inverting would flip the anti-aliased edge pixels' coverage as well as their colour and
 fringe the strokes.
 
+## Loading animation
+
+The Primo host fetches `assets/images/loadingAnimations/LoadingAnimationJson.json` and plays
+it while a page loads. It is a **Lottie** file, not an SVG — the host hands it to a Lottie
+player, so an SVG at that path renders nothing. NDE already ships its own here (from Ex
+Libris case 10665359); TMA was falling back to Ex Libris' stock dots.
+
+```bash
+python3 docs/assets/TMA/make-loading-animation.py
+```
+
+A pen writing a line of script in the theme's brown, then the ink clearing so it loops. The
+stroke and the pen's path come from the same curve — the ink is a Lottie trim-path along it,
+and the pen's position keyframes are sampled from it, arc-length parameterised so the pen
+travels at an even speed rather than hurrying through the flat parts. The pen does not
+rotate: a version that turned it to face the tangent read as an arrowhead skidding along a
+wave, because that is not what writing looks like.
+
+It also writes `loading-animation-preview.png` beside the script — the stroke at 0/20/40/
+60/80/100% — so the motion can be judged without a Lottie player.
+
 ## Regenerating the photographic images
 
 The JPEG conversions above were one-off Pillow calls at the stated quality settings. If a
