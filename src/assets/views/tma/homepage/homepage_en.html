@@ -1,32 +1,54 @@
 <!--
   TMA — English homepage, host-fetched from assets/homepage/homepage_en.html.
 
-  PROBE, 2026-09-15. This is not content. It exists to answer one question: does the legacy
-  homepage path still work? Production NDE ships homepage_{en,he}.html and the host never
-  requests them — it fetches assets/landingpage/landingpage.json instead — so nothing at TAU
-  demonstrates that this mechanism is alive at all.
+  This fills the area BELOW the native search banner; the banner itself (heading, search
+  box, background) stays the host's and is styled from custom.css. Reached only while the
+  Back Office Landing Page "Enable configuration" box is UNCHECKED — tick it and the host
+  serves its own landing page from assets/landingpage/landingpage.json instead and never
+  requests this file.
 
-  Read the result this way:
-    - Marker visible  -> the host fetched this file. The repo can own the landing page.
-    - Marker absent with Landing Page "Enable configuration" ON  -> expected; the native page wins.
-    - Marker absent with it OFF too  -> the legacy path is dead, and no amount of HTML will help.
+  Styling lives in the sibling homepage.css, which the host fetches alongside this file.
 
-  Replace this with real content once the question is answered, or restore the comment-only stub.
+  The two cards mirror the classic Primo VE view: one scope (TMA), two resource-type
+  filters. Counts on 2026-09-15 were 7,903 trademarks and 3,557 patents, both under the
+  query "application" — the same query the classic cards used, because every record is an
+  application and it is what makes the two filters add up to the whole registry.
+
+  Note the hrefs carry vid=972TAU_INST:TMA_NDE. Primo refuses a search URL without a vid
+  ("Failed to load view configuration"), so it cannot be omitted, and this file is copied
+  verbatim rather than templated. custom.js rewrites the vid at runtime from the view the
+  page is actually being served in, which is what keeps these links working when the view
+  is promoted from TMA_NDE to TMA. The hardcoded value is the fallback if that script
+  never runs.
 -->
-<div style="max-width: 60rem; margin: 0 auto; padding: 3rem 1.5rem; font-family: system-ui, sans-serif;">
-  <div style="border: 4px dashed #8a6d3b; background: #fdf6e3; color: #5c4519; padding: 2rem; border-radius: 12px;">
-    <h1 style="margin: 0 0 0.75rem; font-size: 2rem; line-height: 1.2;">
-      TMA homepage loaded from the customization package
-    </h1>
-    <p style="margin: 0 0 1rem; font-size: 1.1rem;">
-      If you can read this, the Primo host fetched
-      <code style="background: #f0e4c8; padding: 0.15em 0.4em; border-radius: 4px;">assets/homepage/homepage_en.html</code>
-      out of the uploaded package. The legacy homepage path works, and this page can be owned by
-      the repository instead of the Alma Back Office.
-    </p>
-    <p style="margin: 0; font-size: 0.95rem; opacity: 0.85;">
-      Source: <code>src/assets/views/tma/homepage/homepage_en.html</code> ·
-      view family <code>tma</code> · probe added 2026-09-15 for issue #67.
-    </p>
-  </div>
+<div class="tma-home">
+  <ul class="tma-cards">
+    <li>
+      <a class="tma-card"
+         href="/nde/search?query=application&amp;tab=TMA&amp;search_scope=TMA&amp;pfilter=rtype,exact,TRADEMARK&amp;offset=0&amp;mode=resourceTypeFilterBar&amp;lang=en&amp;vid=972TAU_INST:TMA_NDE">
+        <h2 class="tma-card__title">
+          The Reconstructed Trademark Registry of Mandate Palestine (1922&#8211;1948)
+        </h2>
+        <img class="tma-card__image"
+             src="../images/tma-trademarks-grid.jpg"
+             alt=""
+             width="1157" height="609" loading="lazy" decoding="async">
+        <span class="tma-card__cue">Browse the trademarks</span>
+      </a>
+    </li>
+
+    <li>
+      <a class="tma-card"
+         href="/nde/search?query=application&amp;tab=TMA&amp;search_scope=TMA&amp;pfilter=rtype,exact,PATENT&amp;offset=0&amp;mode=resourceTypeFilterBar&amp;lang=en&amp;vid=972TAU_INST:TMA_NDE">
+        <h2 class="tma-card__title">
+          The Reconstructed Patent Registry of Mandate Palestine (1924&#8211;1948)
+        </h2>
+        <img class="tma-card__image"
+             src="../images/tma-patents.jpg"
+             alt=""
+             width="1157" height="609" loading="lazy" decoding="async">
+        <span class="tma-card__cue">Browse the patents</span>
+      </a>
+    </li>
+  </ul>
 </div>

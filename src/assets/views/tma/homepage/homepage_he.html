@@ -1,26 +1,48 @@
 <!--
   TMA — Hebrew homepage, host-fetched from assets/homepage/homepage_he.html.
 
-  PROBE, 2026-09-15 — the Hebrew half of the same experiment as homepage_en.html. Kept in a
-  separate file because the host picks by interface language and never merges the two, so a
-  bilingual file would be the wrong answer even for a probe.
+  The content below is the English text, deliberately. Hila's instruction is that this view
+  is English-only, and the language selector is hidden from the header (see custom.css), so
+  in practice nobody reaches this file through the interface — but ?lang=he in a URL still
+  switches, and a stub or a probe marker would be a broken page for anyone who lands here
+  from an old link. Working English beats invented Hebrew: the card titles are the
+  registry's formal scholarly names, and guessing at their Hebrew would be worse than
+  showing the real ones.
 
-  Replace with real content once the question is answered, or restore the comment-only stub.
+  Replace with real Hebrew copy if the view ever becomes bilingual. The links below already
+  carry lang=he, so only the visible text needs changing.
+
+  Everything else about this file — the layout, the vid rewriting in custom.js, why the
+  banner is not ours — is documented in homepage_en.html.
 -->
-<div dir="rtl" style="max-width: 60rem; margin: 0 auto; padding: 3rem 1.5rem; font-family: system-ui, sans-serif;">
-  <div style="border: 4px dashed #8a6d3b; background: #fdf6e3; color: #5c4519; padding: 2rem; border-radius: 12px;">
-    <h1 style="margin: 0 0 0.75rem; font-size: 2rem; line-height: 1.2;">
-      דף הבית של TMA נטען מחבילת ההתאמות
-    </h1>
-    <p style="margin: 0 0 1rem; font-size: 1.1rem;">
-      אם הטקסט הזה מוצג, מערכת פרימו טענה את הקובץ
-      <code dir="ltr" style="background: #f0e4c8; padding: 0.15em 0.4em; border-radius: 4px;">assets/homepage/homepage_he.html</code>
-      מתוך החבילה שהועלתה. כלומר מנגנון דף הבית הישן פעיל, ואפשר לנהל את הדף הזה במאגר הקוד
-      במקום בממשק הניהול של אלמא.
-    </p>
-    <p style="margin: 0; font-size: 0.95rem; opacity: 0.85;" dir="ltr">
-      Source: <code>src/assets/views/tma/homepage/homepage_he.html</code> ·
-      view family <code>tma</code> · probe added 2026-09-15 for issue #67.
-    </p>
-  </div>
+<div class="tma-home">
+  <ul class="tma-cards">
+    <li>
+      <a class="tma-card"
+         href="/nde/search?query=application&amp;tab=TMA&amp;search_scope=TMA&amp;pfilter=rtype,exact,TRADEMARK&amp;offset=0&amp;mode=resourceTypeFilterBar&amp;lang=he&amp;vid=972TAU_INST:TMA_NDE">
+        <h2 class="tma-card__title">
+          The Reconstructed Trademark Registry of Mandate Palestine (1922&#8211;1948)
+        </h2>
+        <img class="tma-card__image"
+             src="../images/tma-trademarks-grid.jpg"
+             alt=""
+             width="1157" height="609" loading="lazy" decoding="async">
+        <span class="tma-card__cue">Browse the trademarks</span>
+      </a>
+    </li>
+
+    <li>
+      <a class="tma-card"
+         href="/nde/search?query=application&amp;tab=TMA&amp;search_scope=TMA&amp;pfilter=rtype,exact,PATENT&amp;offset=0&amp;mode=resourceTypeFilterBar&amp;lang=he&amp;vid=972TAU_INST:TMA_NDE">
+        <h2 class="tma-card__title">
+          The Reconstructed Patent Registry of Mandate Palestine (1924&#8211;1948)
+        </h2>
+        <img class="tma-card__image"
+             src="../images/tma-patents.jpg"
+             alt=""
+             width="1157" height="609" loading="lazy" decoding="async">
+        <span class="tma-card__cue">Browse the patents</span>
+      </a>
+    </li>
+  </ul>
 </div>

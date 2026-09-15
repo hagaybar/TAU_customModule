@@ -1,0 +1,99 @@
+/*
+ * TMA — homepage stylesheet, host-fetched from assets/homepage/homepage.css.
+ *
+ * Primo requests this alongside homepage_<lang>.html whenever the legacy homepage path is
+ * in use, which is what the otherwise-unexplained src/assets/homepage/homepage.css.tmpl in
+ * this repository is a template for. Keeping the cards' styling here rather than in
+ * custom.css means it loads only on the page that has cards on it, and that custom.css
+ * stays about the parts of the view we do not own.
+ *
+ * Copied verbatim to src/assets/homepage/homepage.css by scripts/select-view.mjs. Edit
+ * this file, not that one.
+ */
+
+.tma-home {
+  max-width: 76rem;
+  margin: 0 auto;
+  padding-block: 2.5rem 3.5rem;
+  padding-inline: 1.5rem;
+}
+
+/* A list, because that is what two of the same thing are, and it tells a screen reader
+ * how many there are before it starts reading them. */
+.tma-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tma-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1.75rem 1.75rem 1.5rem;
+  background: #ffffff;
+  border: 1px solid #e2ddd4;
+  border-radius: 10px;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 1px 2px rgba(61, 53, 49, 0.06);
+  transition: box-shadow 160ms ease, transform 160ms ease, border-color 160ms ease;
+}
+
+.tma-card:hover,
+.tma-card:focus-visible {
+  border-color: #c9bda8;
+  box-shadow: 0 6px 18px rgba(61, 53, 49, 0.14);
+  transform: translateY(-2px);
+}
+
+/* The card is one link, so the focus ring belongs on the card, not on the image inside it. */
+.tma-card:focus-visible {
+  outline: 3px solid #4a5568;
+  outline-offset: 3px;
+}
+
+.tma-card__title {
+  margin: 0 0 1.25rem;
+  font-size: 1.25rem;
+  line-height: 1.35;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  color: #3d3531;
+}
+
+.tma-card__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+
+.tma-card__cue {
+  margin-top: 1.25rem;
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #6b5c55;
+}
+
+.tma-card:hover .tma-card__cue,
+.tma-card:focus-visible .tma-card__cue {
+  text-decoration: underline;
+}
+
+/* Hover lift is decoration; motion under a pointer is the first thing to drop for anyone
+ * who has asked the system for less of it. */
+@media (prefers-reduced-motion: reduce) {
+  .tma-card {
+    transition: none;
+  }
+  .tma-card:hover,
+  .tma-card:focus-visible {
+    transform: none;
+  }
+}
