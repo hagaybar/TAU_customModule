@@ -97,10 +97,31 @@ function removeDirectory(directory, callback) {
     fs.rm(directory, { recursive: true, force: true }, callback);
 }
 
+/**
+ * The per-view sources under src/assets/views/ are how a build chooses its content; they
+ * are not content themselves. angular.json copies src/assets wholesale, so without this
+ * every package would also carry a second copy of its own six host-fetched files plus the
+ * other family's — inert, because Primo only ever requests the fixed paths, but it makes
+ * a package's file list differ from a pre-#67 one for no reason, which is exactly the
+ * noise that trains people to skim a package comparison instead of reading it.
+ *
+ * Done here rather than by filtering in angular.json: that file is byte-identical to
+ * upstream/main, and one edit would make it conflict on every upstream change forever.
+ * postbuild.js already diverges from upstream, so this costs no new conflict surface.
+ */
+function stripPerViewSources(root) {
+    const viewsDir = path.join(root, 'assets', 'views');
+    if (!fs.existsSync(viewsDir)) return;
+    fs.rmSync(viewsDir, { recursive: true, force: true });
+    console.log('Removed assets/views/ from the package (build-time sources, not shipped content)');
+}
+
 function renameAndArchive() {
     fs.rename(distPath, targetPath, (err) => {
         if (err) throw err;
         console.log(`Renamed directory to ${targetPath}`);
+
+        stripPerViewSources(targetPath);
 
         const output = fs.createWriteStream(zipPath);
         const archive = archiver('zip', { zlib: { level: 9 } });
