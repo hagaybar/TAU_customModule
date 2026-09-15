@@ -168,6 +168,20 @@ The `upstream-sync` Claude Code skill (`.claude/skills/upstream-sync/SKILL.md`) 
 
 The skill never pushes directly to `main` and never auto-merges PRs.
 
+**Before editing any build or config file, check whether it is still upstream's:**
+
+```bash
+git diff upstream/main -- <file>     # empty output = we have never touched it
+```
+
+An empty diff means that file merges for free on every sync. Editing it trades that for a
+conflict on every future upstream change to it — permanently. **Prefer adding a new script under
+`scripts/`** (which contains no upstream code at all) and chaining it from `package.json`, over
+modifying an upstream-identical file. `prebuild.js` is the file this most often applies to.
+
+`postbuild.js` is the counter-example and the reason this rule exists: it is an upstream file TAU
+added 78 lines to for the `~/tau-packages` archive, and it now conflicts on every upstream change.
+
 **Configuration:** `.upstream-sync/owned-files.json` lists TAU-customized files organized into categories with risk levels. Update this file when you take ownership of a new file or add a new feature area — the skill itself will suggest additions when it sees you skipping changes to files it considered "clean."
 
 **Spec:** `docs/superpowers/specs/2026-05-06-upstream-sync-design.md`
