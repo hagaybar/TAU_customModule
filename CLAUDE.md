@@ -62,7 +62,7 @@ The care that topology asks for on a `prod` branch is owed to `main` in this rep
 This repository contains TAU-specific customizations documented in:
 - `README.md` - Summary of all TAU customizations
 - `docs/features/` - Detailed feature documentation
-- `docs/features/landing-banner-customization.md` - **Playbook for the landing banner & search-bar styling** (font, color, overlay, search-bar width) + a **complete inventory of every `src/assets/css/custom.css` rule** and the layout gotchas (h1/h2, landing vs top-bar, local-proxy ≠ production). Read this before tweaking any banner/CSS styling.
+- `docs/features/landing-banner-customization.md` - **Playbook for the landing banner & search-bar styling** (font, color, overlay, search-bar width) + a **complete inventory of every `src/assets/views/nde/css/custom.css` rule** and the layout gotchas (h1/h2, landing vs top-bar, local-proxy ≠ production). Read this before tweaking any banner/CSS styling.
 - `docs/reference/` - Technical reference documents
 - `docs/planning/FUTURE_TASKS.md` - Planned enhancements and future work
 
@@ -82,7 +82,9 @@ This repository contains TAU-specific customizations documented in:
 1. **Local development:** Use `npm run start:proxy` with proxy pointing to production
 2. **Build settings:** Configure `build-settings.env` before building
 3. **Proxy configuration:** `proxy/proxy.const.mjs` determines which Primo instance to proxy to
-4. **Custom styles:** Applied via `src/assets/css/custom.css`
+4. **Custom styles:** Edit `src/assets/views/<family>/css/custom.css` — `nde` for the live
+   `NDE` and `NDE_TEST` views. `src/assets/css/custom.css` is *generated* from it and
+   gitignored; an edit there is discarded by the next build. See *Per-view content* below.
 5. **Documentation:** Always update relevant docs when making changes
 
 ## Critical Build Requirements
@@ -90,16 +92,20 @@ This repository contains TAU-specific customizations documented in:
 **MANDATORY: After ANY changes to `build-settings.env`, you MUST regenerate files:**
 
 ```bash
-node prebuild.js
+npm run generate
 # OR
 npm run build
 ```
 
 **Why this is critical:**
+- `npm run generate` runs `prebuild.js` and then `scripts/select-view.mjs`. Run the pair, not
+  `node prebuild.js` alone — that regenerates the asset path but leaves the *content* of the
+  build set to whichever view was selected last.
 - `prebuild.js` reads `build-settings.env` and generates `src/app/state/asset-base.generated.ts`
 - This generated file contains the asset path (`ASSET_BASE_URL`) used at runtime
 - If not regenerated, asset paths will be wrong, causing 404 errors for all images/icons
-- The `prebuild` script runs automatically before `npm run build` but NOT before `git commit`
+- `prebuild` and `prestart` both run `npm run generate`, so `npm run build` and
+  `npm run start:proxy` are covered — but nothing runs it before a commit
 
 **Proxy configuration is also parametric:**
 - `proxy/customization_config_override.mjs` automatically reads from `build-settings.env`
@@ -116,6 +122,98 @@ npm run build
 2. After changing `ASSET_BASE_URL` in `build-settings.env`
 3. After switching between production/test views
 4. Before committing changes to `build-settings.env`
+
+## The session's view (RULE)
+
+**`VIEW_ID` in `build-settings.env` is not just what to build — it is the view this session
+is directed at, and the deterministic answer to which view an unqualified request meant.**
+
+"Remove the logo" means the declared view's family. Always. Not a guess, not a question back
+to the user, not an inference from which file was edited last. If that is not what they
+meant, the fix is to change the declared view, not to reinterpret the request.
+
+```bash
+npm run view                 # what is it now, and what changed since its last build
+npm run view:use tma         # point the session somewhere else  (nde | nde-test | tma)
+```
+
+A `SessionStart` hook prints this at the top of every session, so nobody has to remember to
+check it — see `.claude/settings.json`. `/view` shows it on demand.
+
+- **Never hand-edit `VIEW_ID` or `ASSET_BASE_URL`.** They have to agree, and setting one
+  without the other produces a package whose assets all 404. `view:use` writes both, then
+  regenerates so the tree matches the declaration immediately.
+- **A build refuses when uncommitted work sits in another family.** That means one of two
+  things went wrong — the session is pointed at the wrong view, or the edits landed in the
+  wrong place — and building either way produces a package missing the change just made,
+  while possibly damaging the other view. The message names the files. For the genuine case
+  of changing two families at once: `TAU_ALLOW_CROSS_FAMILY=1`.
+- **`view:use` refuses to switch away from a family with uncommitted work**, which would
+  otherwise strand those edits in no build at all.
+
+**Why this exists.** The failure is not picking the wrong view at build time — the package
+filename and the boot banner both catch that. It is being asked for a change, not knowing
+which view was meant, and editing the wrong family: the build then succeeds, the view you
+cared about is unchanged, and the other one is quietly damaged. `main` is production here,
+so the other one is often the live NDE view.
+
+## Per-view content (RULE)
+
+**One repository builds every view, and `VIEW_ID` in `build-settings.env` selects which content
+goes in.** The rule that keeps that safe: **`build-settings.env` selects; committed source
+defines.** That file is edited casually before every build and does not count as a source change,
+so it must never carry a definition — it names the view, and committed code decides what the view
+contains.
+
+`scripts/select-view.mjs` (run by `npm run generate`) holds the only table mapping a view to a
+**family**:
+
+| `VIEW_ID` | Family | Role |
+|---|---|---|
+| `NDE` | `nde` | production — live for patrons |
+| `NDE_TEST` | `nde` | test, a duplicate of production |
+| `TMA_NDE` | `tma` | test / build-out |
+| `TMA` | `tma` | production, after cutover |
+
+- **An undeclared `VIEW_ID` fails the build.** No package is produced at all. Add the view to
+  `VIEW_FAMILY` in `scripts/select-view.mjs`, with the family whose content it should ship. Never
+  infer a family by parsing the view name: the Back Office owns those names, so parsing would let
+  a colleague change a build's behaviour by naming a view.
+- **Components** live in `src/app/views/<family>/component-map.ts`. `select-view.mjs` writes a
+  one-line re-export to `src/app/state/view.generated.ts`, which `app.module.ts` imports. The
+  unselected family is never imported, so its components are not in the bundle. Do not merge the
+  maps: a `Map` literal cannot hold two entries for one key, so a merge would silently keep
+  whichever row came last.
+- **Host-fetched assets** (`custom.css`, `custom.js`, the footer and homepage HTML) live in
+  `src/assets/views/<family>/`. Primo fetches them from a *fixed* URL that cannot vary per view,
+  so the build copies the selected family's file over that fixed path. **Those fixed paths are
+  generated and gitignored.** Editing `src/assets/css/custom.css` is a silent no-op — the next
+  build overwrites it. Edit under `src/assets/views/<family>/`.
+- **Adding a new per-view asset** means adding its generated destination to `.gitignore`.
+  `select-view.mjs` refuses to run until you do, because an untracked generated file makes
+  `postbuild.js` stamp every package `-dirty`, and a `-dirty` package must not be uploaded.
+- `src/assets/css/custom.js` (174 bytes, an Ex Libris template placeholder) is **not** per-view.
+  Leave it where it is.
+
+**Proving a change did not disturb another view.** Everything the host fetches lives under
+`assets/`, so a per-view mistake is always a wrong *zip*, never a runtime surprise. Build the
+same `VIEW_ID` from `main` and from your branch and compare the two packages:
+
+```bash
+npm run compare:packages -- <baseline.zip> <candidate.zip>
+```
+
+It compares every file in both packages, fails on any difference under `assets/` (excluding
+`assets/views/`, which carries every family's sources by design), and reports bundle-hash
+differences without failing. It **aborts rather than reporting "no differences"** when a package
+looks too small to be real — a check that cannot fail is not a check. Packages are archived to
+`~/tau-packages/<date>/` by every build, so the baseline usually already exists.
+
+Do this before merging anything that touches the build, and before uploading to a live view.
+Clicking around a test view only exercises the pages you happen to open; this covers all of them.
+
+Tests: `npm run test:scripts`. Design:
+`docs/superpowers/specs/2026-09-09-per-view-isolation-design.md`.
 
 ## Where built packages go (RULE)
 
@@ -140,6 +238,22 @@ and ad-hoc copies are how it stops being answerable which source produced a live
   actually upload one, because nothing else records which package went live.
 - Packages named `_unknown` predate this archive (imported 2026-09-03 from four scattered
   locations). Their manifest notes carry an *inferred* commit, explicitly marked NOT verified.
+
+### Verification builds go somewhere else
+
+Proving a change did not disturb another view means building that view's package purely to
+diff it against one built from `main` (see *Per-view content* and
+`scripts/compare-packages.mjs`). Those packages are **never uploaded**, and sitting next to
+the real ones they are indistinguishable from them — which quietly destroys the one thing
+this archive is for.
+
+```bash
+npm run build:check      # instead of npm run build
+```
+
+That archives to `~/tau-packages/verification/<date>/` with its own `MANIFEST.tsv`, prints
+"Not for upload" during the build, and leaves the top-level archive meaning exactly one
+thing: **a package that could be deployed.** Nothing in `verification/` ever should be.
 
 Deploy is still manual: upload the zip to Alma Back Office. Pushing to `main` deploys nothing.
 After uploading, confirm the right package went live by the boot banner in the browser console —

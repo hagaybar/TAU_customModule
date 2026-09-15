@@ -941,9 +941,12 @@ If you do not see the top background image when running `npm run start:proxy`:
     ng generate component RecommendationsComponent
     ``` 
 
-2. Update `selectorComponentMap` in `customComponentMappings.ts` to connect the newly created components:
+2. Register the components in the map for the view family they belong to —
+   `src/app/views/nde/component-map.ts` for the live `NDE` and `NDE_TEST` views,
+   `src/app/views/tma/component-map.ts` for TMA. The build re-exports the selected family's
+   map as `selectorComponentMap`; see *Per-view content* in `CLAUDE.md`.
     ```typescript
-    export const selectorComponentMap = new Map<string, any>([
+    export const map = new Map<string, any>([
       ['nde-recommendations-before', RecommendationsComponentBefore],
       ['nde-recommendations-after', RecommendationsComponentAfter],
       ['nde-recommendations-top', RecommendationsComponentTop],

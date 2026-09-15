@@ -14,8 +14,17 @@ width. Use this to avoid re-hunting selectors every time a tweak is requested.
 
 ## Quick reference
 
-Everything below lives in **one file**: `src/assets/css/custom.css` (Primo's host auto-loads it;
-relative `url(...)` paths resolve from `assets/css/`).
+Everything below lives in **one file**: `src/assets/views/nde/css/custom.css`.
+
+> **The path changed in #67.** This file used to be `src/assets/css/custom.css`. That path is
+> now *generated* — `scripts/select-view.mjs` copies the selected view family's stylesheet over
+> it on every build, and it is gitignored, so an edit there is silently discarded by the next
+> build. Edit the file under `src/assets/views/<family>/`. For the live `NDE` and `NDE_TEST`
+> views the family is `nde`; TMA has its own, currently empty.
+
+Primo's host auto-loads the generated copy from the fixed path `assets/css/custom.css`, so
+relative `url(...)` paths still resolve from `assets/css/` — the source file's own location
+does not change them.
 
 | Knob | Comment block in custom.css | Selector | Current value |
 |------|------------------------------|----------|---------------|
@@ -168,7 +177,7 @@ Font files: `src/assets/fonts/assistant/assistant-{hebrew,latin-ext,latin}.woff2
 
 ## Complete custom.css inventory
 
-Every rule block currently in `src/assets/css/custom.css`, top to bottom. The file uses dated/named
+Every rule block currently in `src/assets/views/nde/css/custom.css`, top to bottom. The file uses dated/named
 `/* … */` comment fences around each block — search those names rather than line numbers (which
 drift). Banner/landing rows are detailed in the sections above.
 
@@ -244,7 +253,7 @@ drift). Banner/landing rows are detailed in the sections above.
 
 ## Standard workflow for any of the above
 
-1. **Edit** the relevant block in `src/assets/css/custom.css` (keep the dated `/* … */` comment
+1. **Edit** the relevant block in `src/assets/views/nde/css/custom.css` (keep the dated `/* … */` comment
    convention; add a new dated block for a new knob).
 2. **Build:** `npm run build` → regenerates the asset-base file and produces
    `dist/972TAU_INST-<VIEW_ID>.zip`. (Mandatory after *any* change; see gotcha #3.)

@@ -1,0 +1,52 @@
+<!--
+  TMA — Hebrew homepage, host-fetched from assets/homepage/homepage_he.html.
+
+  The content below is the English text, deliberately. Hila's instruction is that this view
+  is English-only, and the language selector is hidden from the header (see custom.css), so
+  in practice nobody reaches this file through the interface — but ?lang=he in a URL still
+  switches, and a stub or a probe marker would be a broken page for anyone who lands here
+  from an old link. Working English beats invented Hebrew: the card titles are the
+  registry's formal scholarly names, and guessing at their Hebrew would be worse than
+  showing the real ones.
+
+  Replace with real Hebrew copy if the view ever becomes bilingual. The links below already
+  carry lang=he, so only the visible text needs changing.
+
+  Everything else about this file — the layout, the vid rewriting in custom.js, why the
+  banner is not ours — is documented in homepage_en.html.
+
+  Why the card images are CSS backgrounds and not <img>: this file is fetched from
+  assets/homepage/ but INJECTED into the page at /nde/home, and a relative src in injected
+  markup resolves against the page URL, not against the file it came from. ../images/x.jpg
+  became /images/x.jpg and 404'd — visible as two broken-image icons on the first upload.
+  An absolute path would fix it but would hardcode the package name, and therefore the view,
+  right back into a file whose whole point is not to name one. A stylesheet resolves its own
+  relative URLs against itself, so homepage.css reaches ../images/ correctly and the problem
+  disappears. The images are decorative — the heading carries the meaning — so nothing is
+  lost by moving them out of the DOM.
+-->
+<div class="tma-home">
+  <ul class="tma-cards">
+    <li>
+      <a class="tma-card"
+         href="/nde/search?query=application&amp;tab=TMA&amp;search_scope=TMA&amp;pfilter=rtype,exact,TRADEMARK&amp;offset=0&amp;mode=resourceTypeFilterBar&amp;lang=he&amp;vid=972TAU_INST:TMA_NDE">
+        <h2 class="tma-card__title">
+          The Reconstructed Trademark Registry of Mandate Palestine <span class="tma-card__dates">(1922-1948)</span>
+        </h2>
+        <span class="tma-card__image tma-card__image--trademarks"
+              role="presentation"></span>
+      </a>
+    </li>
+
+    <li>
+      <a class="tma-card"
+         href="/nde/search?query=application&amp;tab=TMA&amp;search_scope=TMA&amp;pfilter=rtype,exact,PATENT&amp;offset=0&amp;mode=resourceTypeFilterBar&amp;lang=he&amp;vid=972TAU_INST:TMA_NDE">
+        <h2 class="tma-card__title">
+          The Reconstructed Patent Registry of Mandate Palestine <span class="tma-card__dates">(1924-1948)</span>
+        </h2>
+        <span class="tma-card__image tma-card__image--patents"
+              role="presentation"></span>
+      </a>
+    </li>
+  </ul>
+</div>

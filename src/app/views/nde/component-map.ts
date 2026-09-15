@@ -1,13 +1,18 @@
-import { FilterAssistPanelComponent } from './filter-assist-panel/filter-assist-panel.component';
-import { NoResultsExternalLinksComponent } from './no-results-external-links/no-results-external-links.component';
-import { CenlibMapButtonComponent } from './cenlib-map/cenlib-map-button.component';
-import { AnnouncementBannerComponent } from './announcement-banner/announcement-banner.component';
-import { CollectionDiscoveryFilterComponent } from './collection-discovery-filter/collection-discovery-filter.component';
-// import { IllPickupLibrarySorterComponent } from './ill-sorter/ill-pickup-library-sorter.component';
+import { FilterAssistPanelComponent } from '../../custom1-module/filter-assist-panel/filter-assist-panel.component';
+import { NoResultsExternalLinksComponent } from '../../custom1-module/no-results-external-links/no-results-external-links.component';
+import { CenlibMapButtonComponent } from '../../custom1-module/cenlib-map/cenlib-map-button.component';
+import { AnnouncementBannerComponent } from '../../custom1-module/announcement-banner/announcement-banner.component';
+import { CollectionDiscoveryFilterComponent } from '../../custom1-module/collection-discovery-filter/collection-discovery-filter.component';
+// import { IllPickupLibrarySorterComponent } from '../../custom1-module/ill-sorter/ill-pickup-library-sorter.component';
 
-// Define the map of custom element selectors -> Angular components
-// Using NDE official selectors with appropriate suffixes
-export const selectorComponentMap = new Map<string, any>([
+// The map of custom element selectors -> Angular components for the `nde` family
+// (VIEW_ID=NDE and VIEW_ID=NDE_TEST). Using NDE official selectors with appropriate
+// suffixes.
+//
+// Selected at build time by scripts/select-view.mjs, which re-exports this as
+// `selectorComponentMap` from src/app/state/view.generated.ts. A family whose map is
+// not selected is never imported, so its components never enter the bundle.
+export const map = new Map<string, any>([
   // External search facet - displays in filter sidebar
   ['nde-filters-group-before', FilterAssistPanelComponent],
 

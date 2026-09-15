@@ -1,0 +1,131 @@
+/*
+ * TMA — host-fetched stylesheet.
+ *
+ * Copied verbatim to src/assets/css/custom.css by scripts/select-view.mjs when VIEW_ID is
+ * TMA_NDE, TMA or TMA_NDE_TEMP. Primo fetches that fixed path; this is the file to edit.
+ *
+ * Relative url(...) paths resolve from assets/css/, so ../images/ reaches the images this
+ * family ships from src/assets/views/tma/images/.
+ *
+ * Convention, same as NDE's stylesheet: one dated /* … *\/ fence per knob, searched by name
+ * rather than by line number.
+ */
+
+/* ── 2026-09-15 · banner background ────────────────────────────────────────────────
+ *
+ * The patent-drawing strip Hila supplied, replacing Ex Libris' stock bookshelf photo.
+ *
+ * Why CSS and not a file we ship: with the Back Office Landing Page "Enable configuration"
+ * box UNCHECKED — which is what lets this view own its homepage HTML — the host paints the
+ * banner from its own directory, `/nde/assets/images/homePageImages/search_background.svg`.
+ * That path is outside the customization package, so it cannot be replaced by shipping a
+ * file over it. Overriding the rule is the way in, and it is the same technique NDE already
+ * uses for its bilingual banner.
+ *
+ * Both selectors on purpose. Verified live on 2026-09-15: with the Landing Page box off the
+ * host renders `.top-bar-background-image` (a 400px div whose background-image is the SVG);
+ * with it on it renders `.landing-search-background-image` instead. Naming only the one we
+ * happen to use today means the banner silently reverts if that box is ever ticked.
+ *
+ * `!important` is required here, and only here. The host writes the stock image as an INLINE
+ * style on the element:
+ *
+ *     <div class="top-bar-background-image"
+ *          style="background-image: url('assets/images/homePageImages/search_background.svg')">
+ *
+ * An inline style outranks every selector in every stylesheet, however specific, so the rule
+ * below without `!important` loads, matches, and loses — which is exactly what happened on the
+ * first upload: custom.css was served, the rule was present, and the computed value was still
+ * the bookshelf. Do not copy `!important` to the other rules in this file; it is not a habit,
+ * it is the only tool that beats an inline style.
+ */
+.top-bar-background-image,
+.landing-search-background-image {
+  background-image: url('../images/tma-search-background.jpg') !important;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* ── 2026-09-15 · hide the language selector and the sign-in control ───────────────
+ *
+ * Hila's request: the view is English-only, and there is nothing here to sign in for —
+ * the archive is public and has no requesting, favourites or account features worth
+ * exposing.
+ *
+ * Targeted by component tag, not by class. `nde-language-selector-container` and
+ * `nde-user-area` are Angular component names; the classes around them
+ * (`lang-drop-down`, `user-area-btn`, `ng-tns-c508571215-1`) carry build-generated
+ * suffixes that change whenever Ex Libris rebuilds. A tag name is the most stable handle
+ * the host gives us.
+ *
+ * Verified live on 2026-09-15 at 945px and at 400px: both disappear, nothing reappears in
+ * the narrow layout's overflow menu, and no other control anywhere on the page offers a
+ * language switch or a sign-in. The header loses 7px of height because the user panel
+ * collapses to zero width; that is the only side effect.
+ *
+ * Two things this does NOT do, deliberately:
+ *   - It hides the control, it does not disable authentication. Anyone already signed in
+ *     stays signed in with no visible way to sign out. Harmless for a public archive; it
+ *     would not be for a view with borrowing or requests.
+ *   - It does not make Hebrew unreachable by URL. ?lang=he still switches, which is why
+ *     footer_he.html and homepage_he.html still ship for this family rather than being
+ *     dropped.
+ */
+header.top-bar nde-language-selector-container,
+header.top-bar nde-user-area {
+  display: none;
+}
+
+/* ── 2026-09-15 · hide the "Sign in to get more results" notification ──────────────
+ *
+ * The companion to hiding the sign-in control: with no way to sign in, a toast urging
+ * people to is just a dead end. It is a Material snack bar, so it appears on the search
+ * results page rather than in the header, which is why it survived the header rules.
+ *
+ * Matched by `:has(.login-btn)` and not by hiding snack bars outright. `nde-custom-snack-bar`
+ * is the host's generic notification component — errors and confirmations come through the
+ * same element — and blanking all of them would silence messages people need. `.login-btn`
+ * is on the actions row of this one specifically. Verified live 2026-09-15; :has() is
+ * supported in every current browser and CSS.supports reports true on the host page.
+ */
+.mat-mdc-snack-bar-container:has(.login-btn) {
+  display: none;
+}
+
+/* ── 2026-09-15 · footer ───────────────────────────────────────────────────────────
+ *
+ * The university policy line carried over from the classic view (see
+ * src/assets/views/tma/header-footer/footer_en.html). The classic styling is 15px centred
+ * #3a3a3a with #3d6e94 blue links; the size carries over, the colours do not — a blue from
+ * the old design would be the only blue on a brown page.
+ *
+ * Links are darker than the surrounding text rather than lighter, so they still read as
+ * links once the colour stops doing that job, and keep their underline for anyone who
+ * cannot tell the two browns apart.
+ */
+.tma-footer {
+  padding: 1.5rem 1rem;
+  text-align: center;
+}
+
+/* Two classes, for the same reason every rule in homepage.css carries them: Material's
+ * `.mat-typography p` is (0,1,1) and a lone `.tma-footer__line` would lose the size. */
+.tma-footer .tma-footer__line {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  letter-spacing: normal;
+  color: var(--sys-primary, #695c55);
+}
+
+.tma-footer .tma-footer__line a {
+  color: var(--sys-on-surface-variant, #4e4541);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.tma-footer .tma-footer__line a:hover,
+.tma-footer .tma-footer__line a:focus-visible {
+  color: var(--sys-on-surface, #1d1b1b);
+}

@@ -1,0 +1,26 @@
+<!--
+  TMA — English footer, host-fetched from assets/header-footer/footer_en.html.
+
+  The three university policy links, carried over from the classic Primo VE view so the
+  archive keeps the statements it already published. The host fetches this on every page,
+  so unlike the homepage cards it appears on search results and record pages too — which
+  is where an accessibility statement actually needs to be reachable.
+
+  Two deliberate differences from the classic markup:
+
+  - Terms of Use is linked over https. The classic view links it over plain http; all three
+    URLs answer 200 on https (checked 2026-09-15), so there is no reason to ship the
+    downgrade.
+  - rel="noopener noreferrer" on the target="_blank" links. The classic markup omits it.
+
+  Styling is in custom.css under the "footer" fence, not here, so the markup stays content.
+-->
+<div class="tma-footer">
+  <p class="tma-footer__line">
+    Tel Aviv University&rsquo;s
+    <a href="https://english.tau.ac.il/accessibility_statement" target="_blank" rel="noopener noreferrer">Accessibility Statement</a>,
+    <a href="https://english.tau.ac.il/terms_of_use" target="_blank" rel="noopener noreferrer">Terms of Use</a>
+    and
+    <a href="https://english.tau.ac.il/dpo" target="_blank" rel="noopener noreferrer">Privacy and Data Protection</a>
+  </p>
+</div>
