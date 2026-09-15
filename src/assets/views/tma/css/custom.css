@@ -90,3 +90,33 @@ header.top-bar svg path {
   color: #ffffff;
   fill: currentColor;
 }
+
+/* ── 2026-09-15 · hide the language selector and the sign-in control ───────────────
+ *
+ * Hila's request: the view is English-only, and there is nothing here to sign in for —
+ * the archive is public and has no requesting, favourites or account features worth
+ * exposing.
+ *
+ * Targeted by component tag, not by class. `nde-language-selector-container` and
+ * `nde-user-area` are Angular component names; the classes around them
+ * (`lang-drop-down`, `user-area-btn`, `ng-tns-c508571215-1`) carry build-generated
+ * suffixes that change whenever Ex Libris rebuilds. A tag name is the most stable handle
+ * the host gives us.
+ *
+ * Verified live on 2026-09-15 at 945px and at 400px: both disappear, nothing reappears in
+ * the narrow layout's overflow menu, and no other control anywhere on the page offers a
+ * language switch or a sign-in. The header loses 7px of height because the user panel
+ * collapses to zero width; that is the only side effect.
+ *
+ * Two things this does NOT do, deliberately:
+ *   - It hides the control, it does not disable authentication. Anyone already signed in
+ *     stays signed in with no visible way to sign out. Harmless for a public archive; it
+ *     would not be for a view with borrowing or requests.
+ *   - It does not make Hebrew unreachable by URL. ?lang=he still switches, which is why
+ *     footer_he.html and homepage_he.html still ship for this family rather than being
+ *     dropped.
+ */
+header.top-bar nde-language-selector-container,
+header.top-bar nde-user-area {
+  display: none;
+}
