@@ -46,3 +46,47 @@
   background-position: center;
   background-repeat: no-repeat;
 }
+
+/* ── 2026-09-15 · header bar ───────────────────────────────────────────────────────
+ *
+ * Slate #4a5568 — the colour the classic Primo VE TMA view used, so the archive's own
+ * users see continuity rather than a new palette. It is also the complement of the
+ * banner's average sepia (#d0bda0, hue 36deg), which is why the bar reads as a distinct
+ * band instead of bleeding into the drawings, and it clears white at 7.5:1.
+ *
+ * This is not decoration: Hila's logo is white-on-transparent artwork, built for a dark
+ * header. On the stock white bar it loads, sizes and renders perfectly and is completely
+ * invisible. Darkening the bar is what makes the logo exist.
+ *
+ * `!important` on the background only, and for a different reason than the banner above.
+ * The host's own rule is
+ *
+ *     .container[_ngcontent-ng-c2479366676] .top-bar[_ngcontent-ng-c2479366676]
+ *
+ * — two classes plus two attribute selectors, and those attributes carry a hash Angular
+ * regenerates on every build. We cannot write a selector that reliably outranks it,
+ * because the thing to outrank changes. Verified live: without !important the rule loads,
+ * matches, and loses. The colour declarations below need no such help.
+ */
+header.top-bar {
+  background-color: #4a5568 !important;
+}
+
+header.top-bar a,
+header.top-bar button,
+header.top-bar .main-menu-label,
+header.top-bar .show-more-btn,
+header.top-bar .user-area-btn,
+header.top-bar .skip-h2-button {
+  color: #ffffff;
+}
+
+/* `svg path` and not just `svg`: the external-link arrows beside HOME and CONTACT US are
+ * paths carrying their own fill, so a rule on the <svg> alone leaves them theme-brown on
+ * slate — dark on dark, which is how they looked on the first pass. */
+header.top-bar mat-icon,
+header.top-bar svg,
+header.top-bar svg path {
+  color: #ffffff;
+  fill: currentColor;
+}
