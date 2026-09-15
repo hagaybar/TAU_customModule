@@ -14,6 +14,16 @@
 
   Everything else about this file — the layout, the vid rewriting in custom.js, why the
   banner is not ours — is documented in homepage_en.html.
+
+  Why the card images are CSS backgrounds and not <img>: this file is fetched from
+  assets/homepage/ but INJECTED into the page at /nde/home, and a relative src in injected
+  markup resolves against the page URL, not against the file it came from. ../images/x.jpg
+  became /images/x.jpg and 404'd — visible as two broken-image icons on the first upload.
+  An absolute path would fix it but would hardcode the package name, and therefore the view,
+  right back into a file whose whole point is not to name one. A stylesheet resolves its own
+  relative URLs against itself, so homepage.css reaches ../images/ correctly and the problem
+  disappears. The images are decorative — the heading carries the meaning — so nothing is
+  lost by moving them out of the DOM.
 -->
 <div class="tma-home">
   <ul class="tma-cards">
@@ -23,10 +33,8 @@
         <h2 class="tma-card__title">
           The Reconstructed Trademark Registry of Mandate Palestine (1922&#8211;1948)
         </h2>
-        <img class="tma-card__image"
-             src="../images/tma-trademarks-grid.jpg"
-             alt=""
-             width="1157" height="609" loading="lazy" decoding="async">
+        <span class="tma-card__image tma-card__image--trademarks"
+              role="presentation"></span>
         <span class="tma-card__cue">Browse the trademarks</span>
       </a>
     </li>
@@ -37,10 +45,8 @@
         <h2 class="tma-card__title">
           The Reconstructed Patent Registry of Mandate Palestine (1924&#8211;1948)
         </h2>
-        <img class="tma-card__image"
-             src="../images/tma-patents.jpg"
-             alt=""
-             width="1157" height="609" loading="lazy" decoding="async">
+        <span class="tma-card__image tma-card__image--patents"
+              role="presentation"></span>
         <span class="tma-card__cue">Browse the patents</span>
       </a>
     </li>

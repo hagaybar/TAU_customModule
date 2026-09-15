@@ -76,3 +76,19 @@ header.top-bar nde-language-selector-container,
 header.top-bar nde-user-area {
   display: none;
 }
+
+/* ── 2026-09-15 · hide the "Sign in to get more results" notification ──────────────
+ *
+ * The companion to hiding the sign-in control: with no way to sign in, a toast urging
+ * people to is just a dead end. It is a Material snack bar, so it appears on the search
+ * results page rather than in the header, which is why it survived the header rules.
+ *
+ * Matched by `:has(.login-btn)` and not by hiding snack bars outright. `nde-custom-snack-bar`
+ * is the host's generic notification component — errors and confirmations come through the
+ * same element — and blanking all of them would silence messages people need. `.login-btn`
+ * is on the actions row of this one specifically. Verified live 2026-09-15; :has() is
+ * supported in every current browser and CSS.supports reports true on the host page.
+ */
+.mat-mdc-snack-bar-container:has(.login-btn) {
+  display: none;
+}

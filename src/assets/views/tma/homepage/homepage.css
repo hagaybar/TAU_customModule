@@ -66,11 +66,28 @@
   color: #3d3531;
 }
 
+/* Backgrounds rather than <img>, because a relative src in the injected homepage HTML
+ * resolves against /nde/home and 404s — see the note in homepage_en.html. A stylesheet
+ * resolves ../images/ against itself, which is the whole reason this works.
+ *
+ * aspect-ratio matches the source files (1157x609) so the card reserves its space before
+ * the image arrives and nothing jumps. */
 .tma-card__image {
   display: block;
   width: 100%;
-  height: auto;
+  aspect-ratio: 1157 / 609;
   border-radius: 6px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.tma-card__image--trademarks {
+  background-image: url('../images/tma-trademarks-grid.jpg');
+}
+
+.tma-card__image--patents {
+  background-image: url('../images/tma-patents.jpg');
 }
 
 .tma-card__cue {
