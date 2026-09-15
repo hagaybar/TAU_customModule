@@ -94,6 +94,13 @@
   color: var(--sys-on-surface-variant, #4e4541);
 }
 
+/* The date range wraps as one unit. Without this the patent title broke after the opening
+ * bracket — "...Mandate Palestine (1924-" / "1948)" — because the line simply ran out at
+ * that point. nowrap moves the whole parenthetical down instead. */
+.tma-home .tma-card__dates {
+  white-space: nowrap;
+}
+
 /* Backgrounds rather than <img>, because a relative src in the injected homepage HTML
  * resolves against /nde/home and 404s — see the note in homepage_en.html. A stylesheet
  * resolves ../images/ against itself, which is the whole reason this works.
