@@ -92,3 +92,37 @@ header.top-bar nde-user-area {
 .mat-mdc-snack-bar-container:has(.login-btn) {
   display: none;
 }
+
+/* ── 2026-09-15 · footer ───────────────────────────────────────────────────────────
+ *
+ * The university policy line carried over from the classic view (see
+ * src/assets/views/tma/header-footer/footer_en.html). The classic styling is 15px centred
+ * #3a3a3a with #3d6e94 blue links; the size carries over, the colours do not — a blue from
+ * the old design would be the only blue on a brown page.
+ *
+ * Links are darker than the surrounding text rather than lighter, so they still read as
+ * links once the colour stops doing that job, and keep their underline for anyone who
+ * cannot tell the two browns apart.
+ */
+.tma-footer {
+  padding: 1.5rem 1rem;
+  text-align: center;
+}
+
+.tma-footer__line {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: #6b5c55;
+}
+
+.tma-footer__line a {
+  color: #4a3d36;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.tma-footer__line a:hover,
+.tma-footer__line a:focus-visible {
+  color: #2f2622;
+}

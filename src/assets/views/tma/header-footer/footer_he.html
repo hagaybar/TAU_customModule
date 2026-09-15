@@ -1,10 +1,20 @@
 <!--
-  TMA — Hebrew footer, host-fetched.
+  TMA — Hebrew footer, host-fetched from assets/header-footer/footer_he.html.
 
-  Copied verbatim to src/assets/header-footer/footer_he.html by scripts/select-view.mjs
-  when VIEW_ID is TMA_NDE or TMA. The Primo host picks the file by interface language, so
-  Hebrew text goes here and English in footer_en.html — there is no shared file.
+  Same English text as footer_en.html, for the same reason as homepage_he.html: this view
+  is English-only and the language selector is hidden, but ?lang=he still switches by URL,
+  and the university's accessibility statement is the last thing that should vanish for
+  someone who arrives that way. The linked pages are themselves English.
 
-  Deliberately empty pending TMA's content. To start from NDE's footer instead:
-      cp src/assets/views/nde/header-footer/footer_he.html src/assets/views/tma/header-footer/footer_he.html
+  If the view ever becomes bilingual, the Hebrew equivalents of these three pages exist at
+  the tau.ac.il Hebrew site and belong here.
 -->
+<div class="tma-footer">
+  <p class="tma-footer__line">
+    Tel Aviv University&rsquo;s
+    <a href="https://english.tau.ac.il/accessibility_statement" target="_blank" rel="noopener noreferrer">Accessibility Statement</a>,
+    <a href="https://english.tau.ac.il/terms_of_use" target="_blank" rel="noopener noreferrer">Terms of Use</a>
+    and
+    <a href="https://english.tau.ac.il/dpo" target="_blank" rel="noopener noreferrer">Privacy and Data Protection</a>
+  </p>
+</div>

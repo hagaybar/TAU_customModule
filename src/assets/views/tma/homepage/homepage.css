@@ -56,14 +56,19 @@
   outline-offset: 3px;
 }
 
+/* Sized and coloured against the classic view, which sets these at 15px / weight 400 in a
+ * near-neutral #3a3a3a. 1rem rather than 15px because NDE's base font is larger, and brown
+ * rather than neutral so the cards belong to this view's palette instead of importing the
+ * old design's. #5a4b43 is a deepened version of the theme's own brown (#695c55) — dark
+ * enough to read as a heading at 8.1:1 on white, warm enough not to look like black. */
 .tma-card__title {
   margin: 0 0 1.25rem;
-  font-size: 1.25rem;
-  line-height: 1.35;
+  font-size: 1rem;
+  line-height: 1.45;
   font-weight: 600;
   text-align: center;
   text-decoration: none;
-  color: #3d3531;
+  color: #5a4b43;
 }
 
 /* Backgrounds rather than <img>, because a relative src in the injected homepage HTML
