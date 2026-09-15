@@ -123,6 +123,40 @@ npm run build
 3. After switching between production/test views
 4. Before committing changes to `build-settings.env`
 
+## The session's view (RULE)
+
+**`VIEW_ID` in `build-settings.env` is not just what to build — it is the view this session
+is directed at, and the deterministic answer to which view an unqualified request meant.**
+
+"Remove the logo" means the declared view's family. Always. Not a guess, not a question back
+to the user, not an inference from which file was edited last. If that is not what they
+meant, the fix is to change the declared view, not to reinterpret the request.
+
+```bash
+npm run view                 # what is it now, and what changed since its last build
+npm run view:use tma         # point the session somewhere else  (nde | nde-test | tma)
+```
+
+A `SessionStart` hook prints this at the top of every session, so nobody has to remember to
+check it — see `.claude/settings.json`. `/view` shows it on demand.
+
+- **Never hand-edit `VIEW_ID` or `ASSET_BASE_URL`.** They have to agree, and setting one
+  without the other produces a package whose assets all 404. `view:use` writes both, then
+  regenerates so the tree matches the declaration immediately.
+- **A build refuses when uncommitted work sits in another family.** That means one of two
+  things went wrong — the session is pointed at the wrong view, or the edits landed in the
+  wrong place — and building either way produces a package missing the change just made,
+  while possibly damaging the other view. The message names the files. For the genuine case
+  of changing two families at once: `TAU_ALLOW_CROSS_FAMILY=1`.
+- **`view:use` refuses to switch away from a family with uncommitted work**, which would
+  otherwise strand those edits in no build at all.
+
+**Why this exists.** The failure is not picking the wrong view at build time — the package
+filename and the boot banner both catch that. It is being asked for a change, not knowing
+which view was meant, and editing the wrong family: the build then succeeds, the view you
+cared about is unchanged, and the other one is quietly damaged. `main` is production here,
+so the other one is often the live NDE view.
+
 ## Per-view content (RULE)
 
 **One repository builds every view, and `VIEW_ID` in `build-settings.env` selects which content

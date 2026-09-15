@@ -5,6 +5,8 @@
     "ng": "ng",
     "start": "ng serve",
     "generate": "node prebuild.js && node scripts/select-view.mjs",
+    "view": "node scripts/view-status.mjs",
+    "view:use": "node scripts/view-use.mjs",
     "prestart": "npm run generate",
     "start:no-prebundle": "ng serve --prebundle=false",
     "start:proxy": "ng serve --proxy-config ./proxy/proxy.conf.mjs",

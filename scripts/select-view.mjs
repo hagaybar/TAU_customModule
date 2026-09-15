@@ -28,6 +28,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
+import { classifyAll, uncommittedFiles } from './view-changes.mjs';
+
 /**
  * A declared table, not a parser. `TMA_NDE` -> strip `_NDE` -> `tma` is clean until it
  * meets `NDE`, which strips to nothing; ordering rules follow, and then someone creates
@@ -135,6 +137,43 @@ function assertGitignored(root, managed) {
   }
 }
 
+/**
+ * The session's declared view (VIEW_ID) is the deterministic answer to "which view did they
+ * mean". So uncommitted work sitting in a *different* family means one of two things went
+ * wrong: either the session is pointed at the wrong view, or the edits landed in the wrong
+ * place. Building either way produces a package missing the change that was just made, and
+ * in the worse case quietly damages the other view.
+ *
+ * A hard stop rather than a warning: this is the failure the per-view design exists to
+ * prevent, and a warning in a wall of build output is how the -dirty rule nearly failed.
+ *
+ * For the genuine case of changing two families at once:  TAU_ALLOW_CROSS_FAMILY=1
+ */
+export class CrossFamilyEditsError extends Error {
+  constructor(family, files) {
+    super(
+      `This session is directed at the "${family}" family, but ${files.length} uncommitted ` +
+        `file(s) belong to another one:\n` +
+        files.map((f) => `  ${f}`).join('\n') +
+        `\n\nEither point the session at the right view (npm run view:use <nde|nde-test|tma>), ` +
+        `or move those edits under src/assets/views/${family}/ and src/app/views/${family}/.` +
+        `\nIf you really are changing both at once: TAU_ALLOW_CROSS_FAMILY=1`,
+    );
+    this.name = 'CrossFamilyEditsError';
+    this.files = files;
+  }
+}
+
+/** Uncommitted files belonging to a family other than the selected one. */
+export function crossFamilyEdits(root, family) {
+  return classifyAll(uncommittedFiles(root), family, Object.values(VIEW_FAMILY)).other;
+}
+
+export function assertNoCrossFamilyEdits(root, family) {
+  const files = crossFamilyEdits(root, family);
+  if (files.length) throw new CrossFamilyEditsError(family, files);
+}
+
 export function selectView({ root = process.cwd(), log = console.log } = {}) {
   const envPath = path.join(root, 'build-settings.env');
   if (!fs.existsSync(envPath)) throw new Error(`build-settings.env not found at ${envPath}`);
@@ -154,6 +193,7 @@ export function selectView({ root = process.cwd(), log = console.log } = {}) {
 
   const managed = managedAssetPaths(root);
   assertGitignored(root, managed);
+  if (!process.env.TAU_ALLOW_CROSS_FAMILY) assertNoCrossFamilyEdits(root, family);
 
   for (const rel of managed) {
     const dest = path.join(root, 'src', 'assets', ...rel.split('/'));
