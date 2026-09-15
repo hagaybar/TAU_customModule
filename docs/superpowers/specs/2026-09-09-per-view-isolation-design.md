@@ -347,3 +347,87 @@ regression gate has to be green first.
 3. **Does the old classic TMA package contain anything beyond CSS/HTML worth porting?** Worth
    reading before TMA styling starts, so the design intent is captured once rather than
    rediscovered.
+
+---
+
+## 9. Implementation notes — where the build differs from this design
+
+Written 2026-09-15, when the design was implemented on `feature/67-per-view-isolation`. The
+design above is left as written; this section records every place the code does something else
+and why, so a reader who trusts §5 does not get a surprise from the repository.
+
+### 9.1 Generated files carry no header comment (changes §5.5)
+
+§5.5 says "every generated file carries a header comment naming its real source." It does not,
+because that would break §7.1. A header injected into `assets/css/custom.css` makes the NDE
+package built from this branch differ from one built from `main` — which is exactly the gate
+§7.1 defines as the thing that must not happen, and Goal 5 as the checkbox that matters most. A
+comment is inert at runtime, but "inert differences are fine" is not a gate anyone can apply
+mechanically six months from now.
+
+Three things do the job instead, and between them they are stronger than a comment:
+
+- **The generated paths are gitignored.** An edit to `src/assets/css/custom.css` cannot be
+  committed, so it cannot reach anyone else.
+- **The generated copies are left read-only** (`chmod 0444`). Gitignoring is silent at the moment
+  someone opens the wrong file; a read-only bit makes the editor object right then, which is the
+  only moment the warning is useful.
+- **`src/assets/views/README.md`** explains the layout where someone browsing the tree will find
+  it, and `CLAUDE.md` carries the rule.
+
+### 9.2 The generated assets are gitignored, not tracked (changes §5.7 item 1)
+
+§5.7 item 1 says `postbuild.js`'s `VIEW_SELECTION_FILES` must be extended with the generated
+CSS/JS/HTML. Only `src/app/state/view.generated.ts` was added, because the asset copies are now
+gitignored and so never appear in `git status --porcelain` at all.
+
+The reason for ignoring rather than tracking them is the one this repository cares about most: a
+tracked `src/assets/css/custom.css` on `main` would hold whichever view was built last. Someone
+builds TMA, commits, and `main` now carries TMA's stylesheet at the path the *live NDE* package
+is built from. `main` is production here (see the rule of that name in `CLAUDE.md`), so that is a
+patron-facing hazard, not an untidiness.
+
+`view.generated.ts` stays tracked because it is one line, a wrong value in it is visible in
+review, and `ng test` has no pre-hook that would generate it in a fresh clone.
+
+### 9.3 Additions the design did not specify
+
+- **Deleting before copying.** §5.5 says the build copies the selected family's files over the
+  fixed paths; it does not say what happens to a fixed path the selected family does not provide.
+  `select-view.mjs` clears the *union* of every family's paths first. Without that, a TMA build
+  ships the NDE footer left behind by the previous build — the precise failure this design
+  exists to prevent, arriving through the back door.
+- **A `.gitignore` guard.** `select-view.mjs` refuses to run if a generated destination is
+  missing from `.gitignore`, naming the line to add. §5.7 item 1 correctly calls the `-dirty`
+  failure "easy to miss"; this makes it impossible to miss, and moves it from after a failed
+  deploy to before the build.
+- **`src/assets/header-footer/README.md` was left alone.** It documents Ex Libris' header/footer
+  mechanism and is byte-identical to `upstream/main`. Adding a TAU note would trade a file that
+  merges for free for one that conflicts, for the sake of a paragraph that belongs in
+  `src/assets/views/README.md` — where it now is.
+
+### 9.4 TMA starts empty (answers nothing in §8, but decides something)
+
+Both `src/app/views/tma/component-map.ts` and every file under `src/assets/views/tma/` are
+deliberately empty, with comments saying so and giving the one-line `cp` that starts them from
+NDE's instead.
+
+Open question 1 — which components TMA needs — is still open, and starting TMA as a copy of NDE
+would answer it by default with "all of them", then let the two drift apart without anyone
+deciding to. A TMA build today therefore registers zero components and ships an empty stylesheet,
+which is the honest state of a view whose design has not been done.
+
+### 9.5 §7.1 results, NDE regression case
+
+Both packages built from `~/tau-packages/` on 2026-09-15:
+
+- All eight host-fetched assets are **byte-identical** between the `main` package and the branch
+  package: `custom.css` (25231 B), `custom.js` (3862 B), both footers, both homepage files, the
+  `assets/css/custom.js` placeholder, and `homepage.css.tmpl`.
+- 57 shared files, of which two differ: `index.html` (only the `main.<hash>.js` filename) and
+  `remoteEntry.js` (the lazy chunk id `896` -> `29`).
+- The lazy chunk itself differs in 49 bytes once the chunk and module ids are normalized, all of
+  them terser name-mangling inside Angular's own vendor code (`d2` -> `dI`, `f2` -> `fI` and
+  similar). No TAU code differs.
+- No chunk in the NDE package mentions the `tma` family. All five NDE selectors are present and
+  the disabled `nde-ill-request-top` is not.
