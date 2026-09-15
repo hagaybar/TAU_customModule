@@ -6,6 +6,35 @@ This file contains specific instructions for Claude Code when working with this 
 
 This is Tel Aviv University's customization package for Primo's New Discovery Experience (NDE), based on the ExLibris CustomModule template.
 
+## `main` is production (RULE)
+
+**`main` is the source of the package running on the live `NDE` view, which has been serving
+patrons since early September 2026.** This repository has no `prod` branch, so the generic
+`main` → DevSandbox / `prod` → Prod topology described in the user-level `CLAUDE.md` **does not
+apply here**. Do not go looking for a `prod` branch to be careful about — `main` is the one.
+
+The care that topology asks for on a `prod` branch is owed to `main` in this repo:
+
+- **No direct pushes to `main`. Every change lands through a pull request.** Enforced by GitHub
+  branch protection (pull request required, force-push and deletion blocked). Administrators are
+  deliberately *exempt*, so a genuine emergency still has a path — that exemption is for outages,
+  not for convenience.
+- **Whatever is on `main` ships in the next package anyone builds.** Pushing `main` deploys
+  nothing on its own (see *Where built packages go*), but the next person to run `npm run build`
+  builds from `main` and may well upload it. There is no staging step between merge and package.
+  Treat merging as "this is in the next deploy," whether or not that was the intent.
+- **Never upload a package built from an unmerged branch to the live `NDE` view.** Branch packages
+  go to `NDE_TEST` (or another test view). The commit in the package filename is what makes a live
+  package traceable to reviewed source; a branch package breaks that.
+- **A refactor or experimental branch merges only once its own verification gate is green.**
+  Where a design document defines that gate, the gate is the merge condition, not a suggestion.
+  For the per-view isolation work this is §7.1 and §7.2 of
+  `docs/superpowers/specs/2026-09-09-per-view-isolation-design.md`.
+- **The hotfix path, named here so it is not improvised under pressure:** branch from `main` → PR
+  → merge → rebuild the package for `VIEW_ID=NDE` → upload to Alma Back Office → confirm the boot
+  banner in the browser console names the new package. Skipping the PR is what the admin exemption
+  is for, and it still owes the repository a follow-up PR recording what was done.
+
 ## ExLibris CustomModule Reference Repository
 
 **IMPORTANT:** Always refer to the official ExLibris repository for documentation, examples, and troubleshooting:
