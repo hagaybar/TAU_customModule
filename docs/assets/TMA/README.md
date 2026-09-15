@@ -62,8 +62,13 @@ travels at an even speed rather than hurrying through the flat parts. The pen do
 rotate: a version that turned it to face the tangent read as an arrowhead skidding along a
 wave, because that is not what writing looks like.
 
-It also writes `loading-animation-preview.png` beside the script — the stroke at 0/20/40/
-60/80/100% — so the motion can be judged without a Lottie player.
+`--variants` writes every candidate to `loading-variants/` instead of only the shipping one.
+They are compared side by side, at the 300×90 the host plays them at, in the Nib Trials page
+— which also has a glimpse test, because the real question for a loader is not how it looks
+on a loop but what survives being on screen for half a second.
+
+To ship a different one: set `ship` on it in `VARIANTS` and re-run. Everything else about the
+variants — span, stroke width, tempo, ruled line — is a value in that same table.
 
 ## Regenerating the photographic images
 
