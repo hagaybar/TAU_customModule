@@ -80,7 +80,7 @@ at the 300×90 the host uses, with a glimpse test.
 
 | Key | What it is | Cycle | Source |
 |---|---|---|---|
-| `stamp` | A registry stamp drops, presses, lifts; the impression fades. The most literal — stamping is what a registry does. | 1.10 s | `make-loading-concepts.py` |
+| `stamp` | A registry stamp drops, presses, lifts; the impression fades. The most literal — stamping is what a registry does. Press lands 100 ms in. | 0.77 s | `make-loading-concepts.py` |
 | `gears` | Two cogs in the line weight of the patent drawings. Turns continuously, so no glimpse catches it at rest. | 2.00 s | `make-loading-concepts.py` |
 | `tiles` | Three trademark tiles pulsing in sequence, echoing the grid on the archive's homepage. | 1.20 s | `make-loading-concepts.py` |
 | `blots` | Ink dots that swell and settle, unevenly. The stock idea in this archive's ink. | 1.00 s | `make-loading-concepts.py` |
@@ -106,6 +106,29 @@ So the levers are tempo and ink density, not colour:
   tiles and blots never fade below about 35% opacity. A stagger that fades each element to
   nothing leaves frames with an empty canvas, which is most of what makes a loader feel like
   nothing is happening.
+
+### How long you actually get to see it
+
+Measured on `972TAU_INST:TMA_NDE`, 2026-09-15, via the Performance API:
+
+| Load | Animation ready | First paint | Window |
+|---|---|---|---|
+| Cold (first of a session) | 966 ms | 968 ms | **~2 ms** |
+| Warm | 485 ms | 780 ms | 295 ms |
+| Warm again | 604 ms | 888 ms | 284 ms |
+
+The host does not *request* the file until ~700 ms into a cold load, and only after a
+separate HEAD probe at ~420 ms — two round trips before it can play. Size is not the
+constraint: it is about 1 KB over the wire. Ex Libris serves it with `etag` and
+`last-modified` but **no `cache-control`**, so freshness is left to browser heuristics.
+
+Caching helps the animation far more than it helps the page (~470 ms saved against ~170 ms),
+which is why it visibly improves after the first refresh — and then plateaus at roughly
+290 ms. None of this is changeable from a customization package; the fetch sequence is the
+host's.
+
+What *is* changeable is what falls inside that window. The stamp's first cut pressed at
+330 ms, just outside it, so it was only ever caught hovering. It now presses at 100 ms.
 
 ### How the pen ones are built
 

@@ -100,43 +100,57 @@ def comp(name, layers, frames):
 # ── Concepts ────────────────────────────────────────────────────────────────────────────
 
 def build_stamp():
-    """A registry stamp drops, presses, lifts; the impression it leaves fades behind it."""
-    F = 66
-    press, lift = 20, 30
+    """A registry stamp drops, presses, lifts; the impression it leaves fades behind it.
 
-    # The impression: a ring with a bar through it, the shape a rubber stamp leaves.
+    Timed against a measurement rather than a feeling. On this view the host does not even
+    request the animation until ~700ms into a cold load, and the page paints at ~970ms — so
+    on a first visit there is no window at all. Warm, the file comes from cache at ~500ms
+    against a ~790ms paint, leaving about 290ms in which anything can be seen. Measured
+    across three loads; it plateaus after the first refresh.
+
+    290ms is the budget. The first cut pressed at frame 20 of 66 — 330ms — which fell just
+    outside it, so the stamp was only ever caught hovering, never landing. The press now
+    happens at frame 6, a hundred milliseconds in, and the whole cycle is 0.77s rather than
+    1.1s so the gesture repeats inside a longer wait instead of unfolding once.
+    """
+    F = 46
+    press = 6            # ~100ms — inside the window that actually exists
+    settle = 11
+    up = 26
+    fade_from, fade_to = 32, 44
+
+    def mark_scale():
+        return anim([(press, [70, 70]), (settle, [104, 104]), (F, [104, 104])])
+
+    def mark_opacity():
+        return anim([(0, 0), (press, 0), (press + 4, 100), (fade_from, 100), (fade_to, 0),
+                     (F, 0)])
+
     impression = [{'ty': 'gr', 'nm': 'mark', 'it': [
         ellipse((44, 44)), stroke(3.4),
-        transform(scale=anim([(press, [70, 70]), (press + 5, [104, 104]), (F, [104, 104])]),
-                  opacity=anim([(0, 0), (press, 0), (press + 4, 100),
-                                (F - 10, 100), (F, 0)])),
+        transform(scale=mark_scale(), opacity=mark_opacity()),
     ]}, {'ty': 'gr', 'nm': 'bar', 'it': [
         rect((26, 3.4), radius=1.7), fill(),
-        transform(scale=anim([(press, [70, 70]), (press + 5, [104, 104]), (F, [104, 104])]),
-                  opacity=anim([(0, 0), (press, 0), (press + 4, 100),
-                                (F - 10, 100), (F, 0)])),
+        transform(scale=mark_scale(), opacity=mark_opacity()),
     ]}]
 
-    # The stamp body: handle above a press block, dropping onto the mark.
     body = [{'ty': 'gr', 'nm': 'block', 'it': [
-        rect((58, 16), pos=(0, 0), radius=3), fill(),
-        transform(),
+        rect((58, 16), pos=(0, 0), radius=3), fill(), transform(),
     ]}, {'ty': 'gr', 'nm': 'stem', 'it': [
-        rect((14, 14), pos=(0, -14), radius=2), fill(),
-        transform(),
+        rect((14, 14), pos=(0, -14), radius=2), fill(), transform(),
     ]}, {'ty': 'gr', 'nm': 'knob', 'it': [
-        ellipse((36, 18), pos=(0, -26)), fill(),
-        transform(),
+        ellipse((36, 18), pos=(0, -26)), fill(), transform(),
     ]}]
 
     stamp_layer = layer('Stamp', 1, body, F, ks={
-        'p': anim([(0, [CX, CY - 46, 0]), (press, [CX, CY - 13, 0]),
-                   (press + 6, [CX, CY - 16, 0]), (lift + 16, [CX, CY - 46, 0]),
-                   (F, [CX, CY - 46, 0])]),
+        # Starts lower than the first cut did. The drop has a third of the time it had, and
+        # from the old height it read as a snap rather than a press.
+        'p': anim([(0, [CX, CY - 34, 0]), (press, [CX, CY - 13, 0]),
+                   (settle, [CX, CY - 16, 0]), (up, [CX, CY - 34, 0]),
+                   (F, [CX, CY - 34, 0])]),
         # A touch of squash on contact, so it lands rather than stops.
         's': anim([(press - 3, [100, 100, 100]), (press + 2, [107, 92, 100]),
-                   (press + 8, [100, 100, 100])]),
-        'o': anim([(0, 100), (lift + 20, 100), (F - 2, 100)]),
+                   (settle + 3, [100, 100, 100])]),
     })
     mark_layer = layer('Impression', 2, impression, F, ks={'p': val([CX, CY + 16, 0])})
     return comp('Registry stamp', [stamp_layer, mark_layer], F)
