@@ -161,7 +161,24 @@ contains.
 - `src/assets/css/custom.js` (174 bytes, an Ex Libris template placeholder) is **not** per-view.
   Leave it where it is.
 
-Tests: `npm run test:select-view`. Design:
+**Proving a change did not disturb another view.** Everything the host fetches lives under
+`assets/`, so a per-view mistake is always a wrong *zip*, never a runtime surprise. Build the
+same `VIEW_ID` from `main` and from your branch and compare the two packages:
+
+```bash
+npm run compare:packages -- <baseline.zip> <candidate.zip>
+```
+
+It compares every file in both packages, fails on any difference under `assets/` (excluding
+`assets/views/`, which carries every family's sources by design), and reports bundle-hash
+differences without failing. It **aborts rather than reporting "no differences"** when a package
+looks too small to be real — a check that cannot fail is not a check. Packages are archived to
+`~/tau-packages/<date>/` by every build, so the baseline usually already exists.
+
+Do this before merging anything that touches the build, and before uploading to a live view.
+Clicking around a test view only exercises the pages you happen to open; this covers all of them.
+
+Tests: `npm run test:scripts`. Design:
 `docs/superpowers/specs/2026-09-09-per-view-isolation-design.md`.
 
 ## Where built packages go (RULE)

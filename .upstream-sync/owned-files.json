@@ -7,6 +7,7 @@
         "prebuild.js",
         "postbuild.js",
         "scripts/select-view.mjs",
+        "scripts/compare-packages.mjs",
         "webpack.config.js",
         "webpack.prod.config.js",
         "build-settings.env",
