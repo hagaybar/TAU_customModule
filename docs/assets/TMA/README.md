@@ -47,28 +47,73 @@ fringe the strokes.
 ## Loading animation
 
 The Primo host fetches `assets/images/loadingAnimations/LoadingAnimationJson.json` and plays
-it while a page loads. It is a **Lottie** file, not an SVG — the host hands it to a Lottie
-player, so an SVG at that path renders nothing. NDE already ships its own here (from Ex
-Libris case 10665359); TMA was falling back to Ex Libris' stock dots.
+it while a page loads. It is a **Lottie** file, not an SVG — the host hands that path to a
+Lottie player, so an SVG there renders nothing. NDE has shipped its own since Ex Libris case
+10665359; TMA was getting the stock dots only because the file used to sit at a shared path.
 
-```bash
-python3 docs/assets/TMA/make-loading-animation.py
+**Shipping now: `stamp`.** Change it with one word:
+
+```python
+# docs/assets/TMA/ship-loading-animation.py
+CHOSEN = 'stamp'
 ```
 
-A pen writing a line of script in the theme's brown, then the ink clearing so it loops. The
-stroke and the pen's path come from the same curve — the ink is a Lottie trim-path along it,
-and the pen's position keyframes are sampled from it, arc-length parameterised so the pen
-travels at an even speed rather than hurrying through the flat parts. The pen does not
-rotate: a version that turned it to face the tangent read as an arrowhead skidding along a
-wave, because that is not what writing looks like.
+```bash
+python3 docs/assets/TMA/ship-loading-animation.py
+```
 
-`--variants` writes every candidate to `loading-variants/` instead of only the shipping one.
-They are compared side by side, at the 300×90 the host plays them at, in the Nib Trials page
-— which also has a glimpse test, because the real question for a loader is not how it looks
-on a loop but what survives being on screen for half a second.
+Only that script writes into the package. The two generators below write into
+`loading-variants/` and nothing else, so re-running either one can never quietly change what
+is live.
 
-To ship a different one: set `ship` on it in `VARIANTS` and re-run. Everything else about the
-variants — span, stroke width, tempo, ruled line — is a value in that same table.
+```bash
+python3 docs/assets/TMA/make-loading-animation.py   # the pen and its variants
+python3 docs/assets/TMA/make-loading-concepts.py    # stamp, cogs, tiles, blots
+```
+
+### The candidates
+
+All seven are kept — comparing them again later is cheaper than rebuilding one from a
+description. They are committed as JSON in `loading-variants/`, and the
+[Nib Trials](https://claude.ai/artifact/LJZzRj8k6JoZWJNCmjNVRv) page plays them side by side
+at the 300×90 the host uses, with a glimpse test.
+
+| Key | What it is | Cycle | Source |
+|---|---|---|---|
+| `stamp` | A registry stamp drops, presses, lifts; the impression fades. The most literal — stamping is what a registry does. | 1.10 s | `make-loading-concepts.py` |
+| `gears` | Two cogs in the line weight of the patent drawings. Turns continuously, so no glimpse catches it at rest. | 2.00 s | `make-loading-concepts.py` |
+| `tiles` | Three trademark tiles pulsing in sequence, echoing the grid on the archive's homepage. | 1.20 s | `make-loading-concepts.py` |
+| `blots` | Ink dots that swell and settle, unevenly. The stock idea in this archive's ink. | 1.00 s | `make-loading-concepts.py` |
+| `compact` | A pen writing a small dense mark on a ruled line. | 1.10 s | `make-loading-animation.py` |
+| `loop` | The pen writing a cursive loop instead of a wave. | 1.20 s | `make-loading-animation.py` |
+| `flourish` | The pen's wide gesture, fast and thickened. | 1.00 s | `make-loading-animation.py` |
+| `original` | The first pen attempt, kept as the reference for what not to do. | 2.67 s | `make-loading-animation.py` |
+
+### What makes a loader readable
+
+Worth keeping, because the first attempt got it wrong and the reason was not obvious.
+
+A spinner is often on screen for well under a second. The original pen ran a 2.67-second
+cycle as a 3.6px line spread over 250px, so nobody ever saw the mark finish — just a stub of
+line and a pen that had barely moved. The stock dots read because their whole gesture repeats
+about twice a second: any glimpse contains a complete motion.
+
+So the levers are tempo and ink density, not colour:
+
+- **Cycle near a second**, so a glimpse contains a whole gesture.
+- **Ink per pixel** — a compact mark at 5–6px reads where a thin wide one does not.
+- **Something at frame zero.** The pen variants gained a faint ruled line to write *on*; the
+  tiles and blots never fade below about 35% opacity. A stagger that fades each element to
+  nothing leaves frames with an empty canvas, which is most of what makes a loader feel like
+  nothing is happening.
+
+### How the pen ones are built
+
+Everything comes from one curve: the ink is a Lottie trim-path along it and the pen's
+position keyframes are sampled from that same curve, so the pen cannot drift off its own
+line. Arc-length parameterised, so it writes at an even speed instead of hurrying through the
+flat parts. The pen does not rotate — a version that turned it to face the tangent read as an
+arrowhead skidding along a wave, because a hand holds a pen at a fixed attitude and moves it.
 
 ## Regenerating the photographic images
 

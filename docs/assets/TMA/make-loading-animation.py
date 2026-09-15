@@ -5,8 +5,11 @@ it while a page loads. It is a **Lottie** (bodymovin) file, not an SVG — the h
 path to a Lottie player, so an SVG there renders nothing. NDE already ships its own; TMA was
 falling back to Ex Libris' stock dots because the file used to sit at a shared path.
 
-    python3 docs/assets/TMA/make-loading-animation.py            # build the shipping one
-    python3 docs/assets/TMA/make-loading-animation.py --variants  # build all, for comparison
+    python3 docs/assets/TMA/make-loading-animation.py
+
+Writes every pen variant into loading-variants/. It does not touch the package — choosing
+what ships is one word in ship-loading-animation.py, so a re-run here cannot quietly change
+the live animation.
 
 ── What makes a loader readable ────────────────────────────────────────────────────────
 
@@ -34,12 +37,9 @@ skidding along a wave — a hand holds a pen at a more or less fixed attitude an
 import json
 import math
 import os
-import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(os.path.dirname(os.path.dirname(HERE)))
-SHIP_TO = os.path.join(REPO, 'src', 'assets', 'views', 'tma', 'images',
-                       'loadingAnimations', 'LoadingAnimationJson.json')
 VARIANT_DIR = os.path.join(HERE, 'loading-variants')
 
 W, H = 300, 90            # the canvas the host's own animation uses
@@ -47,7 +47,7 @@ FPS = 60
 INK = [0.306, 0.271, 0.255, 1]     # #4e4541 — the theme's on-surface-variant brown
 
 # ── Variants ────────────────────────────────────────────────────────────────────────────
-# `ship` marks the one written to the family folder. The rest exist to be compared.
+# Candidates only. ship-loading-animation.py decides which of these reaches the package.
 VARIANTS = [
     {
         'key': 'compact',
@@ -56,7 +56,6 @@ VARIANTS = [
         'pts': [(96, 58), (120, 38), (144, 62), (168, 36), (192, 58), (212, 44)],
         'stroke': 5.5, 'pen': 1.0, 'baseline': True,
         'draw': 38, 'hold': 6, 'clear': 22,
-        'ship': True,
     },
     {
         'key': 'loop',
@@ -65,7 +64,6 @@ VARIANTS = [
         'pts': [(94, 62), (116, 30), (138, 58), (124, 42), (152, 34), (178, 58), (206, 40)],
         'stroke': 5.5, 'pen': 1.0, 'baseline': True,
         'draw': 44, 'hold': 6, 'clear': 22,
-        'ship': False,
     },
     {
         'key': 'flourish',
@@ -74,7 +72,6 @@ VARIANTS = [
         'pts': [(26, 60), (68, 34), (106, 66), (148, 28), (190, 62), (230, 36), (274, 52)],
         'stroke': 4.5, 'pen': 1.0, 'baseline': False,
         'draw': 36, 'hold': 4, 'clear': 20,
-        'ship': False,
     },
     {
         'key': 'original',
@@ -83,7 +80,6 @@ VARIANTS = [
         'pts': [(26, 60), (68, 34), (106, 66), (148, 28), (190, 62), (230, 36), (274, 52)],
         'stroke': 3.6, 'pen': 1.0, 'baseline': False,
         'draw': 96, 'hold': 18, 'clear': 46,
-        'ship': False,
     },
 ]
 
@@ -259,14 +255,11 @@ def write(path, data):
     return os.path.getsize(path)
 
 
-want_variants = '--variants' in sys.argv
+os.makedirs(VARIANT_DIR, exist_ok=True)
 for v in VARIANTS:
     data = build(v)
-    cycle = data['op'] / FPS
-    if v['ship']:
-        size = write(SHIP_TO, data)
-        print(f"ship     {v['key']:10} {size:5} B  {cycle:.2f}s  -> {os.path.relpath(SHIP_TO, REPO)}")
-    if want_variants:
-        p = os.path.join(VARIANT_DIR, f"{v['key']}.json")
-        size = write(p, data)
-        print(f"variant  {v['key']:10} {size:5} B  {cycle:.2f}s  -> {os.path.relpath(p, REPO)}")
+    path = os.path.join(VARIANT_DIR, f"{v['key']}.json")
+    with open(path, 'w') as fh:
+        json.dump(data, fh, separators=(',', ':'))
+    print(f"{v['key']:10} {os.path.getsize(path):5} B  {data['op'] / FPS:.2f}s  "
+          f"-> {os.path.relpath(path, REPO)}")
