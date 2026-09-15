@@ -20,7 +20,26 @@ const zipPath = path.join(__dirname, 'dist', `${process.env.INST_ID}-${process.e
  * `-dirty` suffix means the tree had uncommitted changes and the package therefore
  * cannot be rebuilt exactly. Treat -dirty packages as throwaway.
  */
-const ARCHIVE_DIR = path.join(os.homedir(), 'tau-packages');
+/**
+ * Verification builds go somewhere else entirely.
+ *
+ * Proving a change did not disturb another view means building that view's package purely
+ * to diff it (see scripts/compare-packages.mjs). Those packages are never uploaded — but
+ * dropped next to the real ones they are indistinguishable from them, and an archive whose
+ * whole purpose is answering "which source produced the package that is live?" cannot
+ * afford entries that were never candidates.
+ *
+ * So `npm run build:check` puts them under tau-packages/verification/ with their own
+ * manifest, and the top-level archive keeps meaning "a package that could be deployed".
+ *
+ * The flag arrives as npm_config_tau_check: npm turns `--tau-check` on a run command into
+ * that environment variable, for pre/post scripts too, on every platform. An env var like
+ * TAU_CHECK=1 would not survive cmd.exe.
+ */
+const IS_CHECK_BUILD = Boolean(process.env.npm_config_tau_check);
+const ARCHIVE_DIR = IS_CHECK_BUILD
+  ? path.join(os.homedir(), 'tau-packages', 'verification')
+  : path.join(os.homedir(), 'tau-packages');
 const MANIFEST = path.join(ARCHIVE_DIR, 'MANIFEST.tsv');
 // `note` is written empty and filled in by hand — a build is not a deploy, and postbuild
 // cannot know which packages were actually uploaded to Alma. Record that there.
@@ -73,6 +92,9 @@ function archiveBuild() {
     const relative = `${day}/${name}`;
     const dest = path.join(ARCHIVE_DIR, day, name);
 
+    if (IS_CHECK_BUILD) {
+      console.log('Verification build — archiving to tau-packages/verification/. Not for upload.');
+    }
     fs.mkdirSync(path.join(ARCHIVE_DIR, day), { recursive: true });
     fs.copyFileSync(zipPath, dest);
 

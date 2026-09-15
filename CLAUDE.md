@@ -205,6 +205,22 @@ and ad-hoc copies are how it stops being answerable which source produced a live
 - Packages named `_unknown` predate this archive (imported 2026-09-03 from four scattered
   locations). Their manifest notes carry an *inferred* commit, explicitly marked NOT verified.
 
+### Verification builds go somewhere else
+
+Proving a change did not disturb another view means building that view's package purely to
+diff it against one built from `main` (see *Per-view content* and
+`scripts/compare-packages.mjs`). Those packages are **never uploaded**, and sitting next to
+the real ones they are indistinguishable from them — which quietly destroys the one thing
+this archive is for.
+
+```bash
+npm run build:check      # instead of npm run build
+```
+
+That archives to `~/tau-packages/verification/<date>/` with its own `MANIFEST.tsv`, prints
+"Not for upload" during the build, and leaves the top-level archive meaning exactly one
+thing: **a package that could be deployed.** Nothing in `verification/` ever should be.
+
 Deploy is still manual: upload the zip to Alma Back Office. Pushing to `main` deploys nothing.
 After uploading, confirm the right package went live by the boot banner in the browser console —
 it names the package it was built for.
