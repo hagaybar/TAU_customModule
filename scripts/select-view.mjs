@@ -44,6 +44,13 @@ export const VIEW_FAMILY = {
   NDE_TEST: 'nde',
   TMA_NDE: 'tma',
   TMA: 'tma',
+
+  // TEMPORARY (2026-09-15). A throwaway duplicate of TMA_NDE, used to find out whether the
+  // legacy homepage path still works — production NDE ships homepage_{en,he}.html and never
+  // fetches them, so nothing at TAU proves that mechanism is alive. Delete this row when the
+  // Back Office view is deleted; an undeclared view fails the build, which is how you will
+  // find out if something still points at it.
+  TMA_NDE_TEMP: 'tma',
 };
 
 export class UnknownViewError extends Error {

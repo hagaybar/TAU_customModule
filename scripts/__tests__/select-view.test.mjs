@@ -67,6 +67,7 @@ describe('familyFor', () => {
     assert.equal(familyFor('NDE_TEST'), 'nde');
     assert.equal(familyFor('TMA_NDE'), 'tma');
     assert.equal(familyFor('TMA'), 'tma');
+    assert.equal(familyFor('TMA_NDE_TEMP'), 'tma');
   });
 
   test('declares TMA alongside TMA_NDE so cutover is an env change only', () => {
@@ -75,7 +76,7 @@ describe('familyFor', () => {
 
   test('throws on an undeclared view id rather than guessing a family', () => {
     assert.throws(() => familyFor('TMA2'), UnknownViewError);
-    assert.throws(() => familyFor('TMA2'), /Known: NDE, NDE_TEST, TMA_NDE, TMA/);
+    assert.throws(() => familyFor('TMA2'), /Known: NDE, NDE_TEST, TMA_NDE, TMA, TMA_NDE_TEMP/);
   });
 
   test('throws on a missing view id', () => {
