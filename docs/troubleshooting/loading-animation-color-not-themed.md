@@ -119,6 +119,15 @@ NDE theme. Built on branch `feat/nde-loading-animation-blue`; verified via the p
 (served at the host-requested path, HTTP 200) and rendered with lottie-web. Colors are baked into the
 JSON — to re-tune, hue-rotate or recolor the fill keyframes (they are animated `fl` fills).
 
+> **Path note:** since the per-view split (#67) the file to edit is
+> `src/assets/views/nde/images/loadingAnimations/LoadingAnimationJson.json`. The path above is
+> the generated copy, which is gitignored and overwritten by every build.
+
+### Replacing it with something other than the dots
+`docs/assets/loading-animations/` holds eight candidate animations built from scratch — four
+from the DaTA logo, four on academic-library themes — with the generator that produces them and
+a gallery that plays them side by side. See that folder's `README.md`.
+
 ## References
 
 - Theme configuration guide: [`NDE_THEME_CUSTOMIZATION.md`](../development/NDE_THEME_CUSTOMIZATION.md)

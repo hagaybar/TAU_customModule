@@ -91,3 +91,9 @@ src/assets/icons/favicon.ico
 src/assets/homepage/homepage.css
 src/assets/images/tma-patents.jpg
 src/assets/images/loadingAnimations/LoadingAnimationJson.json
+
+# Generated review gallery for the loading-animation candidates (issue: NDE boot animation).
+# 113 KB of inlined Lottie JSON rebuilt by docs/assets/loading-animations/generate.mjs from
+# gallery.template.html and the candidate files, both of which ARE tracked. Ignored rather than
+# left untracked because an untracked file makes postbuild.js stamp every package -dirty.
+docs/assets/loading-animations/gallery.html
