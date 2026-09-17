@@ -590,13 +590,43 @@ writeFileSync(
 );
 
 /* The review gallery inlines every animation rather than fetching them, so the published page is
- * a single self-contained file and cannot half-load. Regenerating the animations regenerates it. */
+ * a single self-contained file and cannot half-load. Regenerating the animations regenerates it.
+ *
+ * Two flavours come out of the one template:
+ *  - gallery.html           for the Claude artifact host, which wraps the file in its own
+ *                           <!doctype>/<head> carrying charset, viewport and a small reset;
+ *  - gallery.standalone.html for any ordinary web host (GitHub Pages), which adds none of that.
+ * The standalone one needs the charset declared or every em dash arrives as mojibake. */
 const template = readFileSync(join(OUT_DIR, 'gallery.template.html'), 'utf8');
-writeFileSync(
-  join(OUT_DIR, 'gallery.html'),
-  template.replace('/*__CANDIDATES__*/null', JSON.stringify(index)),
-);
+const page = template.replace('/*__CANDIDATES__*/null', JSON.stringify(index));
+writeFileSync(join(OUT_DIR, 'gallery.html'), page);
+
+// The template opens with <title>, the font <link> and one <style> block; everything up to the
+// end of that block belongs in <head>, and the rest is body content.
+const splitAt = page.indexOf('</style>') + '</style>'.length;
+writeFileSync(join(OUT_DIR, 'gallery.standalone.html'), `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+${page.slice(0, splitAt)}
+<style>
+  :root {
+    color-scheme: light dark;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  body { margin: 0; }
+  img { max-width: 100%; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+${page.slice(splitAt)}
+</body>
+</html>
+`);
 
 const total = index.reduce((sum, c) => sum + c.bytes, 0);
 console.log(`wrote ${index.length} candidates (${(total / 1024).toFixed(1)} KB), index.json`);
-console.log(`wrote gallery.html in ${OUT_DIR}`);
+console.log(`wrote gallery.html + gallery.standalone.html in ${OUT_DIR}`);

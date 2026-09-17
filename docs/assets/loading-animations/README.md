@@ -37,18 +37,29 @@ be right in the file.
 node docs/assets/loading-animations/generate.mjs
 ```
 
-Rewrites all eight `.json` files, `index.json`, and `gallery.html`. Edit `generate.mjs`, never
+Rewrites all eight `.json` files, `index.json`, and both galleries. Edit `generate.mjs`, never
 the `.json` files — they are output. To retune the palette for every candidate at once, change
 the constants at the top of the generator.
 
-`gallery.html` is gitignored: it is 113 KB of inlined Lottie rebuilt from
+Both galleries are gitignored: each is ~113 KB of inlined Lottie rebuilt from
 `gallery.template.html` and the candidates, both of which are tracked.
 
 ## Reviewing
 
-`gallery.html` is a self-contained page that plays all eight side by side on the real (white)
-boot background, with size and speed controls. Open it locally, or publish it — it needs only
-`lottie-web` from a CDN and carries the animation data inline.
+The gallery plays all eight side by side on the real (white) boot background, with size and
+speed controls. It carries the animation data inline and needs only `lottie-web` from a CDN, so
+it works from anywhere. Two flavours come out of the same template:
+
+| File | For |
+|---|---|
+| `gallery.html` | The Claude artifact host, which supplies its own `<head>` |
+| `gallery.standalone.html` | Any ordinary web host — carries its own charset and viewport |
+
+The standalone one **must** declare the charset; without it every em dash arrives as mojibake.
+
+**Published for the team at <https://hagaybar.github.io/TAU_customModule/loading-animations/>** —
+open to anyone, no sign-in. That comes off the orphan `gh-pages` branch, which holds only
+generated review pages; see that branch's `README.md` for how to update it.
 
 ## Authoring notes
 

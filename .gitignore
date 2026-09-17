@@ -92,8 +92,10 @@ src/assets/homepage/homepage.css
 src/assets/images/tma-patents.jpg
 src/assets/images/loadingAnimations/LoadingAnimationJson.json
 
-# Generated review gallery for the loading-animation candidates (issue: NDE boot animation).
-# 113 KB of inlined Lottie JSON rebuilt by docs/assets/loading-animations/generate.mjs from
-# gallery.template.html and the candidate files, both of which ARE tracked. Ignored rather than
-# left untracked because an untracked file makes postbuild.js stamp every package -dirty.
+# Generated review galleries for the loading-animation candidates (NDE boot animation).
+# ~113 KB each of inlined Lottie JSON, rebuilt by docs/assets/loading-animations/generate.mjs
+# from gallery.template.html and the candidate files, both of which ARE tracked. Ignored rather
+# than left untracked because an untracked file makes postbuild.js stamp every package -dirty.
+# The .standalone. one is the copy published to the gh-pages branch.
 docs/assets/loading-animations/gallery.html
+docs/assets/loading-animations/gallery.standalone.html
