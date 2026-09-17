@@ -271,8 +271,9 @@
   <header class="masthead">
     <h1>DaTA Loading Animations</h1>
     <p class="deck">
-      Eight candidates to replace the four purple dots Primo shows while an NDE view boots.
-      The package carries <b>exactly one</b> — these are the shortlist to choose it from.
+      <span id="total">&nbsp;</span> candidates to replace the four purple dots Primo shows while
+      an NDE view boots. The package carries <b>exactly one</b> — these are the shortlist to
+      choose it from.
     </p>
   </header>
 
@@ -343,6 +344,12 @@
   const players = [];
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const kb = (bytes) => (bytes / 1024).toFixed(1) + ' KB';
+
+  // Counted from the data, not written into the copy — the set grows as candidates are added.
+  const WORDS = ['No', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine',
+                 'Ten', 'Eleven', 'Twelve'];
+  document.getElementById('total').textContent =
+    WORDS[CANDIDATES.length] ?? String(CANDIDATES.length);
 
   const sections = document.getElementById('sections');
 
