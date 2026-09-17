@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TAU customModule — published pages</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700&family=Source+Sans+3:wght@400&display=swap">
+<style>
+  :root {
+    color-scheme: light dark;
+    --ground: #f4f7fb;
+    --surface: #ffffff;
+    --ink: #0d1b2a;
+    --ink-soft: #4d6179;
+    --hairline: #d5e0ed;
+    --accent: #0052b3;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #0a141d;
+      --surface: #11202e;
+      --ink: #e3eaf4;
+      --ink-soft: #94a8be;
+      --hairline: #223a50;
+      --accent: #66bff1;
+    }
+  }
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font: 16px/1.55 "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  }
+  .wrap { max-width: 40rem; margin-inline: auto; padding-inline: 20px; padding-block: 56px; }
+  h1 {
+    font: 700 clamp(1.7rem, 1.2rem + 2vw, 2.4rem)/1.1 "Bricolage Grotesque", "Trebuchet MS", sans-serif;
+    letter-spacing: -0.02em;
+    margin: 0 0 10px;
+  }
+  p { color: var(--ink-soft); margin: 0 0 28px; }
+  a.card {
+    display: block;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 10px;
+    padding: 18px;
+    text-decoration: none;
+    color: inherit;
+  }
+  a.card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  a.card strong {
+    display: block;
+    font: 700 1.15rem/1.3 "Bricolage Grotesque", "Trebuchet MS", sans-serif;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  a.card span { color: var(--ink-soft); font-size: 0.95rem; }
+  footer { margin-top: 36px; color: var(--ink-soft); font-size: 0.85rem; }
+  footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>TAU customModule</h1>
+  <p>Pages published from this repository for review. Everything here is generated from the
+     source tree — it is not the customization package itself.</p>
+
+  <a class="card" href="loading-animations/">
+    <strong>DaTA loading animations</strong>
+    <span>Eight candidates to replace the dots on the Primo NDE boot screen, playing side by side.</span>
+  </a>
+
+  <footer>
+    Source: <a href="https://github.com/hagaybar/TAU_customModule">github.com/hagaybar/TAU_customModule</a>
+  </footer>
+</div>
+</body>
+</html>
