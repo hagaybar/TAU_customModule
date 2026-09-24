@@ -13,7 +13,7 @@ outcome and floor are known. Sent from `CenlibMapDialogComponent.trackOpen()`.
 | Property | Source |
 |---|---|
 | `addon`, `addon_version` | `'tau-shelf-map'`, `SHELF_MAP_ADDON_VERSION` in the dialog component |
-| `vid` | the build's package, e.g. `972TAU_INST:NDE_TEST` |
+| `Primo View` | e.g. `972TAU_INST:NDE_TEST` — same name and format as Primo's own Mixpanel events, so one "Primo View" filter covers both |
 | `record_id` | `docid` from the page URL |
 | `library`, `location` | English config names (so events group the same in either UI language) |
 | `call_number` | as shown in Get It |

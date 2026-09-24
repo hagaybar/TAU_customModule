@@ -132,7 +132,9 @@ export class CenlibMapDialogComponent implements OnInit {
     trackEvent('Shelf Map Open', {
       addon: 'tau-shelf-map',
       addon_version: SHELF_MAP_ADDON_VERSION,
-      vid: viewId(),
+      // Same property name and value format as Primo's own Mixpanel events, so one
+      // "Primo View" filter shows both.
+      'Primo View': viewId(),
       record_id: new URLSearchParams(window.location.search).get('docid') ?? '',
       library: this.data?.libraryNameEn || this.data?.libraryName,
       location: this.data?.collectionNameEn || this.data?.collectionName,
