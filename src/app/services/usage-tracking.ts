@@ -21,8 +21,8 @@ import { mixpanelProjectToken } from '../state/tracking.generated';
  */
 export const MIXPANEL_PROJECT_TOKEN: string = mixpanelProjectToken;
 
-/** Views that send events. Add 'NDE' when the NDE_TEST trial is verified. */
-export const TRACKING_VIEWS: readonly string[] = ['NDE_TEST'];
+/** Views that send events. NDE_TEST trial verified 2026-09-24, then enabled on NDE. */
+export const TRACKING_VIEWS: readonly string[] = ['NDE_TEST', 'NDE'];
 
 /** EU data residency — TAU's project lives in the EU region. */
 export const MIXPANEL_TRACK_URL = 'https://api-eu.mixpanel.com/track?ip=0&verbose=1';

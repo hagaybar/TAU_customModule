@@ -1,6 +1,6 @@
 # Shelf Map usage tracking (Mixpanel)
 
-**Status:** 🧪 NDE_TEST only (trial). Enable on `NDE` by adding it to `TRACKING_VIEWS`.
+**Status:** ✅ `NDE_TEST` (verified 2026-09-24) and `NDE`. Views are listed in `TRACKING_VIEWS`.
 
 Counts how often patrons open the Shelf Map ("מפת מדף") dialog, in **TAU's own Mixpanel
 project**, separate from Primo's built-in analytics.
