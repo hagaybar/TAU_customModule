@@ -19,7 +19,7 @@ import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 import { VIEW_FAMILY } from './select-view.mjs';
-import { readEnv, uncommittedFiles, classifyAll, familyFor } from './view-state.mjs';
+import { readEnv, uncommittedFiles, classifyForFamily, familyFor } from './view-state.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -48,7 +48,7 @@ const before = readEnv(ROOT);
 // ends up orphaned — it stays on disk, but nothing you build afterwards contains it.
 if (before.viewId && before.viewId !== viewId) {
   const leaving = familyFor(before.viewId);
-  const stranded = classifyAll(uncommittedFiles(ROOT), leaving).current;
+  const stranded = classifyForFamily(uncommittedFiles(ROOT), leaving).current;
   if (stranded.length) {
     console.error(`Refusing to switch: ${stranded.length} uncommitted file(s) in the ${leaving} family.`);
     for (const f of stranded.slice(0, 10)) console.error(`    ${f}`);
