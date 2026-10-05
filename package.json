@@ -18,6 +18,7 @@
     "test:scripts": "node --test scripts/__tests__/",
     "compare:packages": "node scripts/compare-packages.mjs",
     "check:debug-logging": "node scripts/check-debug-logging.mjs",
+    "pretest": "npm run generate",
     "test": "ng test",
     "postbuild": "node postbuild.js",
     "prebuild": "npm run generate",

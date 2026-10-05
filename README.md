@@ -137,6 +137,7 @@ Adds an interactive **"Shelf Map"** button (Hebrew: **"מפת מדף"**) to hold
 - ✅ **Producer-matched call-number matching**: canonical Dewey comparison kept identical to the Primo Maps producer (`NDE_MAPS_MANGER`, issue #100) — cutter stripping, 3-digit zero-padding, `ML`/`MT` natural-number exception
 - ✅ **Floor-scoping guard** (issue #12): a range must not span floors; off-floor matches are dropped and logged instead of highlighted on the wrong SVG
 - ✅ **Bilingual Support**: English and Hebrew, detected from the `lang` URL parameter
+- ✅ **Usage tracking** (NDE and NDE_TEST): anonymous "Shelf Map Open" events to TAU's Mixpanel project — see [Shelf Map usage tracking](docs/features/shelf-map-usage-tracking.md)
 
 **Companion repository (Primo Maps):** the map data this feature *consumes* is *produced* and
 maintained in a separate repository, **`NDE_MAPS_MANGER`** (the "Primo Maps" manager). That repo

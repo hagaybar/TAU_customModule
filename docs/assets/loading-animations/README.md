@@ -7,7 +7,8 @@ produces them and the gallery used to choose between them.
 `assets/images/loadingAnimations/LoadingAnimationJson.json` (Ex Libris case 10665359 — see
 `docs/troubleshooting/loading-animation-color-not-themed.md` for how that was established).
 The chosen candidate is copied over `src/assets/views/nde/images/loadingAnimations/LoadingAnimationJson.json`;
-the rest stay here as the record of what was considered.
+the rest stay here as the record of what was considered. **Shipped: `ring-orbit`** (chosen by the team
+2026-10-05, #76).
 
 They live under `docs/` rather than `src/assets/` deliberately: `angular.json` copies the whole
 of `src/assets` into every package, so candidates parked there would ride along into production
