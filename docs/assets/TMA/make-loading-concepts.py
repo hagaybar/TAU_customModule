@@ -153,7 +153,18 @@ def build_stamp():
                    (settle + 3, [100, 100, 100])]),
     })
     mark_layer = layer('Impression', 2, impression, F, ks={'p': val([CX, CY + 16, 0])})
-    return comp('Registry stamp', [stamp_layer, mark_layer], F)
+
+    # Fit the whole gesture inside the canvas. Drawn as above it spans y = -24 (the knob at
+    # the top of the lift) to ~86 (the impression ring) — 110 units in a 90-unit frame, so the
+    # knob was clipped at the top of every lift. Invisible while the host drew loaders at half
+    # size; obvious once custom.css restored full size (2026-10-05). Rather than redraw, both
+    # layers hang off a null that scales the drawing about its vertical midpoint (y = 31) and
+    # centres it, leaving ~3 units of margin top and bottom.
+    fit = {'ddd': 0, 'ind': 3, 'ty': 3, 'nm': 'Fit', 'sr': 1, 'ao': 0, 'ip': 0, 'op': F,
+           'st': 0, 'bm': 0, 'ks': {'o': val(0), 'r': val(0), 'p': val([CX, CY, 0]),
+                                    'a': val([CX, 31, 0]), 's': val([76, 76, 100])}}
+    stamp_layer['parent'] = mark_layer['parent'] = 3
+    return comp('Registry stamp', [stamp_layer, mark_layer, fit], F)
 
 
 def build_tiles():
