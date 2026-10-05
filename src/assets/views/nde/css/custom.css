@@ -374,3 +374,17 @@ nde-requests .no-requests {
   background-color: var(--tau-no-requests-bg) !important;
 }
 /* 07.09.26 "no request options" message background end */
+
+/* 05.10.26 loading animation at full size                                                         */
+/* Complaint: the loader is too small. The host's spinner component hardcodes an inline            */
+/*     <div style="transform: scale(0.5)"> around the Lottie (src_bootstrap_ts chunk),             */
+/* so every animation is drawn at half its 300x90 canvas (~150x45). The ring sits in the middle    */
+/* and read as tiny. No JSON change can fix it; overriding the inline style can (!important is the */
+/* only thing that beats an inline style). custom.css is already loaded when the spinner first     */
+/* appears, on cold boot and on search (verified on TMA_NDE 2026-10-05, where the same rule is     */
+/* live). At `none` the box is 300x96 = the spinner dialog's width, so nothing clips; the ring      */
+/* spans y 14-77 of 90, so it fits too. Use scale(0.75) here for a middle size.                    */
+nde-progress-spinner-dialog ng-lottie > div {
+  transform: none !important;
+}
+/* 05.10.26 loading animation at full size end */
