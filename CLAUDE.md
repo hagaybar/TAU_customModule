@@ -63,6 +63,7 @@ This repository contains TAU-specific customizations documented in:
 - `README.md` - Summary of all TAU customizations
 - `docs/features/` - Detailed feature documentation
 - `docs/features/landing-banner-customization.md` - **Playbook for the landing banner & search-bar styling** (font, color, overlay, search-bar width) + a **complete inventory of every `src/assets/views/nde/css/custom.css` rule** and the layout gotchas (h1/h2, landing vs top-bar, local-proxy ≠ production). Read this before tweaking any banner/CSS styling.
+- `docs/features/tma-view-changelog.md` - **History of the TMA view** (repository *and* Back Office changes). Add an entry for every TMA change.
 - `docs/reference/` - Technical reference documents
 - `docs/planning/FUTURE_TASKS.md` - Planned enhancements and future work
 
