@@ -129,3 +129,23 @@ header.top-bar nde-user-area {
 .tma-footer .tma-footer__line a:focus-visible {
   color: var(--sys-on-surface, #1d1b1b);
 }
+
+/* ── 2026-10-05 · hide the "Links" section on the full record display ──────────────
+ *
+ * Oren's request. The Back Office has no switch for it, and hiding the label alone is not
+ * enough: the section is a whole expansion panel with its own divider lines and padding,
+ * so blanking the text would leave an empty bordered strip.
+ *
+ * Targeted by the wrapper's id, `nui.brief.results.tabs.links`. The host builds that id
+ * from the section's label code, not from build-generated class suffixes, so it survives
+ * Ex Libris rebuilds. An attribute selector because the id contains dots, which `#…`
+ * would read as classes. The wrapper holds the panel and its divider together, so one
+ * rule removes both.
+ *
+ * Verified live on TMA_NDE 2026-10-05 (record alma9933772861904146): Links was the last
+ * panel; with it hidden, "More from the same Collection" ends the page cleanly with no
+ * stray border, and no other "Links" entry (jump menu or similar) remains on the page.
+ */
+[id="nui.brief.results.tabs.links"] {
+  display: none;
+}
