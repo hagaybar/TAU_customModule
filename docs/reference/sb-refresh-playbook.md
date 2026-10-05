@@ -35,7 +35,7 @@ must be re-applied. That is the whole job below: three settings, plus a set of c
 | # | Step | Where | Why it's needed after a refresh |
 |---|------|-------|--------------------------------|
 | 1 | Set the Alma SB colour scheme to **green** | Alma back office | Refresh copies PROD's blue branding; staff must never confuse SB with PROD |
-| 2 | Revert the **CDI Key** to `972TAU.TAU.PSTG`, then run the CDI publish job | Alma → Discovery | Refresh copies PROD's CDI key; SB-only activations won't reflect until this is fixed |
+| 2 | Revert the **CDI Key** to the PSB value (held in internal records), then run the CDI publish job | Alma → Discovery | Refresh copies PROD's CDI key; SB-only activations won't reflect until this is fixed |
 | 3 | Re-apply a **non-blue colour theme** to the `972TAU_INST:NDE` view | Alma → Discovery → Configure Views | Refresh copies PROD's `denim_blue` theme; SB's discovery front end would otherwise be pixel-identical to PROD |
 | 4 | **Verify** the NDE customization package — do not rebuild | Alma → Configure Views | Same vid as PROD ⇒ PROD's package works as-is; this is a check, not a task |
 | 5 | Work through the [post-refresh checks](#5-post-refresh-checks) | SB front end | Confirms 1–4 landed and nothing else drifted |
@@ -83,13 +83,13 @@ everything else**. Revert it immediately after the refresh.
 
 **Path:** Alma → Configuration Menu → Discovery → Other → **Central Index and proxy set-up**
 
-Set the **CDI Key** to `972TAU.TAU.PSTG`, confirm the **Customer ID**, and **Save**. After saving,
+Set the **CDI Key** to the PSB value (held in internal records), confirm the **Customer ID**, and **Save**. After saving,
 the page normally shows a profile link.
 
 ### Key rules to remember
 
 - Sandboxes refreshed from PROD inherit the **PROD** CDI Key unless you replace it.
-- PSB keys typically end in `PSTG`; PROD keys typically end in `PPRD`. Ours is `972TAU.TAU.PSTG`.
+- PSB keys typically end in `PSTG`; PROD keys typically end in `PPRD`.
 - Store the PSB key and Customer ID **outside Alma** (secure vault) — refreshes overwrite them.
 
 ### Why a separate PSB key (and not PROD's)
@@ -97,7 +97,7 @@ the page normally shows a profile link.
 | Option | Effect |
 |---|---|
 | Use the PROD CDI Key in PSB | PSB uses PROD holdings/publishing. SB-only activations won't reflect. **Not ideal.** |
-| Use the PSB CDI Key `972TAU.TAU.PSTG` | PSB publishes its own holdings, so SB-only activations behave correctly. **Recommended.** |
+| Use the PSB CDI Key (value held in internal records) | PSB publishes its own holdings, so SB-only activations behave correctly. **Recommended.** |
 
 ### Run the CDI publish job
 
@@ -236,7 +236,7 @@ during the refresh. NDE has no such string to travel. A one-off spot-check is st
 Run these every time; each maps to a step above.
 
 - [ ] Alma SB UI is green and unmistakably distinct from PROD.
-- [ ] **Central Index and proxy set-up** shows CDI Key `972TAU.TAU.PSTG` and the correct Customer ID
+- [ ] **Central Index and proxy set-up** shows the PSB CDI Key (value held in internal records) and the correct Customer ID
       — not the PROD key.
 - [ ] The CDI publish job ran successfully today. (Re-check search behaviour after ~48–72 hours.)
 - [ ] The `972TAU_INST:NDE` view's colour theme is the non-blue SB preset, and the SB front end shows
@@ -284,7 +284,7 @@ promote whatever proves to be a real, repeating task into the checklist above.
 
 A refresh overwrites SB, so anything needed to rebuild SB's sandbox identity must live elsewhere.
 
-- **PSB CDI Key** (`972TAU.TAU.PSTG`) and **Customer ID** — in the secure password vault.
+- **PSB CDI Key** and **Customer ID** — in the secure password vault.
 - **Alma SB colour hexes** — `#47761e` / `#244f02` (also recorded in
   [section 1](#1-alma-sb--set-a-distinct-green-colour-scheme)).
 - **The NDE colour theme preset name** chosen in step 3, so the same one is re-applied each time.
