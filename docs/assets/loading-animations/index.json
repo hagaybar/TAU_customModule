@@ -1,0 +1,66 @@
+[
+  {
+    "id": "cog-magnifier",
+    "family": "logo",
+    "title": "Cog magnifier",
+    "blurb": "The logo's magnifier with a geared rim, turning while the lens mark breathes.",
+    "seconds": 1.8,
+    "bytes": 6753
+  },
+  {
+    "id": "letters-assembling",
+    "family": "logo",
+    "title": "Letters assembling",
+    "blurb": "D a T A drops in one letter at a time, holds, clears, repeats.",
+    "seconds": 1.8,
+    "bytes": 7085
+  },
+  {
+    "id": "scan-sweep",
+    "family": "logo",
+    "title": "Scan sweep",
+    "blurb": "A magnifier glides over three lines of text, leaving what it passed in logo blue.",
+    "seconds": 2.4,
+    "bytes": 32781
+  },
+  {
+    "id": "ring-orbit",
+    "family": "logo",
+    "title": "Ring orbit",
+    "blurb": "The logo held still, with the lens mark orbiting inside the ring.",
+    "seconds": 1.4,
+    "bytes": 2253
+  },
+  {
+    "id": "book-equalizer",
+    "family": "library",
+    "title": "Book equalizer",
+    "blurb": "Five spines rising and falling in a wave travelling along the shelf.",
+    "seconds": 1.6,
+    "bytes": 17794
+  },
+  {
+    "id": "page-flip",
+    "family": "library",
+    "title": "Page flip",
+    "blurb": "An open book with pages turning continuously.",
+    "seconds": 1.6,
+    "bytes": 6341
+  },
+  {
+    "id": "shelving",
+    "family": "library",
+    "title": "Shelving",
+    "blurb": "Books slide in and fill the shelf left to right, then the row clears.",
+    "seconds": 1.87,
+    "bytes": 10260
+  },
+  {
+    "id": "knowledge-orbit",
+    "family": "library",
+    "title": "Knowledge orbit",
+    "blurb": "A book at the centre of two tilted orbits with dots travelling them.",
+    "seconds": 2,
+    "bytes": 15559
+  }
+]

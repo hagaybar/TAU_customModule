@@ -137,6 +137,7 @@ Adds an interactive **"Shelf Map"** button (Hebrew: **"מפת מדף"**) to hold
 - ✅ **Producer-matched call-number matching**: canonical Dewey comparison kept identical to the Primo Maps producer (`NDE_MAPS_MANGER`, issue #100) — cutter stripping, 3-digit zero-padding, `ML`/`MT` natural-number exception
 - ✅ **Floor-scoping guard** (issue #12): a range must not span floors; off-floor matches are dropped and logged instead of highlighted on the wrong SVG
 - ✅ **Bilingual Support**: English and Hebrew, detected from the `lang` URL parameter
+- ✅ **Usage tracking** (NDE and NDE_TEST): anonymous "Shelf Map Open" events to TAU's Mixpanel project — see [Shelf Map usage tracking](docs/features/shelf-map-usage-tracking.md)
 
 **Companion repository (Primo Maps):** the map data this feature *consumes* is *produced* and
 maintained in a separate repository, **`NDE_MAPS_MANGER`** (the "Primo Maps" manager). That repo
@@ -941,9 +942,12 @@ If you do not see the top background image when running `npm run start:proxy`:
     ng generate component RecommendationsComponent
     ``` 
 
-2. Update `selectorComponentMap` in `customComponentMappings.ts` to connect the newly created components:
+2. Register the components in the map for the view family they belong to —
+   `src/app/views/nde/component-map.ts` for the live `NDE` and `NDE_TEST` views,
+   `src/app/views/tma/component-map.ts` for TMA. The build re-exports the selected family's
+   map as `selectorComponentMap`; see *Per-view content* in `CLAUDE.md`.
     ```typescript
-    export const selectorComponentMap = new Map<string, any>([
+    export const map = new Map<string, any>([
       ['nde-recommendations-before', RecommendationsComponentBefore],
       ['nde-recommendations-after', RecommendationsComponentAfter],
       ['nde-recommendations-top', RecommendationsComponentTop],
