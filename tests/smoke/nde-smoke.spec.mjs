@@ -25,9 +25,14 @@ const HIDDEN_COLLECTIONS = [
 
 const q = (path, params = {}) =>
   `${path}?${new URLSearchParams({ vid: VID, lang: 'en', ...params })}`;
-const SEARCH = q('/nde/search', { query: 'any,contains,history', tab: 'Everything', search_scope: 'MyInst_and_CI' });
-const NO_RESULTS = q('/nde/search', { query: 'any,contains,qzxwvkjq plmnbt', tab: 'Everything', search_scope: 'MyInst_and_CI' });
-const FULL_RECORD = q('/nde/fulldisplay', { docid: SHELF_DOCID, context: 'L', tab: 'Everything', search_scope: 'MyInst_and_CI' });
+// The tab and scope must be ones the view defines. An unknown tab still returns results, but
+// the host then renders the filter side panel empty (console: "reading 'facetview'"), and the
+// filter-assist panel has nowhere to mount — a broken URL that looks like a broken host.
+const TAB = process.env.SMOKE_TAB || 'TAU';
+const SCOPE = process.env.SMOKE_SCOPE || 'TAU';
+const SEARCH = q('/nde/search', { query: 'any,contains,history', tab: TAB, search_scope: SCOPE });
+const NO_RESULTS = q('/nde/search', { query: 'any,contains,qzxwvkjq plmnbt', tab: TAB, search_scope: SCOPE });
+const FULL_RECORD = q('/nde/fulldisplay', { docid: SHELF_DOCID, context: 'L', tab: TAB, search_scope: SCOPE });
 const COLLECTIONS = q('/nde/collectionDiscovery');
 const HOME = q('/nde/home');
 
@@ -115,15 +120,6 @@ test('collection discovery: configured collections are hidden', async ({ page })
 
 test('search results: filter-assist panel in the filter side panel', async ({ page }) => {
   await page.goto(SEARCH);
-  await expect(slot(page, 'nde-header-before')).toBeAttached(); // module is up
-  const sideNav = page.locator('nde-search-filters-side-nav');
-  await expect(sideNav).toBeAttached();
-  // The panel lives in a host slot inside the filter groups. As of 2026-10-05 the host renders
-  // the side panel with no filter groups at all, on NDE and NDE_TEST, with our module blocked
-  // too — a host problem, not ours. Skip rather than fail while the host has nothing to mount into.
-  await page.waitForTimeout(5_000);
-  const hostHasFilters = (await sideNav.innerText()).replace(/\s+/g, ' ').length > 120;
-  test.skip(!hostHasFilters, 'host filter side panel rendered no filter groups — nothing to mount into');
   const panel = slot(page, 'nde-filters-group-before').locator('section.external-search-panel');
   await expect(panel).toBeVisible();
   await expect(panel.locator('a.external-search-panel__link')).toHaveCount(3);

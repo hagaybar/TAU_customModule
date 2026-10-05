@@ -19,6 +19,7 @@ npx playwright show-report                 # after a failure: screenshots and tr
 |---|---|---|
 | `SMOKE_BASE_URL` | `https://tau.primo.exlibrisgroup.com` | Primo host, or the dev proxy |
 | `SMOKE_VID` | `972TAU_INST:NDE` | View; the boot banner must name the matching package |
+| `SMOKE_TAB`, `SMOKE_SCOPE` | `TAU`, `TAU` | Search tab and scope. Must exist in the view: an unknown tab leaves the host filter panel empty and fails the filter-assist check |
 | `SMOKE_SHELF_DOCID` | `alma990020446760204146` | A Central Library print book that shows the Shelf Map button |
 
 ## What it checks
@@ -29,7 +30,7 @@ npx playwright show-report                 # after a failure: screenshots and tr
 | No-results links | zero-hit search | `section.tau-external-search` with 3 links |
 | Shelf Map | full record | `button.cenlib-map-button` visible; click opens `.cenlib-map-dialog-panel` |
 | Collection Discovery | `/nde/collectionDiscovery` | collections in `hidden-collections.config.ts` are hidden and marked |
-| Filter-assist panel | search results | `section.external-search-panel` with 3 links — **skipped** when the host renders no filter groups |
+| Filter-assist panel | search results | `section.external-search-panel` with 3 links |
 | `custom.css` | home, results, full record | stylesheet loaded; listed selectors match at least one element |
 
 Every test also fails on any error raised from the package's own URLs (`/nde/custom/…`). The
