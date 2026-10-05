@@ -112,12 +112,15 @@ why we did **not** need to re-ask Ex Libris to disambiguate the email's wording.
 > follow the view's `--sys-primary` theme color. Author it in the desired color (e.g. TAU brand).
 
 ### TAU's shipped animation
-`src/assets/images/loadingAnimations/LoadingAnimationJson.json` is the Ex Libris default four-dot
-Lottie **hue-rotated from violet to azure blue** (`#003b7e → #0052b3 → #538bcc → #b0c9e7`), keeping the
-original motion/structure. It replaces the default purple dots with a blue set that fits a blue Primo
-NDE theme. Built on branch `feat/nde-loading-animation-blue`; verified via the proxy dev server
-(served at the host-requested path, HTTP 200) and rendered with lottie-web. Colors are baked into the
-JSON — to re-tune, hue-rotate or recolor the fill keyframes (they are animated `fl` fills).
+`src/assets/views/nde/images/loadingAnimations/LoadingAnimationJson.json` (the `nde` family, so it
+ships to both `NDE` and `NDE_TEST`) is **Ring orbit**: the DaTA logo held still, with the lens mark
+orbiting inside the ring — 300×90, 1.4 s loop, in the logo blue ramp. The team chose it on
+2026-10-05 from eight candidates (draft PR #72, `docs/assets/loading-animations/` on branch
+`worktree-loading-animations`, which also holds the generator). It replaced an earlier blue
+hue-rotation of the Ex Libris four dots. The file is generator output: to change it, edit the
+generator and re-copy `ring-orbit.json` over it, rather than hand-editing the JSON.
+
+The `tma` family ships its own animation (the registry stamp) and is unaffected.
 
 ## References
 
