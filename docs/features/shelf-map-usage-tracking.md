@@ -38,8 +38,8 @@ The Mixpanel **project token** (never the API secret) comes from the environment
 export TAU_MIXPANEL_TOKEN=<project token>   # in your shell's credentials file, not in the repo
 ```
 
-`prebuild.js` writes it to `src/app/state/tracking.generated.ts` (gitignored) and prints only
-whether it is set. Unset → tracking is off in that build. The token does ship inside the
+`scripts/write-tracking-token.mjs` (run by `npm run generate`) writes it to
+`src/app/state/tracking.generated.ts` (gitignored) and prints only whether it is set. Unset → tracking is off in that build. The token does ship inside the
 package — project tokens are public by design.
 
 ## Verify
