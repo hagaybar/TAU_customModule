@@ -21,7 +21,7 @@ checklist for the Angular 20 upgrade (issue #75).
   usually the first Sunday)
 - **Contains**:
   - Alma SB green colour scheme (unchanged from the pre-NDE version)
-  - CDI key revert to `972TAU.TAU.PSTG` + publish job (unchanged)
+  - CDI key revert to the PSB value (held in internal records) + publish job (unchanged)
   - NDE colour-theme re-application in the Back Office (replaces the old CSS/JS package steps)
   - Known SB differences, including the Shelf Map / CloudFront CORS absence
   - Appendix A preserving the legacy Primo VE steps for the classic view
