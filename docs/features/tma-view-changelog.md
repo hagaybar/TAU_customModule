@@ -21,6 +21,12 @@ English is the default language; the content family is `tma`, under
 
 ## 2026-10-05
 
+- **Loading animation drawn at full size.** *Repository.* Complaint that the loader is too
+  small. The host's spinner hardcodes `transform: scale(0.5)` on the Lottie box, so every
+  animation shows at half its 300x90 canvas; CSS now overrides it to full size (2x — the
+  stamp goes from ~29px to ~58px wide). Test on TMA_NDE first; NDE has the same problem.
+  `src/assets/views/tma/css/custom.css` (fence "loading animation at full size") · PR pending.
+
 - **Landing-page cards point at the new dedicated search tabs.** *Back Office + repository.*
   The Back Office now has separate `TRADEMARK` and `PATENT` search tabs and scopes. Both
   cards (English and Hebrew) open those tabs, not the single `TMA` scope narrowed by a
