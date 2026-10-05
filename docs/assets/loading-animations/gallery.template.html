@@ -1,0 +1,432 @@
+<title>DaTA Loading Animations</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=JetBrains+Mono:wght@500&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap">
+<style>
+  :root {
+    --ground: #f4f7fb;
+    --surface: #ffffff;
+    --sunken: #eaf0f7;
+    --ink: #0d1b2a;
+    --ink-soft: #4d6179;
+    --hairline: #d5e0ed;
+    --accent: #0052b3;
+    --accent-ink: #ffffff;
+    --accent-wash: #e3edfb;
+    /* The Primo boot screen is white, so a stage stays white in either theme — the point of
+       these previews is what a patron actually sees, not what suits the page around them. */
+    --stage: #ffffff;
+    --stage-edge: #dbe4ef;
+
+    --display: "Bricolage Grotesque", "Trebuchet MS", sans-serif;
+    --body: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, "Cascadia Code", monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #0a141d;
+      --surface: #11202e;
+      --sunken: #17293a;
+      --ink: #e3eaf4;
+      --ink-soft: #94a8be;
+      --hairline: #223a50;
+      --accent: #66bff1;
+      --accent-ink: #06121d;
+      --accent-wash: #15314b;
+      --stage-edge: #2d4763;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground: #0a141d;
+    --surface: #11202e;
+    --sunken: #17293a;
+    --ink: #e3eaf4;
+    --ink-soft: #94a8be;
+    --hairline: #223a50;
+    --accent: #66bff1;
+    --accent-ink: #06121d;
+    --accent-wash: #15314b;
+    --stage-edge: #2d4763;
+  }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.55;
+  }
+
+  .wrap {
+    max-width: 62rem;
+    margin-inline: auto;
+    padding-inline: 20px;
+    padding-block: 40px 56px;
+  }
+
+  /* ── Masthead ───────────────────────────────────────────────────────────── */
+
+  .masthead { display: flex; flex-direction: column; gap: 14px; }
+
+  h1 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: clamp(2rem, 1.3rem + 2.6vw, 3rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  .deck {
+    max-width: 44ch;
+    color: var(--ink-soft);
+    font-size: 1.05rem;
+    margin: 0;
+  }
+
+  .deck b { color: var(--ink); font-weight: 600; }
+
+  /* ── Controls ───────────────────────────────────────────────────────────── */
+
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 14px;
+    align-items: center;
+    margin-block: 28px 8px;
+    padding-block: 16px;
+    border-block: 1px solid var(--hairline);
+  }
+
+  .seg {
+    display: inline-flex;
+    border: 1px solid var(--hairline);
+    border-radius: 7px;
+    overflow: hidden;
+    background: var(--surface);
+  }
+
+  .seg button, .solo {
+    font: 500 0.78rem/1 var(--mono);
+    letter-spacing: 0.04em;
+    color: var(--ink-soft);
+    background: none;
+    border: 0;
+    padding: 9px 13px;
+    cursor: pointer;
+  }
+
+  .seg button + button { border-left: 1px solid var(--hairline); }
+  .seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+
+  .solo {
+    border: 1px solid var(--accent);
+    border-radius: 7px;
+    background: var(--accent);
+    color: var(--accent-ink);
+    min-width: 6.5rem;
+  }
+
+  .ctl-label {
+    font: 500 0.7rem/1 var(--mono);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  button:focus-visible, a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  /* ── Sections ───────────────────────────────────────────────────────────── */
+
+  section { margin-top: 40px; }
+
+  .eyebrow {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+  }
+
+  h2 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 1.3rem;
+    letter-spacing: -0.01em;
+    margin: 0;
+  }
+
+  .count {
+    font: 500 0.7rem/1 var(--mono);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  .lede { color: var(--ink-soft); margin: 0 0 20px; max-width: 52ch; }
+
+  /* Sized so the wrapper fits exactly two columns: each family has four candidates, and a
+     three-column row would leave the fourth stranded on a row of its own. */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(21rem, 1fr));
+    gap: 20px;
+  }
+
+  /* ── Candidate cards ────────────────────────────────────────────────────── */
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 10px;
+    padding: 18px;
+  }
+
+  .stage {
+    width: min(300px, 100%);
+    aspect-ratio: 10 / 3;
+    background: var(--stage);
+    border: 1px solid var(--stage-edge);
+    border-radius: 6px;
+    align-self: center;
+  }
+
+  body.big .stage { width: min(600px, 100%); }
+
+  .card h3 {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 1.12rem;
+    letter-spacing: -0.01em;
+    margin: 0 0 4px;
+  }
+
+  .card p { margin: 0; color: var(--ink-soft); font-size: 0.95rem; }
+
+  /* The facts and the button are two blocks, so the row lands identically on every card
+     instead of wrapping differently wherever an id happens to be a few characters longer. */
+  .meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px solid var(--hairline);
+    font: 500 0.72rem/1.6 var(--mono);
+    letter-spacing: 0.04em;
+    color: var(--ink-soft);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .facts { display: flex; flex-wrap: wrap; gap: 2px 10px; }
+  .id { color: var(--ink); }
+
+  .restart {
+    font: 500 0.72rem/1 var(--mono);
+    letter-spacing: 0.04em;
+    color: var(--accent);
+    background: var(--accent-wash);
+    border: 0;
+    border-radius: 5px;
+    padding: 6px 9px;
+    cursor: pointer;
+  }
+
+  /* ── Constraints ────────────────────────────────────────────────────────── */
+
+  .notes {
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid var(--hairline);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 8px 28px;
+  }
+
+  .notes h2 { grid-column: 1 / -1; margin-bottom: 8px; }
+
+  .note { margin: 0 0 12px; font-size: 0.9rem; color: var(--ink-soft); max-width: 46ch; }
+  .note b { color: var(--ink); font-weight: 600; }
+  .note code {
+    font-family: var(--mono);
+    font-size: 0.85em;
+    color: var(--ink);
+    overflow-wrap: anywhere;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+
+<div class="wrap">
+  <header class="masthead">
+    <h1>DaTA Loading Animations</h1>
+    <p class="deck">
+      <span id="total">&nbsp;</span> candidates to replace the four purple dots Primo shows while
+      an NDE view boots. The package carries <b>exactly one</b> — these are the shortlist to
+      choose it from.
+    </p>
+  </header>
+
+  <div class="controls">
+    <button class="solo" id="playpause" aria-pressed="true">Pause all</button>
+
+    <span class="ctl-label">Size</span>
+    <div class="seg" id="size">
+      <button data-size="1" aria-pressed="true">Actual</button>
+      <button data-size="2" aria-pressed="false">2&times;</button>
+    </div>
+
+    <span class="ctl-label">Speed</span>
+    <div class="seg" id="speed">
+      <button data-speed="1" aria-pressed="true">1&times;</button>
+      <button data-speed="0.5" aria-pressed="false">Half</button>
+    </div>
+  </div>
+
+  <main id="sections"></main>
+
+  <section class="notes">
+    <h2>What constrains the choice</h2>
+    <div>
+      <p class="note">
+        <b>One file ships.</b> Primo fetches
+        <code>assets/images/loadingAnimations/LoadingAnimationJson.json</code> from the
+        customization package and falls back to its own purple dots on a 404. Whichever
+        candidate wins is copied over that name.
+      </p>
+      <p class="note">
+        <b>NDE and NDE_TEST share it.</b> They are one view family in the repo, so the winner
+        is also what the next production build ships. NDE_TEST gets it first, and alone, because
+        every deploy is a manual upload.
+      </p>
+    </div>
+    <div>
+      <p class="note">
+        <b>The colours are baked in.</b> A custom animation does not follow the view's
+        <code>--sys-primary</code> theme colour — it carries its own. These use the blue ramp
+        already shipped today, plus the azure sampled from the DaTA logo.
+      </p>
+      <p class="note">
+        <b>The stages stay white</b> in dark mode on purpose: the Primo boot screen paints white
+        before the theme stylesheet lands, so that is the ground a patron actually sees.
+      </p>
+    </div>
+  </section>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+<script>
+  const CANDIDATES = /*__CANDIDATES__*/null;
+
+  const FAMILIES = [
+    {
+      key: 'logo',
+      title: 'From the DaTA logo',
+      lede: 'Built out of the magnifier and wordmark the discovery service already uses.',
+    },
+    {
+      key: 'library',
+      title: 'Academic library',
+      lede: 'No brand tie — these read as a library at a glance, at any size.',
+    },
+  ];
+
+  const players = [];
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const kb = (bytes) => (bytes / 1024).toFixed(1) + ' KB';
+
+  // Counted from the data, not written into the copy — the set grows as candidates are added.
+  const WORDS = ['No', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine',
+                 'Ten', 'Eleven', 'Twelve'];
+  document.getElementById('total').textContent =
+    WORDS[CANDIDATES.length] ?? String(CANDIDATES.length);
+
+  const sections = document.getElementById('sections');
+
+  for (const family of FAMILIES) {
+    const items = CANDIDATES.filter((c) => c.family === family.key);
+    const section = document.createElement('section');
+    const grid = document.createElement('div');
+    grid.className = 'grid';
+
+    section.innerHTML =
+      '<div class="eyebrow"><h2></h2><span class="count"></span></div><p class="lede"></p>';
+    section.querySelector('h2').textContent = family.title;
+    section.querySelector('.count').textContent = items.length + ' candidates';
+    section.querySelector('.lede').textContent = family.lede;
+    section.appendChild(grid);
+    sections.appendChild(section);
+
+    for (const item of items) {
+      const card = document.createElement('article');
+      card.className = 'card';
+      card.innerHTML =
+        '<div class="stage"></div>' +
+        '<div><h3></h3><p></p></div>' +
+        '<div class="meta"><div class="facts"><span class="id"></span><span class="size"></span>' +
+        '</div><button class="restart" type="button">Replay</button></div>';
+
+      card.querySelector('h3').textContent = item.title;
+      card.querySelector('p').textContent = item.blurb;
+      card.querySelector('.id').textContent = item.id;
+      card.querySelector('.size').textContent =
+        item.seconds.toFixed(2) + 's · ' + kb(item.bytes);
+
+      const stage = card.querySelector('.stage');
+      const player = lottie.loadAnimation({
+        container: stage,
+        renderer: 'svg',
+        loop: true,
+        autoplay: !reduced,
+        animationData: item.data,
+      });
+      players.push(player);
+
+      card.querySelector('.restart').addEventListener('click', () => player.goToAndPlay(0, true));
+      grid.appendChild(card);
+    }
+  }
+
+  /* ── Controls ─────────────────────────────────────────────────────────────
+   * Reduced-motion viewers get the page paused rather than empty: the animations are the
+   * content, so the honest accommodation is to hand them the play button, not hide the work. */
+  const playpause = document.getElementById('playpause');
+  let playing = !reduced;
+
+  const renderPlayState = () => {
+    playpause.textContent = playing ? 'Pause all' : 'Play all';
+    playpause.setAttribute('aria-pressed', String(playing));
+  };
+
+  playpause.addEventListener('click', () => {
+    playing = !playing;
+    players.forEach((p) => (playing ? p.play() : p.pause()));
+    renderPlayState();
+  });
+  renderPlayState();
+
+  const segment = (id, apply) => {
+    const group = document.getElementById(id);
+    group.addEventListener('click', (event) => {
+      const button = event.target.closest('button');
+      if (!button) return;
+      for (const sibling of group.querySelectorAll('button')) {
+        sibling.setAttribute('aria-pressed', String(sibling === button));
+      }
+      apply(button.dataset);
+    });
+  };
+
+  segment('size', ({ size }) => document.body.classList.toggle('big', size === '2'));
+  segment('speed', ({ speed }) => players.forEach((p) => p.setSpeed(Number(speed))));
+</script>

@@ -115,12 +115,17 @@ why we did **not** need to re-ask Ex Libris to disambiguate the email's wording.
 `src/assets/views/nde/images/loadingAnimations/LoadingAnimationJson.json` (the `nde` family, so it
 ships to both `NDE` and `NDE_TEST`) is **Ring orbit**: the DaTA logo held still, with the lens mark
 orbiting inside the ring — 300×90, 1.4 s loop, in the logo blue ramp. The team chose it on
-2026-10-05 from eight candidates (draft PR #72, `docs/assets/loading-animations/` on branch
-`worktree-loading-animations`, which also holds the generator). It replaced an earlier blue
+2026-10-05 from the eight candidates in `docs/assets/loading-animations/` (#72), which also holds
+the generator. It replaced an earlier blue
 hue-rotation of the Ex Libris four dots. The file is generator output: to change it, edit the
 generator and re-copy `ring-orbit.json` over it, rather than hand-editing the JSON.
 
 The `tma` family ships its own animation (the registry stamp) and is unaffected.
+
+### Choosing a different one
+`docs/assets/loading-animations/` holds eight candidate animations built from scratch — four
+from the DaTA logo, four on academic-library themes — with the generator that produces them and
+a gallery that plays them side by side. See that folder's `README.md`.
 
 ## References
 
