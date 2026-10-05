@@ -6,6 +6,13 @@ This directory contains reference materials and source files used during develop
 
 ## Files
 
+### `nde-dependency-surface.md`
+**Everything this module depends on in the Primo NDE host** — shared runtime, extension slots,
+host DOM per component, host-fetched assets and `custom.css` selectors — with a re-verification
+checklist for the Angular 20 upgrade (issue #75).
+
+---
+
 ### `sb-refresh-playbook.md`
 **Alma SB / PSB refresh playbook, updated for the NDE era.**
 
