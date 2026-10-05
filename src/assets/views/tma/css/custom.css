@@ -149,3 +149,24 @@ header.top-bar nde-user-area {
 [id="nui.brief.results.tabs.links"] {
   display: none;
 }
+
+/* ── 2026-10-05 · loading animation at full size ───────────────────────────────────
+ *
+ * Complaint: the loader is too small. Cause, verified live on TMA_NDE: the host's spinner
+ * component hardcodes `styles = { transform: "scale(0.5)" }` on the box that holds the Lottie
+ * (src_bootstrap_ts chunk), so every animation — ours or the stock dots — is drawn at half
+ * its 300x90 canvas, about 150x45 on screen. The stock dots span that whole width and get
+ * away with it; our stamp is a narrow drawing in the middle and reads as tiny (~29px wide).
+ *
+ * The file cannot fix this: the window is fixed at 300x90, scaled by 0.5, whatever the JSON
+ * says. Overriding the scale can. `!important` because the host writes it as an inline style
+ * (same reason as the banner fence above).
+ *
+ * This works from the first paint, not only on later navigations: custom.css is already in
+ * document.styleSheets when the spinner dialog first appears, both on cold boot and on a
+ * search (checked 2026-10-05). At `none` the box is 300x96, which is exactly the spinner
+ * dialog's width, so nothing clips. Use scale(0.75) here for a middle size.
+ */
+nde-progress-spinner-dialog ng-lottie > div {
+  transform: none !important;
+}
