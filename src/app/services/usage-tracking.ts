@@ -15,8 +15,8 @@ import { mixpanelProjectToken } from '../state/tracking.generated';
 
 /**
  * Mixpanel PROJECT token (not the API secret — that must never appear anywhere here).
- * Comes from $TAU_MIXPANEL_TOKEN at build time via prebuild.js → tracking.generated.ts, so it
- * is never committed. It does ship in the bundle; project tokens are public by design.
+ * Comes from $TAU_MIXPANEL_TOKEN at build time via scripts/write-tracking-token.mjs →
+ * tracking.generated.ts, so it is never committed. It does ship in the bundle; project tokens are public by design.
  * Empty = tracking off.
  */
 export const MIXPANEL_PROJECT_TOKEN: string = mixpanelProjectToken;

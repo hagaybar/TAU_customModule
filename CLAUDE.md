@@ -99,7 +99,7 @@ npm run build
 ```
 
 **Why this is critical:**
-- `npm run generate` runs `prebuild.js` and then `scripts/select-view.mjs`. Run the pair, not
+- `npm run generate` runs `prebuild.js`, `scripts/write-tracking-token.mjs`, then `scripts/select-view.mjs`. Run all three, not
   `node prebuild.js` alone — that regenerates the asset path but leaves the *content* of the
   build set to whichever view was selected last.
 - `prebuild.js` reads `build-settings.env` and generates `src/app/state/asset-base.generated.ts`
@@ -321,10 +321,15 @@ git diff upstream/main -- <file>     # empty output = we have never touched it
 An empty diff means that file merges for free on every sync. Editing it trades that for a
 conflict on every future upstream change to it — permanently. **Prefer adding a new script under
 `scripts/`** (which contains no upstream code at all) and chaining it from `package.json`, over
-modifying an upstream-identical file. `prebuild.js` is the file this most often applies to.
+modifying an upstream-identical file. `prebuild.js` is the file this most often applies to:
+`scripts/select-view.mjs` and `scripts/write-tracking-token.mjs` both run beside it from the
+`generate` script in `package.json` rather than living inside it.
 
-`postbuild.js` is the counter-example and the reason this rule exists: it is an upstream file TAU
-added 78 lines to for the `~/tau-packages` archive, and it now conflicts on every upstream change.
+Two worked examples of why. `postbuild.js` is an upstream file TAU added ~130 lines to (the
+`~/tau-packages` archive), and it now conflicts on every upstream change to it. `prebuild.js`
+picked up 16 lines of Mixpanel-token code in #74 (Shelf Map usage tracking) while this rule was
+still unwritten; that code was moved out to `scripts/write-tracking-token.mjs`, restoring
+`prebuild.js` to byte-identical with `upstream/main`.
 
 **Configuration:** `.upstream-sync/owned-files.json` lists TAU-customized files organized into categories with risk levels. Update this file when you take ownership of a new file or add a new feature area — the skill itself will suggest additions when it sees you skipping changes to files it considered "clean."
 
