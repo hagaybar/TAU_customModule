@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Main-menu shadow options</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700&family=Source+Sans+3:wght@400;600&display=swap">
+<style>
+  :root {
+    color-scheme: light dark;
+    --ground: #f4f7fb;
+    --surface: #ffffff;
+    --ink: #0d1b2a;
+    --ink-soft: #4d6179;
+    --hairline: #d5e0ed;
+    --accent: #0052b3;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #0a141d;
+      --surface: #11202e;
+      --ink: #e3eaf4;
+      --ink-soft: #94a8be;
+      --hairline: #223a50;
+      --accent: #66bff1;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #0a141d;
+    --surface: #11202e;
+    --ink: #e3eaf4;
+    --ink-soft: #94a8be;
+    --hairline: #223a50;
+    --accent: #66bff1;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font: 16px/1.55 "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+  }
+  .wrap { max-width: 68rem; margin-inline: auto; padding-inline: 16px; padding-block: 48px; }
+  h1, h2 { font-family: "Bricolage Grotesque", "Trebuchet MS", sans-serif; letter-spacing: -0.02em; }
+  h1 { font-size: clamp(1.7rem, 1.2rem + 2vw, 2.4rem); line-height: 1.1; margin: 0 0 12px; }
+  h2 { font-size: 1.25rem; margin: 0 0 4px; }
+  .lead { color: var(--ink-soft); max-width: 44rem; margin: 0 0 12px; }
+  .grid { display: grid; gap: 20px; margin-top: 28px; }
+  figure {
+    margin: 0;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  figure img { display: block; width: 100%; height: auto; border-bottom: 1px solid var(--hairline); }
+  figcaption { padding: 14px 18px 16px; }
+  figcaption p { margin: 0; color: var(--ink-soft); }
+  .letter {
+    display: inline-block; min-width: 1.8em; text-align: center;
+    background: var(--accent); color: var(--surface);
+    border-radius: 6px; margin-inline-end: 8px; font-weight: 600;
+  }
+  .today .letter { background: var(--ink-soft); }
+  .today { margin-top: 20px; }
+  .answer { margin-top: 36px; max-width: 44rem; }
+  footer { margin-top: 36px; color: var(--ink-soft); font-size: 0.85rem; }
+  footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Main-menu shadow: six options</h1>
+  <p class="lead">Pick one of six ways to separate the top menu from the search area on the
+    results and full-record pages of the TAU Primo NDE view. No option changes the landing page.</p>
+  <p class="lead">Primo already draws a shadow under the menu, but our blue search band covers it,
+    and on dark blue a shadow barely shows. So five options move the blue into a rounded pill around
+    the search box with white around it, as the University of Liège does. Option A is the one being loaded onto
+    NDE_TEST for trying. Screenshots: NDE_TEST, Hebrew, 6 October 2026.</p>
+
+  <figure class="today">
+    <img src="today.png" alt="Today: full-width blue band directly under the menu, no visible shadow" width="1280" height="260">
+    <figcaption><h2><span class="letter">–</span>Today on NDE</h2>
+      <p>Full-width blue band directly under the menu. The shadow is there but hidden.</p></figcaption>
+  </figure>
+
+  <div class="grid">
+    <figure>
+      <img src="A.png" alt="Option A: white strip, blue pill, Primo's own shadow" width="1280" height="260" loading="lazy">
+      <figcaption><h2><span class="letter">A</span>Liège style (on NDE_TEST)</h2>
+        <p>White strip, blue pill, Primo's own shadow under the menu.</p></figcaption>
+    </figure>
+    <figure>
+      <img src="B.png" alt="Option B: wider, softer shadow" width="1280" height="260" loading="lazy">
+      <figcaption><h2><span class="letter">B</span>Soft, deeper shadow</h2>
+        <p>As A, with a wider, softer shadow, so the menu seems to float a little higher.</p></figcaption>
+    </figure>
+    <figure>
+      <img src="C.png" alt="Option C: thin grey line instead of a shadow" width="1280" height="260" loading="lazy">
+      <figcaption><h2><span class="letter">C</span>Thin line, no shadow</h2>
+        <p>As A, but a thin grey line replaces the shadow. Flat and quiet.</p></figcaption>
+    </figure>
+    <figure>
+      <img src="D.png" alt="Option D: pale blue strip behind the pill" width="1280" height="260" loading="lazy">
+      <figcaption><h2><span class="letter">D</span>Pale blue strip</h2>
+        <p>As A, but the strip behind the pill is very light blue, so the search area reads as its own zone.</p></figcaption>
+    </figure>
+    <figure>
+      <img src="E.png" alt="Option E: full blue band with a white gap above it" width="1280" height="260" loading="lazy">
+      <figcaption><h2><span class="letter">E</span>Keep the blue band, add a gap</h2>
+        <p>The blue band stays. A narrow white gap above it lets the shadow show. The smallest change.</p></figcaption>
+    </figure>
+    <figure>
+      <img src="F.png" alt="Option F: the blue pill casts its own shadow" width="1280" height="260" loading="lazy">
+      <figcaption><h2><span class="letter">F</span>Raised pill</h2>
+        <p>As A, but the blue pill also casts a light shadow, so the search box looks raised.</p></figcaption>
+    </figure>
+  </div>
+
+  <p class="answer">Reply with a letter, or a mix ("A with the line from C"). Nothing here is live
+    for patrons: the chosen option goes to NDE_TEST first, and to NDE only after approval.</p>
+
+  <footer>
+    Source: <a href="https://github.com/hagaybar/TAU_customModule">github.com/hagaybar/TAU_customModule</a>
+  </footer>
+</div>
+</body>
+</html>
