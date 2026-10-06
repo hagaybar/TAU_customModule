@@ -14,7 +14,7 @@ import json
 import os
 import shutil
 
-CHOSEN = 'stamp'
+CHOSEN = 'ring-orbit-brown'
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(os.path.dirname(os.path.dirname(HERE)))
