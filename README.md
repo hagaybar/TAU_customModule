@@ -14,6 +14,7 @@ handful of generated review pages means nothing else in the repository becomes a
 | `index.html` | hand-written | — |
 | `loading-animations/index.html` | `docs/assets/loading-animations/gallery.standalone.html` on `main` | `docs/assets/loading-animations/generate.mjs` |
 | `menu-shadow-options/` (page + 7 PNGs) | `docs/assets/menu-shadow-options/` on branch `feature/external-search-globe-menu` | screenshots taken with Playwright; page hand-written — copy the folder as is |
+| `globe-button-options/` (page + 5 PNGs) | `docs/assets/globe-button-options/` on branch `feature/external-search-globe-menu` | screenshots taken with Playwright; page hand-written — copy the folder as is |
 
 ## Updating a page
 
