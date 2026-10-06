@@ -51,11 +51,11 @@ it while a page loads. It is a **Lottie** file, not an SVG — the host hands th
 Lottie player, so an SVG there renders nothing. NDE has shipped its own since Ex Libris case
 10665359; TMA was getting the stock dots only because the file used to sit at a shared path.
 
-**Shipping now: `stamp`.** Change it with one word:
+**Shipping now: `ring-orbit-brown`** (since 2026-10-06; `stamp` before). Change it with one word:
 
 ```python
 # docs/assets/TMA/ship-loading-animation.py
-CHOSEN = 'stamp'
+CHOSEN = 'ring-orbit-brown'
 ```
 
 ```bash
@@ -69,17 +69,19 @@ is live.
 ```bash
 python3 docs/assets/TMA/make-loading-animation.py   # the pen and its variants
 python3 docs/assets/TMA/make-loading-concepts.py    # stamp, cogs, tiles, blots
+python3 docs/assets/TMA/make-loading-ring-orbit.py  # NDE's ring orbit, recoloured brown
 ```
 
 ### The candidates
 
-All seven are kept — comparing them again later is cheaper than rebuilding one from a
+All of them are kept — comparing them again later is cheaper than rebuilding one from a
 description. They are committed as JSON in `loading-variants/`, and the
 [Nib Trials](https://claude.ai/artifact/LJZzRj8k6JoZWJNCmjNVRv) page plays them side by side
 at the 300×90 the host uses, with a glimpse test.
 
 | Key | What it is | Cycle | Source |
 |---|---|---|---|
+| `ring-orbit-brown` | **Shipping.** NDE's ring orbit — same motion and timing — in TMA browns: dot `#4e4541`, ring and diamond `#a8968c`. Read from the NDE file at run time, so a change to NDE's motion carries over on a re-run. Colour reasoning is in the script. | 1.40 s | `make-loading-ring-orbit.py` |
 | `stamp` | A registry stamp drops, presses, lifts; the impression fades. The most literal — stamping is what a registry does. Press lands 100 ms in. | 0.77 s | `make-loading-concepts.py` |
 | `gears` | Two cogs in the line weight of the patent drawings. Turns continuously, so no glimpse catches it at rest. | 2.00 s | `make-loading-concepts.py` |
 | `tiles` | Three trademark tiles pulsing in sequence, echoing the grid on the archive's homepage. | 1.20 s | `make-loading-concepts.py` |
