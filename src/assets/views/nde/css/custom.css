@@ -320,23 +320,35 @@ nde-record-type span.record-type {
 }
 /* 02.08.26 search-bar band colour end */
 
-/* 06.10.26 main-menu shadow over the search band (NDE_TEST trial, modelled on 972BGU_NDE)    */
-/* The host ALREADY gives the main-menu header a shadow (class mat-elevation-z3), identical on */
-/* TAU and BGU. On TAU it is invisible because the header is position:static — its z-index:3  */
-/* is ignored — and the band below (nde-top-bar, position:sticky, z-index:2) paints over it.  */
-/* (Why it shows on BGU's white band was not pinned down.) position:relative makes the       */
-/* header's z-index take effect, lifting it above the band.                                  */
-/* The host's z3 shadow is too faint on #487797, so it is strengthened here.                 */
-/* Scoped like the band: only where the band exists (results + full record), never landing. */
-/* Nested :has() is invalid CSS, hence the :not(:has()) sits on the section, not inside.     */
-/* Verified live on 972TAU_INST:NDE_TEST 06.10.26 by injection (matches /nde/search, not     */
-/* /nde/home).                                                                                */
+/* 06.10.26 main-menu shadow + search pill (NDE_TEST trial, modelled on 972BGU_NDE + 32ULG NDE) */
+/* The host ALREADY gives the main-menu header a shadow (class mat-elevation-z3). On TAU it is */
+/* invisible because the header is position:static — its z-index:3 is ignored — and the band  */
+/* below (nde-top-bar, position:sticky, z-index:2) paints over it. position:relative makes the */
+/* header's z-index take effect, lifting it above the band.                                    */
+/* v1 (ab0b3f4) strengthened the shadow over the full-width blue band; staff feedback: a       */
+/* shadow on dark blue barely separates anything. v2 follows ULiège: the band turns WHITE, so   */
+/* the host's own shadow falls on white and reads, and the blue moves to a rounded pill around  */
+/* the search bar (nde-search-bar-container, which also holds the Advanced Search link, so the */
+/* white-text rules of the band block still sit on blue — same #487797, same 4.82:1).          */
+/* This overrides the band colour from the block above; it wins by coming later in the file.   */
+/* Scoped like the band: results + full record only, never landing.                            */
+/* Nested :has() is invalid CSS, hence the :not(:has()) sits on the section, not inside.       */
+/* Verified live on 972TAU_INST:NDE_TEST 06.10.26 by injection.                                */
 nde-app-layout > section:has(> main > .search-container > nde-top-bar):not(:has(nde-landing-page-config)) > header.top-bar {
   position: relative;
   z-index: 3;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), 0 4px 12px rgba(0, 0, 0, 0.3) !important;
 }
-/* 06.10.26 main-menu shadow end */
+.search-container:not(:has(nde-landing-page-config)) > nde-top-bar {
+  background-color: #ffffff !important;
+  padding-top: 16px !important;
+  padding-bottom: 16px !important;
+}
+.search-container:not(:has(nde-landing-page-config)) > nde-top-bar nde-search-bar-container {
+  background-color: #487797 !important;
+  border-radius: 40px;
+  padding: 8px 16px;
+}
+/* 06.10.26 main-menu shadow + search pill end */
 
 /* 19.08.26 main-menu "more options" bold (issue #51)                                          */
 /* The Hebrew main menu bolds its items through the Alma label table: 13 of the                */
