@@ -35,8 +35,9 @@ commented out in `src/app/views/nde/component-map.ts`, so the two are never show
 Decide first whether the globe menu replaces the sidebar panel for good. If so, delete the
 commented-out row and this "trial" status. If not, restore the row and drop the branch.
 
-## Also on this trial branch: main-menu shadow + search pill
+## Also on this trial branch: main-menu shadow (option E)
 
-The same NDE_TEST package carries a second, unrelated trial: a visible shadow under the main
-menu on results and full-record pages, with the search bar in a blue pill (ULiège style). One CSS block,
-`main-menu shadow + search pill` in `src/assets/views/nde/css/custom.css`.
+The same NDE_TEST package carries a second, unrelated trial: the main menu's shadow made visible
+on results and full-record pages, by leaving a small white gap above the blue search band. Staff
+chose it as option E of six (review page source: `docs/assets/menu-shadow-options/`). One CSS
+block, `main-menu shadow + gap above the search band` in `src/assets/views/nde/css/custom.css`.
