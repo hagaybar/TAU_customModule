@@ -34,3 +34,9 @@ commented out in `src/app/views/nde/component-map.ts`, so the two are never show
 `NDE` and `NDE_TEST` share the `nde` family, so merging this branch ships it to production.
 Decide first whether the globe menu replaces the sidebar panel for good. If so, delete the
 commented-out row and this "trial" status. If not, restore the row and drop the branch.
+
+## Also on this trial branch: main-menu shadow
+
+The same NDE_TEST package carries a second, unrelated trial: a visible shadow under the main
+menu on results and full-record pages, modelled on BGU's NDE view. It is one CSS block,
+`main-menu shadow over the search band` in `src/assets/views/nde/css/custom.css`.

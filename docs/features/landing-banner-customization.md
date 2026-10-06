@@ -245,6 +245,7 @@ drift). Banner/landing rows are detailed in the sections above.
 | `Fallback … browzine button` | `.ti-browzine-button-container .ti-custom-button-text custom-svg-icon / .icon` | `margin-inline-start:0.2rem` (icon/text gap) |
 | `Add space between PDF button text and icon` | `.mdc-button__label .quicklink-button-text` | `margin-inline-end:0.2rem` |
 | `main-menu "more options" bold` | `html[lang="he"] .main-menu-container .show-more-btn .mdc-button__label` | `font-weight:700` — HE only. The other main-menu items are bolded through the Alma label table (`mainmenu.label.*` values ship literal `<b>`), but the host's overflow button is text-interpolated, so HTML in its label would render literally; CSS is the only route (issue #51). No `!important` needed — verified live even with the sheet loaded first. |
+| `main-menu shadow over the search band` | `nde-app-layout > section:has(> main > .search-container > nde-top-bar):not(:has(nde-landing-page-config)) > header.top-bar` | `position:relative; z-index:3` + a stronger `box-shadow` — **NDE_TEST trial** (branch `feature/external-search-globe-menu`), modelled on BGU's NDE. The host already gives the header a shadow (`mat-elevation-z3`), but the header is `position:static`, so its z-index is ignored and the sticky blue band (`z-index:2`) paints over it. Results + full record only; the landing page does not match. |
 
 > Most rules use `!important` to beat host CSS, and RTL/spacing rules use **logical** properties
 > (`margin-inline-*`, `flex-direction:row-reverse` under `[dir="rtl"]`) so they work in HE and EN.

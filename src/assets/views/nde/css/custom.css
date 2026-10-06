@@ -320,6 +320,24 @@ nde-record-type span.record-type {
 }
 /* 02.08.26 search-bar band colour end */
 
+/* 06.10.26 main-menu shadow over the search band (NDE_TEST trial, modelled on 972BGU_NDE)    */
+/* The host ALREADY gives the main-menu header a shadow (class mat-elevation-z3), identical on */
+/* TAU and BGU. On TAU it is invisible because the header is position:static — its z-index:3  */
+/* is ignored — and the band below (nde-top-bar, position:sticky, z-index:2) paints over it.  */
+/* (Why it shows on BGU's white band was not pinned down.) position:relative makes the       */
+/* header's z-index take effect, lifting it above the band.                                  */
+/* The host's z3 shadow is too faint on #487797, so it is strengthened here.                 */
+/* Scoped like the band: only where the band exists (results + full record), never landing. */
+/* Nested :has() is invalid CSS, hence the :not(:has()) sits on the section, not inside.     */
+/* Verified live on 972TAU_INST:NDE_TEST 06.10.26 by injection (matches /nde/search, not     */
+/* /nde/home).                                                                                */
+nde-app-layout > section:has(> main > .search-container > nde-top-bar):not(:has(nde-landing-page-config)) > header.top-bar {
+  position: relative;
+  z-index: 3;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+}
+/* 06.10.26 main-menu shadow end */
+
 /* 19.08.26 main-menu "more options" bold (issue #51)                                          */
 /* The Hebrew main menu bolds its items through the Alma label table: 13 of the                */
 /* mainmenu.label.* values ship literal <b>…</b>, and the host renders menu-LINK labels as     */
