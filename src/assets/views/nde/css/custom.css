@@ -320,6 +320,28 @@ nde-record-type span.record-type {
 }
 /* 02.08.26 search-bar band colour end */
 
+/* 06.10.26 main-menu shadow + gap above the search band (NDE_TEST trial — staff chose "E")    */
+/* The host ALREADY gives the main-menu header a shadow (class mat-elevation-z3). On TAU it is */
+/* invisible because the header is position:static — its z-index:3 is ignored — and the band  */
+/* below (nde-top-bar, position:sticky, z-index:2) paints over it. position:relative makes the */
+/* header's z-index take effect, lifting it above the band.                                    */
+/* A shadow on dark blue barely shows (v1, ab0b3f4, rejected), so a 14px white gap separates   */
+/* the header from the band and the host's own shadow falls on white. The band itself keeps    */
+/* its colour and width — the smallest change from today. Chosen from six options A–F shown    */
+/* to staff (page source: docs/assets/menu-shadow-options/). A, the ULiège-style white strip   */
+/* with a blue pill, was v2 (dab02aa).                                                          */
+/* Scoped like the band: results + full record only, never landing.                            */
+/* Nested :has() is invalid CSS, hence the :not(:has()) sits on the section, not inside.       */
+/* Verified live on 972TAU_INST:NDE_TEST 06.10.26 by injection.                                */
+nde-app-layout > section:has(> main > .search-container > nde-top-bar):not(:has(nde-landing-page-config)) > header.top-bar {
+  position: relative;
+  z-index: 3;
+}
+.search-container:not(:has(nde-landing-page-config)) > nde-top-bar {
+  margin-top: 14px !important;
+}
+/* 06.10.26 main-menu shadow + gap above the search band end */
+
 /* 19.08.26 main-menu "more options" bold (issue #51)                                          */
 /* The Hebrew main menu bolds its items through the Alma label table: 13 of the                */
 /* mainmenu.label.* values ship literal <b>…</b>, and the host renders menu-LINK labels as     */

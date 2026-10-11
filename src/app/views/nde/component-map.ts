@@ -1,4 +1,5 @@
-import { FilterAssistPanelComponent } from '../../custom1-module/filter-assist-panel/filter-assist-panel.component';
+// import { FilterAssistPanelComponent } from '../../custom1-module/filter-assist-panel/filter-assist-panel.component';
+import { ExternalSearchMenuComponent } from '../../custom1-module/external-search-menu/external-search-menu.component';
 import { NoResultsExternalLinksComponent } from '../../custom1-module/no-results-external-links/no-results-external-links.component';
 import { CenlibMapButtonComponent } from '../../custom1-module/cenlib-map/cenlib-map-button.component';
 import { AnnouncementBannerComponent } from '../../custom1-module/announcement-banner/announcement-banner.component';
@@ -13,8 +14,14 @@ import { CollectionDiscoveryFilterComponent } from '../../custom1-module/collect
 // `selectorComponentMap` from src/app/state/view.generated.ts. A family whose map is
 // not selected is never imported, so its components never enter the bundle.
 export const map = new Map<string, any>([
-  // External search facet - displays in filter sidebar
-  ['nde-filters-group-before', FilterAssistPanelComponent],
+  // External search facet - displays in filter sidebar.
+  // HIDDEN while the globe menu below is on trial in NDE_TEST.
+  // ['nde-filters-group-before', FilterAssistPanelComponent],
+
+  // External search globe menu - a button just before "All Filters" in the
+  // results toolbar (the ULiège placement). Slot verified on ULiège's live view
+  // 2026-10-05: 'nde-search-bar-filters-before-from-remote-0'.
+  ['nde-search-bar-filters-before', ExternalSearchMenuComponent],
 
   // External-search panel renders as the LAST CHILD of <nde-search-no-results>.
   // Switched from full replacement ('nde-search-no-results') to the '-bottom'

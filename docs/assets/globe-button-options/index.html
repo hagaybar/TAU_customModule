@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>כפתור החיפוש החיצוני</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700;800&display=swap">
+<style>
+  :root {
+    color-scheme: light dark;
+    --ground: #f4f7fb;
+    --surface: #ffffff;
+    --ink: #0d1b2a;
+    --ink-soft: #4d6179;
+    --hairline: #d5e0ed;
+    --accent: #0052b3;
+    --pick: #e8f1fb;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #0a141d;
+      --surface: #11202e;
+      --ink: #e3eaf4;
+      --ink-soft: #94a8be;
+      --hairline: #223a50;
+      --accent: #66bff1;
+      --pick: #16304a;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #0a141d;
+    --surface: #11202e;
+    --ink: #e3eaf4;
+    --ink-soft: #94a8be;
+    --hairline: #223a50;
+    --accent: #66bff1;
+    --pick: #16304a;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font: 18px/1.6 "Assistant", "Segoe UI", system-ui, sans-serif;
+  }
+  .wrap { max-width: 68rem; margin-inline: auto; padding-inline: 16px; padding-block: 48px; }
+  h1 { font-size: clamp(1.8rem, 1.3rem + 2vw, 2.6rem); line-height: 1.15; margin: 0 0 14px; font-weight: 800; }
+  h2 { font-size: 1.45rem; margin: 48px 0 10px; font-weight: 700; }
+  h3 { font-size: 1.2rem; margin: 0 0 4px; font-weight: 700; }
+  p { margin: 0 0 12px; }
+  .lead { font-size: 1.15rem; max-width: 46rem; }
+  .soft { color: var(--ink-soft); }
+  ul.why { max-width: 46rem; padding-inline-start: 1.2em; margin: 0 0 12px; }
+  ul.why li { margin-bottom: 6px; }
+  figure {
+    margin: 0 0 20px;
+    background: var(--surface);
+    border: 1px solid var(--hairline);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  figure img { display: block; width: 100%; height: auto; border-bottom: 1px solid var(--hairline); }
+  figure img + img { border-top: 1px solid var(--hairline); }
+  figcaption { padding: 14px 18px 16px; }
+  figcaption p { margin: 0 0 6px; }
+  figcaption p:last-child { margin: 0; }
+  .num {
+    display: inline-block; min-width: 1.7em; text-align: center;
+    background: var(--accent); color: var(--surface);
+    border-radius: 6px; margin-inline-end: 8px; font-weight: 700;
+  }
+  .today .num { background: var(--ink-soft); }
+  .rec {
+    background: var(--pick); border: 1px solid var(--hairline);
+    border-radius: 10px; padding: 16px 18px; max-width: 46rem; margin: 16px 0 0;
+  }
+  .table-wrap { overflow-x: auto; border: 1px solid var(--hairline); border-radius: 10px; background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; min-width: 640px; font-size: 1rem; }
+  th, td { text-align: start; vertical-align: top; padding: 10px 14px; border-bottom: 1px solid var(--hairline); }
+  thead th { font-weight: 700; }
+  tbody th { font-weight: 600; color: var(--ink-soft); width: 22%; }
+  tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
+  bdi { unicode-bidi: isolate; }
+  footer { margin-top: 40px; color: var(--ink-soft); font-size: 0.9rem; }
+  footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>כפתור החיפוש החיצוני: איך הופכים אותו למובן</h1>
+  <p class="lead">ההערה נכונה: גלובוס לבד לא מסביר את עצמו. אבל הבעיה היא בכפתור, לא ברעיון.
+    מה שחסר הוא מילים, או הצעה שמופיעה ברגע שבו צריכים אותה. להלן שלוש דרכים לעשות זאת.</p>
+
+  <h2>למה האייקון לבדו לא מספיק</h2>
+  <ul class="why">
+    <li>רק מעט אייקונים מובנים בלי מילים: חיפוש, בית, הדפסה. גלובוס עם זכוכית מגדלת אינו אחד מהם.</li>
+    <li>ריחוף עם העכבר אינו פתרון. בטלפון ובטאבלט אין ריחוף, כך שההסבר לא יופיע שם בכלל. גם במחשב, אדם מרחף רק מעל כפתור שהוא כבר חושד שעושה משהו.</li>
+    <li>הכפתור השכן, „כל המסננים”, מציג גם אייקון וגם מילים. הגלובוס הוא היחיד בשורה בלי מילים.</li>
+  </ul>
+
+  <figure class="today">
+    <img src="today.png" alt="היום: כפתור גלובוס בלי טקסט בתחילת שורת המסננים" width="1280" height="240">
+    <figcaption><h3><span class="num">–</span>היום ב-<bdi>NDE_TEST</bdi></h3>
+      <p class="soft">כפתור גלובוס בלי טקסט, בתחילת שורת המסננים (מימין).</p></figcaption>
+  </figure>
+
+  <h2>שלוש אפשרויות</h2>
+  <p class="soft">כל התמונות הן צילומי מסך אמיתיים של <bdi>NDE_TEST</bdi> (6 באוקטובר 2026). השינויים נעשו בדפדפן אחד בלבד לצורך ההדגמה. הנוסח הוא טיוטה.</p>
+
+  <figure>
+    <img src="1-label.png" alt="אפשרות 1: על הכפתור כתוב חיפוש במקורות חיצוניים, עם חץ" width="1280" height="240" loading="lazy">
+    <img src="1-label-open.png" alt="אפשרות 1 פתוחה: התפריט מציג את הקטלוג המאוחד, WorldCat וגוגל סקולר" width="1280" height="400" loading="lazy">
+    <figcaption><h3><span class="num">1</span>מילים על הכפתור</h3>
+      <p>אותו כפתור, באותו מקום, עם אותו תפריט. עכשיו כתוב עליו „חיפוש במקורות חיצוניים” ויש לו חץ, כמו לשאר הפקדים בשורה.</p>
+      <p class="soft">המחיר: הכפתור רחב יותר, ולכן מסנן מהיר אחד או שניים זזים מחוץ לתצוגה (אפשר לגלול אליהם עם החץ).</p></figcaption>
+  </figure>
+
+  <figure>
+    <img src="2-callout.png" alt="אפשרות 2: בועת הסבר מצביעה על כפתור הגלובוס, עם הכפתור הבנתי" width="1280" height="330" loading="lazy">
+    <figcaption><h3><span class="num">2</span>הסבר חד-פעמי ליד הכפתור</h3>
+      <p>הכפתור נשאר קטן כמו היום. בחיפוש הראשון מופיעה לידו בועה קצרה שמסבירה מה הוא עושה. לחיצה על „הבנתי” סוגרת אותה, והיא לא חוזרת באותו דפדפן.</p>
+      <p class="soft">לא תופס מקום קבוע ומסביר גם את הרעיון וגם את הפעולה. החיסרון: אחרי שהבועה נסגרה חוזרים לאייקון בלבד. במחשבים ציבוריים שמוחקים נתוני גלישה היא תופיע בכל ביקור.</p></figcaption>
+  </figure>
+
+  <figure>
+    <img src="3-after-results.png" alt="אפשרות 3: הודעה בין התוצאה האחרונה למספרי העמודים: לא מצאתם את מה שחיפשתם?" width="1280" height="400" loading="lazy">
+    <figcaption><h3><span class="num">3</span>הצעה בסוף רשימת התוצאות</h3>
+      <p>אחרי התוצאה האחרונה בכל עמוד: „לא מצאתם את מה שחיפשתם?” ושלושת המקורות, עם החיפוש הנוכחי. מי שהגיע לתחתית העמוד הוא בדיוק מי שצריך מקור אחר.</p>
+      <p class="soft">כבר היום מוצגים אותם קישורים כשחיפוש לא מוצא כלום. זה מרחיב אותם לחיפושים שמצאו משהו, אבל לא את הדבר הנכון. ההצעה נמצאת מחוץ לשורת המסננים ולא מתחרה בהם.</p></figcaption>
+  </figure>
+
+  <h2>השוואה</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th></th><th>1 — מילים על הכפתור</th><th>2 — הסבר חד-פעמי</th><th>3 — הצעה בסוף התוצאות</th></tr>
+      </thead>
+      <tbody>
+        <tr><th>מובן בלי ריחוף</th><td>כן, תמיד</td><td>כן, בפעם הראשונה; אחר כך אייקון בלבד</td><td>כן, תמיד</td></tr>
+        <tr><th>עובד בטלפון</th><td>כן</td><td>כן</td><td>כן</td></tr>
+        <tr><th>מקום על חשבון המסננים</th><td>מסנן אחד או שניים זזים</td><td>אין</td><td>אין</td></tr>
+        <tr><th>מגיע למשתמש ברגע הצורך</th><td>רק אם מסתכלים על שורת המסננים</td><td>בחיפוש הראשון</td><td>כן, בסוף כל עמוד</td></tr>
+        <tr><th>היקף עבודה</th><td>קטן: טקסט וחץ על הכפתור הקיים</td><td>קטן עד בינוני: הבועה, וזיכרון שנסגרה</td><td>בינוני: שימוש חוזר בקישורים הקיימים. טרם נבדק אם <bdi>Primo</bdi> מאפשר להוסיף תוכן אחרי רשימת התוצאות</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="rec">
+    <p><strong>ההמלצה: 1 ו-3 יחד.</strong> המילים עונות על השאלה „מה הכפתור הזה?”, וההצעה בסוף התוצאות תופסת את מי שלא מסתכל על שורת המסננים בכלל.
+      אם המקום בשורת המסננים חשוב יותר, אפשר להחליף את 1 ב-2.</p>
+    <p style="margin:0">אפשר להעלות כל אחת מהאפשרויות ל-<bdi>NDE_TEST</bdi> כדי לנסות אותה לפני החלטה. כדי לבחור, ענו עם מספר או שילוב (למשל „1 ו-3”).</p>
+  </div>
+
+  <footer>
+    מקור: <a href="https://github.com/hagaybar/TAU_customModule">github.com/hagaybar/TAU_customModule</a>
+  </footer>
+</div>
+</body>
+</html>
