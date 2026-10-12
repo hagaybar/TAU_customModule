@@ -3,6 +3,7 @@ import { ExternalSearchMenuComponent } from '../../custom1-module/external-searc
 import { NoResultsExternalLinksComponent } from '../../custom1-module/no-results-external-links/no-results-external-links.component';
 import { CenlibMapButtonComponent } from '../../custom1-module/cenlib-map/cenlib-map-button.component';
 import { AnnouncementBannerComponent } from '../../custom1-module/announcement-banner/announcement-banner.component';
+import { ResultsEndExternalLinksComponent } from '../../custom1-module/results-end-external-links/results-end-external-links.component';
 import { CollectionDiscoveryFilterComponent } from '../../custom1-module/collection-discovery-filter/collection-discovery-filter.component';
 // import { IllPickupLibrarySorterComponent } from '../../custom1-module/ill-sorter/ill-pickup-library-sorter.component';
 
@@ -22,6 +23,14 @@ export const map = new Map<string, any>([
   // results toolbar (the ULiège placement). Slot verified on ULiège's live view
   // 2026-10-05: 'nde-search-bar-filters-before-from-remote-0'.
   ['nde-search-bar-filters-before', ExternalSearchMenuComponent],
+
+  // "Didn't find what you were looking for?" + the external sources, after the
+  // last result on every results page, before the pagination. Probed live via
+  // the dev proxy against NDE_TEST on 2026-10-12: nde-search-results-bottom,
+  // -after, -pagination-before, -pagination-after and
+  // nde-search-results-container-bottom all mount; -pagination-before is the
+  // one directly under the last result.
+  ['nde-search-results-pagination-before', ResultsEndExternalLinksComponent],
 
   // External-search panel renders as the LAST CHILD of <nde-search-no-results>.
   // Switched from full replacement ('nde-search-no-results') to the '-bottom'

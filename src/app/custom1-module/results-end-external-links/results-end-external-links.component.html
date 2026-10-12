@@ -1,0 +1,29 @@
+<section
+  *ngIf="hasSearchQuery()"
+  class="tau-results-end"
+  [attr.dir]="textDirection"
+  [attr.aria-label]="title"
+  (mouseenter)="refresh()"
+  (focusin)="refresh()"
+  (touchstart)="refresh()">
+  <p class="tau-results-end__title">{{ title }}</p>
+  <p class="tau-results-end__subtitle">{{ subtitle }}</p>
+
+  <ul class="tau-results-end__list" role="list">
+    <li *ngFor="let source of externalSources">
+      <a
+        class="tau-results-end__link"
+        [href]="buildExternalUrl(source)"
+        target="_blank"
+        rel="noopener noreferrer"
+        [attr.aria-label]="getLinkLabel(source)">
+        <img autoAssetSrc [src]="source.img" alt="" class="tau-results-end__icon" width="16" height="16">
+        <span>{{ getSourceName(source) }}</span>
+        <!-- Material Symbols "open_in_new" (Apache 2.0) -->
+        <svg class="tau-results-end__open-in-new" viewBox="0 -960 960 960" width="14" height="14" fill="currentColor" aria-hidden="true">
+          <path d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h560v-280h80v280q0 33-23.5 56.5T760-120H200Zm188-212-56-56 372-372H560v-80h280v280h-80v-144L388-332Z"/>
+        </svg>
+      </a>
+    </li>
+  </ul>
+</section>

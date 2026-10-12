@@ -1,0 +1,73 @@
+// Sits between the last result and the pagination. Colours follow the host's
+// denim_blue theme tokens, with fallbacks for the unthemed case.
+.tau-results-end {
+  margin: 16px 0 8px;
+  padding: 16px 20px;
+  border: 1px solid var(--sys-outline-variant, #c3c6cf);
+  border-radius: 8px;
+  background: var(--sys-surface-container-low, #f3f3f6);
+  color: var(--sys-on-surface, #1a1c1e);
+
+  &__title {
+    margin: 0 0 2px;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  &__subtitle {
+    margin: 0 0 12px;
+    font-size: 0.875rem;
+    color: var(--sys-on-surface-variant, #43474e);
+  }
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 36px;
+    padding: 0 14px;
+    border: 1px solid var(--sys-outline, #73777f);
+    border-radius: 18px;
+    background: var(--sys-surface, #ffffff);
+    color: var(--sys-primary, #3f608a);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: color-mix(in srgb, var(--sys-primary, #3f608a) 8%, var(--sys-surface, #ffffff));
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--sys-primary, #3f608a);
+      outline-offset: 2px;
+    }
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+  }
+
+  &__open-in-new {
+    flex-shrink: 0;
+    opacity: 0.7;
+  }
+
+  &[dir='rtl'] &__open-in-new {
+    transform: scaleX(-1);
+  }
+}

@@ -58,6 +58,12 @@ describe('ExternalSearchMenuComponent', () => {
     expect(items().length).toBe(0);
   });
 
+  it('shows its purpose as visible text, not only on hover', () => {
+    create('en', query('agnon'));
+    expect(trigger()!.textContent!.trim()).toBe('Search in external sources');
+    expect(trigger()!.hasAttribute('title')).toBeFalse();
+  });
+
   it('opens a menu of every source, linking the current query', fakeAsync(() => {
     create('en', query('agnon'));
     trigger()!.click();
@@ -88,7 +94,7 @@ describe('ExternalSearchMenuComponent', () => {
 
     expect(el().querySelector('.tau-xsearch')!.getAttribute('dir')).toBe('rtl');
     expect(items()[2].textContent!.trim()).toBe('גוגל סקולר');
-    expect(trigger()!.getAttribute('aria-label')).toBe('חיפוש במקורות חיצוניים');
+    expect(trigger()!.textContent!.trim()).toBe('חיפוש במקורות חיצוניים');
   }));
 
   it('anchors the menu to the button edge that matches the direction', () => {

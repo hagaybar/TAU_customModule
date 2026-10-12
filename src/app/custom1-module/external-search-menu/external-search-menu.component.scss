@@ -10,8 +10,8 @@
     align-items: center;
     justify-content: center;
     height: 40px;
-    min-width: 56px;
-    padding: 0 16px;
+    gap: 8px;
+    padding: 0 8px 0 12px;
     border: 1px solid var(--sys-outline, #73777f);
     border-radius: 8px;
     background: transparent;
@@ -28,6 +28,23 @@
       outline: 2px solid var(--sys-primary, #3f608a);
       outline-offset: 2px;
     }
+  }
+
+  // Visible label (option 1 of the staff page): the globe alone was not
+  // understood without hovering, and touch screens cannot hover.
+  &__label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  &__caret {
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+
+  &__trigger--open &__caret {
+    transform: rotate(180deg);
   }
 
   &__menu {
