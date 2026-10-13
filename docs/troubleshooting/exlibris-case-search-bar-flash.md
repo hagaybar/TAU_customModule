@@ -77,10 +77,7 @@ load 1:  search box visible 2058→2500ms (442ms), disappears, visible again fro
 
 ## Attachments
 
-**Where these files are:** `docs/troubleshooting/evidence-search-bar-flash/` in the TAU
-customModule working copy. The folder is **gitignored** (21 MB of video), so it exists on the
-local machine only and is not on GitHub. A ready-to-attach archive of everything is at
-`docs/troubleshooting/evidence-search-bar-flash/exlibris-case-evidence.zip` (7.1 MB).
+**Where these files are:** not in this public repository (about 21 MB of video). They are kept with the library's internal documents; ask the repository maintainer for them.
 
 **Still image — start here.** `TAU_before_after_972TAU_INST-NDE.png` is a labelled two-frame
 comparison taken from the recording of a single `972TAU_INST:NDE` load: the search box at
