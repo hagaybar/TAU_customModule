@@ -52,6 +52,12 @@ Staff said nobody would understand the globe without hovering. The staff page
     up with the no-results box (verified).
   - Links are rebuilt from the URL on pointer, focus or touch, so they are current before any
     click. A second in-app search was verified to produce fresh links.
+- **Phones (checked live 2026-10-13 at 390px):** the host drops `nde-search-bar-filters` below
+  tablet width, so the globe button is absent on phones (present at 800px). The end-of-results
+  strip does show. The old sidebar panel (`nde-filters-group-before`) does appear on phones, at
+  the top of the filter drawer opened by the floating filter icon (seen on live `NDE`). So "panel
+  on phones only, labelled button on desktop" is a feasible variant if phone users need an entry
+  point above the results.
 
 
 `NDE` and `NDE_TEST` share the `nde` family, so merging this branch ships it to production.
