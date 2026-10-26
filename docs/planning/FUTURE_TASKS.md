@@ -12,6 +12,9 @@ This document tracks planned enhancements and future work for the TAU CustomModu
 
 ## External Search Integration
 
+> Alternative placements for the external-search links (globe menu, links after the results)
+> were trialled and archived, not accepted. See `docs/features/external-search/archived-options.md`.
+
 ### 📋 Move Configuration to Alma Code Tables
 **Priority:** Medium
 **Status:** 📋 Planned
