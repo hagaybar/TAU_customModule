@@ -190,7 +190,7 @@ if (invokedDirectly) {
         '\n' +
         'Build the baseline from the commit you are comparing against (usually main), and\n' +
         'the candidate from your branch, with the SAME VIEW_ID. Packages are archived to\n' +
-        '~/tau-packages/<date>/ automatically.',
+        '~/agent-work/tau-packages/<date>/ automatically.',
     );
     process.exit(2);
   }

@@ -1234,7 +1234,7 @@ To ensure smooth development, debugging, and code management, we recommend setti
 
 2. After a successful build, the compiled code will be in the `dist/` directory.
 
-> **Every build is also archived to `~/tau-packages/<date>/`,** stamped with the commit it came
+> **Every build is also archived to `~/agent-work/tau-packages/<date>/`** (beside the repository, from WSL or the sandbox alike), stamped with the commit it came
 > from — e.g. `2026-09-03/972TAU_INST-NDE_20260903T081135Z_06cca6e.zip` — plus a row in
 > `MANIFEST.tsv`. `dist/` is overwritten by the next build, so this is the only record of which
 > source produced a package you uploaded. **Never copy packages anywhere else.**
