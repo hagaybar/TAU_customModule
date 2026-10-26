@@ -327,13 +327,23 @@ nde-record-type span.record-type {
 /* (button.show-more-btn), whose label is bound with Angular text interpolation                */
 /* (ɵɵtextInterpolate(pipeBind1("mainmenu.label.moreoptions")) in the NDE bundle). Text        */
 /* interpolation ESCAPES html, so a <b> in that label would render as literal characters —     */
-/* which is why this one item cannot be fixed in Alma and needs CSS. The sibling link          */
-/* mainmenu.label.researchAssistant WAS fixed via the label table; do not add it here.         */
+/* which is why this one item cannot be fixed in Alma and needs CSS.                           */
 /* Hebrew only: no English mainmenu.label.* carries <b>, so that bar is uniformly unbolded.    */
 html[lang="he"] .main-menu-container .show-more-btn .mdc-button__label {
   font-weight: 700;
 }
 /* 19.08.26 main-menu "more options" bold end */
+
+/* 26.10.26 main-menu research assistant bold (Hebrew)                                          */
+/* The 19.08.26 note above said mainmenu.label.researchAssistant was bolded via the label      */
+/* table. Verified live 26.10.26: it is not — on 972TAU_INST:NDE the label renders             */
+/* <span>דעת"א עוזר מחקר</span> with no <b>, at 500, between siblings that carry <b>. So CSS.  */
+/* Keyed on the href, not the text: /nde/researchAssistant is the same in every language, and   */
+/* the label text differs between views (NDE_TEST reads "עוזר מחקר"). Hebrew only, as above.  */
+html[lang="he"] .main-menu-container a.main-menu-label[href*="/researchAssistant"] .mdc-button__label {
+  font-weight: 700;
+}
+/* 26.10.26 main-menu research assistant bold end */
 
 /* 07.09.26 "no request options" message background (NDE full record)                              */
 /* The Get It panel renders <div class="no-requests" data-qa="nde.request.noRequests"> when an     */
