@@ -18,9 +18,11 @@
  */
 
 import fs from 'node:fs';
-import os from 'node:os';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+
+import packageArchive from './package-archive.cjs';
 
 import { VIEW_FAMILY, familyFor, readViewId } from './select-view.mjs';
 import { familyPaths, classifyAll, uncommittedFiles, SHARED_PATHS } from './view-changes.mjs';
@@ -40,7 +42,7 @@ export function readEnv(root) {
   return { viewId: readViewId(text), instId: inst, text, path: envPath };
 }
 
-export const ARCHIVE_DIR = path.join(os.homedir(), 'tau-packages');
+export const ARCHIVE_DIR = packageArchive.archiveRoot(path.dirname(path.dirname(fileURLToPath(import.meta.url))));
 
 /** The most recent archived package for this view, from the manifest. */
 export function lastBuild(instId, viewId, archiveDir = ARCHIVE_DIR) {

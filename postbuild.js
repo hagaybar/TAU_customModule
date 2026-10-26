@@ -1,8 +1,8 @@
 const fs = require('fs');
-const os = require('os');
 const path = require('path');
 const { execFileSync } = require('child_process');
 const archiver = require('archiver');
+const { archiveRoot } = require('./scripts/package-archive.cjs');
 require('dotenv').config({ path: './build-settings.env' });
 
 const distPath = path.join(__dirname, 'dist', 'custom-module');
@@ -10,7 +10,8 @@ const targetPath = path.join(__dirname, 'dist', `${process.env.INST_ID}-${proces
 const zipPath = path.join(__dirname, 'dist', `${process.env.INST_ID}-${process.env.VIEW_ID}.zip`);
 
 /**
- * Every build is also archived to ~/tau-packages/, stamped with the commit it came
+ * Every build is also archived to tau-packages/ beside the repository (normally
+ * ~/agent-work/tau-packages — see scripts/package-archive.cjs), stamped with the commit it came
  * from. `dist/` is overwritten by the next build, so without this the only record of
  * what was uploaded to Alma is whatever anyone happened to copy somewhere by hand —
  * which is how you end up unable to answer "which source produced the package that is
@@ -38,8 +39,8 @@ const zipPath = path.join(__dirname, 'dist', `${process.env.INST_ID}-${process.e
  */
 const IS_CHECK_BUILD = Boolean(process.env.npm_config_tau_check);
 const ARCHIVE_DIR = IS_CHECK_BUILD
-  ? path.join(os.homedir(), 'tau-packages', 'verification')
-  : path.join(os.homedir(), 'tau-packages');
+  ? path.join(archiveRoot(__dirname), 'verification')
+  : archiveRoot(__dirname);
 const MANIFEST = path.join(ARCHIVE_DIR, 'MANIFEST.tsv');
 // `note` is written empty and filled in by hand — a build is not a deploy, and postbuild
 // cannot know which packages were actually uploaded to Alma. Record that there.

@@ -49,7 +49,7 @@ The pure logic is `collection-filter.ts` (`readCollectionId`,
    `src/app/custom1-module/collection-discovery-filter/hidden-collections.config.ts`,
    with a comment naming the collection.
 3. `npm run build`, then upload the package (see the README's deploy steps).
-   Fill in the `note` column in `~/tau-packages/MANIFEST.tsv` on upload.
+   Fill in the `note` column in `~/agent-work/tau-packages/MANIFEST.tsv` on upload.
 
 Hiding a parent hides its card; its descendants only appear on the parent's
 own page, which the UI no longer links to. To hide a sub-collection while its

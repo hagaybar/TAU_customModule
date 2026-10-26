@@ -208,7 +208,7 @@ It compares every file in both packages, fails on any difference under `assets/`
 `assets/views/`, which carries every family's sources by design), and reports bundle-hash
 differences without failing. It **aborts rather than reporting "no differences"** when a package
 looks too small to be real — a check that cannot fail is not a check. Packages are archived to
-`~/tau-packages/<date>/` by every build, so the baseline usually already exists.
+`~/agent-work/tau-packages/<date>/` by every build, so the baseline usually already exists.
 
 Do this before merging anything that touches the build, and before uploading to a live view.
 Clicking around a test view only exercises the pages you happen to open; this covers all of them.
@@ -218,15 +218,24 @@ Tests: `npm run test:scripts`. Design:
 
 ## Where built packages go (RULE)
 
-**Every `npm run build` archives its zip to `~/tau-packages/` automatically** — `postbuild.js`
-does it. **Never copy a package anywhere else**; one location with a history is the whole point,
-and ad-hoc copies are how it stops being answerable which source produced a live package.
+**Every `npm run build` archives its zip to `~/agent-work/tau-packages/` automatically** —
+`postbuild.js` does it. **Never copy a package anywhere else**; one location with a history is
+the whole point, and ad-hoc copies are how it stops being answerable which source produced a
+live package.
 
 ```
-~/tau-packages/2026-09-03/972TAU_INST-NDE_20260903T081135Z_06cca6e.zip
-~/tau-packages/MANIFEST.tsv     # built_utc, view, commit, dirty, bytes, file, note
-~/tau-packages/README.md        # how to read a filename; what unknown/-dirty mean
+~/agent-work/tau-packages/2026-09-03/972TAU_INST-NDE_20260903T081135Z_06cca6e.zip
+~/agent-work/tau-packages/MANIFEST.tsv  # built_utc, view, commit, dirty, bytes, file, note
+~/agent-work/tau-packages/README.md     # how to read a filename; what unknown/-dirty mean
 ```
+
+**Same folder whether you build in the sandbox or in WSL.** The archive is the `tau-packages`
+folder *beside the repository's main checkout* (`scripts/package-archive.cjs`), not one in the
+home directory — the sandbox and WSL have different homes, and only `~/agent-work` is shared
+by both, backed up by restic, and browsable from Windows Explorer
+(`\\wsl$\Ubuntu\home\hagaybar\agent-work\tau-packages`). A build in a worktree still
+archives there. Until 2026-10-26 the archive was `~/tau-packages`; a package found there, or a
+build that prints a path under a home directory, is a sign something is out of date.
 
 - **The commit in the filename is the point.** It maps an uploaded package back to reproducible
   source months later. `dist/` is overwritten by the next build and answers nothing.
@@ -252,7 +261,7 @@ this archive is for.
 npm run build:check      # instead of npm run build
 ```
 
-That archives to `~/tau-packages/verification/<date>/` with its own `MANIFEST.tsv`, prints
+That archives to `~/agent-work/tau-packages/verification/<date>/` with its own `MANIFEST.tsv`, prints
 "Not for upload" during the build, and leaves the top-level archive meaning exactly one
 thing: **a package that could be deployed.** Nothing in `verification/` ever should be.
 
