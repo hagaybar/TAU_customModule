@@ -10,8 +10,7 @@ Scope: the `nde` family (`VIEW_ID=NDE`, live; `NDE_TEST`) and the `tma` family (
 Family selection is described in `CLAUDE.md` → *Per-view content*.
 
 **The short version.** No mapped component injects a host service, the host NgRx `Store`, the
-host `TranslateService`, or a `hostComponent` input (grep of `src/app`, excluding specs and the
-disabled ILL sorter). Every coupling is one of: (1) the shared Angular runtime, (2) extension-slot
+host `TranslateService`, or a `hostComponent` input (grep of `src/app`, excluding specs). Every coupling is one of: (1) the shared Angular runtime, (2) extension-slot
 names, (3) host DOM — element tags, classes, `data-qa` attributes — read with
 `querySelector`/`closest`/`MutationObserver`, (4) `<html lang|dir>` and URL parameters, and
 (5) host selectors and `--sys-*` tokens in the host-fetched `custom.css`.
@@ -85,7 +84,7 @@ loads `remoteEntry.js` and calls the exposed `./custom-module` (`webpack.config.
 | Our own `Router` is injected and `dispose()`d so it does not fight the host router | `app.module.ts:42` | Relies on `Router.dispose()` existing |
 | `BrowserModule`, `HttpClientModule`, `TranslateModule.forRoot({})` | `app.module.ts:25-29` | `HttpClientModule` is deprecated from Angular 18 (`provideHttpClient()`); still present in 20 per our reading, **re-check** |
 | Map read from the generated re-export | `app.module.ts:10`, `src/app/state/view.generated.ts:3` | — |
-| Each entry → `createCustomElement(component, {injector})`, stored, **not** `customElements.define()`d | `app.module.ts:54-58` | **The host** defines the elements, under `'<slot>-from-remote-<n>'` (comment `component-map.ts:40-41`), by calling `getComponentRef(slot)` (`app.module.ts:70`) |
+| Each entry → `createCustomElement(component, {injector})`, stored, **not** `customElements.define()`d | `app.module.ts:54-58` | **The host** defines the elements, under `'<slot>-from-remote-<n>'` (comment `component-map.ts:39-40`), by calling `getComponentRef(slot)` (`app.module.ts:70`) |
 | Boot banner, always printed | `app.module.ts:48-49` → `src/app/services/debug.util.ts:152-182` | Text: `[TAU] custom module · 972TAU_INST-<VIEW> · debug logging ON/OFF (<reason>)` |
 
 ---
@@ -93,31 +92,31 @@ loads `remoteEntry.js` and calls the exposed `./custom-module` (`webpack.config.
 ## 2. Extension slots
 
 The host mounts each component as a custom element named `<slot>-from-remote-<n>` —
-`customElements.get('nde-header-before')` is `false` by design (`component-map.ts:40-41`). The
+`customElements.get('nde-header-before')` is `false` by design (`component-map.ts:39-40`). The
 custom element *is* the component host: our `tau-*` selectors never appear in the DOM. The suffix
 was observed live for `nde-header-before` (2026-08-02) and
 `nde-collection-discovery-gallery-top` (2026-09-07, inside an `ng-component` wrapper,
-`component-map.ts:47-50`); for the other three slots it is assumed from the same mechanism.
+`component-map.ts:46-49`); for the other three slots it is assumed from the same mechanism.
 
 ### `nde` family — `src/app/views/nde/component-map.ts`
 
 | Slot | Line | Component | Page | Placement |
 |---|---|---|---|---|
-| `nde-filters-group-before` | :17 | `FilterAssistPanelComponent` | Results, `/nde/search?query=…` | Filter sidebar; mounted once **per filter group**, only one renders |
-| `nde-search-no-results-bottom` | :23 | `NoResultsExternalLinksComponent` | Results with zero hits | Last child of `<nde-search-no-results>` |
-| `nde-location-top` | :26 | `CenlibMapButtonComponent` | Full record, `/nde/fulldisplay?docid=…` | Per `<nde-location>` in Get It; several instances per location |
-| `nde-header-before` | :42 | `AnnouncementBannerComponent` | Every page | Sibling *before* `<nde-header>`, above `header.top-bar`; outside the router outlet, never destroyed |
-| `nde-collection-discovery-gallery-top` | :51 | `CollectionDiscoveryFilterComponent` | `/nde/collectionDiscovery` (lobby and every level) | First child of `<nde-collection-discovery-gallery>` |
+| `nde-filters-group-before` | :16 | `FilterAssistPanelComponent` | Results, `/nde/search?query=…` | Filter sidebar; mounted once **per filter group**, only one renders |
+| `nde-search-no-results-bottom` | :22 | `NoResultsExternalLinksComponent` | Results with zero hits | Last child of `<nde-search-no-results>` |
+| `nde-location-top` | :25 | `CenlibMapButtonComponent` | Full record, `/nde/fulldisplay?docid=…` | Per `<nde-location>` in Get It; several instances per location |
+| `nde-header-before` | :41 | `AnnouncementBannerComponent` | Every page | Sibling *before* `<nde-header>`, above `header.top-bar`; outside the router outlet, never destroyed |
+| `nde-collection-discovery-gallery-top` | :50 | `CollectionDiscoveryFilterComponent` | `/nde/collectionDiscovery` (lobby and every level) | First child of `<nde-collection-discovery-gallery>` |
 
-**Disabled:** `['nde-ill-request-top', IllPickupLibrarySorterComponent]` (`component-map.ts:54`,
-import commented out at :6). It is the only component that would use host internals:
-`@Input() hostComponent` (`ill-pickup-library-sorter.component.ts:29`), `window.ng.getComponent`
-on `nde-ill-request` (:70-81), the host's `requestService._formFields` (:101-111) and the shared
-`TranslateService` (:36, :140). Treat it as unverified against 19, let alone 20, before enabling.
+**Removed 2026-11-01:** `IllPickupLibrarySorterComponent` (slot `nde-ill-request-top`), which sorted
+the Pickup Library options on the resource sharing form. It was never enabled and is deleted because
+the host now does this itself: Primo VE November 2026 release note URM-333424, driven by the
+`alphabetical_sort_pickup_inst_lib` customer parameter. Do not rebuild it; if the order looks wrong,
+check that parameter first. The code is in git history before this removal.
 
 Other slots verified to exist but unused: `nde-header-top`, `nde-header-bottom`, `nde-header-after`
-(`component-map.ts:33-36`); `nde-search-no-results` (full replacement — replaced by `-bottom` per
-issue #4, :19-22).
+(`component-map.ts:32-35`); `nde-search-no-results` (full replacement — replaced by `-bottom` per
+issue #4, :18-21).
 
 ### `tma` family — `src/app/views/tma/component-map.ts`
 
@@ -334,7 +333,6 @@ the host's for `custom.css`, ours for component SCSS.
 | 12 | Host-fetched files still requested at the same paths | Network tab: `assets/css/custom.css`, `assets/js/custom.js`, `footer_<lang>.html`, `LoadingAnimationJson.json` return 200 from `/nde/custom/972TAU_INST-<VIEW>/`. |
 | 13 | `custom.js` targets (`nde-landing-quick-links a[href]`; TMA `a.tma-card`) | External quick links get `target=_blank`; TMA cards carry the current `vid`. |
 | 14 | `HttpClientModule`, `Router.dispose()`, JIT `@angular/compiler` import | Build succeeds on 20 without deprecation errors; boot completes. |
-| 15 | Disabled ILL sorter | Do not enable without a separate review — depends on `window.ng.getComponent` and private host fields. |
 
 Related: issue #75; `docs/superpowers/specs/2026-09-09-per-view-isolation-design.md`;
 `docs/features/collection-discovery-filter.md`; `docs/features/landing-banner-customization.md`;

@@ -3,7 +3,6 @@ import { NoResultsExternalLinksComponent } from '../../custom1-module/no-results
 import { CenlibMapButtonComponent } from '../../custom1-module/cenlib-map/cenlib-map-button.component';
 import { AnnouncementBannerComponent } from '../../custom1-module/announcement-banner/announcement-banner.component';
 import { CollectionDiscoveryFilterComponent } from '../../custom1-module/collection-discovery-filter/collection-discovery-filter.component';
-// import { IllPickupLibrarySorterComponent } from '../../custom1-module/ill-sorter/ill-pickup-library-sorter.component';
 
 // The map of custom element selectors -> Angular components for the `nde` family
 // (VIEW_ID=NDE and VIEW_ID=NDE_TEST). Using NDE official selectors with appropriate
@@ -49,7 +48,4 @@ export const map = new Map<string, any>([
   // 'nde-collection-discovery-gallery-top-from-remote-<n>' inside an
   // 'ng-component' wrapper. Details in docs/features/collection-discovery-filter.md.
   ['nde-collection-discovery-gallery-top', CollectionDiscoveryFilterComponent],
-
-  // Sort Pickup Library options in ILL form - DISABLED (not yet in production)
-  // ['nde-ill-request-top', IllPickupLibrarySorterComponent],
 ]);

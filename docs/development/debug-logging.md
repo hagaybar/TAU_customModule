@@ -88,7 +88,7 @@ worth protecting in any future change here.
 ```ts
 import { dlog, dwarn } from '../../services/debug.util'; // path relative to your file
 
-dlog('IllPickupLibrarySorter: Attempt', this.attempts);   // visible only when tauDebug is on
+dlog('CollectionDiscoveryFilter: Attempt', this.attempts);   // visible only when tauDebug is on
 dwarn('FilterAssistPanel: container not found; using fallback');
 
 // Genuine error — keep visible in production:
