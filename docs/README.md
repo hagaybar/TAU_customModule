@@ -148,6 +148,7 @@ Visual documentation of bugs and their resolutions:
 ### Feature Documentation
 - [External Search Implementation](features/external-search/EXTERNAL_SEARCH_IMPLEMENTATION.md)
 - [CenLib Shelf Map](features/map_cenlib_shelves/README.md)
+- [Resource sharing form: who controls the library box](features/resource-sharing-form.md)
 
 ### Troubleshooting
 - [Bug Fix History](troubleshooting/BUGFIX_HISTORY.md)
