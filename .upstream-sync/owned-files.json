@@ -7,6 +7,8 @@
         "prebuild.js",
         "postbuild.js",
         "scripts/select-view.mjs",
+        "scripts/package-archive.cjs",
+        "scripts/__tests__/package-archive.test.mjs",
         "scripts/compare-packages.mjs",
         "webpack.config.js",
         "webpack.prod.config.js",

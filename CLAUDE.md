@@ -249,6 +249,22 @@ build that prints a path under a home directory, is a sign something is out of d
 - Packages named `_unknown` predate this archive (imported 2026-09-03 from four scattered
   locations). Their manifest notes carry an *inferred* commit, explicitly marked NOT verified.
 
+### Explicit archive root for host-side builds
+
+`TAU_PACKAGE_ARCHIVE_ROOT` optionally selects an absolute archive root. Without it,
+Git's common directory still determines the default described above. Empty or relative
+settings fail rather than silently selecting another destination.
+
+For an independent WSL checkout, set this variable to
+`/home/hagaybar/agent-work/tau-packages` in the WSL build environment. Windows can browse it at
+`\\wsl.localhost\Ubuntu\home\hagaybar\agent-work\tau-packages`.
+This does not make that host folder accessible from a sandbox where it is not mapped.
+Do not create a sandbox directory with the same name as a substitute.
+
+The override changes only the root: date folders, commit filenames, manifest fields,
+and the separate `verification/` directory are unchanged. Archive write failures retain
+the existing warning behavior; confirm the archive-success message after a host build.
+
 ### Verification builds go somewhere else
 
 Proving a change did not disturb another view means building that view's package purely to
