@@ -21,8 +21,8 @@
     "check:debug-logging": "node scripts/check-debug-logging.mjs",
     "pretest": "npm run generate",
     "test": "ng test",
-    "postbuild": "node postbuild.js",
-    "prebuild": "npm run generate",
+    "postbuild": "node scripts/check-tracking-build.mjs --generated && node postbuild.js",
+    "prebuild": "node scripts/check-tracking-build.mjs && npm run generate && node scripts/check-tracking-build.mjs --generated",
     "run:all": "node node_modules/@angular-architects/module-federation/src/server/mf-dev-server.js"
   },
   "private": true,
