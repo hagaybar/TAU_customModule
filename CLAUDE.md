@@ -35,6 +35,23 @@ The care that topology asks for on a `prod` branch is owed to `main` in this rep
   banner in the browser console names the new package. Skipping the PR is what the admin exemption
   is for, and it still owes the repository a follow-up PR recording what was done.
 
+## GitHub write target (RULE)
+
+Default all GitHub writes for this project — issue and PR creation, comments, edits,
+reviews, labels, and other mutations — to **`hagaybar/TAU_customModule`**. Specify the
+repository explicitly in every GitHub command; never rely on fork/upstream inference.
+For example, use `gh issue ... -R hagaybar/TAU_customModule` and
+`gh pr ... -R hagaybar/TAU_customModule`. For API commands, use explicit
+`repos/hagaybar/TAU_customModule/...` endpoints.
+
+The `upstream` remote, **`ExLibrisGroup/customModule`**, is for reference and fetching
+only. Never write to it unless the user explicitly requests that target. This rule
+does not authorize merges, pushes to production branches, or deployments.
+
+Existing follow-ups follow this rule: the Node 22 test-command issue is
+[#93](https://github.com/hagaybar/TAU_customModule/issues/93), and the tracking/archive
+PR is [#96](https://github.com/hagaybar/TAU_customModule/pull/96).
+
 ## ExLibris CustomModule Reference Repository
 
 **IMPORTANT:** Always refer to the official ExLibris repository for documentation, examples, and troubleshooting:
