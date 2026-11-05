@@ -35,6 +35,23 @@ The care that topology asks for on a `prod` branch is owed to `main` in this rep
   banner in the browser console names the new package. Skipping the PR is what the admin exemption
   is for, and it still owes the repository a follow-up PR recording what was done.
 
+## GitHub write target (RULE)
+
+Default all GitHub writes for this project — issue and PR creation, comments, edits,
+reviews, labels, and other mutations — to **`hagaybar/TAU_customModule`**. Specify the
+repository explicitly in every GitHub command; never rely on fork/upstream inference.
+For example, use `gh issue ... -R hagaybar/TAU_customModule` and
+`gh pr ... -R hagaybar/TAU_customModule`. For API commands, use explicit
+`repos/hagaybar/TAU_customModule/...` endpoints.
+
+The `upstream` remote, **`ExLibrisGroup/customModule`**, is for reference and fetching
+only. Never write to it unless the user explicitly requests that target. This rule
+does not authorize merges, pushes to production branches, or deployments.
+
+Existing follow-ups follow this rule: the Node 22 test-command issue is
+[#93](https://github.com/hagaybar/TAU_customModule/issues/93), and the tracking/archive
+PR is [#96](https://github.com/hagaybar/TAU_customModule/pull/96).
+
 ## ExLibris CustomModule Reference Repository
 
 **IMPORTANT:** Always refer to the official ExLibris repository for documentation, examples, and troubleshooting:
@@ -248,6 +265,22 @@ build that prints a path under a home directory, is a sign something is out of d
   actually upload one, because nothing else records which package went live.
 - Packages named `_unknown` predate this archive (imported 2026-09-03 from four scattered
   locations). Their manifest notes carry an *inferred* commit, explicitly marked NOT verified.
+
+### Explicit archive root for host-side builds
+
+`TAU_PACKAGE_ARCHIVE_ROOT` optionally selects an absolute archive root. Without it,
+Git's common directory still determines the default described above. Empty or relative
+settings fail rather than silently selecting another destination.
+
+For an independent WSL checkout, set this variable to
+`/home/hagaybar/agent-work/tau-packages` in the WSL build environment. Windows can browse it at
+`\\wsl.localhost\Ubuntu\home\hagaybar\agent-work\tau-packages`.
+This does not make that host folder accessible from a sandbox where it is not mapped.
+Do not create a sandbox directory with the same name as a substitute.
+
+The override changes only the root: date folders, commit filenames, manifest fields,
+and the separate `verification/` directory are unchanged. Archive write failures retain
+the existing warning behavior; confirm the archive-success message after a host build.
 
 ### Verification builds go somewhere else
 

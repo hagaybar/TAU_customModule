@@ -32,15 +32,48 @@ outcome and floor are known. Sent from `CenlibMapDialogComponent.trackOpen()`.
 
 ## The token
 
-The Mixpanel **project token** (never the API secret) comes from the environment at build time:
+The Mixpanel **project token** (never the API secret) comes from the build process's
+`TAU_MIXPANEL_TOKEN` environment variable. Configure it through the existing authorized
+build environment; do not put it in tracked files or logs.
+
+`scripts/write-tracking-token.mjs` writes `src/app/state/tracking.generated.ts`
+(gitignored). Generation always replaces the previous value: unset, blank, or invalid
+(non-alphanumeric) input writes an empty token. It never recovers an old value.
+Standalone generation, local serving, and unit tests remain usable without a token.
+Diagnostics report enabled/disabled status only.
+
+### Package-build safeguard
+
+Ordinary `npm run build` packages for **NDE and NDE_TEST** require valid configuration.
+`scripts/check-tracking-build.mjs` checks the environment before generation and the
+resulting generated configuration before compilation. For enabled tracking, its token must
+match the current input after the same whitespace trimming and alphanumeric validation
+used by generation; a stale nonempty token is rejected without displaying either value. The postbuild lifecycle checks
+that generated configuration again before packaging. A missing token is a hard failure,
+not a warning buried in successful build output. Other declared view families retain
+their token-optional behavior; no tracking is enabled for them by this safeguard.
+
+For an intentionally tracking-disabled development package, use:
 
 ```bash
-export TAU_MIXPANEL_TOKEN=<project token>   # in your shell's credentials file, not in the repo
+npm run build:check -- --tau-tracking-disabled
 ```
 
-`scripts/write-tracking-token.mjs` (run by `npm run generate`) writes it to
-`src/app/state/tracking.generated.ts` (gitignored) and prints only whether it is set. Unset → tracking is off in that build. The token does ship inside the
-package — project tokens are public by design.
+This explicit option forces an empty generated token, even if the environment contains
+one. It requires the existing verification mode: packages stay under
+`tau-packages/verification/<date>/`, with their own manifest, and are **not for upload**.
+`build:check` alone still requires a token for NDE/NDE_TEST. The disabled option on an
+ordinary build is rejected. The existing archive-root override also applies to verification.
+Use the normal build workflow; direct Angular or packaging-script invocations do not
+provide the npm lifecycle safeguards.
+
+The live-browser diagnosis confirmed that the deployed NDE package reached tracking but
+suppressed `Shelf Map Open` because its embedded token was empty. A build without the
+variable can cause this, including overwriting earlier generated configuration. The
+historical environment of that particular deployed build has not been established.
+
+Regression coverage: `node --test scripts/__tests__/tracking-build.test.mjs` uses only
+synthetic configuration and disposable fixtures; it does not compile or package the app.
 
 ## Verify
 

@@ -22,7 +22,15 @@ const os = require('os');
 const path = require('path');
 const { execFileSync } = require('child_process');
 
-function archiveRoot(repoDir) {
+function archiveRoot(repoDir, env = process.env) {
+  // Host-side setting: changes the root only, never the archive layout.
+  const override = env.TAU_PACKAGE_ARCHIVE_ROOT;
+  if (override !== undefined) {
+    if (typeof override !== 'string' || !override.trim() || !path.isAbsolute(override)) {
+      throw new Error('TAU_PACKAGE_ARCHIVE_ROOT must be a nonempty absolute path.');
+    }
+    return path.normalize(override);
+  }
   try {
     const commonDir = execFileSync('git', ['rev-parse', '--path-format=absolute', '--git-common-dir'], {
       cwd: repoDir,
