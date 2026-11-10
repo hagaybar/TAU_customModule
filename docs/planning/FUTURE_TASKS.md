@@ -369,9 +369,9 @@ export class WhatsAppSupportComponent implements OnInit {
 
 ## General Improvements
 
-### 📋 Consider Adding Generated Files to .gitignore
+### ✅ Consider Adding Generated Files to .gitignore
 **Priority:** Low
-**Status:** 📋 Planned - Needs Decision
+**Status:** ✅ Done 2026-11-10 (issue #103). Both `asset-base.generated.ts` and `view.generated.ts` are now gitignored. The "requires discipline" con below no longer applies: `prestart`, `pretest` and `prebuild` all run `npm run generate`.
 **Estimated Effort:** Low (5 minutes)
 
 #### Background
