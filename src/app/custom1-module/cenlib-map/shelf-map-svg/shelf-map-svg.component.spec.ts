@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { ElementRef, SimpleChange } from '@angular/core';
 
 import { ShelfMapSvgComponent } from './shelf-map-svg.component';
@@ -114,6 +114,53 @@ describe('ShelfMapSvgComponent', () => {
       setCodes(['cl_106_a']);
 
       expect(isHighlighted(container, 'cl1_106_a')).toBe(false);
+    }));
+  });
+
+  describe('issue #101 — loaded SVGs are sanitised before they reach [innerHTML]', () => {
+    const NS = 'http://www.w3.org/2000/svg';
+    const CDN_FLOOR = `${AWS_CDN_BASE_URL}/maps/floor_1.svg`;
+    /** What the template will actually render: the string inside the SafeHtml wrapper. */
+    const rendered = () =>
+      (component.externalSvgContent as unknown as { changingThisBreaksApplicationSecurity: string })
+        .changingThisBreaksApplicationSecurity;
+
+    function load(url: string): HttpTestingController {
+      const http = TestBed.inject(HttpTestingController);
+      component.svgPath = url;
+      component.ngOnChanges({ svgPath: new SimpleChange(undefined, url, true) });
+      return http;
+    }
+
+    it('strips scripts and event handlers from a CloudFront floor plan', fakeAsync(() => {
+      const http = load(CDN_FLOOR);
+      http.expectOne(CDN_FLOOR).flush(
+        `<svg xmlns="${NS}" width="10" height="10" onload="x()"><script>x()</script><rect id="cl1_1" onclick="x()"/></svg>`,
+      );
+      tick(100);
+      const html = rendered();
+      expect(html).toContain('id="cl1_1"');
+      expect(html).not.toMatch(/onload|onclick|<script/i);
+      expect(component.hasError).toBe(false);
+    }));
+
+    it('falls back to the bundled floor plan when the CDN copy is not well-formed SVG', fakeAsync(() => {
+      const http = load(CDN_FLOOR);
+      http.expectOne(CDN_FLOOR).flush('<html><body>not a map</body></html>');
+      const fallback = http.expectOne((req) => req.url.endsWith('assets/cenlib-map/floor_1.svg'));
+      fallback.flush(`<svg xmlns="${NS}" width="10" height="10"><rect id="cl1_2"/></svg>`);
+      tick(100);
+      expect(rendered()).toContain('id="cl1_2"');
+      expect(component.hasError).toBe(false);
+    }));
+
+    it('shows the error state, never the raw text, when the bundled copy is unusable too', fakeAsync(() => {
+      const http = load(CDN_FLOOR);
+      http.expectOne(CDN_FLOOR).flush('garbage');
+      http.expectOne((req) => req.url.endsWith('assets/cenlib-map/floor_1.svg')).flush('garbage');
+      tick(100);
+      expect(component.hasError).toBe(true);
+      expect(component.externalSvgContent).toBeFalsy();
     }));
   });
 });

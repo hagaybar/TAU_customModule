@@ -22,6 +22,7 @@ import { FLOOR_LAYOUT, FloorData } from '../config/floor-layout.config';
 import { assetBaseUrl } from '../../../state/asset-base.generated';
 import { cdnAssetToLocalPath } from '../services/map-asset-fallback';
 import { dlog, dwarn } from '../../../services/debug.util';
+import { sanitizeSvgMarkup } from '../services/svg-sanitizer';
 
 /**
  * SVG Shelf Map Component
@@ -168,12 +169,14 @@ export class ShelfMapSvgComponent implements OnChanges, OnDestroy {
       .get(fullPath, { responseType: 'text' })
       .subscribe({
         next: (svgContent) => {
-          // Fix SVG for proper scaling: add viewBox if missing
-          const fixedSvgContent = this.fixSvgForScaling(svgContent);
-
-          // Sanitize and store SVG content
+          const trusted = this.toTrustedSvg(svgContent);
+          if (!trusted) {
+            // Unparseable content is handled exactly like a failed download.
+            this.handlePrimaryFailure(fullPath);
+            return;
+          }
           dlog(`[ShelfMapSvg] SVG loaded successfully (${svgContent.length} bytes)`);
-          this.externalSvgContent = this.sanitizer.bypassSecurityTrustHtml(fixedSvgContent);
+          this.externalSvgContent = trusted;
           this.isLoading = false;
           this.cdr.detectChanges();
 
@@ -182,22 +185,46 @@ export class ShelfMapSvgComponent implements OnChanges, OnDestroy {
         },
         error: (error) => {
           console.error('[ShelfMapSvg] Failed to load SVG:', error);
-
-          // Try fallback for CloudFront URLs
-          const fallbackPath = this.getFallbackSvgPath(fullPath);
-          if (fallbackPath) {
-            dlog('[ShelfMapSvg] Trying fallback local SVG:', fallbackPath);
-            const fallbackUrl = `${assetBaseUrl}/${fallbackPath}`;
-            this.loadSvgFromUrl(fallbackUrl, true);
-            return;
-          }
-
-          this.hasError = true;
-          this.isLoading = false;
-          this.useExternalSvg = false;
-          this.cdr.detectChanges();
+          this.handlePrimaryFailure(fullPath);
         },
       });
+  }
+
+  /** Primary (CloudFront) SVG could not be used: try the bundled copy, else show the error state. */
+  private handlePrimaryFailure(fullPath: string): void {
+    // Try fallback for CloudFront URLs
+    const fallbackPath = this.getFallbackSvgPath(fullPath);
+    if (fallbackPath) {
+      dlog('[ShelfMapSvg] Trying fallback local SVG:', fallbackPath);
+      const fallbackUrl = `${assetBaseUrl}/${fallbackPath}`;
+      this.loadSvgFromUrl(fallbackUrl, true);
+      return;
+    }
+
+    this.hasError = true;
+    this.isLoading = false;
+    this.useExternalSvg = false;
+    this.cdr.detectChanges();
+  }
+
+  /**
+   * The ONLY route by which SVG markup reaches [innerHTML] (issue #101).
+   *
+   * Floor plans are staff-uploaded and must be rendered with Angular's sanitizer bypassed,
+   * because Angular strips SVG entirely. sanitizeSvgMarkup() removes active content first,
+   * so the bypass only ever covers cleaned markup. Returns null when the content is not a
+   * well-formed SVG; callers treat that as a load failure, never render the raw text.
+   */
+  private toTrustedSvg(svgContent: string): SafeHtml | null {
+    const clean = sanitizeSvgMarkup(this.fixSvgForScaling(svgContent));
+    if (!clean) {
+      console.error('[ShelfMapSvg] Rejected SVG: not a well-formed SVG document');
+      return null;
+    }
+    if (clean.removed > 0) {
+      dwarn(`[ShelfMapSvg] Removed ${clean.removed} unsafe element(s)/attribute(s) from the SVG`);
+    }
+    return this.sanitizer.bypassSecurityTrustHtml(clean.markup);
   }
 
   /**
@@ -209,9 +236,16 @@ export class ShelfMapSvgComponent implements OnChanges, OnDestroy {
       .get(url, { responseType: 'text' })
       .subscribe({
         next: (svgContent) => {
-          const fixedSvgContent = this.fixSvgForScaling(svgContent);
+          const trusted = this.toTrustedSvg(svgContent);
+          if (!trusted) {
+            this.hasError = true;
+            this.isLoading = false;
+            this.useExternalSvg = false;
+            this.cdr.detectChanges();
+            return;
+          }
           dlog(`[ShelfMapSvg] SVG loaded successfully${isFallback ? ' (fallback)' : ''} (${svgContent.length} bytes)`);
-          this.externalSvgContent = this.sanitizer.bypassSecurityTrustHtml(fixedSvgContent);
+          this.externalSvgContent = trusted;
           this.isLoading = false;
           this.cdr.detectChanges();
           setTimeout(() => this.applyHighlighting(), 50);
