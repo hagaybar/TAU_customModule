@@ -81,6 +81,7 @@ ShelfMappingService  ──HTTP──►  AWS CloudFront CDN
 | `cenlib-map-dialog/cenlib-map-dialog.component.ts` | Modal dialog. Resolves all matching mappings, scopes them to a single floor, and drives the SVG view. |
 | `shelf-map-svg/shelf-map-svg.component.ts` | Loads the floor-plan SVG and highlights the matched `svgCode` element(s). |
 | `services/shelf-mapping.service.ts` | Loads/caches the CSV from the CDN (with a same-origin bundled fallback), builds a fast lookup index, and performs Dewey call-number range matching. |
+| `services/svg-sanitizer.ts` | Cleans every floor-plan SVG before it is rendered (issue #101). See *SVG sanitising* below. |
 | `services/map-asset-fallback.ts` | Shared CDN→bundled-fallback policy: `cdnAssetToLocalPath()` maps a CDN asset URL to its `src/assets/cenlib-map/` copy; `fetchTextWithFallback()` fetches the CDN URL and retries the bundled same-origin copy on any error. Used by both the CSV and SVG loaders. |
 
 ### Configuration files (`cenlib-map/config/`)
@@ -204,6 +205,31 @@ than one floor, that indicates a **data error** in the CSV. The dialog keeps onl
 (first-match) floor, drops the off-floor matches, and logs a loud `console.error` so library
 staff can fix the mapping data — rather than silently handing off-floor codes to a floor SVG
 that can never highlight them.
+
+---
+
+## SVG sanitising (issue #101)
+
+Floor plans are uploaded by staff through Primo Maps and rendered with `[innerHTML]` with
+Angular's sanitizer **bypassed**. The bypass is necessary because Angular strips SVG entirely.
+So `ShelfMapSvgComponent.toTrustedSvg()` is the only route to the template, and it runs
+`sanitizeSvgMarkup()` first:
+
+- **Elements: an allowlist.** Shapes, text, `g`/`defs`/`use`, patterns, clip paths, gradients,
+  filters, `image`, plus Inkscape's `sodipodi:namedview`. Anything else (`script`,
+  `foreignObject`, `a`, `style`, animation elements…) is removed together with its contents.
+- **Attributes:** `on*` handlers are removed, as is anything containing `javascript:`, and any
+  `url(…)` that is not a same-document `#ref`. `href` may only be a `#ref` or an embedded
+  `data:image/png|jpeg|gif|webp`.
+- **Content that is not a well-formed SVG** counts as a failed download: the bundled copy is
+  tried, then the error state shows. Raw text is never rendered.
+
+Checked 10.11.26 against the three live CloudFront floor plans and the bundled copies:
+**0 removals**, every `id` and embedded image kept. If a future upload loses something
+legitimate, the debug log (`?tauDebug=1`) prints
+`Removed N unsafe element(s)/attribute(s)`. Extend the allowlist in `svg-sanitizer.ts` with a
+test, rather than bypassing it. Upload-time validation in `NDE_MAPS_MANGER` is the second
+layer, tracked from #101.
 
 ---
 
