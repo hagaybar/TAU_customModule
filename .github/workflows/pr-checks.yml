@@ -1,0 +1,39 @@
+# PR checks (issue #102). main is production in this repo, so every PR to it runs
+# the script tests and a verification build before review.
+#
+# Node: 18 is what .nvmrc pins; 22 is what the sandbox and WSL run. Both, because a
+# test command that worked on one and not the other already slipped through once (#93/#100).
+#
+# The build is `build:check --tau-tracking-disabled`: CI has no Mixpanel token, and a
+# check build is never for upload. It proves the package compiles for the live NDE view.
+name: PR checks
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['18', '22']
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+
+      - run: npm ci
+
+      - name: Script tests
+        run: npm run test:scripts
+
+      - name: Verification build (NDE)
+        run: npm run build:check -- --tau-tracking-disabled
