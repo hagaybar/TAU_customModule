@@ -420,10 +420,10 @@ nde-progress-spinner-dialog ng-lottie > div {
 }
 /* 05.10.26 loading animation at full size end */
 
-/* 10.11.26 resource-type tabs as pills (option "B" — TRIAL on NDE_TEST, awaiting staff choice)  */
+/* 10.11.26 resource-type tabs as pills (option "B" — staff chose B; approved for NDE 12.11.26) */
 /* Request: the result-type tabs (All / Books / Articles / Journals) above the results get lost  */
 /* among the filter chips below them; staff asked for emphasis, "maybe a blue background".       */
-/* Four options (A–D) were shown to staff 10.11.26; B is built as a working example meanwhile.   */
+/* Four options (A–D) were shown to staff 10.11.26; B was trialled on NDE_TEST, then chosen.    */
 /* Every tab becomes a light-blue pill; the selected one is solid TAU blue with white text.      */
 /* Host markup (verified live on 972TAU_INST:NDE_TEST 10.11.26):                                 */
 /*   nde-search-results-resource-type-bar … button.resource-type-items[.active-resource-type]    */
