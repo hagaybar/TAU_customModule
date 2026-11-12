@@ -38,8 +38,17 @@ lightweight CSS/asset overrides.
 | **Search-Bar Band** | CSS | ✅ Production | Solid blue band behind the search bar on the results and full-record pages, so the near-white search box reads as its own element |
 | **Landing Search-Bar Flash Suppression** | CSS | ✅ Production | Hide the spurious results search bar that the host flashes on every landing-page load (Ex Libris defect) |
 | **"No Request Options" Notice Colour** | CSS | ✅ Production | Repaint the Get It "No available request options" message from the host's error red to cream, so an informational message stops reading as a failure |
-| **Custom Loading Animation** | Asset (Lottie) | ✅ Production | Blue four-dot page-load animation replacing the default purple |
+| **Resource-Type Tabs as Pills** | CSS | ✅ Production | The All / Books / Articles / Journals tabs above the results become light-blue pills, the selected one solid blue (staff's option B, live 12.11.26) |
+| **Main-Menu Styling** | CSS | ✅ Production | Bold Hebrew "more options" and research-assistant labels; the menu's shadow falls on a white gap above the search band (staff's option E) |
+| **Custom Loading Animation** | Asset (Lottie) | ✅ Production | "Ring orbit" page-load animation, drawn at full size, replacing the default purple dots |
 | **Quick Links Open in New Tab** | JS | ⚠️ Workaround | Landing-page quick-link "cubes" pointing off-site open in a new tab. Stands in for the `openInNewTab` flag Alma's Back Office does not expose — **[remove when Ex Libris fixes it](#landing-quick-links--new-tab-customjs)** |
+
+**One repository, several views.** The same code builds the live `NDE` view, its test twin
+`NDE_TEST`, and the TMA archive view (`TMA_NDE`, later `TMA`). `VIEW_ID` in `build-settings.env`
+picks a view *family* (`nde` or `tma`), and only that family's components and assets go into the
+package — see [Views and per-view content](#views-and-per-view-content). Everything in this README
+describes the `nde` family unless it says otherwise; TMA changes are logged in
+[`docs/features/tma-view-changelog.md`](docs/features/tma-view-changelog.md).
 
 **Key Technologies:**
 - Angular 18 standalone components
@@ -136,6 +145,7 @@ Adds an interactive **"Shelf Map"** button (Hebrew: **"מפת מדף"**) to hold
 - ✅ **Same-origin offline fallback** ([PR #23](https://github.com/hagaybar/TAU_customModule/pull/23)): a bundled snapshot of the mapping data + floor SVGs ships inside the custom package (`src/assets/cenlib-map/`). If the CDN is unreachable (outage or a CORS regression), the loaders fall back to these same-origin copies so the button and map keep working instead of silently disappearing — only if *both* the CDN **and** the bundle fail is the button hidden. Refresh the snapshot with `npm run sync:map-assets` before a deploy. Bundled as `mapping.txt` (not `.csv` — Alma's custom-package upload rejects `.csv` files)
 - ✅ **Producer-matched call-number matching**: canonical Dewey comparison kept identical to the Primo Maps producer (`NDE_MAPS_MANGER`, issue #100) — cutter stripping, 3-digit zero-padding, `ML`/`MT` natural-number exception
 - ✅ **Floor-scoping guard** (issue #12): a range must not span floors; off-floor matches are dropped and logged instead of highlighted on the wrong SVG
+- ✅ **Floor plans are sanitised before rendering** ([#101](https://github.com/hagaybar/TAU_customModule/issues/101)): staff upload the SVGs, so each one passes an allowlist sanitizer (`services/svg-sanitizer.ts`) that removes unknown elements, `on*` handlers, `javascript:` and external references. Markup that is not well-formed SVG counts as a failed load (bundled fallback, then the error state)
 - ✅ **Bilingual Support**: English and Hebrew, detected from the `lang` URL parameter
 - ✅ **Usage tracking** (NDE and NDE_TEST): anonymous "Shelf Map Open" events to TAU's Mixpanel project — see [Shelf Map usage tracking](docs/features/shelf-map-usage-tracking.md)
 
@@ -263,12 +273,16 @@ find and observe the gallery. Language switching in-app uses the language select
 
 ## 🎨 CSS & Styling Tweaks
 
-Lightweight overrides applied via `src/assets/css/custom.css` (plus one Lottie asset swap). These
+Lightweight overrides applied via `src/assets/views/nde/css/custom.css` (plus one Lottie asset swap). These
 are small, self-contained styling adjustments — not application code — and are grouped here to keep
 them distinct from the add-ons above.
 
 ### CSS customizations (`custom.css`)
-Custom styling fixes and enhancements applied via `src/assets/css/custom.css`.
+Custom styling fixes and enhancements applied via `src/assets/views/nde/css/custom.css`.
+
+> **Edit the file under `src/assets/views/nde/`, never `src/assets/css/custom.css`.** The host
+> fetches `custom.css` from a fixed path, so the build copies the selected family's file there;
+> that copy is generated, gitignored, and overwritten by the next build.
 
 #### Call Number Directionality Fix
 **Date Implemented:** 13.11.25
@@ -363,7 +377,7 @@ html:not([lang])[dir="rtl"] nde-logo img {
 
 **Priority:** `lang` decides when present; `dir` is a fallback only when `lang` is absent — so a future Arabic UI (`lang="ar"`, also RTL) correctly keeps the default logo rather than the Hebrew one.
 
-**Files:** `src/assets/images/library-logo.png` (English), `library-logo-he.png` (Hebrew). Previous logo variants archived under `src/assets/images/archive/`.
+**Files:** `src/assets/views/nde/images/library-logo.png` (English), `library-logo-he.png` (Hebrew); the build copies them to `src/assets/images/`. Previous logo variants archived under `src/assets/images/archive/`.
 
 #### Bilingual Search Background
 **Date Implemented:** 27.05.26
@@ -487,6 +501,45 @@ lightened past roughly `#4a70a0` this drops below 4.5:1 — re-check then.
 
 Padding uses logical properties per the repo BiDi convention, so the chip stays symmetric in Hebrew RTL
 (`text-uppercase` is a no-op in Hebrew, which is expected).
+
+#### Resource-Type Tabs as Pills
+**Date Implemented:** 10.11.26 (NDE_TEST trial) · **Live on NDE:** 12.11.26 ·
+**Issue:** [#98](https://github.com/hagaybar/TAU_customModule/issues/98) · **PR:** [#113](https://github.com/hagaybar/TAU_customModule/pull/113)
+
+Not to be confused with the pill chip above, which styles the type label on each result card. This
+rule styles the **tabs above the results** (הכל / ספרים / מאמרים / כתבי עת). Staff said they got lost
+among the filter chips below them and asked for emphasis. Four options (A–D) were shown; staff chose
+**B** after a trial on NDE_TEST.
+
+**Target:** `nde-search-results-resource-type-bar button.resource-type-items` (selected tab:
+`.active-resource-type`)
+
+- Every tab: light-blue pill — background `#e3ebf5`, text `#1f3550`, weight 600, `border-radius: 20px`,
+  the host's underline removed.
+- Selected tab: solid `#3f608a` (the theme primary) with white bold text.
+- Contrast: white on `#3f608a` 6.46:1; `#1f3550` on `#e3ebf5` 10.38:1 — both pass AA at 14px.
+- `!important` is **measured**, not assumed: without it the host kept its colour, underline, square
+  corners and weight; only background and padding applied.
+- Spacing uses `margin-inline` / `padding-inline`, so Hebrew and English look the same.
+
+#### Main-Menu Styling
+**Dates:** 26.10.26 · **Issues/PRs:** [#51](https://github.com/hagaybar/TAU_customModule/issues/51),
+[#88](https://github.com/hagaybar/TAU_customModule/pull/88), [#91](https://github.com/hagaybar/TAU_customModule/pull/91)
+
+Three small rules on the main menu at the top of every page:
+
+- **Bold Hebrew labels.** Most menu items are bolded through their Alma labels (`mainmenu.label.*`
+  values carry `<b>`). Two cannot be: the "more options" overflow button renders its label as plain
+  text, so HTML would show literally, and the research-assistant label carries no `<b>`. Both are
+  bolded in CSS, Hebrew only. The research-assistant rule keys on the link's `/researchAssistant`
+  href, because its label text differs between NDE and NDE_TEST.
+- **Shadow with a white gap (staff's option E of six).** On the results and full-record pages the
+  sticky search band used to paint over the menu's own shadow. The header now sits above the band
+  (`position: relative; z-index: 3`), and the band has a 14px top margin, so the shadow falls on a
+  white gap. The band keeps its colour; the landing page is not affected.
+
+Exact selectors are in the `custom.css` inventory in
+[`docs/features/landing-banner-customization.md`](docs/features/landing-banner-customization.md).
 
 #### Search-Bar Band
 **Date Implemented:** 02.08.26 · **Scope corrected:** 04.08.26 ·
@@ -641,13 +694,18 @@ boot banner in the console.
 — see the `custom.css` inventory.
 
 ### Custom Loading Animation
-**Date Implemented:** 17.06.26
+**Date Implemented:** 17.06.26 (blue dots) · **Ring orbit:** [#76](https://github.com/hagaybar/TAU_customModule/pull/76) · **Full size:** [#82](https://github.com/hagaybar/TAU_customModule/pull/82)
 
-Replaces the Primo NDE page-load animation (the default "four purple dots") with a **blue** four-dot animation that fits a blue NDE theme.
+Replaces the Primo NDE page-load animation (the default "four purple dots"). The first replacement
+was the same dots recoloured blue; the team then chose **"Ring orbit"** from eight candidates
+([#72](https://github.com/hagaybar/TAU_customModule/pull/72), gallery under
+`docs/assets/loading-animations/`), and that is what ships on NDE and NDE_TEST.
 
-**How it works:** the NDE host fetches a Lottie animation at boot from the custom package and uses it instead of its built-in default. The file must be named exactly `LoadingAnimationJson.json` and live under `assets/images/loadingAnimations/` in the package (in this repo: `src/assets/images/loadingAnimations/`, which the build maps to `<package>/assets/...` — no `angular.json` change needed).
+**How it works:** the NDE host fetches a Lottie animation at boot from the custom package and uses it instead of its built-in default. The file must be named exactly `LoadingAnimationJson.json` and live under `assets/images/loadingAnimations/` in the package. The build copies the selected family's file there — no `angular.json` change needed.
 
-**File:** `src/assets/images/loadingAnimations/LoadingAnimationJson.json` — the Ex Libris default Lottie, hue-rotated from violet to azure (`#003b7e → #0052b3 → #538bcc → #b0c9e7`), keeping the original motion. Colors are baked into the JSON; the boot animation does **not** follow the `--sys-primary` theme token.
+**File:** `src/assets/views/nde/images/loadingAnimations/LoadingAnimationJson.json`. Colours are baked into the JSON; the boot animation does **not** follow the `--sys-primary` theme token. TMA has its own copy, recoloured to TMA's browns ([#84](https://github.com/hagaybar/TAU_customModule/pull/84)).
+
+**Full size:** the host spinner hard-codes `transform: scale(0.5)` on the Lottie box, so the animation drew at half size. A `custom.css` rule (`nde-progress-spinner-dialog ng-lottie > div`) removes that scale.
 
 **Documentation:** See [Loading Animation Color (Ex Libris Case 10665359)](docs/troubleshooting/loading-animation-color-not-themed.md) for the full investigation — why the view theme can't recolor the default dots and how the replacement works.
 
@@ -665,12 +723,12 @@ Landing Page tab only exposes **Label / URL / Icon**, so a library can't set the
 a corrected file either: `assets/landingpage/` is injected per view by Ex Libris and is **not** part
 of this package.
 
-**How it works:** `src/assets/js/custom.js` is a plain script the host loads from the package. It
+**How it works:** `src/assets/views/nde/js/custom.js` is a plain script the host loads from the package (the build copies it to the fixed path `assets/js/custom.js`). It
 lets the host render the page normally, then sets `target` / `rel` / aria on the external quick-link
 anchors — exactly what the renderer would have done if the flag were set. It re-applies after an
 in-app language switch.
 
-**File:** `src/assets/js/custom.js` (previously an empty placeholder — this is the only logic in it).
+**File:** `src/assets/views/nde/js/custom.js` (previously an empty placeholder — this is the only logic in it).
 
 > **🗑️ Remove this when it's no longer needed.** This is a workaround for a Back Office gap, not a
 > TAU design decision. Delete the logic in `custom.js` (restoring it to an empty placeholder) once
@@ -747,6 +805,13 @@ Comprehensive documentation is organized in the [`docs/`](docs/) folder:
 
 #### CenLib Shelf Map
 - **[CenLib Shelf Map](docs/features/map_cenlib_shelves/README.md)** - Interactive shelf-location map (data model, CDN layout, call-number matching, extension guide)
+- **[Shelf Map usage tracking](docs/features/shelf-map-usage-tracking.md)** - Anonymous "Shelf Map Open" events to Mixpanel; how the token reaches the build
+
+#### TMA View
+- **[TMA view change log](docs/features/tma-view-changelog.md)** - Every TMA change, in the repository and in the Back Office
+
+#### Resource Sharing Form
+- **[Resource sharing form](docs/features/resource-sharing-form.md)** - The library box on `/nde/blankIll` is Ex Libris/Alma configuration, not TAU code — change it in Alma
 
 #### NDE Embedded Search Box (library websites)
 - **[NDE Search Box](docs/features/nde-search-box/README.md)** - Embeddable search box for TAU library websites. Not part of this package; materials are held internally
@@ -757,6 +822,7 @@ Comprehensive documentation is organized in the [`docs/`](docs/) folder:
 ### Reference Documentation
 - **[Call Number Directionality Fix](docs/reference/call_number_directionality_fix.md)** - CSS fixes for call number display (VE & NDE)
 - **[Finding Label Codes in Primo NDE](docs/reference/finding_label_codes.md)** - Add `debugLabels=true` to any NDE URL to read label codes straight off the screen, instead of guessing which code drives a piece of text
+- **[Label Inspector](tools/label-inspector/README.md)** - Bookmarklet: point at any text in NDE and see which label code produces it, with its current value (issue #54)
 - **[Debug Scripts](docs/debug/README.md)** - Browser-console inspectors for NDE translation internals (the manual fallback when `debugLabels` isn't enough)
 
 ### Troubleshooting
@@ -776,6 +842,7 @@ Comprehensive documentation is organized in the [`docs/`](docs/) folder:
 - **[Development Guidelines](docs/development/AGENTS.md)** - Repository development guidelines
 - **[Debug Logging](docs/development/debug-logging.md)** - Gated `dlog()`/`dwarn()` logging: the always-on boot banner, the `NDE_TEST` default, and the three activation switches (issue #10)
 - **[Debug-Logging Activation Design](docs/superpowers/specs/2026-08-09-debug-logging-activation-design.md)** - Why the default is bound to the view but the manual override is never lost (issue #40)
+- **[Per-View Isolation Design](docs/superpowers/specs/2026-09-09-per-view-isolation-design.md)** - How one repository builds NDE and TMA without one view's content leaking into the other (issue #67)
 
 ### Technical Specifications
 - **[SPECS.md](SPECS.md)** - Detailed technical specifications
@@ -792,13 +859,13 @@ Comprehensive documentation is organized in the [`docs/`](docs/) folder:
 npm install
 ```
 
-### 2. Configure Build Settings
-Edit `build-settings.env`:
+### 2. Choose the View
 ```bash
-INST_ID=972TAU_INST
-VIEW_ID=NDE_TEST  # or NDE for production
-ASSET_BASE_URL=/nde/custom/972TAU_INST-NDE_TEST
+npm run view                 # which view is selected, and what changed since its last build
+npm run view:use nde-test    # or: nde (live production) | tma
 ```
+`view:use` writes `VIEW_ID` and `ASSET_BASE_URL` in `build-settings.env` together and regenerates
+the tree. **Don't hand-edit those two** — if they disagree, every asset in the package 404s.
 
 ### 3. Development Server
 ```bash
@@ -811,17 +878,65 @@ Or with proxy:
 npm run start:proxy
 ```
 
-### 4. Build for Production
+### 4. Build
 ```bash
-npm run build
+npm run build          # a package you may upload
+npm run build:check    # a verification package — never uploaded (see below)
 ```
-Output: `dist/972TAU_INST-NDE_TEST.zip`
+Output: `dist/972TAU_INST-<VIEW_ID>.zip`, also archived with its commit in the filename (see
+[Build the Project](#build-the-project)).
+
+`NDE` and `NDE_TEST` builds **require the Mixpanel token** (`TAU_MIXPANEL_TOKEN`) for Shelf Map
+usage tracking, and refuse to build without it. For a development or check build only:
+`npm run build:check -- --tau-tracking-disabled`.
 
 ### 5. Deploy to Alma
 1. Upload ZIP to Alma Back Office
 2. Navigate to: **Discovery > View List > Edit**
 3. Go to: **Manage Customization Package** tab
 4. Upload and save
+5. Reload the view and read the `[TAU] custom module · …` line in the browser console — it names
+   the package it was built for. A new upload can take a few minutes to reach every server.
+
+**`main` is production.** It is the source of the live `NDE` package, so every change reaches it
+through a pull request, and a package for the live view is built only from `main`. Packages built
+from a branch go to `NDE_TEST`.
+
+---
+
+## Views and per-view content
+
+One repository builds every view. `scripts/select-view.mjs` (run by every build) maps the view to a
+family:
+
+| `VIEW_ID` | Family | Role |
+|---|---|---|
+| `NDE` | `nde` | production — live for patrons |
+| `NDE_TEST` | `nde` | test, a duplicate of production |
+| `TMA_NDE` | `tma` | TMA archive view, test / build-out |
+| `TMA` | `tma` | TMA production, after cutover |
+
+- **Components** live in `src/app/views/<family>/component-map.ts`; only the selected family's map is
+  imported, so the other family's components are not in the bundle.
+- **Files the host fetches** (`custom.css`, `custom.js`, footer and homepage HTML, logos, the loading
+  animation) live in `src/assets/views/<family>/`. The build copies the selected family's files to
+  the fixed paths Primo fetches. Those copies are gitignored — edit under `src/assets/views/`.
+- **An undeclared `VIEW_ID` fails the build.** Add it to `VIEW_FAMILY` in `scripts/select-view.mjs`.
+- **A build refuses when uncommitted changes sit in the other family** — usually a sign the session
+  points at the wrong view. Set `TAU_ALLOW_CROSS_FAMILY=1` only when changing both on purpose.
+- **Proving a change did not touch another view:** build that view from `main` and from your branch
+  with `npm run build:check`, then `npm run compare:packages -- <baseline.zip> <candidate.zip>`.
+
+Design: [per-view isolation spec](docs/superpowers/specs/2026-09-09-per-view-isolation-design.md).
+
+## Checks and maintainer tools
+
+- **Pull-request checks** (`.github/workflows/pr-checks.yml`): every PR to `main` runs the script
+  tests and a verification build for NDE, on Node 18 and Node 22.
+- **Tests:** `npm test` (components, Karma) and `npm run test:scripts` (build scripts, Node's test runner).
+- **Shelf Map data snapshot:** `npm run sync:map-assets` refreshes the bundled offline copy before a deploy.
+- **[Label Inspector](tools/label-inspector/README.md):** a bookmarklet that shows which Alma label
+  code produces any text on an NDE page. Lives in `tools/`, never in the package.
 
 ---
 
@@ -1242,6 +1357,10 @@ To ensure smooth development, debugging, and code management, we recommend setti
 > A `-dirty` suffix means the tree had uncommitted changes and the package cannot be rebuilt
 > exactly — **don't upload those**; commit, rebuild, upload that. Changing `build-settings.env`
 > to select a view does not count as dirty. Archiving never fails a build.
+>
+> **Verification builds** (`npm run build:check`) are archived separately, under
+> `tau-packages/verification/<date>/`, and print "Not for upload". They exist only to be compared
+> with `npm run compare:packages`; nothing in `verification/` is ever uploaded.
 
 
 - **Automatic Packaging**:
