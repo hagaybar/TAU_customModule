@@ -419,3 +419,34 @@ nde-progress-spinner-dialog ng-lottie > div {
   transform: none !important;
 }
 /* 05.10.26 loading animation at full size end */
+
+/* 10.11.26 resource-type tabs as pills (option "B" — staff chose B; approved for NDE 12.11.26) */
+/* Request: the result-type tabs (All / Books / Articles / Journals) above the results get lost  */
+/* among the filter chips below them; staff asked for emphasis, "maybe a blue background".       */
+/* Four options (A–D) were shown to staff 10.11.26; B was trialled on NDE_TEST, then chosen.    */
+/* Every tab becomes a light-blue pill; the selected one is solid TAU blue with white text.      */
+/* Host markup (verified live on 972TAU_INST:NDE_TEST 10.11.26):                                 */
+/*   nde-search-results-resource-type-bar … button.resource-type-items[.active-resource-type]    */
+/* WHY !important — MEASURED. Injected without it, the host kept its colour, its 4px underline,  */
+/* square corners and weight 400; only background and padding applied. So the host rules        */
+/* outrank this selector, and !important is set on every property it owns.                      */
+/* Contrast: white on #3f608a 6.46:1; #1f3550 on #e3ebf5 10.38:1 — both pass AA at 14px.         */
+/* margin-inline / padding-inline are logical, so RTL and LTR space the pills the same.          */
+nde-search-results-resource-type-bar button.resource-type-items {
+  background: #e3ebf5 !important;
+  color: #1f3550 !important;
+  border-radius: 20px !important;
+  border-bottom: 0 !important;
+  margin-inline: 4px;
+  padding-inline: 20px !important;
+  font-weight: 600 !important;
+}
+nde-search-results-resource-type-bar button.resource-type-items.active-resource-type {
+  background: #3f608a !important;
+  font-weight: 700 !important;
+}
+nde-search-results-resource-type-bar button.resource-type-items.active-resource-type,
+nde-search-results-resource-type-bar button.resource-type-items.active-resource-type .mdc-button__label {
+  color: #fff !important;
+}
+/* 10.11.26 resource-type tabs as pills end */
