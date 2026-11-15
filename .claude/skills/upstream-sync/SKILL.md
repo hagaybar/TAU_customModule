@@ -273,4 +273,4 @@ Then re-enter the Resolve flow for that file.
 - The skill writes its own commits on the apply branch (e.g., the ledger update). These are not cherry-picks; the PR title's "N commits" count refers to the *cherry-picked* count, not total commits on the branch.
 - All scripts live in `scripts/upstream-sync/`. Always invoke them via `node scripts/upstream-sync/<script>.mjs ...` from the repo root.
 - Today's date for filenames/timestamps comes from `date -I` (ISO 8601).
-- The legacy `.github/workflows/sync-fork.yml` exists but is no longer the recommended path — see its top-of-file note.
+- The legacy `.github/workflows/sync-fork.yml` was deleted on 2026-11-15 (#116): it pushed upstream merges straight to `main` with no PR or build. This skill is the only sync path.
