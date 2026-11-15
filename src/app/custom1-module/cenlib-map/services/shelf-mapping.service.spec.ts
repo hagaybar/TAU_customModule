@@ -189,4 +189,54 @@ describe('ShelfMappingService', () => {
       httpMock.expectOne(LOCAL_CSV_URL).error(new ProgressEvent('error'));
     });
   });
+
+  // Issue #118: every Shelf Map button on a record page asks for the mappings. Callers that
+  // arrive while the first download is still in flight must share it, not start their own.
+  describe('loadMappings concurrent callers (#118)', () => {
+    let httpMock: HttpTestingController;
+
+    const VALID_CSV =
+      'libraryName,libraryNameHe,collectionName,collectionNameHe,rangeStart,rangeEnd,svgCode,description,descriptionHe,floor,shelfLabel,shelfLabelHe,notes,notesHe\n' +
+      'Test Library,,Test Collection,,000,999,X_0,,,0,,,,\n';
+
+    beforeEach(() => {
+      httpMock = TestBed.inject(HttpTestingController);
+    });
+
+    afterEach(() => httpMock.verify());
+
+    it('makes one request for callers that ask before the first download completes', () => {
+      const results: number[] = [];
+      service.loadMappings().subscribe((m) => results.push(m.length));
+      service.loadMappings().subscribe((m) => results.push(m.length));
+      service.hasMappingAsync('Test Library', 'Test Collection', '500').subscribe();
+
+      // expectOne fails if the three callers started more than one request.
+      httpMock.expectOne(DATA_SOURCE_CONFIG.shelfMappingsUrl).flush(VALID_CSV);
+
+      expect(results).toEqual([1, 1]);
+    });
+
+    it('serves later callers from the cache without a new request', () => {
+      service.loadMappings().subscribe();
+      httpMock.expectOne(DATA_SOURCE_CONFIG.shelfMappingsUrl).flush(VALID_CSV);
+
+      let length = -1;
+      service.loadMappings().subscribe((m) => (length = m.length));
+      httpMock.expectNone(DATA_SOURCE_CONFIG.shelfMappingsUrl);
+      expect(length).toBe(1);
+    });
+
+    it('starts a fresh request after a failed load once the cache expires', () => {
+      const LOCAL_CSV_URL = `${assetBaseUrl}/assets/cenlib-map/mapping.txt`;
+      service.loadMappings().subscribe();
+      httpMock.expectOne(DATA_SOURCE_CONFIG.shelfMappingsUrl).error(new ProgressEvent('error'));
+      httpMock.expectOne(LOCAL_CSV_URL).error(new ProgressEvent('error'));
+
+      // A refresh must not be stuck on the finished in-flight request.
+      service.refreshMappings().subscribe();
+      httpMock.expectOne(DATA_SOURCE_CONFIG.shelfMappingsUrl).flush(VALID_CSV);
+      expect().nothing(); // the assertion is expectOne above, plus verify() in afterEach
+    });
+  });
 });
