@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, BehaviorSubject } from 'rxjs';
-import { map, catchError, tap } from 'rxjs/operators';
+import { map, catchError, tap, finalize, shareReplay } from 'rxjs/operators';
 import * as Papa from 'papaparse';
 import {
   LEGACY_SHELF_MAPPINGS,
@@ -54,6 +54,13 @@ export class ShelfMappingService {
   /** Timestamp of last cache update */
   private cacheTimestamp: number = 0;
 
+  /**
+   * The download in progress, shared by every caller that asks before it completes (#118).
+   * Each Shelf Map button on a record page calls loadMappings(); without this, every one
+   * that arrived before the cache was filled started its own ~112 KB request.
+   */
+  private inFlight$: Observable<ShelfMapping[]> | null = null;
+
   /** Loading state observable */
   private loadingSubject = new BehaviorSubject<boolean>(false);
   public loading$ = this.loadingSubject.asObservable();
@@ -95,11 +102,16 @@ export class ShelfMappingService {
       return of([]);
     }
 
+    // A download is already running: share it rather than start another.
+    if (this.inFlight$) {
+      return this.inFlight$;
+    }
+
     // Fetch from AWS CDN
     this.loadingSubject.next(true);
     dlog('[ShelfMappingService] Fetching mappings from AWS CDN');
 
-    return fetchTextWithFallback(this.http, DATA_SOURCE_CONFIG.shelfMappingsUrl)
+    this.inFlight$ = fetchTextWithFallback(this.http, DATA_SOURCE_CONFIG.shelfMappingsUrl)
       .pipe(
         map((csv) => this.parseCsv(csv)),
         tap((mappings) => {
@@ -123,9 +135,13 @@ export class ShelfMappingService {
           this.cacheTimestamp = Date.now();
           this.initialized = true;
           this.loadingSubject.next(false);
-          return of([]);
-        })
+          return of([] as ShelfMapping[]);
+        }),
+        // The cache now answers new callers; late subscribers to this one get the replay.
+        finalize(() => (this.inFlight$ = null)),
+        shareReplay({ bufferSize: 1, refCount: false })
       );
+    return this.inFlight$;
   }
 
   /**
@@ -363,6 +379,7 @@ export class ShelfMappingService {
     this.cachedMappings = null;
     this.mappingIndex = null;
     this.cacheTimestamp = 0;
+    this.inFlight$ = null;
     return this.loadMappings();
   }
 
