@@ -41,6 +41,26 @@ describe('CenlibMapDialogComponent', () => {
     component = fixture.componentInstance;
   });
 
+  describe('Shelf Map Open event properties', () => {
+    afterEach(() => history.replaceState(null, '', window.location.pathname));
+
+    it('sends the record title and the MMS ID from the docid', () => {
+      history.replaceState(null, '', '?docid=alma990021960510204146&vid=972TAU_INST:NDE');
+      component.data = { ...dialogData, title: 'כבוד המלכים' };
+      const props = component.openEventProperties('found');
+      expect(props['title']).toBe('כבוד המלכים');
+      expect(props['mms_id']).toBe('990021960510204146');
+      expect(props['record_id']).toBe('alma990021960510204146');
+    });
+
+    it('sends empty strings when title and docid are unavailable', () => {
+      component.data = { ...dialogData };
+      const props = component.openEventProperties('missing_data');
+      expect(props['title']).toBe('');
+      expect(props['mms_id']).toBe('');
+    });
+  });
+
   it('should be created', () => {
     expect(component).toBeTruthy();
   });

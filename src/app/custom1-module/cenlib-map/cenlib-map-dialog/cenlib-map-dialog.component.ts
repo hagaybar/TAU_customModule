@@ -7,10 +7,13 @@ import { ShelfMappingService } from '../services/shelf-mapping.service';
 import { ShelfMapping } from '../config/shelf-mapping.config';
 import { ShelfMapSvgComponent } from '../shelf-map-svg/shelf-map-svg.component';
 import { readUiLanguage, UiLanguage } from '../../../services/ui-language';
-import { trackEvent, viewId } from '../../../services/usage-tracking';
+import { trackEvent, TrackProperties, viewId } from '../../../services/usage-tracking';
+import { mmsIdFromDocId } from '../services/record-context';
 
 /** Version of the Shelf Map add-on reported with usage events. Bump on user-visible changes. */
-export const SHELF_MAP_ADDON_VERSION = '1.0';
+export const SHELF_MAP_ADDON_VERSION = '1.1';
+
+type OpenOutcome = 'found' | 'not_found' | 'error' | 'missing_data';
 
 /**
  * Dialog data interface (MDM format)
@@ -31,6 +34,8 @@ export interface CenlibMapDialogData {
   collectionNameEn?: string;
   /** Path to library's SVG floor plan */
   svgPath?: string;
+  /** Title of the record the button belongs to (from the page; for usage tracking only) */
+  title?: string;
 }
 
 /**
@@ -125,17 +130,25 @@ export class CenlibMapDialogComponent implements OnInit {
    * settles so floor/shelves and the outcome are known. Library and collection are sent by
    * their English config names so events group the same whichever UI language was used.
    */
-  private trackOpen(outcome: 'found' | 'not_found' | 'error' | 'missing_data'): void {
+  private trackOpen(outcome: OpenOutcome): void {
+    trackEvent('Shelf Map Open', this.openEventProperties(outcome));
+  }
+
+  /** Properties of the "Shelf Map Open" event. Bibliographic and location data only. */
+  openEventProperties(outcome: OpenOutcome): TrackProperties {
+    const docid = new URLSearchParams(window.location.search).get('docid') ?? '';
     const shelves = Array.from(
       new Set(this.mappings.map((m) => (m.shelfLabel || m.svgCode || '').trim()).filter(Boolean))
     );
-    trackEvent('Shelf Map Open', {
+    return {
       addon: 'tau-shelf-map',
       addon_version: SHELF_MAP_ADDON_VERSION,
       // Same property name and value format as Primo's own Mixpanel events, so one
       // "Primo View" filter shows both.
       'Primo View': viewId(),
-      record_id: new URLSearchParams(window.location.search).get('docid') ?? '',
+      record_id: docid,
+      mms_id: mmsIdFromDocId(docid),
+      title: this.data?.title || '',
       library: this.data?.libraryNameEn || this.data?.libraryName,
       location: this.data?.collectionNameEn || this.data?.collectionName,
       call_number: this.data?.rawCallNumber || this.data?.callNumber,
@@ -144,7 +157,7 @@ export class CenlibMapDialogComponent implements OnInit {
       ui_lang: this.currentLanguage,
       map_found: outcome === 'found',
       outcome,
-    });
+    };
   }
 
   /**

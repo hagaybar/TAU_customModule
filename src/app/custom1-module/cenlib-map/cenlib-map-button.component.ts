@@ -20,6 +20,7 @@ import {
   LocationConfig,
 } from './config/library.config';
 import { dlog } from '../../services/debug.util';
+import { findRecordTitle } from './services/record-context';
 import { readUiLanguage, UiLanguage, watchUiLanguage } from '../../services/ui-language';
 
 /**
@@ -441,6 +442,7 @@ export class CenlibMapButtonComponent implements AfterViewInit, OnDestroy {
         libraryNameEn: this.libraryConfig?.name,
         collectionNameEn: this.locationConfig?.name,
         svgPath: this.libraryConfig?.svgPath,
+        title: findRecordTitle(this.elementRef.nativeElement),
       },
     });
   }

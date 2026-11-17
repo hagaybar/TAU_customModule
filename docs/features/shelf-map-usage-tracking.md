@@ -15,6 +15,8 @@ outcome and floor are known. Sent from `CenlibMapDialogComponent.trackOpen()`.
 | `addon`, `addon_version` | `'tau-shelf-map'`, `SHELF_MAP_ADDON_VERSION` in the dialog component |
 | `Primo View` | e.g. `972TAU_INST:NDE_TEST` — same name and format as Primo's own Mixpanel events, so one "Primo View" filter covers both |
 | `record_id` | `docid` from the page URL |
+| `mms_id` | Alma MMS ID: `record_id` without its `alma` prefix; empty for non-Alma records (since add-on 1.1, 2026-11-17) |
+| `title` | record title as shown on the page (`nde-record-title`, nearest to the button), max 255 characters; empty if not found (since 1.1) |
 | `library`, `location` | English config names (so events group the same in either UI language) |
 | `call_number` | as shown in Get It |
 | `floor`, `shelves` | from the matched mappings (shelf label, else SVG code) |
@@ -26,7 +28,9 @@ outcome and floor are known. Sent from `CenlibMapDialogComponent.trackOpen()`.
 - **Nothing is stored in the patron's browser** — no cookies, no localStorage. Each event carries
   a fresh random `distinct_id`, so Mixpanel counts **opens, not people** (no "unique users").
 - `ip=0`: Mixpanel does not derive location from the IP.
-- No patron or request-form data. Keep it that way.
+- No patron or request-form data. Keep it that way. `title` and `mms_id` describe the *book*,
+  not the reader; with a fresh random `distinct_id` per event they cannot be joined into anyone's
+  reading history.
 - No SDK: a single form-encoded POST to `https://api-eu.mixpanel.com/track` (EU residency).
   Tracking can never break the button — every failure is swallowed.
 
