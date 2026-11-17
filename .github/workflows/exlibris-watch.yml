@@ -1,0 +1,59 @@
+# Weekly Ex Libris watch for the Angular 20 upgrade (issue #75).
+#
+# Every Sunday it reads the Ex Libris "Release Changes Requiring Customization Review"
+# page and the Angular branches of upstream ExLibrisGroup/customModule, and posts a short
+# report on #75 — every run, changed or not, and also when the check itself fails.
+# Script: scripts/exlibris-watch.mjs. Run it by hand from the Actions tab (Run workflow).
+#
+# On a pull request that touches the watch it runs as a dry run: prints the report, posts nothing.
+name: Ex Libris watch
+
+on:
+  schedule:
+    - cron: '0 5 * * 0' # Sundays 05:00 UTC (07:00/08:00 Israel)
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - .github/workflows/exlibris-watch.yml
+      - scripts/exlibris-watch.mjs
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: exlibris-watch
+  cancel-in-progress: false
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      WATCH_ISSUE: '75'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Check Ex Libris and upstream
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WATCH_REPO: ${{ github.repository }}
+          WATCH_DRY_RUN: ${{ github.event_name == 'pull_request' && '1' || '0' }}
+        run: node scripts/exlibris-watch.mjs
+
+      - name: Report a failed check on the issue
+        if: failure() && github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          gh issue comment "$WATCH_ISSUE" -R "${{ github.repository }}" --body "## Weekly Ex Libris check $(date -u +%d.%m.%y): **check failed**
+
+          The watch could not complete, so this week's state is unknown. Details in the [run log]($RUN_URL). Most likely the Ex Libris page layout changed or the site refused the request.
+
+          <sub>Automated by \`.github/workflows/exlibris-watch.yml\`.</sub>"
