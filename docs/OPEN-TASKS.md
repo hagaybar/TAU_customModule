@@ -1,14 +1,13 @@
 # Open tasks
 
-Last updated: 2026-11-15
+Last updated: 2026-11-18
 
 ## PRs
 - #26 (second-library Shelf Map assessment dashboard, draft) — parked with #27 until the user calls for it
 
 ## Issues
 - #110 (Shelf Map missing buttons reported 11.11.26) — 4 of 7 fixed and verified live; cases 1, 4, 7 (B1 copies mapped only in B2), cabinet 52A `792.75` typo and Simchoni `355.1` gap wait on staff; not urgent, recheck on report
-- #117 (Shelf Map: notice when the button disappears for everyone) — decided: Mixpanel zero-opens alert; user sets it up in Mixpanel (steps in the issue), then close
-- #75 (Primo NDE Angular 20 upgrade, Feb 2027) — rebuild and validate when Ex Libris ships the template
+- #75 (Primo NDE Angular 20 upgrade, Feb 2027) — weekly Ex Libris watch reports on the issue every Sunday; start `upgrade/angular-20` once guidance names the official template
 - #38 (Shelf Map: read location from host store, not DOM) — implementation; can start alone
 - #14 (call-number handling tied to Central Library conventions) — research; needed before a second library
 - #47 (let Alma Sandbox origin fetch Shelf Map data from CloudFront) — CORS change is infrastructure; needs the user
