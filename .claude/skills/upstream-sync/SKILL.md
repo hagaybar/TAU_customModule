@@ -26,7 +26,7 @@ The skill has four conversational modes. Pick the one that matches the user's in
 - **Never auto-merge the PR.** The user reviews and merges manually.
 - **Never proceed past a build failure or PR-creation failure.** Stop and report.
 - **Never write to the ledger unless the full apply sequence (picks + build + push + PR) succeeded.** Atomic ledger writes only.
-- **Delegate all git operations to the `git-expert` skill** (branch creation, commits, push, PR open). Invoke `Skill { skill: "git-expert" }` when you need its conventions.
+- **Git operations follow the repo's rules in `CLAUDE.md`** (branch per task, PR to `main`, every GitHub command with `-R hagaybar/TAU_customModule`; never push to `main`). The `git-expert` skill this once delegated to has been retired.
 
 ## §1 — Analyze mode
 
@@ -113,7 +113,7 @@ The user gives short or full SHAs. Resolve each to full SHA via `git rev-parse <
   - `none` → continue.
 - Check the user's order against upstream's chronological order (`git log --format=%H upstream/main ^main` reversed). If they differ, present both orderings and ask: (a) auto-reorder to chronological [default], (b) proceed in user-specified order, (c) cancel.
 
-**2.3 Create the branch** (delegate to git-expert):
+**2.3 Create the branch**:
 - Branch name: `sync/upstream-<YYYY-MM-DD>`. If a branch with that name already exists, suffix `-2`, `-3`, etc.
 - Branch off current `main`.
 
@@ -149,7 +149,7 @@ git add docs/upstream-sync/applied.json
 git commit -m "chore(upstream-sync): record applied commits"
 ```
 
-**2.7 Push the branch and open a PR** (delegate to git-expert):
+**2.7 Push the branch and open a PR**:
 - Push: `git push -u origin sync/upstream-<YYYY-MM-DD>`
 - PR title: `Sync from upstream: N commits (YYYY-MM-DD)` (where N is the count)
 - PR body — use this template:
