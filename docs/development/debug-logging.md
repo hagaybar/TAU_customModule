@@ -139,3 +139,17 @@ mitigates it but does not eliminate it, and the standing rule that patron data i
 - [Design spec](../superpowers/specs/2026-08-09-debug-logging-activation-design.md) — the
   reasoning behind the banner, the view default, and the URL parameter (issue #40)
 - Issue #10 — Security audit: sensitive data leaks to terminal or files
+
+
+## Notes moved from CLAUDE.md (2026-11-24)
+
+- **Activate at runtime (no rebuild)** — three switches, later ones win:
+  ```js
+  ?tauDebug=1                              // in the URL — persists itself; a link you can send
+  localStorage.setItem('tauDebug', '1');   // then reload — persists; '0' is an explicit OFF
+  window.__TAU_DEBUG__ = true;             // this session only; beats both
+  ```
+  `setItem('tauDebug','0')` silences even `NDE_TEST`; `removeItem` falls back to the view default.
+  Full guide: `docs/development/debug-logging.md`. Design: `docs/superpowers/specs/2026-08-09-debug-logging-activation-design.md`.
+- The **dev proxy** (`proxy/proxy.conf.mjs`) runs at `logLevel: 'info'`, not `'debug'`, to avoid
+  printing the live host's cookies/auth headers to the terminal. Raise to `'debug'` only temporarily.

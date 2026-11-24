@@ -1,378 +1,62 @@
-# Instructions for Claude Code
+# TAU CustomModule — Primo NDE
 
-This file contains specific instructions for Claude Code when working with this TAU CustomModule project.
-
-## Project Context
-
-This is Tel Aviv University's customization package for Primo's New Discovery Experience (NDE), based on the ExLibris CustomModule template.
+Tel Aviv University's customization package for Primo's New Discovery Experience (NDE), built on
+Ex Libris' CustomModule template. Institution `972TAU_INST`; live view `NDE`, test view `NDE_TEST`
+(and `TMA_NDE`/`TMA`). Customizations: external search (ULI, WorldCat, Google Scholar), call-number
+directionality, custom CSS (summary in `README.md`). For the build, views, packages and Ex Libris'
+reference template, load the project skill **`tau-nde-build`**.
 
 ## `main` is production (RULE)
 
-**`main` is the source of the package running on the live `NDE` view, which has been serving
-patrons since early September 2026.** This repository has no `prod` branch, so the generic
-`main` → DevSandbox / `prod` → Prod topology described in the user-level `CLAUDE.md` **does not
-apply here**. Do not go looking for a `prod` branch to be careful about — `main` is the one.
-
-The care that topology asks for on a `prod` branch is owed to `main` in this repo:
-
-- **No direct pushes to `main`. Every change lands through a pull request.** Enforced by GitHub
-  branch protection (pull request required, force-push and deletion blocked). Administrators are
-  deliberately *exempt*, so a genuine emergency still has a path — that exemption is for outages,
-  not for convenience.
-- **Whatever is on `main` ships in the next package anyone builds.** Pushing `main` deploys
-  nothing on its own (see *Where built packages go*), but the next person to run `npm run build`
-  builds from `main` and may well upload it. There is no staging step between merge and package.
-  Treat merging as "this is in the next deploy," whether or not that was the intent.
-- **Never upload a package built from an unmerged branch to the live `NDE` view.** Branch packages
-  go to `NDE_TEST` (or another test view). The commit in the package filename is what makes a live
-  package traceable to reviewed source; a branch package breaks that.
-- **A refactor or experimental branch merges only once its own verification gate is green.**
-  Where a design document defines that gate, the gate is the merge condition, not a suggestion.
-  For the per-view isolation work this is §7.1 and §7.2 of
-  `docs/superpowers/specs/2026-09-09-per-view-isolation-design.md`.
-- **The hotfix path, named here so it is not improvised under pressure:** branch from `main` → PR
-  → merge → rebuild the package for `VIEW_ID=NDE` → upload to Alma Back Office → confirm the boot
-  banner in the browser console names the new package. Skipping the PR is what the admin exemption
-  is for, and it still owes the repository a follow-up PR recording what was done.
+This repo has no `prod` branch: `main` is the source of the package on the live `NDE` view, so the
+global `main`→DevSandbox / `prod`→Prod topology does **not** apply. The care owed to `prod` is owed to `main`:
+- **No direct pushes to `main`**; every change lands through a PR (branch protection; the admin exemption is for outages only).
+- **A merge is the next deploy**: whatever is on `main` ships in the next package anyone builds.
+- **Never upload a package built from an unmerged branch to the live `NDE` view**; branch packages go to `NDE_TEST`.
+- **A refactor merges only when its verification gate is green** (where a design defines one, e.g. §7.1–7.2 of `docs/superpowers/specs/2026-09-09-per-view-isolation-design.md`).
+- **Hotfix path:** branch → PR → merge → rebuild for `VIEW_ID=NDE` → upload in Alma Back Office → confirm the boot banner names the new package. Skipping the PR owes a follow-up PR.
 
 ## GitHub write target (RULE)
 
-Default all GitHub writes for this project — issue and PR creation, comments, edits,
-reviews, labels, and other mutations — to **`hagaybar/TAU_customModule`**. Specify the
-repository explicitly in every GitHub command; never rely on fork/upstream inference.
-For example, use `gh issue ... -R hagaybar/TAU_customModule` and
-`gh pr ... -R hagaybar/TAU_customModule`. For API commands, use explicit
-`repos/hagaybar/TAU_customModule/...` endpoints.
-
-The `upstream` remote, **`ExLibrisGroup/customModule`**, is for reference and fetching
-only. Never write to it unless the user explicitly requests that target. This rule
-does not authorize merges, pushes to production branches, or deployments.
-
-Existing follow-ups follow this rule: the Node 22 test-command issue is
-[#93](https://github.com/hagaybar/TAU_customModule/issues/93), and the tracking/archive
-PR is [#96](https://github.com/hagaybar/TAU_customModule/pull/96).
-
-## ExLibris CustomModule Reference Repository
-
-**IMPORTANT:** Always refer to the official ExLibris repository for documentation, examples, and troubleshooting:
-
-**Repository URL:** https://github.com/ExLibrisGroup/customModule
-
-### When to Check the ExLibris Repository
-
-1. **Before implementing new features** - Check for examples and best practices
-2. **When troubleshooting** - Look for default file structures and configurations
-3. **For documentation** - README.md contains comprehensive setup and development guides
-4. **For proxy/theme configuration** - Reference latest proxy setup and Material 3 theme examples
-5. **When unsure about file structure** - Compare with default ExLibris implementation
-
-### How to Use the Repository
-
-- **Browse directly:** Navigate through the repository structure to find relevant files
-- **Search for files:** Use glob patterns or file search to find specific configurations
-- **Read documentation:** Fetch and read the README.md or other documentation files
-- **Compare implementations:** Check how ExLibris implements similar features
-- **Find examples:** Look for sample components and customization patterns
-
-## TAU-Specific Customizations
-
-This repository contains TAU-specific customizations documented in:
-- `README.md` - Summary of all TAU customizations
-- `docs/features/` - Detailed feature documentation
-- `docs/features/landing-banner-customization.md` - **Playbook for the landing banner & search-bar styling** (font, color, overlay, search-bar width) + a **complete inventory of every `src/assets/views/nde/css/custom.css` rule** and the layout gotchas (h1/h2, landing vs top-bar, local-proxy ≠ production). Read this before tweaking any banner/CSS styling.
-- `docs/features/tma-view-changelog.md` - **History of the TMA view** (repository *and* Back Office changes). Add an entry for every TMA change.
-- `docs/reference/` - Technical reference documents
-- `docs/planning/FUTURE_TASKS.md` - Planned enhancements and future work
-
-## Key Differences from ExLibris Base
-
-1. **Institution ID:** `972TAU_INST`
-2. **View IDs:**
-   - Production: `NDE`
-   - Test: `NDE_TEST` (configured in `build-settings.env`)
-3. **Custom Features:**
-   - External search integration (ULI, WorldCat, Google Scholar)
-   - Call number directionality fixes
-   - Custom CSS styling
-
-## Development Workflow
-
-1. **Local development:** Use `npm run start:proxy` with proxy pointing to production
-2. **Build settings:** Configure `build-settings.env` before building
-3. **Proxy configuration:** `proxy/proxy.const.mjs` determines which Primo instance to proxy to
-4. **Custom styles:** Edit `src/assets/views/<family>/css/custom.css` — `nde` for the live
-   `NDE` and `NDE_TEST` views. `src/assets/css/custom.css` is *generated* from it and
-   gitignored; an edit there is discarded by the next build. See *Per-view content* below.
-5. **Documentation:** Always update relevant docs when making changes
-
-## Critical Build Requirements
-
-**MANDATORY: After ANY changes to `build-settings.env`, you MUST regenerate files:**
-
-```bash
-npm run generate
-# OR
-npm run build
-```
-
-**Why this is critical:**
-- `npm run generate` runs `prebuild.js`, `scripts/write-tracking-token.mjs`, then `scripts/select-view.mjs`. Run all three, not
-  `node prebuild.js` alone — that regenerates the asset path but leaves the *content* of the
-  build set to whichever view was selected last.
-- `prebuild.js` reads `build-settings.env` and generates `src/app/state/asset-base.generated.ts`
-- This generated file contains the asset path (`ASSET_BASE_URL`) used at runtime
-- If not regenerated, asset paths will be wrong, causing 404 errors for all images/icons
-- `prebuild` and `prestart` both run `npm run generate`, so `npm run build` and
-  `npm run start:proxy` are covered — but nothing runs it before a commit
-
-**Proxy configuration is also parametric:**
-- `proxy/customization_config_override.mjs` automatically reads from `build-settings.env`
-- No manual updates needed when switching between test/production views
-- Proxy paths will always match your current `INST_ID` and `VIEW_ID` settings
-
-**Example of what goes wrong:**
-- `build-settings.env` says: `/nde/custom/972TAU_INST-NDE_TEST`
-- Generated file still has: `/nde/custom/972TAU_INST-NDE`
-- Result: All assets fail to load with 404 errors
-
-**When to regenerate:**
-1. After changing `VIEW_ID` in `build-settings.env`
-2. After changing `ASSET_BASE_URL` in `build-settings.env`
-3. After switching between production/test views
-4. Before committing changes to `build-settings.env`
+Every GitHub write goes to **`hagaybar/TAU_customModule`**, named explicitly (`gh … -R hagaybar/TAU_customModule`,
+`repos/hagaybar/TAU_customModule/...`). The `upstream` remote (`ExLibrisGroup/customModule`) is read-only
+unless the user asks otherwise. This rule authorizes no merge, push to production or deploy.
 
 ## The session's view (RULE)
 
-**`VIEW_ID` in `build-settings.env` is not just what to build — it is the view this session
-is directed at, and the deterministic answer to which view an unqualified request meant.**
-
-"Remove the logo" means the declared view's family. Always. Not a guess, not a question back
-to the user, not an inference from which file was edited last. If that is not what they
-meant, the fix is to change the declared view, not to reinterpret the request.
-
-```bash
-npm run view                 # what is it now, and what changed since its last build
-npm run view:use tma         # point the session somewhere else  (nde | nde-test | tma)
-```
-
-A `SessionStart` hook prints this at the top of every session, so nobody has to remember to
-check it — see `.claude/settings.json`. `/view` shows it on demand.
-
-- **Never hand-edit `VIEW_ID` or `ASSET_BASE_URL`.** They have to agree, and setting one
-  without the other produces a package whose assets all 404. `view:use` writes both, then
-  regenerates so the tree matches the declaration immediately.
-- **A build refuses when uncommitted work sits in another family.** That means one of two
-  things went wrong — the session is pointed at the wrong view, or the edits landed in the
-  wrong place — and building either way produces a package missing the change just made,
-  while possibly damaging the other view. The message names the files. For the genuine case
-  of changing two families at once: `TAU_ALLOW_CROSS_FAMILY=1`.
-- **`view:use` refuses to switch away from a family with uncommitted work**, which would
-  otherwise strand those edits in no build at all.
-
-**Why this exists.** The failure is not picking the wrong view at build time — the package
-filename and the boot banner both catch that. It is being asked for a change, not knowing
-which view was meant, and editing the wrong family: the build then succeeds, the view you
-cared about is unchanged, and the other one is quietly damaged. `main` is production here,
-so the other one is often the live NDE view.
+- **`VIEW_ID` in `build-settings.env` is the view this session is directed at**, and the answer to which view an unqualified request means: "remove the logo" means the declared view's family, always. Don't ask back, and don't infer from the file edited last; if it's the wrong view, change the declaration. Check it with `npm run view`; switch with `npm run view:use <nde|nde-test|tma>` (a SessionStart hook prints it; `/view` on demand).
+- **Never hand-edit `VIEW_ID` or `ASSET_BASE_URL`**: they must agree, or every asset 404s. `view:use` writes both and regenerates.
+- **A build refuses when uncommitted work sits in another family**, and `view:use` refuses to leave a family with uncommitted work. For a genuine two-family change: `TAU_ALLOW_CROSS_FAMILY=1`.
 
 ## Per-view content (RULE)
 
-**One repository builds every view, and `VIEW_ID` in `build-settings.env` selects which content
-goes in.** The rule that keeps that safe: **`build-settings.env` selects; committed source
-defines.** That file is edited casually before every build and does not count as a source change,
-so it must never carry a definition — it names the view, and committed code decides what the view
-contains.
+- **`build-settings.env` selects; committed source defines.** That file only names the view.
+- **Edit under `src/assets/views/<family>/`** (`nde` serves `NDE` and `NDE_TEST`). `src/assets/css/custom.css` and the other fixed paths are generated and gitignored: editing them is a silent no-op.
+- **An undeclared `VIEW_ID` fails the build**: add it to `VIEW_FAMILY` in `scripts/select-view.mjs`. Never infer a family from a view's name.
+- **Before merging anything that touches the build, and before a live upload**, compare packages: `npm run compare:packages -- <baseline.zip> <candidate.zip>`.
 
-`scripts/select-view.mjs` (run by `npm run generate`) holds the only table mapping a view to a
-**family**:
+## Packages (RULE)
 
-| `VIEW_ID` | Family | Role |
-|---|---|---|
-| `NDE` | `nde` | production — live for patrons |
-| `NDE_TEST` | `nde` | test, a duplicate of production |
-| `TMA_NDE` | `tma` | test / build-out |
-| `TMA` | `tma` | production, after cutover |
-
-- **An undeclared `VIEW_ID` fails the build.** No package is produced at all. Add the view to
-  `VIEW_FAMILY` in `scripts/select-view.mjs`, with the family whose content it should ship. Never
-  infer a family by parsing the view name: the Back Office owns those names, so parsing would let
-  a colleague change a build's behaviour by naming a view.
-- **Components** live in `src/app/views/<family>/component-map.ts`. `select-view.mjs` writes a
-  one-line re-export to `src/app/state/view.generated.ts`, which `app.module.ts` imports. The
-  unselected family is never imported, so its components are not in the bundle. Do not merge the
-  maps: a `Map` literal cannot hold two entries for one key, so a merge would silently keep
-  whichever row came last.
-- **Host-fetched assets** (`custom.css`, `custom.js`, the footer and homepage HTML) live in
-  `src/assets/views/<family>/`. Primo fetches them from a *fixed* URL that cannot vary per view,
-  so the build copies the selected family's file over that fixed path. **Those fixed paths are
-  generated and gitignored.** Editing `src/assets/css/custom.css` is a silent no-op — the next
-  build overwrites it. Edit under `src/assets/views/<family>/`.
-- **Adding a new per-view asset** means adding its generated destination to `.gitignore`.
-  `select-view.mjs` refuses to run until you do, because an untracked generated file makes
-  `postbuild.js` stamp every package `-dirty`, and a `-dirty` package must not be uploaded.
-- `src/assets/css/custom.js` (174 bytes, an Ex Libris template placeholder) is **not** per-view.
-  Leave it where it is.
-
-**Proving a change did not disturb another view.** Everything the host fetches lives under
-`assets/`, so a per-view mistake is always a wrong *zip*, never a runtime surprise. Build the
-same `VIEW_ID` from `main` and from your branch and compare the two packages:
-
-```bash
-npm run compare:packages -- <baseline.zip> <candidate.zip>
-```
-
-It compares every file in both packages, fails on any difference under `assets/` (excluding
-`assets/views/`, which carries every family's sources by design), and reports bundle-hash
-differences without failing. It **aborts rather than reporting "no differences"** when a package
-looks too small to be real — a check that cannot fail is not a check. Packages are archived to
-`~/agent-work/tau-packages/<date>/` by every build, so the baseline usually already exists.
-
-Do this before merging anything that touches the build, and before uploading to a live view.
-Clicking around a test view only exercises the pages you happen to open; this covers all of them.
-
-Tests: `npm run test:scripts`. Design:
-`docs/superpowers/specs/2026-09-09-per-view-isolation-design.md`.
-
-## Where built packages go (RULE)
-
-**Every `npm run build` archives its zip to `~/agent-work/tau-packages/` automatically** —
-`postbuild.js` does it. **Never copy a package anywhere else**; one location with a history is
-the whole point, and ad-hoc copies are how it stops being answerable which source produced a
-live package.
-
-```
-~/agent-work/tau-packages/2026-09-03/972TAU_INST-NDE_20260903T081135Z_06cca6e.zip
-~/agent-work/tau-packages/MANIFEST.tsv  # built_utc, view, commit, dirty, bytes, file, note
-~/agent-work/tau-packages/README.md     # how to read a filename; what unknown/-dirty mean
-```
-
-**Same folder whether you build in the sandbox or in WSL.** The archive is the `tau-packages`
-folder *beside the repository's main checkout* (`scripts/package-archive.cjs`), not one in the
-home directory — the sandbox and WSL have different homes, and only `~/agent-work` is shared
-by both, backed up by restic, and browsable from Windows Explorer
-(`\\wsl$\Ubuntu\home\hagaybar\agent-work\tau-packages`). A build in a worktree still
-archives there. Until 2026-10-26 the archive was `~/tau-packages`; a package found there, or a
-build that prints a path under a home directory, is a sign something is out of date.
-
-- **The commit in the filename is the point.** It maps an uploaded package back to reproducible
-  source months later. `dist/` is overwritten by the next build and answers nothing.
-- **`-dirty` means the tree had uncommitted changes**, so the package cannot be rebuilt exactly.
-  **Do not upload a `-dirty` package.** Commit first, rebuild, upload that.
-- Selecting a view (`build-settings.env`, `asset-base.generated.ts`) does **not** count as dirty
-  — that edit is how you choose a view, not a source change.
-- Archiving never fails a build; if it cannot write, it warns and the zip in `dist/` is unaffected.
-- **A build is not a deploy.** The `note` column is written empty; fill it in by hand when you
-  actually upload one, because nothing else records which package went live.
-- Packages named `_unknown` predate this archive (imported 2026-09-03 from four scattered
-  locations). Their manifest notes carry an *inferred* commit, explicitly marked NOT verified.
-
-### Explicit archive root for host-side builds
-
-`TAU_PACKAGE_ARCHIVE_ROOT` optionally selects an absolute archive root. Without it,
-Git's common directory still determines the default described above. Empty or relative
-settings fail rather than silently selecting another destination.
-
-For an independent WSL checkout, set this variable to
-`/home/hagaybar/agent-work/tau-packages` in the WSL build environment. Windows can browse it at
-`\\wsl.localhost\Ubuntu\home\hagaybar\agent-work\tau-packages`.
-This does not make that host folder accessible from a sandbox where it is not mapped.
-Do not create a sandbox directory with the same name as a substitute.
-
-The override changes only the root: date folders, commit filenames, manifest fields,
-and the separate `verification/` directory are unchanged. Archive write failures retain
-the existing warning behavior; confirm the archive-success message after a host build.
-
-### Verification builds go somewhere else
-
-Proving a change did not disturb another view means building that view's package purely to
-diff it against one built from `main` (see *Per-view content* and
-`scripts/compare-packages.mjs`). Those packages are **never uploaded**, and sitting next to
-the real ones they are indistinguishable from them — which quietly destroys the one thing
-this archive is for.
-
-```bash
-npm run build:check      # instead of npm run build
-```
-
-That archives to `~/agent-work/tau-packages/verification/<date>/` with its own `MANIFEST.tsv`, prints
-"Not for upload" during the build, and leaves the top-level archive meaning exactly one
-thing: **a package that could be deployed.** Nothing in `verification/` ever should be.
-
-Deploy is still manual: upload the zip to Alma Back Office. Pushing to `main` deploys nothing.
-After uploading, confirm the right package went live by the boot banner in the browser console —
-it names the package it was built for.
-
-## Important Notes
-
-- The custom module loads as web components into Primo's host application
-- Typography and theme changes may not affect the entire Primo UI, only custom components
-- Always test changes in the dev environment before building for production
-- Maintain documentation for all customizations in the `docs/` folder
+- `npm run build` archives every zip to `~/agent-work/tau-packages/` automatically. **Never copy a package anywhere else.**
+- **Never upload a `-dirty` package**: commit, rebuild, upload that.
+- Packages built only to compare: `npm run build:check` (archived under `verification/`, never uploaded).
+- **A build is not a deploy.** Upload by hand in Alma Back Office, fill in the manifest's `note`, and confirm the boot banner in the browser console names the package.
 
 ## Debug logging (RULE)
 
-**Shipped components must not call `console.log`/`console.warn`/`console.info` directly.**
-The custom module loads into Primo in every user's browser, so diagnostic logging would
-otherwise dump host/DOM objects and patron form data to the production console (see issue #10).
+- **No direct `console.log`/`warn`/`info` in shipped components**: use `dlog()`/`dwarn()` from `src/app/services/debug.util.ts` (off in `NDE`, on in `NDE_TEST`, silent in any other view). `console.error` is allowed for real errors.
+- **Never log raw host components, DOM nodes, or patron/request-form data**, not even via `dlog`.
+- The one ungated line, `[TAU] custom module · <package> · debug logging ON/OFF` in `debug.util.ts`, stays exactly once, static. How to switch logging on at runtime: `docs/development/debug-logging.md`.
 
-- **Use the gated logger** `dlog()` / `dwarn()` from `src/app/services/debug.util.ts` for all
-  diagnostic logging. It is **OFF by default in production** (`NDE`); **ON by default in `NDE_TEST`**.
-  Any other view fails closed to silent.
-- **`console.error` is allowed** for genuine, always-visible error reporting (e.g. catch blocks).
-- **Never log raw host components, DOM nodes, or patron/request-form data** — not even via `dlog`.
-- **One line always prints**, in every view: `[TAU] custom module · <package> · debug logging ON/OFF`.
-  This is the *only* sanctioned ungated `console.log`, it lives in `debug.util.ts` (already the
-  guard's exemption), and it must stay a static string plus build-time constants — no runtime
-  values. Do not add a second one, and do not remove this one: it is what makes an empty console
-  distinguishable from a module that never loaded.
-- **Activate at runtime (no rebuild)** — three switches, later ones win:
-  ```js
-  ?tauDebug=1                              // in the URL — persists itself; a link you can send
-  localStorage.setItem('tauDebug', '1');   // then reload — persists; '0' is an explicit OFF
-  window.__TAU_DEBUG__ = true;             // this session only; beats both
-  ```
-  `setItem('tauDebug','0')` silences even `NDE_TEST`; `removeItem` falls back to the view default.
-  Full guide: `docs/development/debug-logging.md`. Design: `docs/superpowers/specs/2026-08-09-debug-logging-activation-design.md`.
-- The **dev proxy** (`proxy/proxy.conf.mjs`) runs at `logLevel: 'info'`, not `'debug'`, to avoid
-  printing the live host's cookies/auth headers to the terminal. Raise to `'debug'` only temporarily.
+## Upstream files
 
-## Resources
+Before editing a build or config file, check whether it is still Ex Libris' own: `git diff upstream/main -- <file>`
+(empty = never touched). Prefer a new script under `scripts/` chained from `package.json` over editing an
+upstream-identical file. Syncing with upstream: the **`upstream-sync`** skill.
 
-- **ExLibris Repository:** https://github.com/ExLibrisGroup/customModule
-- **Project Documentation:** `docs/` folder
-- **Development Guidelines:** `docs/development/AGENTS.md`
-- **Future Tasks:** `docs/planning/FUTURE_TASKS.md`
+## Where to look
 
-## Syncing with upstream ExLibris repo
-
-The `upstream-sync` Claude Code skill (`.claude/skills/upstream-sync/SKILL.md`) handles pulling changes from `ExLibrisGroup/customModule`.
-
-**To use:**
-- "let's check upstream" → analyzes new upstream commits, writes a dated report under `docs/upstream-sync/`, classifies each commit by impact on TAU customizations.
-- "pull commits A, B, C" → cherry-picks chosen SHAs onto a `sync/upstream-<date>` branch, runs `npm run build`, opens a PR.
-- "skip commit A — we don't want X" → marks commits as decided-against so they stop appearing in future analyses.
-
-The skill never pushes directly to `main` and never auto-merges PRs.
-
-**Before editing any build or config file, check whether it is still upstream's:**
-
-```bash
-git diff upstream/main -- <file>     # empty output = we have never touched it
-```
-
-An empty diff means that file merges for free on every sync. Editing it trades that for a
-conflict on every future upstream change to it — permanently. **Prefer adding a new script under
-`scripts/`** (which contains no upstream code at all) and chaining it from `package.json`, over
-modifying an upstream-identical file. `prebuild.js` is the file this most often applies to:
-`scripts/select-view.mjs` and `scripts/write-tracking-token.mjs` both run beside it from the
-`generate` script in `package.json` rather than living inside it.
-
-Two worked examples of why. `postbuild.js` is an upstream file TAU added ~130 lines to (the
-`~/tau-packages` archive), and it now conflicts on every upstream change to it. `prebuild.js`
-picked up 16 lines of Mixpanel-token code in #74 (Shelf Map usage tracking) while this rule was
-still unwritten; that code was moved out to `scripts/write-tracking-token.mjs`, restoring
-`prebuild.js` to byte-identical with `upstream/main`.
-
-**Configuration:** `.upstream-sync/owned-files.json` lists TAU-customized files organized into categories with risk levels. Update this file when you take ownership of a new file or add a new feature area — the skill itself will suggest additions when it sees you skipping changes to files it considered "clean."
-
-**Spec:** `docs/superpowers/specs/2026-05-06-upstream-sync-design.md`
+- TAU customizations: `README.md`, `docs/features/` (CSS and banner: `docs/features/landing-banner-customization.md`; TMA history: `docs/features/tma-view-changelog.md`, add an entry for every TMA change)
+- Reference: `docs/reference/`; planned work: `docs/planning/FUTURE_TASKS.md`
+- Ex Libris' template and examples: https://github.com/ExLibrisGroup/customModule (when to check it: `tau-nde-build`); development guidelines: `docs/development/AGENTS.md`
+- Always update the relevant doc with a change. `AGENTS.md` is the reviewer's brief (Codex reviews, report only).

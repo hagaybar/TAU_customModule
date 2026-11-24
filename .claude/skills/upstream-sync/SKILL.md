@@ -274,3 +274,29 @@ Then re-enter the Resolve flow for that file.
 - All scripts live in `scripts/upstream-sync/`. Always invoke them via `node scripts/upstream-sync/<script>.mjs ...` from the repo root.
 - Today's date for filenames/timestamps comes from `date -I` (ISO 8601).
 - The legacy `.github/workflows/sync-fork.yml` was deleted on 2026-11-15 (#116): it pushed upstream merges straight to `main` with no PR or build. This skill is the only sync path.
+
+
+## Before editing a build or config file (moved from CLAUDE.md, 2026-11-24)
+
+**Before editing any build or config file, check whether it is still upstream's:**
+
+```bash
+git diff upstream/main -- <file>     # empty output = we have never touched it
+```
+
+An empty diff means that file merges for free on every sync. Editing it trades that for a
+conflict on every future upstream change to it — permanently. **Prefer adding a new script under
+`scripts/`** (which contains no upstream code at all) and chaining it from `package.json`, over
+modifying an upstream-identical file. `prebuild.js` is the file this most often applies to:
+`scripts/select-view.mjs` and `scripts/write-tracking-token.mjs` both run beside it from the
+`generate` script in `package.json` rather than living inside it.
+
+Two worked examples of why. `postbuild.js` is an upstream file TAU added ~130 lines to (the
+`~/tau-packages` archive), and it now conflicts on every upstream change to it. `prebuild.js`
+picked up 16 lines of Mixpanel-token code in #74 (Shelf Map usage tracking) while this rule was
+still unwritten; that code was moved out to `scripts/write-tracking-token.mjs`, restoring
+`prebuild.js` to byte-identical with `upstream/main`.
+
+**Configuration:** `.upstream-sync/owned-files.json` lists TAU-customized files organized into categories with risk levels. Update this file when you take ownership of a new file or add a new feature area — the skill itself will suggest additions when it sees you skipping changes to files it considered "clean."
+
+Spec: `docs/superpowers/specs/2026-05-06-upstream-sync-design.md`.
