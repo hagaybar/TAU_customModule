@@ -185,11 +185,21 @@ npm run sync:map-assets
 
 The button renders **only** when all three checks pass:
 
-1. The library name from the DOM (`.getit-library-title`) is present in `LIBRARY_CONFIG`.
-2. The collection name (`[data-qa="location-sub-location"]`) is a configured location of that
-   library.
+1. The library name is present in `LIBRARY_CONFIG`.
+2. The collection name is a configured location of that library.
 3. The CDN mapping data contains at least one row matching *library + collection + call
    number* (`ShelfMappingService.hasMappingAsync`).
+
+**Where library, collection and call number come from** (`services/location-source.ts`, issue
+#38). First choice is the host's own holding: Ex Libris passes each custom component a
+`hostComponent` input, and inside `<nde-location>` its `location` property is the holding from the
+`Delivery` store slice (`mainLocation`, `subLocation`, `callNumber`, plus `libraryCode` and
+`subLocationCode`). If that object is missing or reshaped, the button falls back to scraping the
+rendered text (`.getit-library-title`, `[data-qa="location-sub-location"]` with its trailing `;`
+stripped, `[data-qa="location-call-number"]`). Both give the same *localized display names*, so
+the config and mapping.csv still need the Hebrew and the English names (#9 is not solved by this).
+With debug logging on, the console line "Location from host" or "Location from DOM" says which
+source was used.
 
 Because NDE creates several component instances for the same location, ownership of a
 location's "shelf-map slot" is recorded on the `<nde-location>` element via the
@@ -270,8 +280,8 @@ the application bootstrap (`src/app/app.module.ts`). Without it the button never
 
 ## Extending to another library / collection
 
-1. Find the **exact** Hebrew library name as shown in the Primo DOM (`.getit-library-title`)
-   and the exact collection name (`[data-qa="location-sub-location"]`).
+1. Find the **exact** library and collection names as Primo displays them, in Hebrew and
+   English (the Get It panel's library title and sub-location).
 2. Add a `LibraryConfig` entry (with matching `nameHe`) and its `locations` to
    `library.config.ts`.
 3. Draw the floor-plan SVG(s), give each shelf a stable element `id` (= `svgCode`), and

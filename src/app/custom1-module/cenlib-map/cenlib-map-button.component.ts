@@ -5,6 +5,7 @@ import {
   Component,
   ElementRef,
   inject,
+  Input,
   OnDestroy,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -21,6 +22,7 @@ import {
 } from './config/library.config';
 import { dlog } from '../../services/debug.util';
 import { findRecordTitle } from './services/record-context';
+import { readLocation } from './services/location-source';
 import { readUiLanguage, UiLanguage, watchUiLanguage } from '../../services/ui-language';
 
 /**
@@ -52,6 +54,14 @@ const SHELF_MAP_OWNER_ATTR = 'data-tau-shelf-map-owner';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CenlibMapButtonComponent implements AfterViewInit, OnDestroy {
+  /**
+   * The host's own component for this slot, passed in by Ex Libris' remote-component loader.
+   * Inside <nde-location> it is the location component, whose `location` is this holding's
+   * data (see services/location-source.ts). Typed `unknown`: its shape is Ex Libris' internal
+   * model, and only the adapter may read it.
+   */
+  @Input() hostComponent: unknown;
+
   private elementRef = inject(ElementRef);
   private cdr = inject(ChangeDetectorRef);
   private shelfMappingService = inject(ShelfMappingService);
@@ -65,10 +75,10 @@ export class CenlibMapButtonComponent implements AfterViewInit, OnDestroy {
   /** Whether to show the button (based on MDM lookup) */
   shouldShow: boolean = false;
 
-  /** Library name (from DOM via .getit-library-title) */
+  /** Library display name (host holding, or DOM .getit-library-title) */
   private libraryName: string = '';
 
-  /** Collection/sublocation name (from DOM via [data-qa="location-sub-location"]) */
+  /** Sub-location display name (host holding, or DOM [data-qa="location-sub-location"]) */
   private collectionName: string = '';
 
   /** Call number (from summary, without cutter) */
@@ -177,44 +187,31 @@ export class CenlibMapButtonComponent implements AfterViewInit, OnDestroy {
   private tryExtractAndCheck(): boolean {
     if (this.initialized) return true;
 
-    const ndeLocation = this.elementRef.nativeElement.closest('nde-location');
-    if (!ndeLocation) {
-      dlog('[CenlibMapButton] Could not find nde-location parent');
-      return false;
-    }
-
-    // Extract library name
-    const libraryTitleEl = ndeLocation.querySelector('.getit-library-title');
-    if (libraryTitleEl) {
-      this.libraryName = libraryTitleEl.textContent?.trim() || '';
-    }
-
-    // Extract collection name from summary
-    const subLocationEl = ndeLocation.querySelector('[data-qa="location-sub-location"]');
-    if (subLocationEl) {
-      let text = subLocationEl.textContent?.trim() || '';
-      if (text.endsWith(';')) {
-        text = text.slice(0, -1).trim();
-      }
-      this.collectionName = text;
-    }
-
-    // Extract call number from summary (this shows the first item's call number)
-    const callNumberEl = ndeLocation.querySelector('[data-qa="location-call-number"]');
-    if (callNumberEl) {
-      this.rawCallNumber = callNumberEl.textContent?.trim() || '';
-      this.callNumber = this.shelfMappingService.removeCutter(this.rawCallNumber);
-    }
-
-    // Check if we have all required data
-    if (!this.libraryName || !this.collectionName || !this.callNumber) {
-      dlog('[CenlibMapButton] Missing data:', {
-        libraryName: this.libraryName,
-        collectionName: this.collectionName,
-        callNumber: this.callNumber,
+    // Host data first (issue #38); the rendered text only if the host's shape has changed.
+    const ndeLocation: Element | null = this.elementRef.nativeElement.closest('nde-location');
+    const facts = readLocation(this.hostComponent, ndeLocation);
+    if (!facts) {
+      dlog('[CenlibMapButton] Location data not available yet', {
+        hasHost: !!this.hostComponent,
+        hasNdeLocation: !!ndeLocation,
       });
       return false;
     }
+
+    this.libraryName = facts.libraryName;
+    this.collectionName = facts.collectionName;
+    this.rawCallNumber = facts.rawCallNumber;
+    this.callNumber = this.shelfMappingService.removeCutter(facts.rawCallNumber);
+    if (!this.callNumber) {
+      dlog('[CenlibMapButton] Call number has no class part:', facts.rawCallNumber);
+      return false;
+    }
+    dlog(`[CenlibMapButton] Location from ${facts.source}:`, {
+      library: facts.libraryName,
+      collection: facts.collectionName,
+      callNumber: facts.rawCallNumber,
+      codes: facts.libraryCode ? `${facts.libraryCode}/${facts.subLocationCode}` : undefined,
+    });
 
     this.initialized = true;
     this.checkShouldShow();

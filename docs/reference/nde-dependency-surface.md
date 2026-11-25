@@ -167,9 +167,13 @@ Shared helpers first, because three components use them.
 
 **CenlibMapButtonComponent** — `custom1-module/cenlib-map/` (most host-coupled component)
 - `closest('nde-location')` (`cenlib-map-button.component.ts:179, 228, 324`).
-- Inside it: `.getit-library-title` text (:186), `[data-qa="location-sub-location"]` text with a
-  trailing `;` stripped (:192-198), `[data-qa="location-call-number"]` text (:202-205). All three
-  must be non-empty or the button stays hidden.
+- **First choice (issue #38):** `hostComponent.location`, the host location component's holding
+  (`mainLocation`, `subLocation`, `callNumber`; same object as `Delivery.entities[docid].delivery.holding[i]`),
+  read in `services/location-source.ts`. Ex Libris' internal model: if a field goes missing or changes
+  type, the button falls back to the DOM below rather than disappearing.
+- Fallback: `.getit-library-title` text, `[data-qa="location-sub-location"]` text with a
+  trailing `;` stripped, `[data-qa="location-call-number"]` text. All three must be non-empty or
+  the button stays hidden.
 - `MutationObserver` on `nde-location`, `childList + subtree`, until those appear; 500 ms retry
   (:231-249).
 - Writes `data-tau-shelf-map-owner` on `nde-location` (:31, :342) and queries
@@ -322,7 +326,7 @@ the host's for `custom.css`, ours for component SCSS.
 | 1 | Module loads at all; shared Angular resolves | Boot banner `[TAU] custom module · 972TAU_INST-<VIEW> · …` in console; inspect `__webpack_share_scopes__.default['@angular/core']`; no "Unsatisfied version" / NG0 errors. Smoke test. |
 | 2 | Host still calls `bootstrapRemoteApp({providers, shellRouter})` and defines `<slot>-from-remote-<n>` | `[...document.querySelectorAll('*')].filter(e => e.localName.includes('-from-remote-'))` lists the mounted slots; with `?tauDebug=1`, the log shows "Total components to register: 5". Smoke test. |
 | 3 | Each of the five slots still exists and mounts | Per page in §2: header banner on any page; filter panel on `/nde/search?query=…`; no-results box on a zero-hit search; Shelf Map on a Sourasky record; collection cards hidden on `/nde/collectionDiscovery`. Smoke test. |
-| 4 | Shelf Map host DOM (`nde-location`, `.getit-library-title`, two `data-qa` attributes, `button.getit-locate-button`) | Button appears in the Locate button's place, Locate hidden; dialog opens and renders a floor map. |
+| 4 | Shelf Map host data (`hostComponent.location` holding fields) and DOM (`nde-location`, `.getit-library-title`, two `data-qa` attributes, `button.getit-locate-button`) | Button appears in the Locate button's place, Locate hidden; dialog opens and renders a floor map. With `?tauDebug=1` the console says "Location from host" ("from DOM" means the holding shape changed). |
 | 5 | Material/CDK overlay coexistence (our 18 or upgraded, host 20) | Open the Shelf Map dialog; check it is styled, on top, closable; host menus/snackbars still work afterwards. |
 | 6 | Collection Discovery DOM (`nde-collection-discovery-gallery`, `…-gallery-collection`, `collectionId` links) | Both configured IDs hidden at lobby level, in `en` and `he`; drill in and back. |
 | 7 | `<html lang/dir>` rewrite on language switch | Switch language in-app: banner text and Shelf Map label follow without reload. |
