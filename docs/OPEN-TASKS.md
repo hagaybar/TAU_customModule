@@ -1,10 +1,11 @@
 # Open tasks
 
-Last updated: 2026-11-25
+Last updated: 2026-11-26
 
 ## PRs
 - #26 (second-library Shelf Map assessment dashboard, draft) — parked with #27 until the user calls for it
 - #125 (open-tasks update of 18.11) — superseded by this list; close it unmerged
+- branch `docs/open-tasks-2026-11-25` (this list) — pushed, no PR yet; open one
 
 ## Issues
 - #110 (Shelf Map missing buttons reported 11.11.26) — 4 of 7 fixed and verified live; cases 1, 4, 7 (B1 copies mapped only in B2), cabinet 52A `792.75` typo and Simchoni `355.1` gap wait on staff; not urgent, recheck on report
